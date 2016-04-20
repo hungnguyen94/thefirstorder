@@ -1,14 +1,88 @@
 group 'nl.tudelft.thefirstorder'
-version '0.1'
 
 apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'checkstyle'
+apply plugin: 'pmd'
+apply plugin: 'findbugs'
+apply plugin: 'jacoco'
 
-sourceCompatibility = 1.5
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+version '0.1'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile 'org.apache.logging.log4j:log4j-api:2.0'
+    compile 'org.apache.logging.log4j:log4j-core:2.0'
+    testCompile 'junit:junit:4.11'
+    testCompile 'org.mockito:mockito-core:2.0.48-beta'
 }
+
+mainClassName = "nl.tudelft.thefirstorder.Main"
+
+sourceSets.main {
+    java.srcDir('src/java')
+    resources.srcDir('src/resources')
+}
+
+test {
+    reports {
+        junitXml.enabled = false
+        html.enabled = true
+    }
+}
+
+checkstyle {
+    toolVersion = '6.17'
+    sourceSets = [sourceSets.main]
+    showViolations = true
+    ignoreFailures = true
+    configFile = rootProject.file("config/checkstyle/checkstyle.xml")
+    reportsDir = rootProject.file("build/reports/checkstyle")
+}
+
+pmd {
+    ignoreFailures = true
+    sourceSets = [sourceSets.main]
+    reportsDir = rootProject.file("build/reports/pmd/")
+}
+
+findbugs {
+    ignoreFailures = true
+    sourceSets = [sourceSets.main]
+    reportsDir = rootProject.file("build/reports/findbugs")
+    reportLevel = "low"
+    effort = "max"
+}
+
+jacoco {
+    reportsDir = rootProject.file("build/reports/jacoco")
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination rootProject.file("build/reports/jacoco")
+    }
+}
+
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.12'
+}
+
+
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+        html.destination rootProject.file("build/reports/findbugs/findbugs.html")
+    }
+}
+
