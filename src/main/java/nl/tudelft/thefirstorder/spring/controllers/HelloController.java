@@ -1,4 +1,4 @@
-package nl.tudelft.thefirstorder.springui;
+package nl.tudelft.thefirstorder.spring.controllers;
 
 /**
  * @author hung
