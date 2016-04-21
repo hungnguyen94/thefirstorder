@@ -34,12 +34,16 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-actuator")
     compile("org.thymeleaf:thymeleaf-spring4")
     compile("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect")
+    
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    //runtime("mysql:mysql-connector-java")
+    runtime("org.hsqldb:hsqldb")
 
     testCompile("junit:junit:4.11")
     testCompile("org.mockito:mockito-core:2.0.48-beta")
 }
 
-mainClassName = "nl.tudelft.thefirstorder.Main"
+mainClassName = "nl.tudelft.thefirstorder.springui.Application"
 
 sourceSets {
     main {
