@@ -46,11 +46,6 @@ sourceSets {
         java.srcDir('src/main/java')
         resources.srcDir('src/main/resources')
     }
-//    spring {
-//        java.srcDir('src/spring/java')
-//        resource.srcDir('src/spring/resources')
-//        compileClasspath += sourceSets.main.runtimeClasspath
-//    }
 }
 
 test {
