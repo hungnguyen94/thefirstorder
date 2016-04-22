@@ -12,7 +12,7 @@ import org.springframework.context.ApplicationContext;
 @SpringBootApplication
 public class Application {
 
-    public static Logger log = Logger.getLogger(Application.class);
+    public static final Logger log = Logger.getLogger(Application.class);
 
     public static void main(String[] args) {
         ApplicationContext ctx = SpringApplication.run(Application.class, args);
