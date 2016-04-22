@@ -1,4 +1,4 @@
-package nl.tudelft.thefirstorder.script;
+package nl.tudelft.thefirstorder.model;
 
 import java.util.ArrayList;
 
@@ -44,10 +44,13 @@ public class Script {
     /**
      * Remove a cue from the script.
      * @param cue the cue which has to be removed
-     * @return the list of cues without the removed cue
      */
     public void removeCue(Cue cue) {
         cues.remove(cue);
+    }
+
+    public void removeAllCues() {
+        cues = new ArrayList<Cue>();
     }
 
     /**
@@ -56,10 +59,10 @@ public class Script {
      * @param cueAfter the cue which has to be added
      */
     public void addAfter(Cue cueBefore, Cue cueAfter) {
-        if(cues.contains(cueBefore)) {
+        if (cues.contains(cueBefore)) {
             ArrayList<Cue> result = new ArrayList<Cue>();
-            for(int i = 0; i < cues.size(); i++) {
-                if(cues.get(i).equals(cueBefore)) {
+            for (int i = 0; i < cues.size(); i++) {
+                if (cues.get(i).equals(cueBefore)) {
                     result.add(cues.get(i));
                     result.add(cueAfter);
                 } else {
