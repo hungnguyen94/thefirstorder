@@ -70,6 +70,10 @@ idea {
     }
 }
 
+bootRun {
+    addResources = true
+}
+
 checkstyle {
     toolVersion = '6.17'
     sourceSets = [sourceSets.main]
