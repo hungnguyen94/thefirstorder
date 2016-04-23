@@ -4,6 +4,9 @@ out/*
 *.jar
 .gradle/*
 build/*
+backend/build/
+frontend/build/
+frontend/node_modules/
 
 *.class
 
