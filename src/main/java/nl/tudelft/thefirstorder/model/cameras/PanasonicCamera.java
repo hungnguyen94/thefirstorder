@@ -1,16 +1,21 @@
 package nl.tudelft.thefirstorder.model.cameras;
 
-import nl.tudelft.thefirstorder.model.CameraAction;
 
-import java.util.Set;
+import java.util.HashSet;
 
 /**
- * Created by rubenwiersma on 22/04/16.
+ * A standard Panasonic camera.
  */
 public class PanasonicCamera extends Camera {
 
-    public PanasonicCamera(String name, int x, int y, Set<CameraAction> actions) {
-        super(name, x, y, actions);
+    /**
+     * Constructor for the PanasonicCamera class.
+     * @param name String name of the camera.
+     * @param x int x position.
+     * @param y int y position.
+     */
+    public PanasonicCamera(String name, int x, int y) {
+        super(name, x, y, new HashSet<>());
     }
 
 }
