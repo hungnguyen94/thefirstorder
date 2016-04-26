@@ -1,4 +1,4 @@
-package nl.tudelft.thefirstorder.model.cameras;
+package nl.tudelft.thefirstorder.spring.models.cameras;
 
 
 import java.util.HashSet;

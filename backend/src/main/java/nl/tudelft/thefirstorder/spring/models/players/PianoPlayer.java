@@ -1,4 +1,4 @@
-package nl.tudelft.thefirstorder.model.players;
+package nl.tudelft.thefirstorder.spring.models.players;
 
 /**
  * A piano player.

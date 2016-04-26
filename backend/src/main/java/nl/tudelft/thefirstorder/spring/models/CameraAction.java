@@ -1,4 +1,4 @@
-package nl.tudelft.thefirstorder.model;
+package nl.tudelft.thefirstorder.spring.models;
 
 /**
  * The CameraAction class represents an action that can be made by a Camera.

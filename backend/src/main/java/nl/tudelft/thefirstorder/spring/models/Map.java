@@ -1,7 +1,7 @@
-package nl.tudelft.thefirstorder.model;
+package nl.tudelft.thefirstorder.spring.models;
 
-import nl.tudelft.thefirstorder.model.cameras.Camera;
-import nl.tudelft.thefirstorder.model.players.Player;
+import nl.tudelft.thefirstorder.spring.models.cameras.Camera;
+import nl.tudelft.thefirstorder.spring.models.players.Player;
 
 import java.util.ArrayList;
 
