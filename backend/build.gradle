@@ -43,7 +43,7 @@ dependencies {
     runtime("mysql:mysql-connector-java")
     runtime("org.hsqldb:hsqldb")
 
-    testCompile("junit:junit:4.11")
+    testCompile("junit:junit:4.12")
     testCompile("org.mockito:mockito-core:2.0.48-beta")
 }
 
