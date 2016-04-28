@@ -5,6 +5,6 @@ package nl.tudelft.thefirstorder.model;
  */
 public class Project {
 
-    
+
 
 }
