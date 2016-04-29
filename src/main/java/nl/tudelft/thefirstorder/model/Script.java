@@ -3,6 +3,7 @@ package nl.tudelft.thefirstorder.model;
 import java.util.ArrayList;
 
 /**
+ * Class which represents a Script.
  * Created by Martin on 22-4-2016.
  */
 public class Script {
