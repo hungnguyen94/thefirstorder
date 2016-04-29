@@ -1,7 +1,7 @@
-package nl.tudelft.thefirstorder.model;
+package nl.tudelft.thefirstorder.spring.models;
 
-import java.util.List;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Class which represents a Script.
