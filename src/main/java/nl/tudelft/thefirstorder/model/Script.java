@@ -1,7 +1,7 @@
 package nl.tudelft.thefirstorder.model;
 
 import java.util.List;
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * Class which represents a Script.
@@ -52,7 +52,7 @@ public class Script {
     }
 
     public void removeAllCues() {
-        cues = new ArrayList<Cue>();
+        cues = new LinkedList<Cue>();
     }
 
     /**
@@ -62,7 +62,7 @@ public class Script {
      */
     public void addAfter(Cue cueBefore, Cue cueAfter) {
         if (cues.contains(cueBefore)) {
-            List<Cue> result = new ArrayList<Cue>();
+            List<Cue> result = new LinkedList<Cue>();
             for (int i = 0; i < cues.size(); i++) {
                 if (cues.get(i).equals(cueBefore)) {
                     result.add(cues.get(i));
