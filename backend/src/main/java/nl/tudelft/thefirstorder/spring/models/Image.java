@@ -15,4 +15,12 @@ public class Image {
     public Image(String url) {
         this.url = url;
     }
+
+    /**
+     * Returns the url of the image object.
+     * @return String of the url.
+     */
+    public String getUrl() {
+        return url;
+    }
 }

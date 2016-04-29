@@ -3,7 +3,7 @@ package nl.tudelft.thefirstorder.spring.models;
 import nl.tudelft.thefirstorder.spring.models.cameras.Camera;
 import nl.tudelft.thefirstorder.spring.models.players.Player;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A map interface. In the map, cameras and players are stored.
@@ -14,13 +14,13 @@ public interface Map {
      * Returns all the cameras stored in the map.
      * @return ArrayList<Camera> of all the cameras.
      */
-    public ArrayList<Camera> getCameras();
+    public List<Camera> getCameras();
 
     /**
      * Returns all the players stored in the map.
      * @return ArrayList<Player> of all the cameras.
      */
-    public ArrayList<Player> getPlayers();
+    public List<Player> getPlayers();
 
     /**
      * Returns the width of this map.

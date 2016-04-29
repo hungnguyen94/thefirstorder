@@ -2,18 +2,21 @@ package nl.tudelft.thefirstorder.spring.models;
 
 import nl.tudelft.thefirstorder.spring.models.cameras.Camera;
 import nl.tudelft.thefirstorder.spring.models.players.Player;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The ConcertMap class represents a map for a standard concert.
  */
 public class ConcertMap implements Map {
-    private final ArrayList<Camera> cameras;
-    private final ArrayList<Player> players;
+    private final List<Camera> cameras;
+    private final List<Player> players;
     private final int width;
     private final int height;
     private final Image background;
+    public static final Logger log = Logger.getLogger(ConcertMap.class);
 
     /**
      * Constructor for the ConcertMap class.
@@ -31,7 +34,7 @@ public class ConcertMap implements Map {
      * Returns all the cameras stored in the map.
      * @return ArrayList<Camera> of all the cameras.
      */
-    public ArrayList<Camera> getCameras() {
+    public List<Camera> getCameras() {
         return cameras;
     }
 
@@ -39,7 +42,7 @@ public class ConcertMap implements Map {
      * Returns all the players stored in the map.
      * @return ArrayList<Player> of all the cameras.
      */
-    public ArrayList<Player> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
@@ -72,7 +75,11 @@ public class ConcertMap implements Map {
      * @param camera the Camera to add.
      */
     public void addCamera(Camera camera) {
-        cameras.add(camera);
+        if(camera.getX() < width && camera.getY() < height) {
+            cameras.add(camera);
+        } else {
+            log.error("Camera " + camera.getName() + " not added, because the x and y coordinates were out of bounds.");
+        }
     }
 
     /**
@@ -80,15 +87,19 @@ public class ConcertMap implements Map {
      * @param player the Player to add.
      */
     public void addPlayer(Player player) {
-        players.add(player);
+        if(player.getX() < width && player.getY() < height) {
+            players.add(player);
+        } else {
+            log.error("Player " + player.getName() + " not added, because the x and y coordinates were out of bounds.");
+        }
     }
 
     /**
      * The ConcertMapBuilder builds a ConcertMap.
      */
     public static class ConcertMapBuilder {
-        private ArrayList<Camera> cameras;
-        private ArrayList<Player> players;
+        private List<Camera> cameras;
+        private List<Player> players;
         private int width;
         private int height;
         private Image background;
@@ -112,6 +123,26 @@ public class ConcertMap implements Map {
          */
         public ConcertMapBuilder background(String url) {
             this.background = new Image(url);
+            return this;
+        }
+
+        /**
+         * Sets a background for the ConcertMap.
+         * @param cameras a list of cameras to intialize with.
+         * @return ConcertMapBuilder of the current object.
+         */
+        public ConcertMapBuilder cameras(List<Camera> cameras) {
+            this.cameras = cameras;
+            return this;
+        }
+
+        /**
+         * Sets a background for the ConcertMap.
+         * @param players a list of players to intialize with.
+         * @return ConcertMapBuilder of the current object.
+         */
+        public ConcertMapBuilder players(List<Player> players) {
+            this.players = players;
             return this;
         }
 

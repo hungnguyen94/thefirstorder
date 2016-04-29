@@ -1,6 +1,6 @@
 package nl.tudelft.thefirstorder.spring.models.cameras;
 
-import nl.tudelft.thefirstorder.spring.models.CameraAction;
+import nl.tudelft.thefirstorder.spring.models.actions.CameraAction;
 
 import java.util.Set;
 
