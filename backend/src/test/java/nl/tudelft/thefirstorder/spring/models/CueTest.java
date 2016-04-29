@@ -1,10 +1,14 @@
-package nl.tudelft.thefirstorder.model;
+package nl.tudelft.thefirstorder.spring.models;
 
-import org.junit.Test;
+import nl.tudelft.thefirstorder.spring.models.actions.CameraAction;
+import nl.tudelft.thefirstorder.spring.models.cameras.Camera;
+import nl.tudelft.thefirstorder.spring.models.players.Player;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
 import static org.junit.Assert.assertEquals;
 
 /**

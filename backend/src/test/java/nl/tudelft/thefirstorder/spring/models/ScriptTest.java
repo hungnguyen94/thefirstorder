@@ -1,12 +1,10 @@
-package nl.tudelft.thefirstorder.model;
+package nl.tudelft.thefirstorder.spring.models;
 
-import java.util.ArrayList;
-import org.junit.Test;
 import org.junit.Before;
-import org.junit.runner.RunWith;
+import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 import static org.junit.Assert.assertEquals;
+import java.util.ArrayList;
 
 /**
  * Created by Martin on 22-4-2016.
