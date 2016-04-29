@@ -3,9 +3,9 @@ package nl.tudelft.thefirstorder.spring.controllers;
 import nl.tudelft.thefirstorder.spring.models.User;
 import nl.tudelft.thefirstorder.spring.models.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * A class to test interactions with the MySQL database using the UserDao class.
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author netgloo
  */
 @RequestMapping("/user")
-@Controller
+@RestController
 public class UserController {
 
     // ------------------------
