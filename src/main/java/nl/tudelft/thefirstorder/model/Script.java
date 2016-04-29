@@ -61,19 +61,12 @@ public class Script {
      * @param cueAfter the cue which has to be added
      */
     public void addAfter(Cue cueBefore, Cue cueAfter) {
-        if (cues.contains(cueBefore)) {
-            List<Cue> result = new LinkedList<Cue>();
-            for (int i = 0; i < cues.size(); i++) {
-                if (cues.get(i).equals(cueBefore)) {
-                    result.add(cues.get(i));
-                    result.add(cueAfter);
-                } else {
-                    result.add(cues.get(i));
-                }
-            }
-            this.cues = result;
-        } else {
+        List<Cue> result = new LinkedList<Cue>();
+        int i = cues.indexOf(cueBefore);
+        if(i == -1) {
             addFirst(cueAfter);
+        } else {
+            cues.add(i, cueAfter);
         }
     }
 
