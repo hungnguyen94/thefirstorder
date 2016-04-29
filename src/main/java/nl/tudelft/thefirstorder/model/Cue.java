@@ -7,21 +7,21 @@ package nl.tudelft.thefirstorder.model;
 public class Cue {
 
     private Camera camera;
-    private Instrument instrument;
-    private Action action;
+    private Player player;
+    private CameraAction cameraAction;
     private Time time;
 
     /**
      * Create a cue.
      * @param camera The camera of the cue
-     * @param intstrument The instrument of the cue
-     * @param action The action for the cue
+     * @param player The instrument of the cue
+     * @param cameraAction The action for the cue
      * @param time The duration of the cue
      */
-    public Cue(Camera camera, Instrument intstrument, Action action, Time time) {
+    public Cue(Camera camera, Player player, CameraAction cameraAction, Time time) {
         this.camera = camera;
-        this.instrument = intstrument;
-        this.action = action;
+        this.player = player;
+        this.cameraAction = cameraAction;
         this.time = time;
     }
 
@@ -37,16 +37,16 @@ public class Cue {
      * Get the instrument of the cue.
      * @return the instrument
      */
-    public Instrument getInstrument() {
-        return instrument;
+    public Player getPlayer() {
+        return player;
     }
 
     /**
      * Get the action of the cue.
      * @return the action
      */
-    public Action getAction() {
-        return action;
+    public CameraAction getCameraAction() {
+        return cameraAction;
     }
 
     /**
@@ -67,18 +67,18 @@ public class Cue {
 
     /**
      * Change the instrument of the cue.
-     * @param instrument the new instrument
+     * @param player the new instrument
      */
-    public void setInstrument(Instrument instrument) {
-        this.instrument = instrument;
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     /**
      * Change the action of the cue.
-     * @param action the new action
+     * @param cameraAction the new action
      */
-    public void setAction(Action action) {
-        this.action = action;
+    public void setCameraAction(CameraAction cameraAction) {
+        this.cameraAction = cameraAction;
     }
 
     /**

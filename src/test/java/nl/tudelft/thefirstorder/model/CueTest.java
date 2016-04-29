@@ -14,8 +14,8 @@ import static org.junit.Assert.assertEquals;
 public class CueTest {
 
     @Mock private Camera camera;
-    @Mock private Instrument instrument;
-    @Mock private Action action;
+    @Mock private Player player;
+    @Mock private CameraAction cameraAction;
     @Mock private Time time;
     private Cue cue;
 
@@ -32,14 +32,14 @@ public class CueTest {
 
     @Test
     public void getSetInstrument() {
-        cue.setInstrument(instrument);
-        assertEquals(cue.getInstrument(),instrument);
+        cue.setPlayer(player);
+        assertEquals(cue.getPlayer(),player);
     }
 
     @Test
-    public void getSetAction() {
-        cue.setAction(action);
-        assertEquals(cue.getAction(),action);
+    public void getSetCameraAction() {
+        cue.setCameraAction(cameraAction);
+        assertEquals(cue.getCameraAction(),cameraAction);
     }
 
     @Test
