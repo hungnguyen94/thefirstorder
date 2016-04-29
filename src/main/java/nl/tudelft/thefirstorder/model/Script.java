@@ -1,5 +1,6 @@
 package nl.tudelft.thefirstorder.model;
 
+import java.util.List;
 import java.util.ArrayList;
 
 /**
@@ -8,13 +9,13 @@ import java.util.ArrayList;
  */
 public class Script {
 
-    private ArrayList<Cue> cues;
+    private List<Cue> cues;
 
     /**
      * Create a Script.
      * @param cues The cues which are already in the script
      */
-    public Script(ArrayList<Cue> cues) {
+    public Script(List<Cue> cues) {
         this.cues = cues;
     }
 
@@ -22,7 +23,7 @@ public class Script {
      * Get the list of cues.
      * @return the list of cues
      */
-    public ArrayList<Cue> getCues() {
+    public List<Cue> getCues() {
         return cues;
     }
 
@@ -61,7 +62,7 @@ public class Script {
      */
     public void addAfter(Cue cueBefore, Cue cueAfter) {
         if (cues.contains(cueBefore)) {
-            ArrayList<Cue> result = new ArrayList<Cue>();
+            List<Cue> result = new ArrayList<Cue>();
             for (int i = 0; i < cues.size(); i++) {
                 if (cues.get(i).equals(cueBefore)) {
                     result.add(cues.get(i));
