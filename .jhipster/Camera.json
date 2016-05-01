@@ -1,0 +1,22 @@
+{
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "x",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "y",
+            "fieldType": "Integer"
+        }
+    ],
+    "changelogDate": "20160430231818",
+    "dto": "no",
+    "service": "serviceImpl",
+    "entityTableName": "camera",
+    "pagination": "pager"
+}
