@@ -11,18 +11,19 @@ env:
 before_install: 
   - nvm install $NODE_VERSION
   - nvm use $NODE_VERSION
+  - npm install -g npm
   - npm install -g gulp
   - npm install -g bower
+  - ./gradlew wrapper
 install: 
   - npm -v
   - java -version
   - gulp -v
   - bower -v
   - npm install
-  - ./gradlew assemble
+  - ./gradlew assemble -x test
 before_script: 
   - gulp build
-  - ./gradlew build 
 script: 
   - gulp test
   - ./gradlew check
