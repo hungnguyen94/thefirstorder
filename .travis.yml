@@ -1,21 +1,31 @@
-language: node_js
-node_js:
-  - "4"
+os: 
+  - linux
+language: java
 jdk:
   - oraclejdk8
 sudo: false
+
+
+env: 
+  - NODE_VERSION=4.4.3
 before_install: 
-- npm install -g gulp
-- npm install -g bower
+  - nvm install $NODE_VERSION
+  - nvm use $NODE_VERSION
+  - npm install -g gulp
+  - npm install -g bower
 install: 
-- npm install
-- ./gradlew assemble
+  - npm -v
+  - java -version
+  - gulp -v
+  - bower -v
+  - npm install
+  - ./gradlew assemble
 before_script: 
-- gulp build
-- ./gradlew build 
+  - gulp build
+  - ./gradlew build 
 script: 
-- gulp test
-- ./gradlew check
+  - gulp test
+  - ./gradlew check
 notifications:
   webhooks:
     on_success: change  # options: [always|never|change] default: always
