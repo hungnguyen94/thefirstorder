@@ -1,4 +1,4 @@
-package nl.tudelft.thefirstorder.spring.models.actions;
+package nl.tudelft.thefirstorder.models.actions;
 
 /**
  * Created by rubenwiersma on 29/04/16.

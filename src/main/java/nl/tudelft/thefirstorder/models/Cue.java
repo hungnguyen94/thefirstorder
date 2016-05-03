@@ -1,8 +1,8 @@
-package nl.tudelft.thefirstorder.spring.models;
+package nl.tudelft.thefirstorder.models;
 
-import nl.tudelft.thefirstorder.spring.models.cameras.Camera;
-import nl.tudelft.thefirstorder.spring.models.actions.CameraAction;
-import nl.tudelft.thefirstorder.spring.models.players.Player;
+import nl.tudelft.thefirstorder.models.actions.CameraAction;
+import nl.tudelft.thefirstorder.models.cameras.Camera;
+import nl.tudelft.thefirstorder.models.players.Player;
 
 /**
  * Class which represents a Cue.

@@ -1,4 +1,4 @@
-package nl.tudelft.thefirstorder.spring.models.players;
+package nl.tudelft.thefirstorder.models.players;
 
 /**
  * The Player class represents a player and his/her location on the map.

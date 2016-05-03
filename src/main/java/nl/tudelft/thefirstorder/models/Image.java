@@ -1,4 +1,4 @@
-package nl.tudelft.thefirstorder.spring.models;
+package nl.tudelft.thefirstorder.models;
 
 /**
  * Stores an image.
