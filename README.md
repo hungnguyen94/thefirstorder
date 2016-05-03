@@ -1,33 +1,17 @@
-# thefirstorder
-
-This application was generated using JHipster, you can find documentation and help at [https://jhipster.github.io](https://jhipster.github.io).
+# The First Order
 
 ## Development
+Before you can develop on this project, you need the following dependencies:
 
-Before you can build this project, you must install and configure the following dependencies on your machine:
+1. NodeJS
+2. Gulp - install with `npm install -g gulp`
+3. Yeoman - install with `npm install -g yeoman`
+4. Bower - install with `npm install -g bower`
 
-1. [Node.js][]: We use Node to run a development web server and build the project.
-   Depending on your system, you can install Node either from source or as a pre-packaged bundle.
+The project is configured with the Gradle wrapper. Run `./gradlew bootRun` to run the backend.
 
-After installing Node, you should be able to run the following command to install development tools (like
-[Bower][] and [BrowserSync][]). You will only need to run this command when dependencies change in package.json.
-
-    npm install
-
-We use [Gulp][] as our build system. Install the Gulp command-line tool globally with:
-
-    npm install -g gulp
-
-Run the following commands in two separate terminals to create a blissful development experience where your browser
-auto-refreshes when files change on your hard drive.
-
-    ./gradlew
-    gulp
-
-Bower is used to manage CSS and JavaScript dependencies used in this application. You can upgrade dependencies by
-specifying a newer version in `bower.json`. You can also run `bower update` and `bower install` to manage dependencies.
-Add the `-h` flag on any command to see how you can use it. For example, `bower update -h`.
-
+Hot reloading for Java is configured. Recompile the changed classes manually, if your IDE doesn't do this for you.
+For the frontend, run Gulp to enable hot reloading.
 
 ## Building for production
 
@@ -46,15 +30,11 @@ Then navigate to [http://localhost:8080](http://localhost:8080) in your browser.
 
 ## Testing
 
-Unit tests are run by [Karma][] and written with [Jasmine][]. They're located in `src/test/javascript/` and can be run with:
+Unit tests for Javascript are run by [Karma][] and written with [Jasmine][]. They're located in `src/test/javascript/` and can be run with:
 
     gulp test
 
-[JHipster]: https://jhipster.github.io/
-[Node.js]: https://nodejs.org/
-[Bower]: http://bower.io/
-[Gulp]: http://gulpjs.com/
-[BrowserSync]: http://www.browsersync.io/
-[Karma]: http://karma-runner.github.io/
-[Jasmine]: http://jasmine.github.io/2.0/introduction.html
-[Protractor]: https://angular.github.io/protractor/
+Unit tests for Java can be run with:
+
+    ./gradlew test
+
