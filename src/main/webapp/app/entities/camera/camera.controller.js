@@ -9,6 +9,7 @@
 
     function CameraController ($scope, $state, Camera, ParseLinks, AlertService, pagingParams, paginationConstants) {
         var vm = this;
+        console.log("CameraController hoi");
         vm.loadAll = loadAll;
         vm.loadPage = loadPage;
         vm.predicate = pagingParams.predicate;

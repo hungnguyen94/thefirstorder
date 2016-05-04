@@ -1,0 +1,17 @@
+<div ng-cloak>
+    <div class="row">
+        <div class="col-md-4">
+            <span class="hipster img-responsive img-rounded"></span>
+        </div>
+        <div class="col-md-8">
+            <h1>Map</h1>
+
+            <div ng-repeat="camera in vm.cameras track by camera.id">
+                <td><a ui-sref="camera-detail({id:camera.id})">{{camera.id}}</a></td>
+                <td>{{camera.name}}</td>
+                <td>{{camera.x}}</td>
+                <td>{{camera.y}}</td>
+            </div>
+        </div>
+    </div>
+</div>
