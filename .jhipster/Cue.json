@@ -31,16 +31,7 @@
             "otherEntityRelationshipName": "cue"
         }
     ],
-    "fields": [
-        {
-            "fieldName": "duration",
-            "fieldType": "Double",
-            "fieldValidateRules": [
-                "min"
-            ],
-            "fieldValidateRulesMin": "0"
-        }
-    ],
+    "fields": [],
     "changelogDate": "20160504113134",
     "dto": "no",
     "service": "serviceImpl",

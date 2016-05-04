@@ -4,7 +4,6 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -21,10 +20,6 @@ public class Cue implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @Min(value = 0)
-    @Column(name = "duration")
-    private Double duration;
 
     @ManyToOne
     private Script script;
@@ -47,14 +42,6 @@ public class Cue implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Double getDuration() {
-        return duration;
-    }
-
-    public void setDuration(Double duration) {
-        this.duration = duration;
     }
 
     public Script getScript() {
@@ -113,7 +100,6 @@ public class Cue implements Serializable {
     public String toString() {
         return "Cue{" +
             "id=" + id +
-            ", duration='" + duration + "'" +
             '}';
     }
 }

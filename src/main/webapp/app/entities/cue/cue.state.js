@@ -82,7 +82,6 @@
                     resolve: {
                         entity: function () {
                             return {
-                                duration: null,
                                 id: null
                             };
                         }
