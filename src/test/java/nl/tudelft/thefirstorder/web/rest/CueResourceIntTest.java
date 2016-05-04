@@ -43,6 +43,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class CueResourceIntTest {
 
 
+    private static final Double DEFAULT_DURATION = 0D;
+    private static final Double UPDATED_DURATION = 1D;
+
     @Inject
     private CueRepository cueRepository;
 
@@ -72,6 +75,7 @@ public class CueResourceIntTest {
     @Before
     public void initTest() {
         cue = new Cue();
+        cue.setDuration(DEFAULT_DURATION);
     }
 
     @Test
@@ -90,6 +94,7 @@ public class CueResourceIntTest {
         List<Cue> cues = cueRepository.findAll();
         assertThat(cues).hasSize(databaseSizeBeforeCreate + 1);
         Cue testCue = cues.get(cues.size() - 1);
+        assertThat(testCue.getDuration()).isEqualTo(DEFAULT_DURATION);
     }
 
     @Test
@@ -102,7 +107,8 @@ public class CueResourceIntTest {
         restCueMockMvc.perform(get("/api/cues?sort=id,desc"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(cue.getId().intValue())));
+                .andExpect(jsonPath("$.[*].id").value(hasItem(cue.getId().intValue())))
+                .andExpect(jsonPath("$.[*].duration").value(hasItem(DEFAULT_DURATION.doubleValue())));
     }
 
     @Test
@@ -115,7 +121,8 @@ public class CueResourceIntTest {
         restCueMockMvc.perform(get("/api/cues/{id}", cue.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.id").value(cue.getId().intValue()));
+            .andExpect(jsonPath("$.id").value(cue.getId().intValue()))
+            .andExpect(jsonPath("$.duration").value(DEFAULT_DURATION.doubleValue()));
     }
 
     @Test
@@ -137,6 +144,7 @@ public class CueResourceIntTest {
         // Update the cue
         Cue updatedCue = new Cue();
         updatedCue.setId(cue.getId());
+        updatedCue.setDuration(UPDATED_DURATION);
 
         restCueMockMvc.perform(put("/api/cues")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -147,6 +155,7 @@ public class CueResourceIntTest {
         List<Cue> cues = cueRepository.findAll();
         assertThat(cues).hasSize(databaseSizeBeforeUpdate);
         Cue testCue = cues.get(cues.size() - 1);
+        assertThat(testCue.getDuration()).isEqualTo(UPDATED_DURATION);
     }
 
     @Test

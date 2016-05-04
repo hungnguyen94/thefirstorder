@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -44,7 +45,7 @@ public class CueResource {
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Cue> createCue(@RequestBody Cue cue) throws URISyntaxException {
+    public ResponseEntity<Cue> createCue(@Valid @RequestBody Cue cue) throws URISyntaxException {
         log.debug("REST request to save Cue : {}", cue);
         if (cue.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("cue", "idexists", "A new cue cannot already have an ID")).body(null);
@@ -68,7 +69,7 @@ public class CueResource {
         method = RequestMethod.PUT,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Cue> updateCue(@RequestBody Cue cue) throws URISyntaxException {
+    public ResponseEntity<Cue> updateCue(@Valid @RequestBody Cue cue) throws URISyntaxException {
         log.debug("REST request to update Cue : {}", cue);
         if (cue.getId() == null) {
             return createCue(cue);

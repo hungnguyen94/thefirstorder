@@ -19,6 +19,7 @@
             <thead>
                 <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                     <th jh-sort-by="id"><span>ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="duration"><span>Duration</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="script.id"><span>Script</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="player.id"><span>Player</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="camera.id"><span>Camera</span> <span class="glyphicon glyphicon-sort"></span></th>
@@ -29,6 +30,7 @@
             <tbody>
                 <tr ng-repeat="cue in vm.cues track by cue.id">
                     <td><a ui-sref="cue-detail({id:cue.id})">{{cue.id}}</a></td>
+                    <td>{{cue.duration}}</td>
                     <td>
                         <a ui-sref="script-detail({id:cue.script.id})">{{cue.script.id}}</a>
                     </td>
