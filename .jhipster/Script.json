@@ -1,0 +1,17 @@
+{
+    "relationships": [
+        {
+            "relationshipName": "project",
+            "otherEntityName": "project",
+            "relationshipType": "one-to-one",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "script"
+        }
+    ],
+    "fields": [],
+    "changelogDate": "20160504105939",
+    "dto": "no",
+    "service": "serviceImpl",
+    "entityTableName": "script",
+    "pagination": "pager"
+}
