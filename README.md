@@ -5,7 +5,7 @@ Before you can develop on this project, you need the following dependencies:
 
 1. NodeJS
 2. Gulp - install with `npm install -g gulp`
-3. Yeoman - install with `npm install -g yeoman`
+3. Yeoman - install with `npm install -g yo`
 4. Bower - install with `npm install -g bower`
 
 The project is configured with the Gradle wrapper. Run `./gradlew bootRun` to run the backend.
