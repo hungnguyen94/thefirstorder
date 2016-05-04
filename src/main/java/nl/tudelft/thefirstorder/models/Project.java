@@ -6,6 +6,30 @@ package nl.tudelft.thefirstorder.models;
  */
 public class Project {
 
+    private Script script;
+    private Map map;
 
+    public Project(Script script, Map map) {
+        this.script = script;
+        this.map = map;
+    }
+
+    public Script getScript() {
+        return script;
+    }
+
+    public Map getMap() {
+        return map;
+    }
+
+    public void setScript(Script script) {
+        this.script = script;
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
+    }
 
 }
+
+
