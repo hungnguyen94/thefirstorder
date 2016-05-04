@@ -6,6 +6,12 @@
             "relationshipType": "one-to-one",
             "ownerSide": false,
             "otherEntityRelationshipName": "script"
+        },
+        {
+            "relationshipName": "cue",
+            "otherEntityName": "cue",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "script"
         }
     ],
     "fields": [],

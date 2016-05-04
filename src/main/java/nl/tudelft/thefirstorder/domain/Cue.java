@@ -1,22 +1,19 @@
 package nl.tudelft.thefirstorder.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
 
 /**
- * A Script.
+ * A Cue.
  */
 @Entity
-@Table(name = "script")
+@Table(name = "cue")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Script implements Serializable {
+public class Cue implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -24,14 +21,8 @@ public class Script implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne(mappedBy = "script")
-    @JsonIgnore
-    private Project project;
-
-    @OneToMany(mappedBy = "script")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Cue> cues = new HashSet<>();
+    @ManyToOne
+    private Script script;
 
     public Long getId() {
         return id;
@@ -41,20 +32,12 @@ public class Script implements Serializable {
         this.id = id;
     }
 
-    public Project getProject() {
-        return project;
+    public Script getScript() {
+        return script;
     }
 
-    public void setProject(Project project) {
-        this.project = project;
-    }
-
-    public Set<Cue> getCues() {
-        return cues;
-    }
-
-    public void setCues(Set<Cue> cues) {
-        this.cues = cues;
+    public void setScript(Script script) {
+        this.script = script;
     }
 
     @Override
@@ -65,11 +48,11 @@ public class Script implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Script script = (Script) o;
-        if(script.id == null || id == null) {
+        Cue cue = (Cue) o;
+        if(cue.id == null || id == null) {
             return false;
         }
-        return Objects.equals(id, script.id);
+        return Objects.equals(id, cue.id);
     }
 
     @Override
@@ -79,7 +62,7 @@ public class Script implements Serializable {
 
     @Override
     public String toString() {
-        return "Script{" +
+        return "Cue{" +
             "id=" + id +
             '}';
     }

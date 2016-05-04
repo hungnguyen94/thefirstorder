@@ -5,9 +5,9 @@
         .module('thefirstorderApp')
         .controller('ScriptDetailController', ScriptDetailController);
 
-    ScriptDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'entity', 'Script', 'Project'];
+    ScriptDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'entity', 'Script', 'Project', 'Cue'];
 
-    function ScriptDetailController($scope, $rootScope, $stateParams, entity, Script, Project) {
+    function ScriptDetailController($scope, $rootScope, $stateParams, entity, Script, Project, Cue) {
         var vm = this;
         vm.script = entity;
         

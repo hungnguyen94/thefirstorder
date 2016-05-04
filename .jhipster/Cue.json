@@ -1,0 +1,16 @@
+{
+    "relationships": [
+        {
+            "relationshipName": "script",
+            "otherEntityName": "script",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [],
+    "changelogDate": "20160504113134",
+    "dto": "no",
+    "service": "serviceImpl",
+    "entityTableName": "cue",
+    "pagination": "pager"
+}
