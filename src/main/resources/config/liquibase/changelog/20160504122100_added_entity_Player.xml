@@ -14,22 +14,12 @@
     <property name="floatType" value="float" dbms="mysql, oracle"/>
 
     <!--
-        Added the entity Cue.
+        Added the entity Player.
     -->
-    <changeSet id="20160504113134-1" author="jhipster">
-        <createTable tableName="cue">
+    <changeSet id="20160504122100-1" author="jhipster">
+        <createTable tableName="player">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="script_id" type="bigint"/>
-            <column name="player_id" type="bigint">
-                <constraints unique="true"/>
-            </column>
-            <column name="camera_id" type="bigint">
-                <constraints unique="true"/>
-            </column>
-            <column name="camera_action_id" type="bigint">
-                <constraints unique="true"/>
             </column>
             <!-- jhipster-needle-liquibase-add-column - Jhipster will add columns here, do not remove-->
         </createTable>
