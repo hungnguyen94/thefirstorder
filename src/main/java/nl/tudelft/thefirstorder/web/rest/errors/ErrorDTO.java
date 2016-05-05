@@ -20,17 +20,34 @@ public class ErrorDTO implements Serializable {
         this(message, null);
     }
 
+    /**
+     * Constructor for ErrorDTO.
+     * @param message Message
+     * @param description Description
+     */
     public ErrorDTO(String message, String description) {
         this.message = message;
         this.description = description;
     }
 
+    /**
+     * Constructor for ErrorDTO.
+     * @param message Message
+     * @param description Description
+     * @param fieldErrors Field Errors
+     */
     public ErrorDTO(String message, String description, List<FieldErrorDTO> fieldErrors) {
         this.message = message;
         this.description = description;
         this.fieldErrors = fieldErrors;
     }
 
+    /**
+     * Add a new fieldErrorDTO to the list of fieldErrors.
+     * @param objectName Object name
+     * @param field Field
+     * @param message Message
+     */
     public void add(String objectName, String field, String message) {
         if (fieldErrors == null) {
             fieldErrors = new ArrayList<>();

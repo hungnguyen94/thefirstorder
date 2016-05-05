@@ -26,21 +26,35 @@ public class LoggingAspect {
     @Inject
     private Environment env;
 
-    @Pointcut("within(nl.tudelft.thefirstorder.repository..*) || within(nl.tudelft.thefirstorder.service..*) || within(nl.tudelft.thefirstorder.web.rest..*)")
+    @Pointcut("within(nl.tudelft.thefirstorder.repository..*) "
+            + "|| within(nl.tudelft.thefirstorder.service..*) "
+            + "|| within(nl.tudelft.thefirstorder.web.rest..*)")
     public void loggingPointcut() {
     }
 
-    @AfterThrowing(pointcut = "loggingPointcut()", throwing = "e")
-    public void logAfterThrowing(JoinPoint joinPoint, Throwable e) {
+    /**
+     * Log an error after throwing it.
+     * @param joinPoint Join point
+     * @param error Throwable
+     */
+    @AfterThrowing(pointcut = "loggingPointcut()", throwing = "error")
+    public void logAfterThrowing(JoinPoint joinPoint, Throwable error) {
         if (env.acceptsProfiles(Constants.SPRING_PROFILE_DEVELOPMENT)) {
-            log.error("Exception in {}.{}() with cause = {} and exception {}", joinPoint.getSignature().getDeclaringTypeName(),
-                joinPoint.getSignature().getName(), e.getCause(), e);
+            log.error("Exception in {}.{}() with cause = {} and exception {}",
+                    joinPoint.getSignature().getDeclaringTypeName(),
+                    joinPoint.getSignature().getName(), error.getCause(), error);
         } else {
             log.error("Exception in {}.{}() with cause = {}", joinPoint.getSignature().getDeclaringTypeName(),
-                joinPoint.getSignature().getName(), e.getCause());
+                joinPoint.getSignature().getName(), error.getCause());
         }
     }
 
+    /**
+     * Log around.
+     * @param joinPoint The join point
+     * @return Object
+     * @throws Throwable Throwable
+     */
     @Around("loggingPointcut()")
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
         if (log.isDebugEnabled()) {
@@ -54,11 +68,11 @@ public class LoggingAspect {
                     joinPoint.getSignature().getName(), result);
             }
             return result;
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException error) {
             log.error("Illegal argument: {} in {}.{}()", Arrays.toString(joinPoint.getArgs()),
                     joinPoint.getSignature().getDeclaringTypeName(), joinPoint.getSignature().getName());
 
-            throw e;
+            throw error;
         }
     }
 }

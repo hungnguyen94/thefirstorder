@@ -35,7 +35,7 @@ public class MailService {
     private static final String BASE_URL = "baseUrl";
 
     @Inject
-    private JHipsterProperties jHipsterProperties;
+    private JHipsterProperties jhipsterProperties;
 
     @Inject
     private JavaMailSenderImpl javaMailSender;
@@ -46,6 +46,14 @@ public class MailService {
     @Inject
     private SpringTemplateEngine templateEngine;
 
+    /**
+     * Sends an email.
+     * @param to The receiver
+     * @param subject Subject
+     * @param content Content
+     * @param isMultipart True if it is multipart
+     * @param isHtml True if it is HTML
+     */
     @Async
     public void sendEmail(String to, String subject, String content, boolean isMultipart, boolean isHtml) {
         log.debug("Send e-mail[multipart '{}' and html '{}'] to '{}' with subject '{}' and content={}",
@@ -56,16 +64,21 @@ public class MailService {
         try {
             MimeMessageHelper message = new MimeMessageHelper(mimeMessage, isMultipart, CharEncoding.UTF_8);
             message.setTo(to);
-            message.setFrom(jHipsterProperties.getMail().getFrom());
+            message.setFrom(jhipsterProperties.getMail().getFrom());
             message.setSubject(subject);
             message.setText(content, isHtml);
             javaMailSender.send(mimeMessage);
             log.debug("Sent e-mail to User '{}'", to);
-        } catch (Exception e) {
-            log.warn("E-mail could not be sent to user '{}', exception is: {}", to, e.getMessage());
+        } catch (Exception emailException) {
+            log.warn("E-mail could not be sent to user '{}', exception is: {}", to, emailException.getMessage());
         }
     }
 
+    /**
+     * Sends an activation email to a given user.
+     * @param user User
+     * @param baseUrl BaseURL
+     */
     @Async
     public void sendActivationEmail(User user, String baseUrl) {
         log.debug("Sending activation e-mail to '{}'", user.getEmail());
@@ -78,6 +91,11 @@ public class MailService {
         sendEmail(user.getEmail(), subject, content, false, true);
     }
 
+    /**
+     * Sends creation email.
+     * @param user User
+     * @param baseUrl BaseURL
+     */
     @Async
     public void sendCreationEmail(User user, String baseUrl) {
         log.debug("Sending creation e-mail to '{}'", user.getEmail());
@@ -90,6 +108,11 @@ public class MailService {
         sendEmail(user.getEmail(), subject, content, false, true);
     }
 
+    /**
+     * Sends a password reset email.
+     * @param user User
+     * @param baseUrl BaseURL
+     */
     @Async
     public void sendPasswordResetMail(User user, String baseUrl) {
         log.debug("Sending password reset e-mail to '{}'", user.getEmail());

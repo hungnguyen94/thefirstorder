@@ -32,7 +32,7 @@ public class ConcertMap implements Map {
 
     /**
      * Returns all the cameras stored in the map.
-     * @return ArrayList<Camera> of all the cameras.
+     * @return List of all the cameras.
      */
     public List<Camera> getCameras() {
         return cameras;
@@ -40,7 +40,7 @@ public class ConcertMap implements Map {
 
     /**
      * Returns all the players stored in the map.
-     * @return ArrayList<Player> of all the cameras.
+     * @return List of all the cameras.
      */
     public List<Player> getPlayers() {
         return players;
@@ -75,7 +75,7 @@ public class ConcertMap implements Map {
      * @param camera the Camera to add.
      */
     public void addCamera(Camera camera) {
-        if(camera.getX() < width && camera.getY() < height) {
+        if (camera.getX() < width && camera.getY() < height) {
             cameras.add(camera);
         } else {
             log.error("Camera " + camera.getName() + " not added, because the x and y coordinates were out of bounds.");
@@ -87,7 +87,7 @@ public class ConcertMap implements Map {
      * @param player the Player to add.
      */
     public void addPlayer(Player player) {
-        if(player.getX() < width && player.getY() < height) {
+        if (player.getX() < width && player.getY() < height) {
             players.add(player);
         } else {
             log.error("Player " + player.getName() + " not added, because the x and y coordinates were out of bounds.");
@@ -147,7 +147,7 @@ public class ConcertMap implements Map {
         }
 
         /**
-         * Builds a ConcertMap object
+         * Builds a ConcertMap object.
          * @return ConcertMap object
          */
         public ConcertMap build() {

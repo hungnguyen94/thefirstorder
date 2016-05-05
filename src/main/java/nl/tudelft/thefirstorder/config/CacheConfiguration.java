@@ -7,8 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.context.annotation.*;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.util.Assert;
 
 import javax.annotation.PreDestroy;
@@ -34,6 +35,9 @@ public class CacheConfiguration {
 
     private net.sf.ehcache.CacheManager cacheManager;
 
+    /**
+     * Remove cache.
+     */
     @PreDestroy
     public void destroy() {
         log.info("Remove Cache Manager metrics");
@@ -43,11 +47,18 @@ public class CacheConfiguration {
         cacheManager.shutdown();
     }
 
+    /**
+     * Starts Ehcache.
+     * @param jhipsterProperties Properties
+     * @return The cache manager
+     */
     @Bean
-    public CacheManager cacheManager(JHipsterProperties jHipsterProperties) {
+    public CacheManager cacheManager(JHipsterProperties jhipsterProperties) {
         log.debug("Starting Ehcache");
         cacheManager = net.sf.ehcache.CacheManager.create();
-        cacheManager.getConfiguration().setMaxBytesLocalHeap(jHipsterProperties.getCache().getEhcache().getMaxBytesLocalHeap());
+        cacheManager.getConfiguration().setMaxBytesLocalHeap(
+                jhipsterProperties.getCache().getEhcache().getMaxBytesLocalHeap()
+        );
         log.debug("Registering Ehcache Metrics gauges");
         Set<EntityType<?>> entities = entityManager.getMetamodel().getEntities();
         for (EntityType<?> entity : entities) {
@@ -60,7 +71,9 @@ public class CacheConfiguration {
 
             net.sf.ehcache.Cache cache = cacheManager.getCache(name);
             if (cache != null) {
-                cache.getCacheConfiguration().setTimeToLiveSeconds(jHipsterProperties.getCache().getTimeToLiveSeconds());
+                cache.getCacheConfiguration().setTimeToLiveSeconds(
+                        jhipsterProperties.getCache().getTimeToLiveSeconds()
+                );
                 net.sf.ehcache.Ehcache decoratedCache = InstrumentedEhcache.instrument(metricRegistry, cache);
                 cacheManager.replaceCacheWithDecoratedCache(cache, decoratedCache);
             }

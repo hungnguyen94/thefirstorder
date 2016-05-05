@@ -62,11 +62,11 @@ public class Script {
      */
     public void addAfter(Cue cueBefore, Cue cueAfter) {
         List<Cue> result = new LinkedList<Cue>();
-        int i = cues.indexOf(cueBefore);
-        if(i == -1) {
+        int index = cues.indexOf(cueBefore);
+        if (index == -1) {
             addFirst(cueAfter);
         } else {
-            cues.add(i, cueAfter);
+            cues.add(index, cueAfter);
         }
     }
 

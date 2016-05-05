@@ -22,6 +22,10 @@ public class LocaleConfiguration extends WebMvcConfigurerAdapter implements Envi
         this.propertyResolver = new RelaxedPropertyResolver(environment, "spring.messages.");
     }
 
+    /**
+     * Locale resolver.
+     * @return Locale resolver
+     */
     @Bean(name = "localeResolver")
     public LocaleResolver localeResolver() {
         AngularCookieLocaleResolver cookieLocaleResolver = new AngularCookieLocaleResolver();

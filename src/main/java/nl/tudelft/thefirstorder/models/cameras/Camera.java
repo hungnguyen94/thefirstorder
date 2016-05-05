@@ -18,7 +18,7 @@ public abstract class Camera {
      * @param name String name of the camera.
      * @param x int x position.
      * @param y int y position.
-     * @param actions Set<CameraAction> a set of all CameraActions.
+     * @param actions set of all CameraActions.
      */
     public Camera(String name, int x, int y, Set<CameraAction> actions) {
         this.name = name;
@@ -53,7 +53,7 @@ public abstract class Camera {
 
     /**
      * Returns the actions of the camera.
-     * @return Set<CameraAction> of all CameraActions.
+     * @return Set of all CameraActions.
      */
     public Set<CameraAction> getActions() {
         return actions;

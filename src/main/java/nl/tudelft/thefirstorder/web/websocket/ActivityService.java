@@ -13,13 +13,12 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
+import javax.inject.Inject;
+import java.security.Principal;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import javax.inject.Inject;
-import java.security.Principal;
 import java.util.Calendar;
 
 import static nl.tudelft.thefirstorder.config.WebsocketConfiguration.IP_ADDRESS;
@@ -34,24 +33,33 @@ public class ActivityService implements ApplicationListener<SessionDisconnectEve
     @Inject
     SimpMessageSendingOperations messagingTemplate;
 
+    /**
+     * Sends user tracking data.
+     * @param activityDto Activity data transfer object
+     * @param stompHeaderAccessor stomp header accessor
+     * @param principal principal
+     * @return Activity DTO
+     */
     @SubscribeMapping("/topic/activity")
     @SendTo("/topic/tracker")
-    public ActivityDTO sendActivity(@Payload ActivityDTO activityDTO, StompHeaderAccessor stompHeaderAccessor, Principal principal) {
-        activityDTO.setUserLogin(SecurityUtils.getCurrentUserLogin());
-        activityDTO.setUserLogin(principal.getName());
-        activityDTO.setSessionId(stompHeaderAccessor.getSessionId());
-        activityDTO.setIpAddress(stompHeaderAccessor.getSessionAttributes().get(IP_ADDRESS).toString());
+    public ActivityDTO sendActivity(@Payload ActivityDTO activityDto,
+                                    StompHeaderAccessor stompHeaderAccessor,
+                                    Principal principal) {
+        activityDto.setUserLogin(SecurityUtils.getCurrentUserLogin());
+        activityDto.setUserLogin(principal.getName());
+        activityDto.setSessionId(stompHeaderAccessor.getSessionId());
+        activityDto.setIpAddress(stompHeaderAccessor.getSessionAttributes().get(IP_ADDRESS).toString());
         Instant instant = Instant.ofEpochMilli(Calendar.getInstance().getTimeInMillis());
-        activityDTO.setTime(dateTimeFormatter.format(ZonedDateTime.ofInstant(instant, ZoneOffset.systemDefault())));
-        log.debug("Sending user tracking data {}", activityDTO);
-        return activityDTO;
+        activityDto.setTime(dateTimeFormatter.format(ZonedDateTime.ofInstant(instant, ZoneOffset.systemDefault())));
+        log.debug("Sending user tracking data {}", activityDto);
+        return activityDto;
     }
 
     @Override
     public void onApplicationEvent(SessionDisconnectEvent event) {
-        ActivityDTO activityDTO = new ActivityDTO();
-        activityDTO.setSessionId(event.getSessionId());
-        activityDTO.setPage("logout");
-        messagingTemplate.convertAndSend("/topic/tracker", activityDTO);
+        ActivityDTO activityDto = new ActivityDTO();
+        activityDto.setSessionId(event.getSessionId());
+        activityDto.setPage("logout");
+        messagingTemplate.convertAndSend("/topic/tracker", activityDto);
     }
 }
