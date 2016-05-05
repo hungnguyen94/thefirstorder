@@ -3,7 +3,8 @@ package nl.tudelft.thefirstorder.web.rest.mapper;
 import nl.tudelft.thefirstorder.domain.Authority;
 import nl.tudelft.thefirstorder.domain.User;
 import nl.tudelft.thefirstorder.web.rest.dto.UserDTO;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 import java.util.Set;
@@ -15,9 +16,9 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring", uses = {})
 public interface UserMapper {
 
-    UserDTO userToUserDTO(User user);
+    UserDTO userToUserDto(User user);
 
-    List<UserDTO> usersToUserDTOs(List<User> users);
+    List<UserDTO> usersToUserDtos(List<User> users);
     
     @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "createdDate", ignore = true)
@@ -28,10 +29,15 @@ public interface UserMapper {
     @Mapping(target = "resetKey", ignore = true)
     @Mapping(target = "resetDate", ignore = true)
     @Mapping(target = "password", ignore = true)
-    User userDTOToUser(UserDTO userDTO);
+    User userDtoToUser(UserDTO userDto);
 
-    List<User> userDTOsToUsers(List<UserDTO> userDTOs);
+    List<User> userDtosToUsers(List<UserDTO> userDtos);
 
+    /**
+     * Creates new user from Id.
+     * @param id Id
+     * @return User
+     */
     default User userFromId(Long id) {
         if (id == null) {
             return null;
@@ -41,11 +47,16 @@ public interface UserMapper {
         return user;
     }
 
-    default Set<String> stringsFromAuthorities (Set<Authority> authorities) {
+    default Set<String> stringsFromAuthorities(Set<Authority> authorities) {
         return authorities.stream().map(Authority::getName)
             .collect(Collectors.toSet());
     }
 
+    /**
+     * Returns a set of authorities from a set of Strings.
+     * @param strings Set of Strings
+     * @return Set of authorities
+     */
     default Set<Authority> authoritiesFromStrings(Set<String> strings) {
         return strings.stream().map(string -> {
             Authority auth = new Authority();

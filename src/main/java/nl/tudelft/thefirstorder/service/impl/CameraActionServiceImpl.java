@@ -17,7 +17,7 @@ import javax.inject.Inject;
  */
 @Service
 @Transactional
-public class CameraActionServiceImpl implements CameraActionService{
+public class CameraActionServiceImpl implements CameraActionService {
 
     private final Logger log = LoggerFactory.getLogger(CameraActionServiceImpl.class);
     

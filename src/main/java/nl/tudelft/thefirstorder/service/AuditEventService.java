@@ -2,7 +2,6 @@ package nl.tudelft.thefirstorder.service;
 
 import nl.tudelft.thefirstorder.config.audit.AuditEventConverter;
 import nl.tudelft.thefirstorder.repository.PersistenceAuditEventRepository;
-import java.time.LocalDateTime;
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
@@ -27,6 +26,11 @@ public class AuditEventService {
 
     private AuditEventConverter auditEventConverter;
 
+    /**
+     * Constructor for AuditEventService.
+     * @param persistenceAuditEventRepository Repository
+     * @param auditEventConverter Converter
+     */
     @Inject
     public AuditEventService(
         PersistenceAuditEventRepository persistenceAuditEventRepository,
@@ -47,7 +51,7 @@ public class AuditEventService {
     }
 
     public Optional<AuditEvent> find(Long id) {
-        return Optional.ofNullable(persistenceAuditEventRepository.findOne(id)).map
-            (auditEventConverter::convertToAuditEvent);
+        return Optional.ofNullable(persistenceAuditEventRepository.findOne(id)).map(
+                auditEventConverter::convertToAuditEvent);
     }
 }

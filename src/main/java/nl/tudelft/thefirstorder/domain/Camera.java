@@ -3,7 +3,12 @@ package nl.tudelft.thefirstorder.domain;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -71,7 +76,7 @@ public class Camera implements Serializable {
             return false;
         }
         Camera camera = (Camera) o;
-        if(camera.id == null || id == null) {
+        if (camera.id == null || id == null) {
             return false;
         }
         return Objects.equals(id, camera.id);
@@ -84,11 +89,10 @@ public class Camera implements Serializable {
 
     @Override
     public String toString() {
-        return "Camera{" +
-            "id=" + id +
-            ", name='" + name + "'" +
-            ", x='" + x + "'" +
-            ", y='" + y + "'" +
-            '}';
+        return "Camera{"
+                + "id=" + id + ", name='" + name + "'"
+                + ", x='" + x + "'"
+                + ", y='" + y + "'"
+                + '}';
     }
 }

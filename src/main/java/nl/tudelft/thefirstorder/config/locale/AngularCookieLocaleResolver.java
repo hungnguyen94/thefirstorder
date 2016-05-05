@@ -6,16 +6,17 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.util.WebUtils;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import javax.servlet.http.*;
 
 /**
  * Angular cookie saved the locale with a double quote (%22en%22).
  * So the default CookieLocaleResolver#StringUtils.parseLocaleString(localePart)
  * is not able to parse the locale.
- *
  * This class will check if a double quote has been added, if so it will remove it.
  */
 public class AngularCookieLocaleResolver extends CookieLocaleResolver {
@@ -73,12 +74,12 @@ public class AngularCookieLocaleResolver extends CookieLocaleResolver {
                     timeZone = StringUtils.parseTimeZoneString(timeZonePart);
                 }
                 if (logger.isTraceEnabled()) {
-                    logger.trace("Parsed cookie value [" + cookie.getValue() + "] into locale '" + locale +
-                        "'" + (timeZone != null ? " and time zone '" + timeZone.getID() + "'" : ""));
+                    logger.trace("Parsed cookie value [" + cookie.getValue() + "] into locale '" + locale
+                            + "'" + (timeZone != null ? " and time zone '" + timeZone.getID() + "'" : ""));
                 }
             }
             request.setAttribute(LOCALE_REQUEST_ATTRIBUTE_NAME,
-                (locale != null ? locale: determineDefaultLocale(request)));
+                (locale != null ? locale : determineDefaultLocale(request)));
 
             request.setAttribute(TIME_ZONE_REQUEST_ATTRIBUTE_NAME,
                 (timeZone != null ? timeZone : determineDefaultTimeZone(request)));

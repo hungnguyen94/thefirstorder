@@ -7,7 +7,6 @@ package nl.tudelft.thefirstorder.web.rest.errors;
  * <pre>
  * throw new CustomParameterizedException(&quot;myCustomError&quot;, &quot;hello&quot;, &quot;world&quot;);
  * </pre>
- * 
  * Can be translated with:
  * 
  * <pre>
@@ -21,6 +20,11 @@ public class CustomParameterizedException extends RuntimeException {
     private final String message;
     private final String[] params;
 
+    /**
+     * Constructor for a custom parameterized exception.
+     * @param message Message
+     * @param params Parameters
+     */
     public CustomParameterizedException(String message, String... params) {
         super(message);
         this.message = message;

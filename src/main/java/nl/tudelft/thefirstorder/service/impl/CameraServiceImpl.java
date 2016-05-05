@@ -1,24 +1,23 @@
 package nl.tudelft.thefirstorder.service.impl;
 
-import nl.tudelft.thefirstorder.service.CameraService;
 import nl.tudelft.thefirstorder.domain.Camera;
 import nl.tudelft.thefirstorder.repository.CameraRepository;
+import nl.tudelft.thefirstorder.service.CameraService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.List;
 
 /**
  * Service Implementation for managing Camera.
  */
 @Service
 @Transactional
-public class CameraServiceImpl implements CameraService{
+public class CameraServiceImpl implements CameraService {
 
     private final Logger log = LoggerFactory.getLogger(CameraServiceImpl.class);
     

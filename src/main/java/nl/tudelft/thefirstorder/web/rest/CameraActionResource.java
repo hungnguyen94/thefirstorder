@@ -13,7 +13,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
 import java.net.URI;
@@ -37,17 +41,23 @@ public class CameraActionResource {
      * POST  /camera-actions : Create a new cameraAction.
      *
      * @param cameraAction the cameraAction to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new cameraAction, or with status 400 (Bad Request) if the cameraAction has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the new cameraAction,
+     *      or with status 400 (Bad Request) if the cameraAction has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/camera-actions",
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<CameraAction> createCameraAction(@RequestBody CameraAction cameraAction) throws URISyntaxException {
+    public ResponseEntity<CameraAction> createCameraAction(@RequestBody CameraAction cameraAction)
+            throws URISyntaxException {
         log.debug("REST request to save CameraAction : {}", cameraAction);
         if (cameraAction.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("cameraAction", "idexists", "A new cameraAction cannot already have an ID")).body(null);
+            return ResponseEntity.badRequest().headers(
+                    HeaderUtil.createFailureAlert("cameraAction",
+                            "idexists",
+                            "A new cameraAction cannot already have an ID")
+            ).body(null);
         }
         CameraAction result = cameraActionService.save(cameraAction);
         return ResponseEntity.created(new URI("/api/camera-actions/" + result.getId()))
@@ -60,15 +70,16 @@ public class CameraActionResource {
      *
      * @param cameraAction the cameraAction to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated cameraAction,
-     * or with status 400 (Bad Request) if the cameraAction is not valid,
-     * or with status 500 (Internal Server Error) if the cameraAction couldnt be updated
+     *      or with status 400 (Bad Request) if the cameraAction is not valid,
+     *      or with status 500 (Internal Server Error) if the cameraAction couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/camera-actions",
         method = RequestMethod.PUT,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<CameraAction> updateCameraAction(@RequestBody CameraAction cameraAction) throws URISyntaxException {
+    public ResponseEntity<CameraAction> updateCameraAction(@RequestBody CameraAction cameraAction)
+            throws URISyntaxException {
         log.debug("REST request to update CameraAction : {}", cameraAction);
         if (cameraAction.getId() == null) {
             return createCameraAction(cameraAction);

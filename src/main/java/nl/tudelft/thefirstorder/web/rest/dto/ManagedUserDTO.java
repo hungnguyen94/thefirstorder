@@ -1,12 +1,11 @@
 package nl.tudelft.thefirstorder.web.rest.dto;
 
-import java.time.ZonedDateTime;
-
-import java.util.Set;
-
 import nl.tudelft.thefirstorder.domain.User;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.ZonedDateTime;
+import java.util.Set;
 
 /**
  * A DTO extending the UserDTO, which is meant to be used in the user management UI.
@@ -40,8 +39,18 @@ public class ManagedUserDTO extends UserDTO {
         this.password = null;
     }
 
-    public ManagedUserDTO(Long id, String login, String password, String firstName, String lastName,
-                          String email, boolean activated, String langKey, Set<String> authorities , ZonedDateTime createdDate, String lastModifiedBy, ZonedDateTime lastModifiedDate ) {
+    public ManagedUserDTO(Long id,
+                          String login,
+                          String password,
+                          String firstName,
+                          String lastName,
+                          String email,
+                          boolean activated,
+                          String langKey,
+                          Set<String> authorities,
+                          ZonedDateTime createdDate,
+                          String lastModifiedBy,
+                          ZonedDateTime lastModifiedDate ) {
         super(login, firstName, lastName, email, activated, langKey, authorities);
         this.id = id;
         this.createdDate = createdDate;
@@ -88,11 +97,12 @@ public class ManagedUserDTO extends UserDTO {
 
     @Override
     public String toString() {
-        return "ManagedUserDTO{" +
-            "id=" + id +
-            ", createdDate=" + createdDate +
-            ", lastModifiedBy='" + lastModifiedBy + '\'' +
-            ", lastModifiedDate=" + lastModifiedDate +
-            "} " + super.toString();
+        return "ManagedUserDTO{"
+                + "id=" + id
+                + ", createdDate=" + createdDate
+                + ", lastModifiedBy='" + lastModifiedBy + '\''
+                + ", lastModifiedDate=" + lastModifiedDate
+                + "} "
+                + super.toString();
     }
 }

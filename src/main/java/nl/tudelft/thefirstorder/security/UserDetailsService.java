@@ -1,6 +1,5 @@
 package nl.tudelft.thefirstorder.security;
 
-import nl.tudelft.thefirstorder.domain.Authority;
 import nl.tudelft.thefirstorder.domain.User;
 import nl.tudelft.thefirstorder.repository.UserRepository;
 import org.slf4j.Logger;
@@ -13,7 +12,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -43,7 +43,7 @@ public class UserDetailsService implements org.springframework.security.core.use
             return new org.springframework.security.core.userdetails.User(lowercaseLogin,
                 user.getPassword(),
                 grantedAuthorities);
-        }).orElseThrow(() -> new UsernameNotFoundException("User " + lowercaseLogin + " was not found in the " +
-        "database"));
+        }).orElseThrow(() -> new UsernameNotFoundException("User " + lowercaseLogin
+                + " was not found in the " + "database"));
     }
 }
