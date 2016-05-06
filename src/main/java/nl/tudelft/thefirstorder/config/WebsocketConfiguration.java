@@ -10,7 +10,6 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.config.annotation.AbstractWebSocketMessageBrokerConfigurer;
@@ -42,12 +41,15 @@ public class WebsocketConfiguration extends AbstractWebSocketMessageBrokerConfig
         registry.addEndpoint("/websocket/tracker")
             .setHandshakeHandler(new DefaultHandshakeHandler() {
                 @Override
-                protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
+                protected Principal determineUser(ServerHttpRequest request,
+                                                  WebSocketHandler wsHandler,
+                                                  Map<String, Object> attributes) {
                     Principal principal = request.getPrincipal();
                     if (principal == null) {
                         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
                         authorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.ANONYMOUS));
-                        principal = new AnonymousAuthenticationToken("WebsocketConfiguration", "anonymous", authorities);
+                        principal = new AnonymousAuthenticationToken("WebsocketConfiguration",
+                                "anonymous", authorities);
                     }
                     return principal;
                 }
@@ -61,7 +63,10 @@ public class WebsocketConfiguration extends AbstractWebSocketMessageBrokerConfig
         return new HandshakeInterceptor() {
 
             @Override
-            public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
+            public boolean beforeHandshake(ServerHttpRequest request,
+                                           ServerHttpResponse response,
+                                           WebSocketHandler wsHandler,
+                                           Map<String, Object> attributes) throws Exception {
                 if (request instanceof ServletServerHttpRequest) {
                     ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
                     attributes.put(IP_ADDRESS, servletRequest.getRemoteAddress());
@@ -70,7 +75,10 @@ public class WebsocketConfiguration extends AbstractWebSocketMessageBrokerConfig
             }
 
             @Override
-            public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Exception exception) {
+            public void afterHandshake(ServerHttpRequest request,
+                                       ServerHttpResponse response,
+                                       WebSocketHandler wsHandler,
+                                       Exception exception) {
 
             }
         };

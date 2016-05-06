@@ -12,13 +12,13 @@ public interface Map {
 
     /**
      * Returns all the cameras stored in the map.
-     * @return ArrayList<Camera> of all the cameras.
+     * @return List of all the cameras.
      */
     public List<Camera> getCameras();
 
     /**
      * Returns all the players stored in the map.
-     * @return ArrayList<Player> of all the cameras.
+     * @return List of all the cameras.
      */
     public List<Player> getPlayers();
 

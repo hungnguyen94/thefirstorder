@@ -9,6 +9,7 @@ Before you can develop on this project, you need the following dependencies:
 4. Bower - install with `npm install -g bower`
 
 The project is configured with the Gradle wrapper. Run `./gradlew bootRun` to run the backend.
+Login with username `admin` and password `admin`.
 
 Hot reloading for Java is configured. Recompile the changed classes manually, if your IDE doesn't do this for you.
 For the frontend, run Gulp to enable hot reloading.
@@ -30,7 +31,7 @@ Then navigate to [http://localhost:8080](http://localhost:8080) in your browser.
 
 ## Testing
 
-Unit tests for Javascript are run by [Karma][] and written with [Jasmine][]. They're located in `src/test/javascript/` and can be run with:
+Unit tests for Javascript are run by Karma and written with Jasmine. They're located in `src/test/javascript/` and can be run with:
 
     gulp test
 

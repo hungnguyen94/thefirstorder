@@ -7,8 +7,6 @@ import nl.tudelft.thefirstorder.repository.UserRepository;
 import nl.tudelft.thefirstorder.security.SecurityUtils;
 import nl.tudelft.thefirstorder.service.util.RandomUtil;
 import nl.tudelft.thefirstorder.web.rest.dto.ManagedUserDTO;
-import java.time.ZonedDateTime;
-import java.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -16,9 +14,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.ZonedDateTime;
 import javax.inject.Inject;
-import java.util.*;
+import java.time.ZonedDateTime;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * Service class for managing users.
@@ -39,6 +40,11 @@ public class UserService {
     @Inject
     private AuthorityRepository authorityRepository;
 
+    /**
+     * Activate an user by a key, if that key is in the database.
+     * @param key Key as a String.
+     * @return The corresponding user to that key.
+     */
     public Optional<User> activateRegistration(String key) {
         log.debug("Activating user for activation key {}", key);
         return userRepository.findOneByActivationKey(key)
@@ -52,23 +58,34 @@ public class UserService {
             });
     }
 
+    /**
+     * Resets the password of an user, given the key.
+     * @param newPassword The new password for this user
+     * @param key Key as a String
+     * @return The user.
+     */
     public Optional<User> completePasswordReset(String newPassword, String key) {
-       log.debug("Reset user password for reset key {}", key);
+        log.debug("Reset user password for reset key {}", key);
 
-       return userRepository.findOneByResetKey(key)
-            .filter(user -> {
-                ZonedDateTime oneDayAgo = ZonedDateTime.now().minusHours(24);
-                return user.getResetDate().isAfter(oneDayAgo);
-           })
-           .map(user -> {
-                user.setPassword(passwordEncoder.encode(newPassword));
-                user.setResetKey(null);
-                user.setResetDate(null);
-                userRepository.save(user);
-                return user;
-           });
+        return userRepository.findOneByResetKey(key)
+                .filter(user -> {
+                    ZonedDateTime oneDayAgo = ZonedDateTime.now().minusHours(24);
+                    return user.getResetDate().isAfter(oneDayAgo);
+                })
+                .map(user -> {
+                    user.setPassword(passwordEncoder.encode(newPassword));
+                    user.setResetKey(null);
+                    user.setResetDate(null);
+                    userRepository.save(user);
+                    return user;
+                });
     }
 
+    /**
+     * Request a password reset by finding the user with his email.
+     * @param mail Email address of user.
+     * @return User, if that email is found in the database.
+     */
     public Optional<User> requestPasswordReset(String mail) {
         return userRepository.findOneByEmail(mail)
             .filter(User::getActivated)
@@ -80,12 +97,20 @@ public class UserService {
             });
     }
 
+    /**
+     * Creates an user.
+     * @param login Login name
+     * @param password Password
+     * @param firstName First name
+     * @param lastName Last name
+     * @param email Email address
+     * @param langKey Langkey
+     * @return The created user.
+     */
     public User createUserInformation(String login, String password, String firstName, String lastName, String email,
         String langKey) {
 
         User newUser = new User();
-        Authority authority = authorityRepository.findOne("ROLE_USER");
-        Set<Authority> authorities = new HashSet<>();
         String encryptedPassword = passwordEncoder.encode(password);
         newUser.setLogin(login);
         // new user gets initially a generated password
@@ -98,6 +123,9 @@ public class UserService {
         newUser.setActivated(false);
         // new user gets registration key
         newUser.setActivationKey(RandomUtil.generateActivationKey());
+
+        Authority authority = authorityRepository.findOne("ROLE_USER");
+        Set<Authority> authorities = new HashSet<>();
         authorities.add(authority);
         newUser.setAuthorities(authorities);
         userRepository.save(newUser);
@@ -105,20 +133,25 @@ public class UserService {
         return newUser;
     }
 
-    public User createUser(ManagedUserDTO managedUserDTO) {
+    /**
+     * Creates an user given a user data transfer object.
+     * @param managedUserDto Managed user data transfer object.
+     * @return The user.
+     */
+    public User createUser(ManagedUserDTO managedUserDto) {
         User user = new User();
-        user.setLogin(managedUserDTO.getLogin());
-        user.setFirstName(managedUserDTO.getFirstName());
-        user.setLastName(managedUserDTO.getLastName());
-        user.setEmail(managedUserDTO.getEmail());
-        if (managedUserDTO.getLangKey() == null) {
+        user.setLogin(managedUserDto.getLogin());
+        user.setFirstName(managedUserDto.getFirstName());
+        user.setLastName(managedUserDto.getLastName());
+        user.setEmail(managedUserDto.getEmail());
+        if (managedUserDto.getLangKey() == null) {
             user.setLangKey("en"); // default language
         } else {
-            user.setLangKey(managedUserDTO.getLangKey());
+            user.setLangKey(managedUserDto.getLangKey());
         }
-        if (managedUserDTO.getAuthorities() != null) {
+        if (managedUserDto.getAuthorities() != null) {
             Set<Authority> authorities = new HashSet<>();
-            managedUserDTO.getAuthorities().stream().forEach(
+            managedUserDto.getAuthorities().stream().forEach(
                 authority -> authorities.add(authorityRepository.findOne(authority))
             );
             user.setAuthorities(authorities);
@@ -133,6 +166,13 @@ public class UserService {
         return user;
     }
 
+    /**
+     * Updates the current logged in user information.
+     * @param firstName First name
+     * @param lastName Last name
+     * @param email Email
+     * @param langKey Langkey
+     */
     public void updateUserInformation(String firstName, String lastName, String email, String langKey) {
         userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(u -> {
             u.setFirstName(firstName);
@@ -144,6 +184,10 @@ public class UserService {
         });
     }
 
+    /**
+     * Deletes an user by it's login name.
+     * @param login Login name.
+     */
     public void deleteUserInformation(String login) {
         userRepository.findOneByLogin(login).ifPresent(u -> {
             userRepository.delete(u);
@@ -151,6 +195,10 @@ public class UserService {
         });
     }
 
+    /**
+     * Changes the password of the current logged in user.
+     * @param password New password.
+     */
     public void changePassword(String password) {
         userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(u -> {
             String encryptedPassword = passwordEncoder.encode(password);
@@ -160,6 +208,11 @@ public class UserService {
         });
     }
 
+    /**
+     * Get user with authority by login name, if found.
+     * @param login Login name
+     * @return User wrapped in Optional
+     */
     @Transactional(readOnly = true)
     public Optional<User> getUserWithAuthoritiesByLogin(String login) {
         return userRepository.findOneByLogin(login).map(u -> {
@@ -168,6 +221,11 @@ public class UserService {
         });
     }
 
+    /**
+     * Get user with authorities.
+     * @param id Id
+     * @return User with authorities.
+     */
     @Transactional(readOnly = true)
     public User getUserWithAuthorities(Long id) {
         User user = userRepository.findOne(id);
@@ -175,6 +233,10 @@ public class UserService {
         return user;
     }
 
+    /**
+     * Get user with authorities.
+     * @return User with authorities.
+     */
     @Transactional(readOnly = true)
     public User getUserWithAuthorities() {
         User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
