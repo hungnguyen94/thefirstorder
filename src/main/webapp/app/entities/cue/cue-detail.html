@@ -1,0 +1,33 @@
+
+<div>
+    <h2><span>Cue</span> {{vm.cue.id}}</h2>
+    <hr>
+    <dl class="dl-horizontal">
+        <dt><span>Script</span></dt>
+        <dd>
+            <a ui-sref="script-detail({id:vm.cue.script.id})">{{vm.cue.script.id}}</a>
+        </dd>
+        <hr>
+        <dt><span>Player</span></dt>
+        <dd>
+            <a ui-sref="player-detail({id:vm.cue.player.id})">{{vm.cue.player.id}}</a>
+        </dd>
+        <hr>
+        <dt><span>Camera</span></dt>
+        <dd>
+            <a ui-sref="camera-detail({id:vm.cue.camera.id})">{{vm.cue.camera.id}}</a>
+        </dd>
+        <hr>
+        <dt><span>Camera Action</span></dt>
+        <dd>
+            <a ui-sref="camera-action-detail({id:vm.cue.cameraAction.id})">{{vm.cue.cameraAction.id}}</a>
+        </dd>
+        <hr>
+    </dl>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+</div>

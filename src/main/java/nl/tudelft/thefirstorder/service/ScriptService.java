@@ -1,0 +1,50 @@
+package nl.tudelft.thefirstorder.service;
+
+import nl.tudelft.thefirstorder.domain.Script;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
+
+/**
+ * Service Interface for managing Script.
+ */
+public interface ScriptService {
+
+    /**
+     * Save a script.
+     * 
+     * @param script the entity to save
+     * @return the persisted entity
+     */
+    Script save(Script script);
+
+    /**
+     *  Get all the scripts.
+     *  
+     *  @param pageable the pagination information
+     *  @return the list of entities
+     */
+    Page<Script> findAll(Pageable pageable);
+    /**
+     *  Get all the scripts where Project is null.
+     *  
+     *  @return the list of entities
+     */
+    List<Script> findAllWhereProjectIsNull();
+
+    /**
+     *  Get the "id" script.
+     *  
+     *  @param id the id of the entity
+     *  @return the entity
+     */
+    Script findOne(Long id);
+
+    /**
+     *  Delete the "id" script.
+     *  
+     *  @param id the id of the entity
+     */
+    void delete(Long id);
+}

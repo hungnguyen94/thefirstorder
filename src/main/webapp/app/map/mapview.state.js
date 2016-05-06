@@ -8,7 +8,7 @@
     stateConfig.$inject = ['$stateProvider'];
 
     function stateConfig($stateProvider) {
-        $stateProvider.state('map', {
+        $stateProvider.state('mapview', {
             parent: 'app',
             url: '/',
             data: {
@@ -16,8 +16,8 @@
             },
             views: {
                 'content@': {
-                    templateUrl: 'app/map/map.html',
-                    controller: 'MapController',
+                    templateUrl: 'app/map/mapview.html',
+                    controller: 'MapviewController',
                     controllerAs: 'vm'
                 }
             }
