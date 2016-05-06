@@ -13,7 +13,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
 import java.net.URI;
@@ -37,7 +41,8 @@ public class ProjectResource {
      * POST  /projects : Create a new project.
      *
      * @param project the project to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new project, or with status 400 (Bad Request) if the project has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the new project,
+     *      or with status 400 (Bad Request) if the project has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/projects",
@@ -47,7 +52,9 @@ public class ProjectResource {
     public ResponseEntity<Project> createProject(@RequestBody Project project) throws URISyntaxException {
         log.debug("REST request to save Project : {}", project);
         if (project.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("project", "idexists", "A new project cannot already have an ID")).body(null);
+            return ResponseEntity.badRequest().headers(
+                    HeaderUtil.createFailureAlert("project", "idexists", "A new project cannot already have an ID")
+            ).body(null);
         }
         Project result = projectService.save(project);
         return ResponseEntity.created(new URI("/api/projects/" + result.getId()))
@@ -60,8 +67,8 @@ public class ProjectResource {
      *
      * @param project the project to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated project,
-     * or with status 400 (Bad Request) if the project is not valid,
-     * or with status 500 (Internal Server Error) if the project couldnt be updated
+     *      or with status 400 (Bad Request) if the project is not valid,
+     *      or with status 500 (Internal Server Error) if the project couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/projects",

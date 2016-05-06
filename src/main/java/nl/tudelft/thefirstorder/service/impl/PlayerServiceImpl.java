@@ -1,14 +1,14 @@
 package nl.tudelft.thefirstorder.service.impl;
 
-import nl.tudelft.thefirstorder.service.PlayerService;
 import nl.tudelft.thefirstorder.domain.Player;
 import nl.tudelft.thefirstorder.repository.PlayerRepository;
+import nl.tudelft.thefirstorder.service.PlayerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -20,7 +20,7 @@ import java.util.stream.StreamSupport;
  */
 @Service
 @Transactional
-public class PlayerServiceImpl implements PlayerService{
+public class PlayerServiceImpl implements PlayerService {
 
     private final Logger log = LoggerFactory.getLogger(PlayerServiceImpl.class);
     

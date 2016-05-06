@@ -26,6 +26,7 @@ public interface PlayerService {
      *  @return the list of entities
      */
     Page<Player> findAll(Pageable pageable);
+
     /**
      *  Get all the players where Cue is null.
      *  

@@ -1,10 +1,7 @@
 package nl.tudelft.thefirstorder.repository;
 
 import nl.tudelft.thefirstorder.domain.Script;
-
-import org.springframework.data.jpa.repository.*;
-
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * Spring Data JPA repository for the Script entity.

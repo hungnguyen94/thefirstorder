@@ -12,6 +12,12 @@ public class FieldErrorDTO implements Serializable {
 
     private final String message;
 
+    /**
+     * Constructor for Field Error DTO.
+     * @param dto Data Transfer Object
+     * @param field Field
+     * @param message Message
+     */
     public FieldErrorDTO(String dto, String field, String message) {
         this.objectName = dto;
         this.field = field;

@@ -13,15 +13,18 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 /**
  * REST controller for managing Map.
@@ -39,7 +42,8 @@ public class MapResource {
      * POST  /maps : Create a new map.
      *
      * @param map the map to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new map, or with status 400 (Bad Request) if the map has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the new map,
+     *      or with status 400 (Bad Request) if the map has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/maps",
@@ -49,7 +53,9 @@ public class MapResource {
     public ResponseEntity<Map> createMap(@RequestBody Map map) throws URISyntaxException {
         log.debug("REST request to save Map : {}", map);
         if (map.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("map", "idexists", "A new map cannot already have an ID")).body(null);
+            return ResponseEntity.badRequest().headers(
+                    HeaderUtil.createFailureAlert("map", "idexists", "A new map cannot already have an ID")
+            ).body(null);
         }
         Map result = mapService.save(map);
         return ResponseEntity.created(new URI("/api/maps/" + result.getId()))
@@ -62,8 +68,8 @@ public class MapResource {
      *
      * @param map the map to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated map,
-     * or with status 400 (Bad Request) if the map is not valid,
-     * or with status 500 (Internal Server Error) if the map couldnt be updated
+     *      or with status 400 (Bad Request) if the map is not valid,
+     *      or with status 500 (Internal Server Error) if the map couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/maps",

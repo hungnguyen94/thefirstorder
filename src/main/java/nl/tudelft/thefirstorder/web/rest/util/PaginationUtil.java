@@ -14,6 +14,13 @@ import java.net.URISyntaxException;
  */
 public class PaginationUtil {
 
+    /**
+     * Generates pagitation on http headers.
+     * @param page The page
+     * @param baseUrl Base Url
+     * @return HTTP headers
+     * @throws URISyntaxException Syntax exception
+     */
     public static HttpHeaders generatePaginationHttpHeaders(Page<?> page, String baseUrl)
         throws URISyntaxException {
 
