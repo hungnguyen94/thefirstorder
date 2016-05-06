@@ -8,7 +8,12 @@
             "otherEntityRelationshipName": "player"
         }
     ],
-    "fields": [],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        }
+    ],
     "changelogDate": "20160504122100",
     "dto": "no",
     "service": "serviceImpl",

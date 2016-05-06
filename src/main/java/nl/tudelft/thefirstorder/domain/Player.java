@@ -22,6 +22,9 @@ public class Player implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(name = "name")
+    private String name;
+
     @OneToOne(mappedBy = "player")
     @JsonIgnore
     private Cue cue;
@@ -32,6 +35,14 @@ public class Player implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Cue getCue() {
@@ -66,6 +77,7 @@ public class Player implements Serializable {
     public String toString() {
         return "Player{" +
             "id=" + id +
+            ", name='" + name + "'" +
             '}';
     }
 }

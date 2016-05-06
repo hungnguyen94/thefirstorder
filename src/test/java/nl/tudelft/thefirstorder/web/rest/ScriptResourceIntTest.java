@@ -42,6 +42,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @IntegrationTest
 public class ScriptResourceIntTest {
 
+    private static final String DEFAULT_NAME = "AAAAA";
+    private static final String UPDATED_NAME = "BBBBB";
 
     @Inject
     private ScriptRepository scriptRepository;
@@ -72,6 +74,7 @@ public class ScriptResourceIntTest {
     @Before
     public void initTest() {
         script = new Script();
+        script.setName(DEFAULT_NAME);
     }
 
     @Test
@@ -90,6 +93,7 @@ public class ScriptResourceIntTest {
         List<Script> scripts = scriptRepository.findAll();
         assertThat(scripts).hasSize(databaseSizeBeforeCreate + 1);
         Script testScript = scripts.get(scripts.size() - 1);
+        assertThat(testScript.getName()).isEqualTo(DEFAULT_NAME);
     }
 
     @Test
@@ -102,7 +106,8 @@ public class ScriptResourceIntTest {
         restScriptMockMvc.perform(get("/api/scripts?sort=id,desc"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(script.getId().intValue())));
+                .andExpect(jsonPath("$.[*].id").value(hasItem(script.getId().intValue())))
+                .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
     }
 
     @Test
@@ -115,7 +120,8 @@ public class ScriptResourceIntTest {
         restScriptMockMvc.perform(get("/api/scripts/{id}", script.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.id").value(script.getId().intValue()));
+            .andExpect(jsonPath("$.id").value(script.getId().intValue()))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()));
     }
 
     @Test
@@ -137,6 +143,7 @@ public class ScriptResourceIntTest {
         // Update the script
         Script updatedScript = new Script();
         updatedScript.setId(script.getId());
+        updatedScript.setName(UPDATED_NAME);
 
         restScriptMockMvc.perform(put("/api/scripts")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -147,6 +154,7 @@ public class ScriptResourceIntTest {
         List<Script> scripts = scriptRepository.findAll();
         assertThat(scripts).hasSize(databaseSizeBeforeUpdate);
         Script testScript = scripts.get(scripts.size() - 1);
+        assertThat(testScript.getName()).isEqualTo(UPDATED_NAME);
     }
 
     @Test

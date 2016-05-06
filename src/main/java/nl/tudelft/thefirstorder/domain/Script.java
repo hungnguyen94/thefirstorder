@@ -24,6 +24,9 @@ public class Script implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(name = "name")
+    private String name;
+
     @OneToOne(mappedBy = "script")
     @JsonIgnore
     private Project project;
@@ -39,6 +42,14 @@ public class Script implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Project getProject() {
@@ -81,6 +92,7 @@ public class Script implements Serializable {
     public String toString() {
         return "Script{" +
             "id=" + id +
+            ", name='" + name + "'" +
             '}';
     }
 }

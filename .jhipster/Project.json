@@ -17,7 +17,12 @@
             "otherEntityRelationshipName": "project"
         }
     ],
-    "fields": [],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        }
+    ],
     "changelogDate": "20160504105827",
     "dto": "no",
     "service": "serviceImpl",

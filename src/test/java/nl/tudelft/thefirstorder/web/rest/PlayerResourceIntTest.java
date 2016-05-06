@@ -42,6 +42,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @IntegrationTest
 public class PlayerResourceIntTest {
 
+    private static final String DEFAULT_NAME = "AAAAA";
+    private static final String UPDATED_NAME = "BBBBB";
 
     @Inject
     private PlayerRepository playerRepository;
@@ -72,6 +74,7 @@ public class PlayerResourceIntTest {
     @Before
     public void initTest() {
         player = new Player();
+        player.setName(DEFAULT_NAME);
     }
 
     @Test
@@ -90,6 +93,7 @@ public class PlayerResourceIntTest {
         List<Player> players = playerRepository.findAll();
         assertThat(players).hasSize(databaseSizeBeforeCreate + 1);
         Player testPlayer = players.get(players.size() - 1);
+        assertThat(testPlayer.getName()).isEqualTo(DEFAULT_NAME);
     }
 
     @Test
@@ -102,7 +106,8 @@ public class PlayerResourceIntTest {
         restPlayerMockMvc.perform(get("/api/players?sort=id,desc"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(player.getId().intValue())));
+                .andExpect(jsonPath("$.[*].id").value(hasItem(player.getId().intValue())))
+                .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
     }
 
     @Test
@@ -115,7 +120,8 @@ public class PlayerResourceIntTest {
         restPlayerMockMvc.perform(get("/api/players/{id}", player.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.id").value(player.getId().intValue()));
+            .andExpect(jsonPath("$.id").value(player.getId().intValue()))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()));
     }
 
     @Test
@@ -137,6 +143,7 @@ public class PlayerResourceIntTest {
         // Update the player
         Player updatedPlayer = new Player();
         updatedPlayer.setId(player.getId());
+        updatedPlayer.setName(UPDATED_NAME);
 
         restPlayerMockMvc.perform(put("/api/players")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -147,6 +154,7 @@ public class PlayerResourceIntTest {
         List<Player> players = playerRepository.findAll();
         assertThat(players).hasSize(databaseSizeBeforeUpdate);
         Player testPlayer = players.get(players.size() - 1);
+        assertThat(testPlayer.getName()).isEqualTo(UPDATED_NAME);
     }
 
     @Test

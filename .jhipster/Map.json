@@ -8,7 +8,12 @@
             "otherEntityRelationshipName": "map"
         }
     ],
-    "fields": [],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        }
+    ],
     "changelogDate": "20160504110010",
     "dto": "no",
     "service": "serviceImpl",

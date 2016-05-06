@@ -22,6 +22,9 @@ public class Map implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(name = "name")
+    private String name;
+
     @OneToOne(mappedBy = "map")
     @JsonIgnore
     private Project project;
@@ -32,6 +35,14 @@ public class Map implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Project getProject() {
@@ -66,6 +77,7 @@ public class Map implements Serializable {
     public String toString() {
         return "Map{" +
             "id=" + id +
+            ", name='" + name + "'" +
             '}';
     }
 }

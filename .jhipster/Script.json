@@ -14,7 +14,12 @@
             "otherEntityRelationshipName": "script"
         }
     ],
-    "fields": [],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        }
+    ],
     "changelogDate": "20160504105939",
     "dto": "no",
     "service": "serviceImpl",

@@ -42,6 +42,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @IntegrationTest
 public class ProjectResourceIntTest {
 
+    private static final String DEFAULT_NAME = "AAAAA";
+    private static final String UPDATED_NAME = "BBBBB";
 
     @Inject
     private ProjectRepository projectRepository;
@@ -72,6 +74,7 @@ public class ProjectResourceIntTest {
     @Before
     public void initTest() {
         project = new Project();
+        project.setName(DEFAULT_NAME);
     }
 
     @Test
@@ -90,6 +93,7 @@ public class ProjectResourceIntTest {
         List<Project> projects = projectRepository.findAll();
         assertThat(projects).hasSize(databaseSizeBeforeCreate + 1);
         Project testProject = projects.get(projects.size() - 1);
+        assertThat(testProject.getName()).isEqualTo(DEFAULT_NAME);
     }
 
     @Test
@@ -102,7 +106,8 @@ public class ProjectResourceIntTest {
         restProjectMockMvc.perform(get("/api/projects?sort=id,desc"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(project.getId().intValue())));
+                .andExpect(jsonPath("$.[*].id").value(hasItem(project.getId().intValue())))
+                .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
     }
 
     @Test
@@ -115,7 +120,8 @@ public class ProjectResourceIntTest {
         restProjectMockMvc.perform(get("/api/projects/{id}", project.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.id").value(project.getId().intValue()));
+            .andExpect(jsonPath("$.id").value(project.getId().intValue()))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()));
     }
 
     @Test
@@ -137,6 +143,7 @@ public class ProjectResourceIntTest {
         // Update the project
         Project updatedProject = new Project();
         updatedProject.setId(project.getId());
+        updatedProject.setName(UPDATED_NAME);
 
         restProjectMockMvc.perform(put("/api/projects")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -147,6 +154,7 @@ public class ProjectResourceIntTest {
         List<Project> projects = projectRepository.findAll();
         assertThat(projects).hasSize(databaseSizeBeforeUpdate);
         Project testProject = projects.get(projects.size() - 1);
+        assertThat(testProject.getName()).isEqualTo(UPDATED_NAME);
     }
 
     @Test

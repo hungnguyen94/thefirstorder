@@ -19,6 +19,7 @@
             <thead>
                 <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                     <th jh-sort-by="id"><span>ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="name"><span>Name</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="script.id"><span>Script</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="map.id"><span>Map</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
@@ -27,6 +28,7 @@
             <tbody>
                 <tr ng-repeat="project in vm.projects track by project.id">
                     <td><a ui-sref="project-detail({id:project.id})">{{project.id}}</a></td>
+                    <td>{{project.name}}</td>
                     <td>
                         <a ui-sref="script-detail({id:project.script.id})">{{project.script.id}}</a>
                     </td>

@@ -42,6 +42,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @IntegrationTest
 public class MapResourceIntTest {
 
+    private static final String DEFAULT_NAME = "AAAAA";
+    private static final String UPDATED_NAME = "BBBBB";
 
     @Inject
     private MapRepository mapRepository;
@@ -72,6 +74,7 @@ public class MapResourceIntTest {
     @Before
     public void initTest() {
         map = new Map();
+        map.setName(DEFAULT_NAME);
     }
 
     @Test
@@ -90,6 +93,7 @@ public class MapResourceIntTest {
         List<Map> maps = mapRepository.findAll();
         assertThat(maps).hasSize(databaseSizeBeforeCreate + 1);
         Map testMap = maps.get(maps.size() - 1);
+        assertThat(testMap.getName()).isEqualTo(DEFAULT_NAME);
     }
 
     @Test
@@ -102,7 +106,8 @@ public class MapResourceIntTest {
         restMapMockMvc.perform(get("/api/maps?sort=id,desc"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(map.getId().intValue())));
+                .andExpect(jsonPath("$.[*].id").value(hasItem(map.getId().intValue())))
+                .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
     }
 
     @Test
@@ -115,7 +120,8 @@ public class MapResourceIntTest {
         restMapMockMvc.perform(get("/api/maps/{id}", map.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.id").value(map.getId().intValue()));
+            .andExpect(jsonPath("$.id").value(map.getId().intValue()))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()));
     }
 
     @Test
@@ -137,6 +143,7 @@ public class MapResourceIntTest {
         // Update the map
         Map updatedMap = new Map();
         updatedMap.setId(map.getId());
+        updatedMap.setName(UPDATED_NAME);
 
         restMapMockMvc.perform(put("/api/maps")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -147,6 +154,7 @@ public class MapResourceIntTest {
         List<Map> maps = mapRepository.findAll();
         assertThat(maps).hasSize(databaseSizeBeforeUpdate);
         Map testMap = maps.get(maps.size() - 1);
+        assertThat(testMap.getName()).isEqualTo(UPDATED_NAME);
     }
 
     @Test

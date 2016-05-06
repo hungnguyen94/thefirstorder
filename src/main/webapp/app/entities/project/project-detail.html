@@ -3,6 +3,11 @@
     <h2><span>Project</span> {{vm.project.id}}</h2>
     <hr>
     <dl class="dl-horizontal">
+        <dt><span>Name</span></dt>
+        <dd>
+            <span>{{vm.project.name}}</span>
+        </dd>
+        <hr>
         <dt><span>Script</span></dt>
         <dd>
             <a ui-sref="script-detail({id:vm.project.script.id})">{{vm.project.script.id}}</a>
