@@ -30,6 +30,10 @@ public class ManagedUserDTO extends UserDTO {
     public ManagedUserDTO() {
     }
 
+    /**
+     * Constructor for ManagedUserDTO.
+     * @param user User
+     */
     public ManagedUserDTO(User user) {
         super(user);
         this.id = user.getId();
@@ -39,6 +43,21 @@ public class ManagedUserDTO extends UserDTO {
         this.password = null;
     }
 
+    /**
+     * Constructor for ManagedUserDTO.
+     * @param id Id
+     * @param login Login
+     * @param password Password
+     * @param firstName Firstname
+     * @param lastName Lastname
+     * @param email Email
+     * @param activated Is the account activated?
+     * @param langKey Language key
+     * @param authorities Authorities
+     * @param createdDate Created date
+     * @param lastModifiedBy Last modified by
+     * @param lastModifiedDate Last modified date
+     */
     public ManagedUserDTO(Long id,
                           String login,
                           String password,

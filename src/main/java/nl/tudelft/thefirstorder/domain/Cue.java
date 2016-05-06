@@ -3,7 +3,14 @@ package nl.tudelft.thefirstorder.domain;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -85,7 +92,7 @@ public class Cue implements Serializable {
             return false;
         }
         Cue cue = (Cue) o;
-        if(cue.id == null || id == null) {
+        if (cue.id == null || id == null) {
             return false;
         }
         return Objects.equals(id, cue.id);
@@ -98,8 +105,8 @@ public class Cue implements Serializable {
 
     @Override
     public String toString() {
-        return "Cue{" +
-            "id=" + id +
-            '}';
+        return "Cue{"
+                + "id=" + id
+                + '}';
     }
 }

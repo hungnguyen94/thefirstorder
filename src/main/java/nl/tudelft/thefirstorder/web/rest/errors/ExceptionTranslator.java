@@ -30,6 +30,11 @@ public class ExceptionTranslator {
         return new ErrorDTO(ErrorConstants.ERR_CONCURRENCY_FAILURE);
     }
 
+    /**
+     * Process a validation error.
+     * @param ex The exception.
+     * @return An Error Data Transfer Object
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
@@ -71,6 +76,12 @@ public class ExceptionTranslator {
         return new ErrorDTO(ErrorConstants.ERR_METHOD_NOT_SUPPORTED, exception.getMessage());
     }
 
+    /**
+     * Processes a runtime exception.
+     * @param ex Exception
+     * @return A Response Entity with an Error DTO
+     * @throws Exception An exception
+     */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorDTO> processRuntimeException(Exception ex) throws Exception {
         BodyBuilder builder;

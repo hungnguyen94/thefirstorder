@@ -1,24 +1,23 @@
 package nl.tudelft.thefirstorder.service.impl;
 
-import nl.tudelft.thefirstorder.service.ProjectService;
 import nl.tudelft.thefirstorder.domain.Project;
 import nl.tudelft.thefirstorder.repository.ProjectRepository;
+import nl.tudelft.thefirstorder.service.ProjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.List;
 
 /**
  * Service Implementation for managing Project.
  */
 @Service
 @Transactional
-public class ProjectServiceImpl implements ProjectService{
+public class ProjectServiceImpl implements ProjectService {
 
     private final Logger log = LoggerFactory.getLogger(ProjectServiceImpl.class);
     

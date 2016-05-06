@@ -41,6 +41,10 @@ public class UserDTO {
     public UserDTO() {
     }
 
+    /**
+     * Copy constructor for UserDTO.
+     * @param user The User
+     */
     public UserDTO(User user) {
         this(user.getLogin(), user.getFirstName(), user.getLastName(),
             user.getEmail(), user.getActivated(), user.getLangKey(),
@@ -48,6 +52,16 @@ public class UserDTO {
                 .collect(Collectors.toSet()));
     }
 
+    /**
+     * Constructor for UserDTO.
+     * @param login Login name
+     * @param firstName First name
+     * @param lastName Last name
+     * @param email Email address
+     * @param activated Is the user activated?
+     * @param langKey Language key
+     * @param authorities Authorities
+     */
     public UserDTO(String login, String firstName, String lastName,
         String email, boolean activated, String langKey, Set<String> authorities) {
 

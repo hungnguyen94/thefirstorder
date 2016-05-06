@@ -126,6 +126,10 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
         metricsAdminServlet.setLoadOnStartup(2);
     }
 
+    /**
+     * Registers cors filter.
+     * @return Corsfilter
+     */
     @Bean
     @ConditionalOnProperty(name = "jhipster.cors.allowed-origins")
     public CorsFilter corsFilter() {

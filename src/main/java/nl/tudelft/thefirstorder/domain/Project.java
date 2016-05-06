@@ -3,7 +3,14 @@ package nl.tudelft.thefirstorder.domain;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -73,7 +80,7 @@ public class Project implements Serializable {
             return false;
         }
         Project project = (Project) o;
-        if(project.id == null || id == null) {
+        if (project.id == null || id == null) {
             return false;
         }
         return Objects.equals(id, project.id);
@@ -86,9 +93,9 @@ public class Project implements Serializable {
 
     @Override
     public String toString() {
-        return "Project{" +
-            "id=" + id +
-            ", name='" + name + "'" +
-            '}';
+        return "Project{"
+                + "id=" + id
+                + ", name='" + name
+                + "'" + '}';
     }
 }

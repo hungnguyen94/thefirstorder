@@ -142,22 +142,24 @@ public class UserResource {
     public ResponseEntity<ManagedUserDTO> updateUser(@RequestBody ManagedUserDTO managedUserDto) {
         log.debug("REST request to update User : {}", managedUserDto);
         Optional<User> existingUser = userRepository.findOneByEmail(managedUserDto.getEmail());
-        if (existingUser.isPresent() && (!existingUser.get().getId().equals(managedUserDto.getId())))
+        if (existingUser.isPresent() && (!existingUser.get().getId().equals(managedUserDto.getId()))) {
             return ResponseEntity.badRequest().headers(
                     HeaderUtil.createFailureAlert(
                             "userManagement",
                             "emailexists",
                             "E-mail already in use")
             ).body(null);
+        }
 
         existingUser = userRepository.findOneByLogin(managedUserDto.getLogin());
-        if (existingUser.isPresent() && (!existingUser.get().getId().equals(managedUserDto.getId())))
+        if (existingUser.isPresent() && (!existingUser.get().getId().equals(managedUserDto.getId()))) {
             return ResponseEntity.badRequest().headers(
                     HeaderUtil.createFailureAlert(
                             "userManagement",
                             "userexists",
                             "Login already in use")
             ).body(null);
+        }
 
         return userRepository
             .findOneById(managedUserDto.getId())

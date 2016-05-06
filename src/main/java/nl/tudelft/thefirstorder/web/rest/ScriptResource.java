@@ -13,15 +13,18 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 /**
  * REST controller for managing Script.
@@ -39,7 +42,8 @@ public class ScriptResource {
      * POST  /scripts : Create a new script.
      *
      * @param script the script to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new script, or with status 400 (Bad Request) if the script has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the new script,
+     *      or with status 400 (Bad Request) if the script has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/scripts",
@@ -49,7 +53,9 @@ public class ScriptResource {
     public ResponseEntity<Script> createScript(@RequestBody Script script) throws URISyntaxException {
         log.debug("REST request to save Script : {}", script);
         if (script.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("script", "idexists", "A new script cannot already have an ID")).body(null);
+            return ResponseEntity.badRequest().headers(
+                    HeaderUtil.createFailureAlert("script", "idexists", "A new script cannot already have an ID")
+            ).body(null);
         }
         Script result = scriptService.save(script);
         return ResponseEntity.created(new URI("/api/scripts/" + result.getId()))
@@ -62,8 +68,8 @@ public class ScriptResource {
      *
      * @param script the script to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated script,
-     * or with status 400 (Bad Request) if the script is not valid,
-     * or with status 500 (Internal Server Error) if the script couldnt be updated
+     *      or with status 400 (Bad Request) if the script is not valid,
+     *      or with status 500 (Internal Server Error) if the script couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/scripts",

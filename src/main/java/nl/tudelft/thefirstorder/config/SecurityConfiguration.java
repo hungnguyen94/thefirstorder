@@ -32,6 +32,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Configure global.
+     * @param auth Authentication manager builder
+     * @throws Exception Exception
+     */
     @Inject
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth

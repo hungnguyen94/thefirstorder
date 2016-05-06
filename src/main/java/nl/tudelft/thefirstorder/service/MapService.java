@@ -26,6 +26,7 @@ public interface MapService {
      *  @return the list of entities
      */
     Page<Map> findAll(Pageable pageable);
+
     /**
      *  Get all the maps where Project is null.
      *  

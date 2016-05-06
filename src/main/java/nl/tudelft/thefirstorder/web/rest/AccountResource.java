@@ -158,9 +158,10 @@ public class AccountResource {
     @Timed
     public ResponseEntity<String> saveAccount(@Valid @RequestBody UserDTO userDto) {
         Optional<User> existingUser = userRepository.findOneByEmail(userDto.getEmail());
-        if (existingUser.isPresent() && (!existingUser.get().getLogin().equalsIgnoreCase(userDto.getLogin())))
+        if (existingUser.isPresent() && (!existingUser.get().getLogin().equalsIgnoreCase(userDto.getLogin()))) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(
                     "user-management", "emailexists", "Email already in use")).body(null);
+        }
 
         return userRepository
             .findOneByLogin(SecurityUtils.getCurrentUserLogin())

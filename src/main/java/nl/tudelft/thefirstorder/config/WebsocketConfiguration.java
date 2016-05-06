@@ -58,6 +58,10 @@ public class WebsocketConfiguration extends AbstractWebSocketMessageBrokerConfig
             .setInterceptors(httpSessionHandshakeInterceptor());
     }
 
+    /**
+     * HTTP session handshake interceptor.
+     * @return Handshake Interceptor object
+     */
     @Bean
     public HandshakeInterceptor httpSessionHandshakeInterceptor() {
         return new HandshakeInterceptor() {

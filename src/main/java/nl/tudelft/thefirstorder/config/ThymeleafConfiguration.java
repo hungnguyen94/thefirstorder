@@ -13,6 +13,10 @@ public class ThymeleafConfiguration {
 
     private final Logger log = LoggerFactory.getLogger(ThymeleafConfiguration.class);
 
+    /**
+     * Thymeleaf template resolver serving HTML 5 emails.
+     * @return ClassLoader Template Resolver
+     */
     @Bean
     @Description("Thymeleaf template resolver serving HTML 5 emails")
     public ClassLoaderTemplateResolver emailTemplateResolver() {
