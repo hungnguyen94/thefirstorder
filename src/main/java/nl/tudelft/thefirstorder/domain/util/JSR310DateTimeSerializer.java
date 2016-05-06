@@ -1,13 +1,13 @@
 package nl.tudelft.thefirstorder.domain.util;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
+
 import java.io.IOException;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
-
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
 
 public final class JSR310DateTimeSerializer extends JsonSerializer<TemporalAccessor> {
 
@@ -19,7 +19,9 @@ public final class JSR310DateTimeSerializer extends JsonSerializer<TemporalAcces
     private JSR310DateTimeSerializer() {}
 
     @Override
-    public void serialize(TemporalAccessor value, JsonGenerator generator, SerializerProvider serializerProvider) throws IOException {
+    public void serialize(TemporalAccessor value,
+                          JsonGenerator generator,
+                          SerializerProvider serializerProvider) throws IOException {
         generator.writeString(ISOFormatter.format(value));
     }
 }

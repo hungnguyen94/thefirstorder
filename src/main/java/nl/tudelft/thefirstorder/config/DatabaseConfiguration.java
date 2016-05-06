@@ -1,11 +1,10 @@
 package nl.tudelft.thefirstorder.config;
 
-import nl.tudelft.thefirstorder.config.liquibase.AsyncSpringLiquibase;
-
 import com.codahale.metrics.MetricRegistry;
 import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
 import com.zaxxer.hikari.HikariDataSource;
 import liquibase.integration.spring.SpringLiquibase;
+import nl.tudelft.thefirstorder.config.liquibase.AsyncSpringLiquibase;
 import org.h2.tools.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,14 +42,20 @@ public class DatabaseConfiguration {
     @Autowired(required = false)
     private MetricRegistry metricRegistry;
 
+    /**
+     * Configures the data source and returns it.
+     * @param dataSourceProperties Properties
+     * @return Data source object
+     */
     @Bean(destroyMethod = "close")
-    @ConditionalOnExpression("#{!environment.acceptsProfiles('" + Constants.SPRING_PROFILE_CLOUD + "') && !environment.acceptsProfiles('" + Constants.SPRING_PROFILE_HEROKU + "')}")
+    @ConditionalOnExpression("#{!environment.acceptsProfiles('" + Constants.SPRING_PROFILE_CLOUD + "') "
+           + "&& !environment.acceptsProfiles('" + Constants.SPRING_PROFILE_HEROKU + "')}")
     @ConfigurationProperties(prefix = "spring.datasource.hikari")
     public DataSource dataSource(DataSourceProperties dataSourceProperties) {
         log.debug("Configuring Datasource");
         if (dataSourceProperties.getUrl() == null) {
-            log.error("Your database connection pool configuration is incorrect! The application" +
-                    " cannot start. Please check your Spring profile, current profiles are: {}",
+            log.error("Your database connection pool configuration is incorrect! The application"
+                    + " cannot start. Please check your Spring profile, current profiles are: {}",
                 Arrays.toString(env.getActiveProfiles()));
 
             throw new ApplicationContextException("Database connection pool is not configured correctly");
@@ -78,10 +83,17 @@ public class DatabaseConfiguration {
      */
     @Bean(initMethod = "start", destroyMethod = "stop")
     @Profile(Constants.SPRING_PROFILE_DEVELOPMENT)
-    public Server h2TCPServer() throws SQLException {
+    public Server h2TcpServer() throws SQLException {
         return Server.createTcpServer("-tcp","-tcpAllowOthers");
     }
 
+    /**
+     * Starts and configures the liquibase database asyncronously.
+     * @param dataSource Data source
+     * @param dataSourceProperties Properties of the data source
+     * @param liquibaseProperties Liquibase properties
+     * @return String Liquibase
+     */
     @Bean
     public SpringLiquibase liquibase(DataSource dataSource, DataSourceProperties dataSourceProperties,
         LiquibaseProperties liquibaseProperties) {

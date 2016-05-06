@@ -1,0 +1,22 @@
+{
+    "relationships": [
+        {
+            "relationshipName": "cue",
+            "otherEntityName": "cue",
+            "relationshipType": "one-to-one",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "player"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20160504122100",
+    "dto": "no",
+    "service": "serviceImpl",
+    "entityTableName": "player",
+    "pagination": "pager"
+}

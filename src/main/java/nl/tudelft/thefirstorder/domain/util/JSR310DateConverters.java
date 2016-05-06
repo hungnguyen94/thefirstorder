@@ -1,9 +1,12 @@
 package nl.tudelft.thefirstorder.domain.util;
 
-import java.time.*;
-import java.util.Date;
-
 import org.springframework.core.convert.converter.Converter;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Date;
 
 public final class JSR310DateConverters {
 
@@ -23,16 +26,19 @@ public final class JSR310DateConverters {
 
     public static class DateToLocalDateConverter implements Converter<Date, LocalDate> {
         public static final DateToLocalDateConverter INSTANCE = new DateToLocalDateConverter();
+
         private DateToLocalDateConverter() {}
 
         @Override
         public LocalDate convert(Date source) {
-            return source == null ? null : ZonedDateTime.ofInstant(source.toInstant(), ZoneId.systemDefault()).toLocalDate();
+            return source == null ? null : ZonedDateTime.ofInstant(
+                    source.toInstant(), ZoneId.systemDefault()).toLocalDate();
         }
     }
 
     public static class ZonedDateTimeToDateConverter implements Converter<ZonedDateTime, Date> {
         public static final ZonedDateTimeToDateConverter INSTANCE = new ZonedDateTimeToDateConverter();
+
         private ZonedDateTimeToDateConverter() {}
 
         @Override
@@ -43,6 +49,7 @@ public final class JSR310DateConverters {
 
     public static class DateToZonedDateTimeConverter implements Converter<Date, ZonedDateTime> {
         public static final DateToZonedDateTimeConverter INSTANCE = new DateToZonedDateTimeConverter();
+
         private DateToZonedDateTimeConverter() {}
 
         @Override
@@ -53,6 +60,7 @@ public final class JSR310DateConverters {
 
     public static class LocalDateTimeToDateConverter implements Converter<LocalDateTime, Date> {
         public static final LocalDateTimeToDateConverter INSTANCE = new LocalDateTimeToDateConverter();
+
         private LocalDateTimeToDateConverter() {}
 
         @Override
@@ -63,6 +71,7 @@ public final class JSR310DateConverters {
 
     public static class DateToLocalDateTimeConverter implements Converter<Date, LocalDateTime> {
         public static final DateToLocalDateTimeConverter INSTANCE = new DateToLocalDateTimeConverter();
+
         private DateToLocalDateTimeConverter() {}
 
         @Override

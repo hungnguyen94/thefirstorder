@@ -34,7 +34,8 @@ public class AjaxLogoutSuccessHandler extends AbstractAuthenticationTargetUrlReq
         // Request the token
         String token = request.getHeader("authorization");
         if (token != null && token.startsWith(BEARER_AUTHENTICATION)) {
-            final OAuth2AccessToken oAuth2AccessToken = tokenStore.readAccessToken(StringUtils.substringAfter(token, BEARER_AUTHENTICATION));
+            final OAuth2AccessToken oAuth2AccessToken =
+                    tokenStore.readAccessToken(StringUtils.substringAfter(token, BEARER_AUTHENTICATION));
 
             if (oAuth2AccessToken != null) {
                 tokenStore.removeAccessToken(oAuth2AccessToken);

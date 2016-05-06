@@ -2,7 +2,12 @@ package nl.tudelft.thefirstorder.web.filter;
 
 import nl.tudelft.thefirstorder.config.JHipsterProperties;
 
-import javax.servlet.*;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -13,11 +18,11 @@ import java.util.concurrent.TimeUnit;
 public class CachingHttpHeadersFilter implements Filter {
 
     // We consider the last modified date is the start up time of the server
-    private final static long LAST_MODIFIED = System.currentTimeMillis();
+    private static final long LAST_MODIFIED = System.currentTimeMillis();
 
-    private long CACHE_TIME_TO_LIVE = TimeUnit.DAYS.toMillis(1461L);
+    private static long CACHE_TIME_TO_LIVE = TimeUnit.DAYS.toMillis(1461L);
 
-    private JHipsterProperties jHipsterProperties;;
+    private JHipsterProperties jHipsterProperties;
 
     public CachingHttpHeadersFilter(JHipsterProperties jHipsterProperties) {
         this.jHipsterProperties = jHipsterProperties;

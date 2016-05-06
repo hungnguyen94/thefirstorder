@@ -2,11 +2,11 @@ package nl.tudelft.thefirstorder;
 
 import nl.tudelft.thefirstorder.config.Constants;
 import nl.tudelft.thefirstorder.config.JHipsterProperties;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.actuate.autoconfigure.*;
+import org.springframework.boot.actuate.autoconfigure.MetricFilterAutoConfiguration;
+import org.springframework.boot.actuate.autoconfigure.MetricRepositoryAutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -33,10 +33,10 @@ public class ThefirstorderApp {
 
     /**
      * Initializes thefirstorder.
-     * <p>
-     * Spring profiles can be configured with a program arguments --spring.profiles.active=your-active-profile
-     * <p>
-     * You can find more information on how profiles work with JHipster on <a href="http://jhipster.github.io/profiles/">http://jhipster.github.io/profiles/</a>.
+     *
+     * <p>Spring profiles can be configured with a program arguments --spring.profiles.active=your-active-profile
+     *
+     * <p>You can find more information on how profiles work with JHipster on <a href="http://jhipster.github.io/profiles/">http://jhipster.github.io/profiles/</a>.
      */
     @PostConstruct
     public void initApplication() {
@@ -45,13 +45,15 @@ public class ThefirstorderApp {
         } else {
             log.info("Running with Spring profile(s) : {}", Arrays.toString(env.getActiveProfiles()));
             Collection<String> activeProfiles = Arrays.asList(env.getActiveProfiles());
-            if (activeProfiles.contains(Constants.SPRING_PROFILE_DEVELOPMENT) && activeProfiles.contains(Constants.SPRING_PROFILE_PRODUCTION)) {
-                log.error("You have misconfigured your application! " +
-                    "It should not run with both the 'dev' and 'prod' profiles at the same time.");
+            if (activeProfiles.contains(Constants.SPRING_PROFILE_DEVELOPMENT)
+                    && activeProfiles.contains(Constants.SPRING_PROFILE_PRODUCTION)) {
+                log.error("You have misconfigured your application! "
+                        + "It should not run with both the 'dev' and 'prod' profiles at the same time.");
             }
-            if (activeProfiles.contains(Constants.SPRING_PROFILE_DEVELOPMENT) && activeProfiles.contains(Constants.SPRING_PROFILE_CLOUD)) {
-                log.error("You have misconfigured your application! " +
-                    "It should not run with both the 'dev' and 'cloud' profiles at the same time.");
+            if (activeProfiles.contains(Constants.SPRING_PROFILE_DEVELOPMENT)
+                    && activeProfiles.contains(Constants.SPRING_PROFILE_CLOUD)) {
+                log.error("You have misconfigured your application! "
+                        + "It should not run with both the 'dev' and 'cloud' profiles at the same time.");
             }
         }
     }
@@ -67,10 +69,10 @@ public class ThefirstorderApp {
         SimpleCommandLinePropertySource source = new SimpleCommandLinePropertySource(args);
         addDefaultProfile(app, source);
         Environment env = app.run(args).getEnvironment();
-        log.info("\n----------------------------------------------------------\n\t" +
-                "Application '{}' is running! Access URLs:\n\t" +
-                "Local: \t\thttp://127.0.0.1:{}\n\t" +
-                "External: \thttp://{}:{}\n----------------------------------------------------------",
+        log.info("\n----------------------------------------------------------\n\t"
+                + "Application '{}' is running! Access URLs:\n\t"
+                + "Local: \t\thttp://127.0.0.1:{}\n\t"
+                + "External: \thttp://{}:{}\n----------------------------------------------------------",
             env.getProperty("spring.application.name"),
             env.getProperty("server.port"),
             InetAddress.getLocalHost().getHostAddress(),
@@ -82,8 +84,8 @@ public class ThefirstorderApp {
      * If no profile has been configured, set by default the "dev" profile.
      */
     private static void addDefaultProfile(SpringApplication app, SimpleCommandLinePropertySource source) {
-        if (!source.containsProperty("spring.profiles.active") &&
-                !System.getenv().containsKey("SPRING_PROFILES_ACTIVE")) {
+        if (!source.containsProperty("spring.profiles.active")
+                && !System.getenv().containsKey("SPRING_PROFILES_ACTIVE")) {
 
             app.setAdditionalProfiles(Constants.SPRING_PROFILE_DEVELOPMENT);
         }

@@ -3,11 +3,11 @@
 
     angular
         .module('thefirstorderApp')
-        .controller('MapController', MapController);
+        .controller('MapviewController', MapviewController);
 
-    MapController.$inject = ['$scope', '$state', 'Camera', 'AlertService'];
+    MapviewController.$inject = ['$scope', '$state', 'Camera', 'AlertService'];
 
-    function MapController ($scope, $state, Camera, AlertService) {
+    function MapviewController ($scope, $state, Camera, AlertService) {
         var vm = this;
         vm.loadCamera = loadCamera;
         vm.loadCamera();

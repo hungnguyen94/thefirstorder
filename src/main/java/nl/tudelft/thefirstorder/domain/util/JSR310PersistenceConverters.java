@@ -1,12 +1,11 @@
 package nl.tudelft.thefirstorder.domain.util;
 
-import nl.tudelft.thefirstorder.domain.util.JSR310DateConverters.*;
-
-import java.time.*;
-import java.util.Date;
-
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.util.Date;
 
 public final class JSR310PersistenceConverters {
 
@@ -31,12 +30,12 @@ public final class JSR310PersistenceConverters {
 
         @Override
         public Date convertToDatabaseColumn(ZonedDateTime zonedDateTime) {
-            return ZonedDateTimeToDateConverter.INSTANCE.convert(zonedDateTime);
+            return JSR310DateConverters.ZonedDateTimeToDateConverter.INSTANCE.convert(zonedDateTime);
         }
 
         @Override
         public ZonedDateTime convertToEntityAttribute(Date date) {
-            return DateToZonedDateTimeConverter.INSTANCE.convert(date);
+            return JSR310DateConverters.DateToZonedDateTimeConverter.INSTANCE.convert(date);
         }
     }
 
@@ -45,12 +44,12 @@ public final class JSR310PersistenceConverters {
 
         @Override
         public Date convertToDatabaseColumn(LocalDateTime localDateTime) {
-            return LocalDateTimeToDateConverter.INSTANCE.convert(localDateTime);
+            return JSR310DateConverters.LocalDateTimeToDateConverter.INSTANCE.convert(localDateTime);
         }
 
         @Override
         public LocalDateTime convertToEntityAttribute(Date date) {
-            return DateToLocalDateTimeConverter.INSTANCE.convert(date);
+            return JSR310DateConverters.DateToLocalDateTimeConverter.INSTANCE.convert(date);
         }
     }
 }

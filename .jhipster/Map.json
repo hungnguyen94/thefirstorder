@@ -1,0 +1,22 @@
+{
+    "relationships": [
+        {
+            "relationshipName": "project",
+            "otherEntityName": "project",
+            "relationshipType": "one-to-one",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "map"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20160504110010",
+    "dto": "no",
+    "service": "serviceImpl",
+    "entityTableName": "map",
+    "pagination": "pager"
+}

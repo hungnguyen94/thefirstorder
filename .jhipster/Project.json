@@ -1,0 +1,31 @@
+{
+    "relationships": [
+        {
+            "relationshipName": "script",
+            "otherEntityName": "script",
+            "relationshipType": "one-to-one",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "project"
+        },
+        {
+            "relationshipName": "map",
+            "otherEntityName": "map",
+            "relationshipType": "one-to-one",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "project"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20160504105827",
+    "dto": "no",
+    "service": "serviceImpl",
+    "entityTableName": "project",
+    "pagination": "pager"
+}
