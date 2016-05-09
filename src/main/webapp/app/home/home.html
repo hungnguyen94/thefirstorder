@@ -6,11 +6,10 @@
                 <h1 ng-switch-when="true">Welcome back {{vm.account.login}}!</h1><hr />
                 <p class="lead" ng-switch-when="false">Please login or register</p>
                 <p class="lead" ng-switch-when="true">What is on your mind today?</p><br /><br /><br />
-                <p ng-switch-when="true">You have currently registered:</p><br/><br/>
                 <div ng-switch-when="true" class="row">
-                    <div class="col-md-4"><span class="glyphicon glyphicon-camera" style="font-size: 75pt;"></span><hr/><p class="lead">{{vm.cameras.length}} Cameras</p></div>
-                    <div class="col-md-4"><span class="glyphicon glyphicon-film" style="font-size: 75pt;"></span><hr/><p class="lead">{{vm.cameraActions.length}} Camera Actions</p></div>
-                    <div class="col-md-4"><span class="glyphicon glyphicon-apple" style="font-size: 75pt;"></span><hr/><p class="lead">42 Apples</p></div>
+                    <div class="col-md-4"><span class="glyphicon glyphicon-camera" style="font-size: 60pt;"></span><hr/><p class="lead">{{vm.cameras.length}} Cameras</p></div>
+                    <div class="col-md-4"><span class="glyphicon glyphicon-film" style="font-size: 60pt;"></span><hr/><p class="lead">{{vm.cameraActions.length}} Camera Actions</p></div>
+                    <div class="col-md-4"><span class="glyphicon glyphicon-apple" style="font-size: 60pt;"></span><hr/><p class="lead">42 Apples</p></div>
                 </div>
             </CENTER>
         </div>
