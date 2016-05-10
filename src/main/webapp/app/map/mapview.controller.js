@@ -41,5 +41,19 @@
             }
         }
 
+        function drawGrid(amountWidth, amountHeight) {
+            var parent = document.getElementById("mapGrid");
+            var width = parent.style.width;
+            var height = parent.style.height;
+
+            var squareLength = width / amountWidth;
+
+            var childDiv = document.createElement('div');
+            childDiv.style.height  = squareLength+ "px";
+            childDiv.style.width  = squareLength + "px";
+            childDiv.style.border = "1px solid black";
+            parent.appendChild(childDiv);
+        }
+
     }
 })();
