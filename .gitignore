@@ -2,12 +2,18 @@
 # Project Specific
 ######################
 /build/www/**
+/src/main/webapp/index.html
 
 ######################
 # Node
 ######################
 /node/**
 /node_modules/**
+
+######################
+# Bower
+######################
+/src/main/webapp/bower_components
 
 ######################
 # SASS
@@ -65,6 +71,8 @@ local.properties
 # Gradle
 ######################
 .gradle/**
+.gradletasknamecache
+
 
 ######################
 # Package Files
@@ -131,3 +139,4 @@ Desktop.ini
 # ESLint
 ######################
 .eslintcache
+
