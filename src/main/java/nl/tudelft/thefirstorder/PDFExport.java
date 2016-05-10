@@ -1,9 +1,6 @@
 package nl.tudelft.thefirstorder;
 
-import nl.tudelft.thefirstorder.domain.Project;
-import nl.tudelft.thefirstorder.domain.Cue;
-import nl.tudelft.thefirstorder.domain.Script;
-import nl.tudelft.thefirstorder.domain.Camera;
+import nl.tudelft.thefirstorder.domain.*;
 
 import java.io.FileOutputStream;
 import java.util.Date;
@@ -98,6 +95,7 @@ public class PDFExport {
             Set<Cue> cues = script.getCues();
             PdfPTable table = new PdfPTable(4);
             PdfPTable cameratable = new PdfPTable(3);
+            PdfPTable actiontable = new PdfPTable(2);
 
             PdfPCell c1 = new PdfPCell(new Phrase("No."));
             c1.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -127,8 +125,17 @@ public class PDFExport {
             c1.setHorizontalAlignment(Element.ALIGN_CENTER);
             cameratable.addCell(c1);
 
+            c1 = new PdfPCell(new Phrase("Action"));
+            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            actiontable.addCell(c1);
+
+            c1 = new PdfPCell(new Phrase("Duration"));
+            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            actiontable.addCell(c1);
+
             table.setHeaderRows(1);
             cameratable.setHeaderRows(1);
+            actiontable.setHeaderRows(1);
             Iterator<Cue> cueIterator = cues.iterator();
 
             for(int i = 0; i<cues.size(); i++) {
@@ -141,6 +148,9 @@ public class PDFExport {
                 cameratable.addCell(camera.getName());
                 cameratable.addCell(camera.getX() + "");
                 cameratable.addCell(camera.getY() + "");
+                CameraAction action = cue.getCameraAction();
+                actiontable.addCell(action.getName());
+                actiontable.addCell(action.getDuration() + "");
             }
 
             par.add(new Paragraph("Cues"));
@@ -148,6 +158,10 @@ public class PDFExport {
             par.add(table);
             addEmptyLine(par, 3);
             par.add(new Paragraph("Cameras"));
+            addEmptyLine(par, 2);
+            par.add(cameratable);
+            addEmptyLine(par, 3);
+            par.add(new Paragraph("Camera Actions"));
             addEmptyLine(par, 2);
             par.add(cameratable);
             document.add(par);
