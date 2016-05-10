@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * The ConcertMap class represents a map for a standard concert.
  */
-public class ConcertMap implements Map {
+public class ConcertMap {
     private final List<Camera> cameras;
     private final List<Player> players;
     private final int width;
