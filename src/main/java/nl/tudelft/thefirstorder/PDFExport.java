@@ -3,6 +3,7 @@ package nl.tudelft.thefirstorder;
 import nl.tudelft.thefirstorder.domain.Project;
 import nl.tudelft.thefirstorder.domain.Cue;
 import nl.tudelft.thefirstorder.domain.Script;
+import nl.tudelft.thefirstorder.domain.Camera;
 
 import java.io.FileOutputStream;
 import java.util.Date;
@@ -93,8 +94,10 @@ public class PDFExport {
         }
 
         private static void addContent(Document document, Script script) throws DocumentException {
+            Paragraph par = new Paragraph();
             Set<Cue> cues = script.getCues();
             PdfPTable table = new PdfPTable(4);
+            PdfPTable cameratable = new PdfPTable(3);
 
             PdfPCell c1 = new PdfPCell(new Phrase("No."));
             c1.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -112,7 +115,20 @@ public class PDFExport {
             c1.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(c1);
 
+            c1 = new PdfPCell(new Phrase("Camera"));
+            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cameratable.addCell(c1);
+
+            c1 = new PdfPCell(new Phrase("X Position"));
+            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cameratable.addCell(c1);
+
+            c1 = new PdfPCell(new Phrase("Y Position"));
+            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cameratable.addCell(c1);
+
             table.setHeaderRows(1);
+            cameratable.setHeaderRows(1);
             Iterator<Cue> cueIterator = cues.iterator();
 
             for(int i = 0; i<cues.size(); i++) {
@@ -121,9 +137,20 @@ public class PDFExport {
                 table.addCell(cue.getCamera().getName());
                 table.addCell(cue.getCameraAction().getName());
                 table.addCell(cue.getPlayer().getName());
+                Camera camera = cue.getCamera();
+                cameratable.addCell(camera.getName());
+                cameratable.addCell(camera.getX() + "");
+                cameratable.addCell(camera.getY() + "");
             }
 
-            document.add(table);
+            par.add(new Paragraph("Cues"));
+            addEmptyLine(par, 2);
+            par.add(table);
+            addEmptyLine(par, 3);
+            par.add(new Paragraph("Cameras"));
+            addEmptyLine(par, 2);
+            par.add(cameratable);
+            document.add(par);
 
         }
 
