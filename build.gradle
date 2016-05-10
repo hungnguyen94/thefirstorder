@@ -224,6 +224,20 @@ test {
         junitXml.enabled = false
         html.enabled = true
     }
+    jacoco {
+        excludes = ["nl/tudelft/thefirstorder/aop/logging",
+                    "nl/tudelft/thefirstorder/async",
+                    "nl/tudelft/thefirstorder/config",
+                    "nl/tudelft/thefirstorder/domain/util",
+                    "nl/tudelft/thefirstorder/security",
+                    "nl/tudelft/thefirstorder/service/util",
+                    "nl/tudelft/thefirstorder/web/filter",
+                    "nl/tudelft/thefirstorder/web/rest/dto",
+                    "nl/tudelft/thefirstorder/web/rest/errors",
+                    "nl/tudelft/thefirstorder/web/rest/util",
+                    "nl/tudelft/thefirstorder/web/websocket",
+                    "nl/tudelft/thefirstorder/repository"]
+    }
 }
 
 idea {
@@ -265,6 +279,24 @@ jacocoTestReport {
         xml.enabled false
         csv.enabled false
         html.destination rootProject.file("build/reports/jacoco")
+    }
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    "nl/tudelft/thefirstorder/aop/logging",
+                    "nl/tudelft/thefirstorder/async",
+                    "nl/tudelft/thefirstorder/config",
+                    "nl/tudelft/thefirstorder/domain/util",
+                    "nl/tudelft/thefirstorder/security",
+                    "nl/tudelft/thefirstorder/service/util",
+                    "nl/tudelft/thefirstorder/web/filter",
+                    "nl/tudelft/thefirstorder/web/rest/dto",
+                    "nl/tudelft/thefirstorder/web/rest/errors",
+                    "nl/tudelft/thefirstorder/web/rest/util",
+                    "nl/tudelft/thefirstorder/web/websocket",
+                    "nl/tudelft/thefirstorder/repository"
+            ])
+        })
     }
 }
 
