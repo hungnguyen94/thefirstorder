@@ -10,6 +10,11 @@
 /node_modules/**
 
 ######################
+# Bower
+######################
+/src/main/webapp/bower_components
+
+######################
 # SASS
 ######################
 .sass-cache/**
@@ -65,6 +70,7 @@ local.properties
 # Gradle
 ######################
 .gradle/**
+.gradletasknamecache
 
 ######################
 # Package Files
@@ -131,3 +137,4 @@ Desktop.ini
 # ESLint
 ######################
 .eslintcache
+
