@@ -4,10 +4,15 @@ language: java
 jdk:
   - oraclejdk8
 sudo: false
-cache: 
+
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+cache:
     apt: true
-    directories: 
+    directories:
     - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+    - $HOME/.gradle/nodejs/
     - node_modules
 
 env: 
