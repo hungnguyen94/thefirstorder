@@ -5,6 +5,15 @@ jdk:
   - oraclejdk8
 sudo: false
 
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+cache:
+    apt: true
+    directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+    - $HOME/.gradle/nodejs/
+    - node_modules
 
 env: 
   - NODE_VERSION=4.4.3

@@ -2,6 +2,7 @@
 # Project Specific
 ######################
 /build/www/**
+/src/main/webapp/index.html
 
 ######################
 # Node
@@ -137,4 +138,3 @@ Desktop.ini
 # ESLint
 ######################
 .eslintcache
-
