@@ -24,7 +24,7 @@ import com.itextpdf.text.pdf.PdfWriter;
  * Created by Martin on 10-5-2016.
  */
 public class PDFExport {
-        private static String FILE = "c:/Users/Martin/FirstPdf.pdf";
+        private static String FILE = "../FirstPdf.pdf";
         private static Font catFont = new Font(Font.FontFamily.COURIER, 18,
             Font.BOLD);
         private static Font redFont = new Font(Font.FontFamily.COURIER, 12,
