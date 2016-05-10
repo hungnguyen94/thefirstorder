@@ -1,0 +1,40 @@
+{
+    "relationships": [
+        {
+            "relationshipName": "script",
+            "otherEntityName": "script",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "player",
+            "otherEntityName": "player",
+            "relationshipType": "one-to-one",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "cue"
+        },
+        {
+            "relationshipName": "camera",
+            "otherEntityName": "camera",
+            "relationshipType": "one-to-one",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "cue"
+        },
+        {
+            "relationshipName": "cameraAction",
+            "otherEntityName": "cameraAction",
+            "relationshipType": "one-to-one",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "cue"
+        }
+    ],
+    "fields": [],
+    "changelogDate": "20160504113134",
+    "dto": "no",
+    "service": "serviceImpl",
+    "entityTableName": "cue",
+    "pagination": "pager"
+}

@@ -1,0 +1,47 @@
+<div ng-cloak>
+    <div class="row">
+        <!--<script>-->
+        <!--function drawCamera(x, y) {-->
+        <!--var c = document.getElementById("canvas");-->
+        <!--var ctx = c.getContext("2d");-->
+        <!--ctx.beginPath();-->
+        <!--ctx.arc(x, y, 5, 0, 2 * Math.PI);-->
+        <!--ctx.stroke();-->
+        <!--}-->
+        <!--</script>-->
+        <div class="col-md-4">
+            <h2>Cameras</h2>
+
+            <table class="table-bordered table-condensed table table-striped">
+                <thead>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                    <th><span>ID</span></th>
+                    <th><span>Name</span></th>
+                    <th><span>X</span></th>
+                    <th><span>Y</span></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="camera in vm.cameras track by camera.id">
+                    <td><a ui-sref="camera-detail({id:camera.id})">{{camera.id}}</a></td>
+                    <td>{{camera.name}}</td>
+                    <td>{{camera.x}}</td>
+                    <td>{{camera.y}}</td>
+                </tr>
+                </tbody>
+            </table><br />
+            <h2>Diagram Legend</h2>
+            <ul class="list-group">
+                <li class="list-group-item"><p style="color: #00b0ff;">Cameras</p></li>
+            </ul>
+        </div>
+        <div class="col-md-8">
+            <canvas id="canvas" width="600px" style="width: 100%; border: 1px gray solid;"></canvas>
+        </div>
+    </div>
+    <div class="row">
+        <div id="mapGrid" class="col-md-12">
+
+        </div>
+    </div>
+</div>

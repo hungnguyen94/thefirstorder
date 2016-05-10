@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <!--
+        Added the constraints for entity Cue.
+    -->
+    <changeSet id="20160504113134-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="script_id"
+                                 baseTableName="cue"
+                                 constraintName="fk_cue_script_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="script"/>
+
+        <addForeignKeyConstraint baseColumnNames="player_id"
+                                 baseTableName="cue"
+                                 constraintName="fk_cue_player_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="player"/>
+
+        <addForeignKeyConstraint baseColumnNames="camera_id"
+                                 baseTableName="cue"
+                                 constraintName="fk_cue_camera_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="camera"/>
+
+        <addForeignKeyConstraint baseColumnNames="camera_action_id"
+                                 baseTableName="cue"
+                                 constraintName="fk_cue_cameraaction_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="camera_action"/>
+
+    </changeSet>
+</databaseChangeLog>

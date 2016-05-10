@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="hung (generated)" id="1462099807283-1">
+        <addColumn tableName="camera">
+            <column name="actions_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="hung (generated)" id="1462099807283-2">
+        <addForeignKeyConstraint baseColumnNames="actions_id" baseTableName="camera" constraintName="FK_5wjsv8jlaw4i0b3s2ophptitg" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="camera_action"/>
+    </changeSet>
+    <changeSet author="hung (generated)" id="1462099807283-3">
+        <dropForeignKeyConstraint baseTableName="OAUTH_ACCESS_TOKEN" constraintName="FK_OAUTH_ACCESS_TOKN_USER_NAME"/>
+    </changeSet>
+    <changeSet author="hung (generated)" id="1462099807283-4">
+        <dropForeignKeyConstraint baseTableName="OAUTH_CLIENT_TOKEN" constraintName="FK_OAUTH_CLIENT_TOKN_USER_NAME"/>
+    </changeSet>
+    <changeSet author="hung (generated)" id="1462099807283-5">
+        <dropTable tableName="OAUTH_ACCESS_TOKEN"/>
+    </changeSet>
+    <changeSet author="hung (generated)" id="1462099807283-6">
+        <dropTable tableName="OAUTH_APPROVALS"/>
+    </changeSet>
+    <changeSet author="hung (generated)" id="1462099807283-7">
+        <dropTable tableName="OAUTH_CLIENT_DETAILS"/>
+    </changeSet>
+    <changeSet author="hung (generated)" id="1462099807283-8">
+        <dropTable tableName="OAUTH_CLIENT_TOKEN"/>
+    </changeSet>
+    <changeSet author="hung (generated)" id="1462099807283-9">
+        <dropTable tableName="OAUTH_CODE"/>
+    </changeSet>
+    <changeSet author="hung (generated)" id="1462099807283-10">
+        <dropTable tableName="OAUTH_REFRESH_TOKEN"/>
+    </changeSet>
+    <changeSet author="hung (generated)" id="1462099807283-11">
+        <dropDefaultValue columnDataType="timestamp" columnName="created_date" tableName="jhi_user"/>
+    </changeSet>
+</databaseChangeLog>
