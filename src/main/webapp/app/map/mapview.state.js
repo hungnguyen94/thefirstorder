@@ -10,7 +10,7 @@
     function stateConfig($stateProvider) {
         $stateProvider.state('mapview', {
             parent: 'app',
-            url: '/',
+            url: '/maps',
             data: {
                 authorities: []
             },
