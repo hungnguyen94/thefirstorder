@@ -73,7 +73,6 @@ local.properties
 .gradle/**
 .gradletasknamecache
 
-
 ######################
 # Package Files
 ######################
@@ -139,4 +138,3 @@ Desktop.ini
 # ESLint
 ######################
 .eslintcache
-
