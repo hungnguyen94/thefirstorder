@@ -1,11 +1,15 @@
 package nl.tudelft.thefirstorder;
 
-import nl.tudelft.thefirstorder.domain.*;
+import nl.tudelft.thefirstorder.domain.Project;
+import nl.tudelft.thefirstorder.domain.Script;
+import nl.tudelft.thefirstorder.domain.Cue;
+import nl.tudelft.thefirstorder.domain.Camera;
+import nl.tudelft.thefirstorder.domain.CameraAction;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.util.Date;
 import java.util.Set;
-import java.util.Iterator;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -40,7 +44,7 @@ public class PDFExport {
      * @param project the project
      * @param resp a http response to send the download to the browser
      */
-    public static void export(Project project, HttpServletResponse resp) {
+    public void export(Project project, HttpServletResponse resp) {
             Script script = project.getScript();
             try {
                 Document document = new Document();
@@ -68,7 +72,7 @@ public class PDFExport {
      * @param document the document to which the data has to be added
      * @param script the script from which the data is exported
      */
-        private static void addMetaData(Document document, Script script) {
+        private void addMetaData(Document document, Script script) {
             document.addTitle(script.getName());
             document.addSubject("Script");
             document.addKeywords("Script");
@@ -82,7 +86,7 @@ public class PDFExport {
      * @param script the script from which the data is exported
      * @throws DocumentException if something wrong is added to the document
      */
-        private static void addTitlePage(Document document, Script script)
+        private void addTitlePage(Document document, Script script)
             throws DocumentException {
             Paragraph preface = new Paragraph();
             addEmptyLine(preface, 1);
@@ -106,7 +110,7 @@ public class PDFExport {
      * @param script the script from which the content is exported
      * @throws DocumentException if something wrong is added to the document
      */
-        private static void addContent(Document document, Script script) throws DocumentException {
+        private void addContent(Document document, Script script) throws DocumentException {
             Paragraph par = new Paragraph();
             Set<Cue> cues = script.getCues();
             PdfPTable table = new PdfPTable(4);
@@ -184,7 +188,7 @@ public class PDFExport {
 
         }
 
-        private static void addEmptyLine(Paragraph paragraph, int number) {
+        private void addEmptyLine(Paragraph paragraph, int number) {
             for (int i = 0; i < number; i++) {
                 paragraph.add(new Paragraph(" "));
             }
