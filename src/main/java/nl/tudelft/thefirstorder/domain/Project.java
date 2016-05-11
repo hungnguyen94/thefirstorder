@@ -39,38 +39,75 @@ public class Project implements Serializable {
     @JoinColumn(unique = true)
     private Map map;
 
+    /**
+     * Get the id of the project.
+     * @return the id
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Set the id of the project.
+     * @param id the id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * Get the name of the project.
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Set the name of the project.
+     * @param name the name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Get the script of the project.
+     * @return the script
+     */
     public Script getScript() {
         return script;
     }
 
+    /**
+     * Set the script of the project.
+     * @param script the script
+     */
     public void setScript(Script script) {
         this.script = script;
     }
 
+    /**
+     * Get the map of the project.
+     * @return the map
+     */
     public Map getMap() {
         return map;
     }
 
+    /**
+     * Set the map of the project.
+     * @param map the map
+     */
     public void setMap(Map map) {
         this.map = map;
     }
 
+    /**
+     * Checks if two projects are the same.
+     * @param o the object to compare with
+     * @return the result as a boolean
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -86,11 +123,19 @@ public class Project implements Serializable {
         return Objects.equals(id, project.id);
     }
 
+    /**
+     * Generates a hash code.
+     * @return the hash code
+     */
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
     }
 
+    /**
+     * Represents a project as a string.
+     * @return the string
+     */
     @Override
     public String toString() {
         return "Project{"
