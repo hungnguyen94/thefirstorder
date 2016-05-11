@@ -19,6 +19,11 @@ buildscript {
     }
 }
 
+plugins {
+    id 'jacoco'
+    id 'com.github.kt3k.coveralls' version '2.6.3'
+}
+
 apply plugin: 'java'
 sourceCompatibility=1.8
 targetCompatibility=1.8
@@ -212,6 +217,7 @@ apply plugin: 'findbugs'
 apply plugin: 'jacoco'
 apply plugin: 'idea'
 
+
 sourceSets {
     main {
         java.srcDir('src/main/java')
@@ -262,16 +268,16 @@ jacoco {
 
 jacocoTestReport {
     reports {
-        xml.enabled false
-        csv.enabled false
+        xml.enabled = true
+        csv.enabled = true
         html.destination rootProject.file("build/reports/jacoco")
     }
 }
 
 tasks.withType(FindBugs) {
     reports {
-        xml.enabled = false
-        html.enabled = true
+        xml.enabled = true
+        html.enabled = false
         html.destination rootProject.file("build/reports/findbugs/findbugs.html")
     }
 }
