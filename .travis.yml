@@ -42,7 +42,7 @@ notifications:
     on_start: false     # default: false
 
 after_script:
-  - echo "== CHECKSTYLE_RESULT =="; cat "build/checkstyle/main.xml"; echo "== END_CHECKSTYLE_RESULT =="
-  - echo "== PMD_RESULT =="; cat "build/pmd/main.xml"; echo "== END_PMD_RESULT =="
-  - echo "== FINDBUGS_RESULT =="; cat "build/findbugs/main.xml"; echo "== END_FINDBUGS_RESULT =="
+  - echo "== CHECKSTYLE_RESULT =="; cat "build/reports/checkstyle/main.xml"; echo "== END_CHECKSTYLE_RESULT =="
+  - echo "== PMD_RESULT =="; cat "build/reports/pmd/main.xml"; echo "== END_PMD_RESULT =="
+  - echo "== FINDBUGS_RESULT =="; cat "build/reports/findbugs/main.xml"; echo "== END_FINDBUGS_RESULT =="
   - ./gradlew jacocoTestReport coveralls
