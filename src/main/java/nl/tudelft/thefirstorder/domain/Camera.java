@@ -35,38 +35,75 @@ public class Camera implements Serializable {
     @Column(name = "y")
     private Integer y;
 
+    /**
+     * Get the id of the camera.
+     * @return the id
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Set the id of the camera.
+     * @param id the id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * Get the name of the camera.
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Set the name of the camera.
+     * @param name the name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Get the x position of the camera.
+     * @return the x position
+     */
     public Integer getX() {
         return x;
     }
 
+    /**
+     * Set the x position of the camera.
+     * @param x the x position
+     */
     public void setX(Integer x) {
         this.x = x;
     }
 
+    /**
+     * Get the y position of the camera.
+     * @return the y position
+     */
     public Integer getY() {
         return y;
     }
 
+    /**
+     * Set the y position of the camera.
+     * @param y the y position
+     */
     public void setY(Integer y) {
         this.y = y;
     }
 
+    /**
+     * Checks if two cameras are the same.
+     * @param o the camera to compare with
+     * @return a boolean as result
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -82,11 +119,19 @@ public class Camera implements Serializable {
         return Objects.equals(id, camera.id);
     }
 
+    /**
+     * Generates a hashcode.
+     * @return the hashcode
+     */
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
     }
 
+    /**
+     * Represent the camera as a string.
+     * @return a string
+     */
     @Override
     public String toString() {
         return "Camera{"
