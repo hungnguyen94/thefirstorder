@@ -2,7 +2,7 @@ package nl.tudelft.thefirstorder;
 
 import nl.tudelft.thefirstorder.domain.*;
 
-import java.io.FileOutputStream;
+import java.io.*;
 import java.util.Date;
 import java.util.Set;
 import java.util.Iterator;
@@ -17,6 +17,9 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by Martin on 10-5-2016.
@@ -38,16 +41,24 @@ public class PDFExport {
             //Project project = new Project(null,null);
         }
 
-        public static void export(Project project) {
+        public static void export(Project project, HttpServletResponse resp) {
             Script script = project.getScript();
             try {
                 Document document = new Document();
+                ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
+                PdfWriter docWriter = null;
+                docWriter = PdfWriter.getInstance(document, baosPDF);
                 PdfWriter.getInstance(document, new FileOutputStream(FILE));
                 document.open();
                 addMetaData(document, script);
                 addTitlePage(document, script);
                 addContent(document, script);
                 document.close();
+                docWriter.close();
+                ServletOutputStream sos;
+                sos = resp.getOutputStream();
+                baosPDF.writeTo(sos);
+                sos.flush();
             } catch (Exception e) {
                 e.printStackTrace();
             }
