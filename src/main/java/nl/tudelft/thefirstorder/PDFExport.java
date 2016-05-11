@@ -34,8 +34,6 @@ public class PDFExport {
         Font.BOLD);
     private static Font redFont = new Font(Font.FontFamily.COURIER, 12,
         Font.NORMAL, BaseColor.RED);
-    private static Font subFont = new Font(Font.FontFamily.COURIER, 16,
-        Font.BOLD);
     private static Font smallBold = new Font(Font.FontFamily.COURIER, 12,
         Font.BOLD);
 
