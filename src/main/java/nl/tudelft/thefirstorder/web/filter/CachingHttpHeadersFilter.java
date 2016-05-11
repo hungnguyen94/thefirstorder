@@ -24,20 +24,40 @@ public class CachingHttpHeadersFilter implements Filter {
 
     private JHipsterProperties jHipsterProperties;
 
+    /**
+     * Constructor.
+     * @param jHipsterProperties the properties of jhipster
+     */
     public CachingHttpHeadersFilter(JHipsterProperties jHipsterProperties) {
         this.jHipsterProperties = jHipsterProperties;
     }
 
+    /**
+     * Initialize the caching.
+     * @param filterConfig the filter configuration
+     * @throws ServletException when something goes wrong with the caching
+     */
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         CACHE_TIME_TO_LIVE = TimeUnit.DAYS.toMillis(jHipsterProperties.getHttp().getCache().getTimeToLiveInDays());
     }
 
+    /**
+     * Destroy the cache.
+     */
     @Override
     public void destroy() {
         // Nothing to destroy
     }
 
+    /**
+     * Apply a filter.
+     * @param request http request
+     * @param response http response
+     * @param chain chain of filters
+     * @throws IOException Input or output is incorrect
+     * @throws ServletException Something with http is going wrong
+     */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
         throws IOException, ServletException {

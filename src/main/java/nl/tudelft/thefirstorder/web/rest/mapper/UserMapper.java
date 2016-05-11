@@ -19,7 +19,7 @@ public interface UserMapper {
     UserDTO userToUserDto(User user);
 
     List<UserDTO> usersToUserDtos(List<User> users);
-    
+
     @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "createdDate", ignore = true)
     @Mapping(target = "lastModifiedBy", ignore = true)
@@ -47,6 +47,11 @@ public interface UserMapper {
         return user;
     }
 
+    /**
+     * Maps authorities to strings
+     * @param authorities the authorities
+     * @return the strings
+     */
     default Set<String> stringsFromAuthorities(Set<Authority> authorities) {
         return authorities.stream().map(Authority::getName)
             .collect(Collectors.toSet());

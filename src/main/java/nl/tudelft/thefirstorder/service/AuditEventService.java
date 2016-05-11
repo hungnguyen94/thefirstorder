@@ -40,16 +40,33 @@ public class AuditEventService {
         this.auditEventConverter = auditEventConverter;
     }
 
+    /**
+     * Find all the audit events on a page.
+     * @param pageable the page
+     * @return the events
+     */
     public Page<AuditEvent> findAll(Pageable pageable) {
         return persistenceAuditEventRepository.findAll(pageable)
             .map(persistentAuditEvents -> auditEventConverter.convertToAuditEvent(persistentAuditEvents));
     }
 
+    /**
+     * Find audit events with a date specification
+     * @param fromDate after this date
+     * @param toDate before this date
+     * @param pageable the page with events
+     * @return the events which are between the two dates
+     */
     public Page<AuditEvent> findByDates(LocalDateTime fromDate, LocalDateTime toDate, Pageable pageable) {
         return persistenceAuditEventRepository.findAllByAuditEventDateBetween(fromDate, toDate, pageable)
             .map(persistentAuditEvents -> auditEventConverter.convertToAuditEvent(persistentAuditEvents));
     }
 
+    /**
+     * Find the audit event by id.
+     * @param id the id
+     * @return the audit event
+     */
     public Optional<AuditEvent> find(Long id) {
         return Optional.ofNullable(persistenceAuditEventRepository.findOne(id)).map(
                 auditEventConverter::convertToAuditEvent);

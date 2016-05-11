@@ -38,6 +38,9 @@ public class UserDTO {
 
     private Set<String> authorities;
 
+    /**
+     * Constructor.
+     */
     public UserDTO() {
     }
 
@@ -65,7 +68,7 @@ public class UserDTO {
     public UserDTO(String login, String firstName, String lastName,
         String email, boolean activated, String langKey, Set<String> authorities) {
 
-        this.login = login;        
+        this.login = login;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -74,34 +77,66 @@ public class UserDTO {
         this.authorities = authorities;
     }
 
+    /**
+     * Get the login string of the DTO.
+     * @return the login string
+     */
     public String getLogin() {
         return login;
     }
 
+    /**
+     * Get the first name of the DTO.
+     * @return the first name
+     */
     public String getFirstName() {
         return firstName;
     }
 
+    /**
+     * Get the last name of the DTO.
+     * @return the last name
+     */
     public String getLastName() {
         return lastName;
     }
 
+    /**
+     * Get the email of the DTO.
+     * @return the email
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     * Get whether the DTO of the user is activated.
+     * @return a boolean
+     */
     public boolean isActivated() {
         return activated;
     }
 
+    /**
+     * Get the lang key of the DTO.
+     * @return the lang key
+     */
     public String getLangKey() {
         return langKey;
     }
 
+    /**
+     * Get the authorities of the DTO
+     * @return the authorities
+     */
     public Set<String> getAuthorities() {
         return authorities;
     }
 
+    /**
+     * Represents the DTO as a string.
+     * @return the string
+     */
     @Override
     public String toString() {
         return "UserDTO{"

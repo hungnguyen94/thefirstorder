@@ -1,5 +1,8 @@
 package nl.tudelft.thefirstorder.web.rest.errors;
 
+/**
+ * Constants for errors.
+ */
 public final class ErrorConstants {
 
     public static final String ERR_CONCURRENCY_FAILURE = "error.concurrencyFailure";
