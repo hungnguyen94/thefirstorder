@@ -30,24 +30,38 @@
         function drawCameras(cameraData) {
             var canvas = new fabric.Canvas('concertMap');
 
-            var rect = new fabric.Rect({
-                left: 100,
-                top: 100,
-                fill: 'red',
-                width: 20,
-                height: 20
+            var grid = 15;
+
+            canvas.on('object:moving', function (options) {
+                options.target.set({
+                    left: Math.round(options.target.left / grid) * grid,
+                    top: Math.round(options.target.top / grid) * grid
+                });
+            });
+            canvas.on('object:scaling', function (options) {
+                options.target.set({
+                    left: Math.round(options.target.left / grid) * grid,
+                    top: Math.round(options.target.top / grid) * grid
+                });
             });
 
-            var rect2 = new fabric.Rect({
-                left: 120,
-                top: 100,
-                fill: '#990000',
-                width: 20,
-                height: 20
-            });
+            for (var i = 0; i < cameraData.length; ++i) {
+                var currentCamera = cameraData[i];
 
-            canvas.add(rect);
-            canvas.add(rect2);
+                var rect = new fabric.Rect({
+                    left: currentCamera.x*15,
+                    top: currentCamera.y*15,
+                    fill: 'red',
+                    width: 15,
+                    height: 15,
+                    lockRotation: true,
+                    lockScalingX: true,
+                    lockScalingY: true,
+                    hasControls: false
+                });
+
+                canvas.add(rect);
+            }
         }
 
         function drawGrid(amountWidth, amountHeight) {
