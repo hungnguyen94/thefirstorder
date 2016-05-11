@@ -43,42 +43,82 @@ public class PersistentAuditEvent {
     @CollectionTable(name = "jhi_persistent_audit_evt_data", joinColumns = @JoinColumn(name = "event_id"))
     private Map<String, String> data = new HashMap<>();
 
+    /**
+     * Get the id of the audit event.
+     * @return the id
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Set the id of the audit event.
+     * @param id the id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * Get the principal of the audit event.
+     * @return the principal
+     */
     public String getPrincipal() {
         return principal;
     }
 
+    /**
+     * Set the principal of the audit event.
+     * @param principal the principal
+     */
     public void setPrincipal(String principal) {
         this.principal = principal;
     }
 
+    /**
+     * Get the date of the audit event.
+     * @return the date
+     */
     public LocalDateTime getAuditEventDate() {
         return auditEventDate;
     }
 
+    /**
+     * Set the date of the audit event.
+     * @param auditEventDate the date
+     */
     public void setAuditEventDate(LocalDateTime auditEventDate) {
         this.auditEventDate = auditEventDate;
     }
 
+    /**
+     * Get the type of the audit event.
+     * @return the type
+     */
     public String getAuditEventType() {
         return auditEventType;
     }
 
+    /**
+     * Set the type of the audit event.
+     * @param auditEventType the type
+     */
     public void setAuditEventType(String auditEventType) {
         this.auditEventType = auditEventType;
     }
 
+    /**
+     * Get the data of the audit event.
+     * @return the data
+     */
     public Map<String, String> getData() {
         return data;
     }
 
+    /**
+     * Set the data of the audit event.
+     * @param data the data
+     */
     public void setData(Map<String, String> data) {
         this.data = data;
     }

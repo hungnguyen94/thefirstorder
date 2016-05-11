@@ -44,7 +44,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     @JsonIgnore
     @NotNull
-    @Size(min = 60, max = 60) 
+    @Size(min = 60, max = 60)
     @Column(name = "password_hash",length = 60)
     private String password;
 
@@ -91,102 +91,203 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Authority> authorities = new HashSet<>();
 
+    /**
+     * Get the id of the user.
+     * @return the id
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Set the id of the user.
+     * @param id the id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * Get the login string of the user.
+     * @return the login string
+     */
     public String getLogin() {
         return login;
     }
 
+    /**
+     * Set the login string of the user.
+     * @param login the login string
+     */
     public void setLogin(String login) {
         this.login = login;
     }
 
+    /**
+     * Get the password of the user.
+     * @return the password
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * Set the password of the user.
+     * @param password the password
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
+    /**
+     * Get the first name of the user.
+     * @return the first name
+     */
     public String getFirstName() {
         return firstName;
     }
 
+    /**
+     * Set the first name of the user.
+     * @param firstName the first name
+     */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
+    /**
+     * Get the last name of the user.
+     * @return the last name
+     */
     public String getLastName() {
         return lastName;
     }
 
+    /**
+     * Set the last name of the user.
+     * @param lastName the last name
+     */
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
+    /**
+     * Get the email of the user.
+     * @return the email
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     * Set the email of the user.
+     * @param email the email
+     */
     public void setEmail(String email) {
         this.email = email;
     }
 
+    /**
+     * Get whether the user is activated or not.
+     * @return the result as a boolean
+     */
     public boolean getActivated() {
         return activated;
     }
 
+    /**
+     * Set whether the user is activated or not.
+     * @param activated a boolean
+     */
     public void setActivated(boolean activated) {
         this.activated = activated;
     }
 
+    /**
+     * Get the activation key of the user.
+     * @return the activation key
+     */
     public String getActivationKey() {
         return activationKey;
     }
 
+    /**
+     * Set the activation key of the user.
+     * @param activationKey the activation key
+     */
     public void setActivationKey(String activationKey) {
         this.activationKey = activationKey;
     }
 
+    /**
+     * Get the reset key of the user.
+     * @return the reset key
+     */
     public String getResetKey() {
         return resetKey;
     }
 
+    /**
+     * Set the reset key of the user.
+     * @param resetKey the reset key
+     */
     public void setResetKey(String resetKey) {
         this.resetKey = resetKey;
     }
 
+    /**
+     * Get the reset date of the user.
+     * @return the reset date
+     */
     public ZonedDateTime getResetDate() {
         return resetDate;
     }
 
+    /**
+     * Set the reset date of the user.
+     * @param resetDate the reset date
+     */
     public void setResetDate(ZonedDateTime resetDate) {
         this.resetDate = resetDate;
     }
 
+    /**
+     * Get the lang key of the user.
+     * @return the lang key
+     */
     public String getLangKey() {
         return langKey;
     }
 
+    /**
+     * Set the lang key of the user.
+     * @param langKey the lang key
+     */
     public void setLangKey(String langKey) {
         this.langKey = langKey;
     }
 
+    /**
+     * Get the list of authorities of the user.
+     * @return the list of authorities
+     */
     public Set<Authority> getAuthorities() {
         return authorities;
     }
 
+    /**
+     * Set the authorities of the user.
+     * @param authorities the list of authorities
+     */
     public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
     }
 
+    /**
+     * Check whether two users are the same.
+     * @param o the object to compare with
+     * @return the result as a boolean
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -205,11 +306,19 @@ public class User extends AbstractAuditingEntity implements Serializable {
         return true;
     }
 
+    /**
+     * Generates a hash code.
+     * @return the hash code
+     */
     @Override
     public int hashCode() {
         return login.hashCode();
     }
 
+    /**
+     * Represents the user as a string.
+     * @return the string
+     */
     @Override
     public String toString() {
         return "User{"

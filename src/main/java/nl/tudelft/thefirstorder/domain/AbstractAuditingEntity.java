@@ -45,34 +45,66 @@ public abstract class AbstractAuditingEntity implements Serializable {
     @JsonIgnore
     private ZonedDateTime lastModifiedDate = ZonedDateTime.now();
 
+    /**
+     * Get the creator of the entity.
+     * @return the creator
+     */
     public String getCreatedBy() {
         return createdBy;
     }
 
+    /**
+     * Set the creator of the entity.
+     * @param createdBy the creator
+     */
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
 
+    /**
+     * Get the date of creation of the entity.
+     * @return the date
+     */
     public ZonedDateTime getCreatedDate() {
         return createdDate;
     }
 
+    /**
+     * Set the date of creation of the entity.
+     * @param createdDate the date
+     */
     public void setCreatedDate(ZonedDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
+    /**
+     * Get the last modified user of the entity.
+     * @return the user
+     */
     public String getLastModifiedBy() {
         return lastModifiedBy;
     }
 
+    /**
+     * Set the last modified user of the entity.
+     * @param lastModifiedBy the user
+     */
     public void setLastModifiedBy(String lastModifiedBy) {
         this.lastModifiedBy = lastModifiedBy;
     }
 
+    /**
+     * Get the last modified date of the entity.
+     * @return the date
+     */
     public ZonedDateTime getLastModifiedDate() {
         return lastModifiedDate;
     }
 
+    /**
+     * Set the last modified date of the entity.
+     * @param lastModifiedDate the date
+     */
     public void setLastModifiedDate(ZonedDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }

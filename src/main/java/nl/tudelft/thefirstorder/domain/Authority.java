@@ -27,14 +27,27 @@ public class Authority implements Serializable {
     @Column(length = 50)
     private String name;
 
+    /**
+     * Get the name of the authority.
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Set the name of the authority.
+     * @param name the name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Checks whether two authorities are the same.
+     * @param o the object to compare with
+     * @return the result as a boolean
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -53,11 +66,19 @@ public class Authority implements Serializable {
         return true;
     }
 
+    /**
+     * Generates a hash code.
+     * @return the hash code
+     */
     @Override
     public int hashCode() {
         return name != null ? name.hashCode() : 0;
     }
 
+    /**
+     * Generates the authority as a string.
+     * @return the string
+     */
     @Override
     public String toString() {
         return "Authority{"
