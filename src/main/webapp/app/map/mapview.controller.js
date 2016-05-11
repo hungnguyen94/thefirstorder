@@ -28,30 +28,39 @@
         }
 
         function drawCameras(cameraData) {
-            // Initialize the canvas
-            var canvas = document.getElementById("canvas");
-            var ctx = canvas.getContext("2d");
-            for (var i = 0; i < cameraData.length; ++i) {
-                ctx.fillStyle = "#00b0ff";
-                var currentCamera = cameraData[i];
-                ctx.beginPath();
-                ctx.arc(currentCamera.x, currentCamera.y, 5,0,2*Math.PI);
-                ctx.stroke();
-                // ctx.fillRect(cameraData[i].x, cameraData[i].y, 3, 3);
-            }
+            var canvas = new fabric.Canvas('concertMap');
+
+            var rect = new fabric.Rect({
+                left: 100,
+                top: 100,
+                fill: 'red',
+                width: 20,
+                height: 20
+            });
+
+            var rect2 = new fabric.Rect({
+                left: 120,
+                top: 100,
+                fill: '#990000',
+                width: 20,
+                height: 20
+            });
+
+            canvas.add(rect);
+            canvas.add(rect2);
         }
 
         function drawGrid(amountWidth, amountHeight) {
-            var parent = document.getElementById("mapGrid");
+            var parent = document.getElementById('mapGrid');
             var width = parent.style.width;
             var height = parent.style.height;
 
             var squareLength = width / amountWidth;
 
             var childDiv = document.createElement('div');
-            childDiv.style.height  = squareLength+ "px";
-            childDiv.style.width  = squareLength + "px";
-            childDiv.style.border = "1px solid black";
+            childDiv.style.height  = squareLength+ 'px';
+            childDiv.style.width  = squareLength + 'px';
+            childDiv.style.border = '1px solid black';
             parent.appendChild(childDiv);
         }
 
