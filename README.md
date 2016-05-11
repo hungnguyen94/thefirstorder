@@ -1,4 +1,4 @@
-# The First Order [![Build Status](https://travis-ci.org/rubenwiersma/thefirstorder.svg?branch=dev)](https://travis-ci.org/rubenwiersma/thefirstorder)
+# The First Order [![Build Status](https://travis-ci.org/rubenwiersma/thefirstorder.svg?branch=dev)](https://travis-ci.org/rubenwiersma/thefirstorder)[![Coverage Status](https://coveralls.io/repos/github/rubenwiersma/thefirstorder/badge.svg?branch=dev)](https://coveralls.io/github/rubenwiersma/thefirstorder?branch=dev)
 
 ## Development
 Before you can develop on this project, you need the following dependencies:
