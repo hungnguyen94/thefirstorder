@@ -17,23 +17,22 @@ cache:
 
 env: 
   - NODE_VERSION=4.4.3
-before_install: 
+install: 
   - nvm install $NODE_VERSION
   - nvm use $NODE_VERSION
   - npm install -g npm
   - npm install -g gulp
   - npm install -g bower
   - ./gradlew wrapper
-install: 
+  - npm install
+before_script: 
   - npm -v
   - java -version
   - gulp -v
   - bower -v
-  - npm install
-  - ./gradlew assemble -x test
-before_script: 
-  - gulp build
 script: 
+  - gulp build
+  - ./gradlew assemble -x test
   - gulp test
   - ./gradlew check
 notifications:
@@ -42,13 +41,8 @@ notifications:
     on_failure: always  # options: [always|never|change] default: always
     on_start: false     # default: false
 
-# language: java
-# jdk:
-#   - oraclejdk8
-
-# after_script:
-#   - echo "== CHECKSTYLE_RESULT =="; cat "target/checkstyle-result.xml"; echo "== END_CHECKSTYLE_RESULT =="
-#   - echo "== PMD_RESULT =="; cat "target/pmd.xml"; echo "== END_PMD_RESULT =="
-#   - echo "== FINDBUGS_RESULT =="; cat "target/findbugsXml.xml"; echo "== END_FINDBUGS_RESULT =="
-# # uncomment this line if your project needs to run something other than `rake`:
-# # script: bundle exec rspec spec
+after_script:
+  - echo "== CHECKSTYLE_RESULT =="; cat "build/reports/checkstyle/main.xml"; echo "== END_CHECKSTYLE_RESULT =="
+  - echo "== PMD_RESULT =="; cat "build/reports/pmd/main.xml"; echo "== END_PMD_RESULT =="
+  - echo "== FINDBUGS_RESULT =="; cat "build/reports/findbugs/main.xml"; echo "== END_FINDBUGS_RESULT =="
+  - ./gradlew jacocoTestReport coveralls
