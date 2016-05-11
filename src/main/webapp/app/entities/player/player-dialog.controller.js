@@ -5,12 +5,11 @@
         .module('thefirstorderApp')
         .controller('PlayerDialogController', PlayerDialogController);
 
-    PlayerDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Player', 'Cue'];
+    PlayerDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Player'];
 
-    function PlayerDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Player, Cue) {
+    function PlayerDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Player) {
         var vm = this;
         vm.player = entity;
-        vm.cues = Cue.query();
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();

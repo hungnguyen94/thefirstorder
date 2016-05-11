@@ -13,12 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import java.net.URI;
@@ -42,8 +37,7 @@ public class PlayerResource {
      * POST  /players : Create a new player.
      *
      * @param player the player to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new player,
-     *      or with status 400 (Bad Request) if the player has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the new player, or with status 400 (Bad Request) if the player has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/players",
@@ -53,9 +47,7 @@ public class PlayerResource {
     public ResponseEntity<Player> createPlayer(@RequestBody Player player) throws URISyntaxException {
         log.debug("REST request to save Player : {}", player);
         if (player.getId() != null) {
-            return ResponseEntity.badRequest().headers(
-                    HeaderUtil.createFailureAlert("player", "idexists", "A new player cannot already have an ID")
-            ).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("player", "idexists", "A new player cannot already have an ID")).body(null);
         }
         Player result = playerService.save(player);
         return ResponseEntity.created(new URI("/api/players/" + result.getId()))
@@ -68,8 +60,8 @@ public class PlayerResource {
      *
      * @param player the player to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated player,
-     *      or with status 400 (Bad Request) if the player is not valid,
-     *      or with status 500 (Internal Server Error) if the player couldnt be updated
+     * or with status 400 (Bad Request) if the player is not valid,
+     * or with status 500 (Internal Server Error) if the player couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/players",
@@ -91,7 +83,6 @@ public class PlayerResource {
      * GET  /players : get all the players.
      *
      * @param pageable the pagination information
-     * @param filter the filter of the request
      * @return the ResponseEntity with status 200 (OK) and the list of players in body
      * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
@@ -99,13 +90,8 @@ public class PlayerResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<List<Player>> getAllPlayers(Pageable pageable, @RequestParam(required = false) String filter)
+    public ResponseEntity<List<Player>> getAllPlayers(Pageable pageable)
         throws URISyntaxException {
-        if ("cue-is-null".equals(filter)) {
-            log.debug("REST request to get all Players where cue is null");
-            return new ResponseEntity<>(playerService.findAllWhereCueIsNull(),
-                    HttpStatus.OK);
-        }
         log.debug("REST request to get a page of Players");
         Page<Player> page = playerService.findAll(pageable); 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/players");
