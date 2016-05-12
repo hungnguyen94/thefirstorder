@@ -12,7 +12,7 @@
             parent: 'app',
             url: '/maps',
             data: {
-                authorities: []
+                authorities: ['ROLE_USER']
             },
             views: {
                 'content@': {
