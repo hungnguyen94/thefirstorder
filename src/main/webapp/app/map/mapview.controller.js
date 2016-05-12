@@ -47,23 +47,31 @@
             });
 
             // This function definition will generate a new Camera at the clicked position
-            canvas.on('mouse:up', function (options) {
-                var pointer = canvas.getPointer(options.e);
+            canvas.on('mouse:down', function (options) {
+                canvas.on('mouse:up', function(options2) {
+                    var firstPointer = canvas.getPointer(options.e);
+                    var secondPointer = canvas.getPointer(options2.e);
 
-                var actualPosX = pointer.x;
-                var actualPosY = pointer.y;
+                    // Check if coordinates are still the same at the beginning and the end of the click
+                    if (firstPointer.x == secondPointer.x && firstPointer.y == secondPointer.y) {
+                        var pointer = canvas.getPointer(options.e);
 
-                var gridPosX = Math.floor(actualPosX / grid);
-                var gridPosY = Math.floor(actualPosY / grid);
+                        var actualPosX = pointer.x;
+                        var actualPosY = pointer.y;
 
-                console.log(gridPosX + ", " + gridPosY);    // Log to console
+                        var gridPosX = Math.floor(actualPosX / grid);
+                        var gridPosY = Math.floor(actualPosY / grid);
 
-                var newCamera = new Object();
-                newCamera.x = gridPosX;
-                newCamera.y = gridPosY;
-                newCamera.name = "Gazorpazorpfield";
-                Camera.save(newCamera);
-                drawCamera(canvas, newCamera, 100);
+                        var newCamera = new Object();
+                        newCamera.x = gridPosX;
+                        newCamera.y = gridPosY;
+                        newCamera.name = "New Camera";
+                        Camera.save(newCamera);
+                        $state.reload();
+                    }
+                });
+
+                // drawCamera(canvas, newCamera, 100);
             });
 
             canvas.on('object:selected', function (options) {
