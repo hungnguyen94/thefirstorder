@@ -37,12 +37,17 @@
                     left: Math.round(options.target.left / grid) * grid,
                     top: Math.round(options.target.top / grid) * grid
                 });
+
+                // Dit klopt niet altijd, hier moeten we nog even naar kijken
+                var currentCamera = cameraData[options.target.id];
+                currentCamera.x = options.target.left / grid;
+                currentCamera.y = options.target.top / grid;
+                console.log("New X: " + currentCamera.x + " New Y: " + currentCamera.y);
+                Camera.update(currentCamera);
+
             });
-            canvas.on('object:scaling', function (options) {
-                options.target.set({
-                    left: Math.round(options.target.left / grid) * grid,
-                    top: Math.round(options.target.top / grid) * grid
-                });
+            canvas.on('object:selected', function (options) {
+                console.log("Selected: " + options.target.left + " - " + options.target.id);
             });
 
             for (var i = 0; i < cameraData.length; ++i) {
@@ -51,13 +56,15 @@
                 var rect = new fabric.Rect({
                     left: currentCamera.x*15,
                     top: currentCamera.y*15,
-                    fill: 'red',
+                    fill: 'blue',
                     width: 15,
                     height: 15,
                     lockRotation: true,
                     lockScalingX: true,
                     lockScalingY: true,
-                    hasControls: false
+                    hasControls: false,
+                    id: i
+                    // id: currentCamera.id
                 });
 
                 canvas.add(rect);
