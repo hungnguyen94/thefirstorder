@@ -58,7 +58,7 @@ public class ExceptionTranslator {
     }
 
     /**
-     * An exception which tells that the acces is denied.
+     * An exception which tells that the access is denied.
      * @param e the exception
      * @return an ErrorDTO object
      */

@@ -14,8 +14,8 @@ import java.util.List;
 public interface PersistenceAuditEventRepository extends JpaRepository<PersistentAuditEvent, Long> {
 
     /**
-     * Find all audit events by a principel.
-     * @param principal the principel
+     * Find all audit events by a principal.
+     * @param principal the principal
      * @return a list of audit events
      */
     List<PersistentAuditEvent> findByPrincipal(String principal);

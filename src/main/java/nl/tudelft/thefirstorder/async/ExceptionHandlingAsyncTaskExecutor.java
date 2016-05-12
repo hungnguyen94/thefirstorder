@@ -93,7 +93,7 @@ public class ExceptionHandlingAsyncTaskExecutor implements AsyncTaskExecutor,
     }
 
     /**
-     * Submit a cllable task.
+     * Submit a callable task.
      * @param task the task
      * @param <T> the types of the task
      * @return a future object with the types specified

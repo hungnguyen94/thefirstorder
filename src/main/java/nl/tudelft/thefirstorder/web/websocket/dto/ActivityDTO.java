@@ -24,7 +24,7 @@ public class ActivityDTO {
     }
 
     /**
-     * Set the session id of the DTO
+     * Set the session id of the DTO.
      * @param sessionId the session id
      */
     public void setSessionId(String sessionId) {
