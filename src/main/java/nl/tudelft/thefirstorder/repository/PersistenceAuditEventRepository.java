@@ -13,10 +13,28 @@ import java.util.List;
  */
 public interface PersistenceAuditEventRepository extends JpaRepository<PersistentAuditEvent, Long> {
 
+    /**
+     * Find all audit events by a principal.
+     * @param principal the principal
+     * @return a list of audit events
+     */
     List<PersistentAuditEvent> findByPrincipal(String principal);
 
+    /**
+     * Find all audit events by a principal which are dated after a certain date.
+     * @param principal the principal
+     * @param after the date
+     * @return a list of audit events.
+     */
     List<PersistentAuditEvent> findByPrincipalAndAuditEventDateAfter(String principal, LocalDateTime after);
 
+    /**
+     * Find all audits between two dates.
+     * @param fromDate the first date
+     * @param toDate the last date
+     * @param pageable a object for the pages
+     * @return a page of audits
+     */
     Page<PersistentAuditEvent> findAllByAuditEventDateBetween(LocalDateTime fromDate,
                                                               LocalDateTime toDate,
                                                               Pageable pageable);

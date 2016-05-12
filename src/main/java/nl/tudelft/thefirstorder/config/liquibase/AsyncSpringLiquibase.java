@@ -40,6 +40,10 @@ public class AsyncSpringLiquibase extends SpringLiquibase {
     @Inject
     private Environment env;
 
+    /**
+     * Start the liquibase.
+     * @throws LiquibaseException when liquibase doesn't start correct
+     */
     @Override
     public void afterPropertiesSet() throws LiquibaseException {
         if (!env.acceptsProfiles(Constants.SPRING_PROFILE_NO_LIQUIBASE)) {
@@ -62,6 +66,10 @@ public class AsyncSpringLiquibase extends SpringLiquibase {
         }
     }
 
+    /**
+     * Init database.
+     * @throws LiquibaseException when afterPropertieSet throws exception
+     */
     protected void initDb() throws LiquibaseException {
         StopWatch watch = new StopWatch();
         watch.start();

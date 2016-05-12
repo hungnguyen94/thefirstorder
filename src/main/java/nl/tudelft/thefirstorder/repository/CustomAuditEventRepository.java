@@ -32,6 +32,12 @@ public class CustomAuditEventRepository implements AuditEventRepository {
     @Inject
     private AuditEventConverter auditEventConverter;
 
+    /**
+     * Find all audit events by a principal which are dated after a certain date.
+     * @param principal the principal
+     * @param after the date
+     * @return a list of audit events.
+     */
     @Override
     public List<AuditEvent> find(String principal, Date after) {
         Iterable<PersistentAuditEvent> persistentAuditEvents;
@@ -47,6 +53,10 @@ public class CustomAuditEventRepository implements AuditEventRepository {
         return auditEventConverter.convertToAuditEvent(persistentAuditEvents);
     }
 
+    /**
+     * Add a audit event.
+     * @param event the event
+     */
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void add(AuditEvent event) {

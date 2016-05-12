@@ -55,14 +55,26 @@ public class ErrorDTO implements Serializable {
         fieldErrors.add(new FieldErrorDTO(objectName, field, message));
     }
 
+    /**
+     * Get the message of the error.
+     * @return the message
+     */
     public String getMessage() {
         return message;
     }
 
+    /**
+     * Get the description of the error.
+     * @return the description
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Get the fielderror.
+     * @return the fielderror
+     */
     public List<FieldErrorDTO> getFieldErrors() {
         return fieldErrors;
     }

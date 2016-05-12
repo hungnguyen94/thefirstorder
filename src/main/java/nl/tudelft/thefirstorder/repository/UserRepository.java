@@ -12,18 +12,52 @@ import java.util.Optional;
  */
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    /**
+     * Find an optional user via an activation key.
+     * @param activationKey the key
+     * @return an optional user
+     */
     Optional<User> findOneByActivationKey(String activationKey);
 
+    /**
+     * Find all users which are not activated and are created before a certain date.
+     * @param dateTime the date
+     * @return the list of users
+     */
     List<User> findAllByActivatedIsFalseAndCreatedDateBefore(ZonedDateTime dateTime);
 
+    /**
+     * Find an optional user via a reset key.
+     * @param resetKey the key
+     * @return an optional user
+     */
     Optional<User> findOneByResetKey(String resetKey);
 
+    /**
+     * Find an optional user via a email address.
+     * @param email the address
+     * @return an optional user
+     */
     Optional<User> findOneByEmail(String email);
 
+    /**
+     * Find an optional user via a login string.
+     * @param login the login string
+     * @return an optional user
+     */
     Optional<User> findOneByLogin(String login);
 
+    /**
+     * Find an optional user via a user ID.
+     * @param userId the user ID
+     * @return an optional user
+     */
     Optional<User> findOneById(Long userId);
 
+    /**
+     * Remove a user.
+     * @param t the user to remove
+     */
     @Override
     void delete(User t);
 

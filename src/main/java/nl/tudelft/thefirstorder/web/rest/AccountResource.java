@@ -238,6 +238,11 @@ public class AccountResource {
               .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
+    /**
+     * Check the length of a password
+     * @param password the password
+     * @return a boolean
+     */
     private boolean checkPasswordLength(String password) {
         return !StringUtils.isEmpty(password)
                 && password.length() >= ManagedUserDTO.PASSWORD_MIN_LENGTH

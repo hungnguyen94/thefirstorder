@@ -21,14 +21,32 @@ public class HeaderUtil {
         return headers;
     }
 
+    /**
+     * Create an alert when an entity is created.
+     * @param entityName the name of the entity
+     * @param param the parameter
+     * @return a http header
+     */
     public static HttpHeaders createEntityCreationAlert(String entityName, String param) {
         return createAlert("A new " + entityName + " is created with identifier " + param, param);
     }
 
+    /**
+     * Create an alert when an entity is updated.
+     * @param entityName the name of the entity
+     * @param param the parameter
+     * @return a http header
+     */
     public static HttpHeaders createEntityUpdateAlert(String entityName, String param) {
         return createAlert("A " + entityName + " is updated with identifier " + param, param);
     }
 
+    /**
+     * Create an alert when an entity is deleted.
+     * @param entityName the name of the entity
+     * @param param the parameter
+     * @return a http header
+     */
     public static HttpHeaders createEntityDeletionAlert(String entityName, String param) {
         return createAlert("A " + entityName + " is deleted with identifier " + param, param);
     }

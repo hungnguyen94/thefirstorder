@@ -27,6 +27,9 @@ public class ManagedUserDTO extends UserDTO {
     @Size(min = PASSWORD_MIN_LENGTH, max = PASSWORD_MAX_LENGTH)
     private String password;
 
+    /**
+     * Constructor.
+     */
     public ManagedUserDTO() {
     }
 
@@ -78,42 +81,82 @@ public class ManagedUserDTO extends UserDTO {
         this.password = password;
     }
 
+    /**
+     * Get the id of the DTO.
+     * @return the id
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Set the id of the DTO.
+     * @param id the id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * Get the creation date of the DTO.
+     * @return the creation date
+     */
     public ZonedDateTime getCreatedDate() {
         return createdDate;
     }
 
+    /**
+     * Set the creation date of the DTO
+     * @param createdDate the creation date
+     */
     public void setCreatedDate(ZonedDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
+    /**
+     * Get the user who last modified the DTO.
+     * @return the user
+     */
     public String getLastModifiedBy() {
         return lastModifiedBy;
     }
 
+    /**
+     * Set the user who last modified the DTO.
+     * @param lastModifiedBy the user
+     */
     public void setLastModifiedBy(String lastModifiedBy) {
         this.lastModifiedBy = lastModifiedBy;
     }
 
+    /**
+     * Get the date when the DTO is last modified.
+     * @return the date
+     */
     public ZonedDateTime getLastModifiedDate() {
         return lastModifiedDate;
     }
 
+    /**
+     * Set the date when the DTO is last modified.
+     * @param lastModifiedDate the date
+     */
     public void setLastModifiedDate(ZonedDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
 
+    /**
+     * Get the password of the DTO.
+     * @return the password
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * Represents the DTO as a string.
+     * @return the string
+     */
     @Override
     public String toString() {
         return "ManagedUserDTO{"

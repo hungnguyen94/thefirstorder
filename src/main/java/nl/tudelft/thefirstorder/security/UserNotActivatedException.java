@@ -7,10 +7,19 @@ import org.springframework.security.core.AuthenticationException;
  */
 public class UserNotActivatedException extends AuthenticationException {
 
+    /**
+     * Constructor.
+     * @param message the message
+     */
     public UserNotActivatedException(String message) {
         super(message);
     }
 
+    /**
+     * Constructor.
+     * @param message the message
+     * @param t a throwable exception
+     */
     public UserNotActivatedException(String message, Throwable t) {
         super(message, t);
     }

@@ -13,7 +13,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A CameraAction.
+ * A Camera Action.
  */
 @Entity
 @Table(name = "camera_action")
@@ -32,30 +32,59 @@ public class CameraAction implements Serializable {
     @Column(name = "duration")
     private Integer duration;
 
+    /**
+     * Get the id of the camera action.
+     * @return the id
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Set the id of the camera action.
+     * @param id the id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * Get the name of the camera action.
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Set the name of the camera action.
+     * @param name the name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Get the duration of the camera action.
+     * @return the duration
+     */
     public Integer getDuration() {
         return duration;
     }
 
+    /**
+     * Set the duration of the camera action.
+     * @param duration the duration
+     */
     public void setDuration(Integer duration) {
         this.duration = duration;
     }
 
+    /**
+     * Checks if two camera actions are the same.
+     * @param o the camera action to compare with
+     * @return the result as a boolean
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -71,11 +100,19 @@ public class CameraAction implements Serializable {
         return Objects.equals(id, cameraAction.id);
     }
 
+    /**
+     * Generate a hashcode.
+     * @return the hashcode
+     */
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
     }
 
+    /**
+     * Represents the camera action as a string.
+     * @return the string
+     */
     @Override
     public String toString() {
         return "CameraAction{" + "id=" + id
