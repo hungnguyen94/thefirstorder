@@ -9,6 +9,8 @@
 
     function MapviewController ($scope, $state, Camera, AlertService) {
         var vm = this;
+        var grid = 15;
+
         vm.loadCamera = loadCamera;
         vm.loadCamera();
 
@@ -28,31 +30,74 @@
         }
 
         function drawCameras(cameraData) {
-            // Initialize the canvas
-            var canvas = document.getElementById("canvas");
-            var ctx = canvas.getContext("2d");
+            var canvas = new fabric.Canvas('concertMap');
+
+            var grid = 15;
+
+            canvas.on('object:moving', function (options) {
+                options.target.set({
+                    left: Math.round(options.target.left / grid) * grid,
+                    top: Math.round(options.target.top / grid) * grid
+                });
+
+                var currentCamera = cameraData[options.target.id];
+                currentCamera.x = options.target.left / grid;
+                currentCamera.y = options.target.top / grid;
+                console.log("New X: " + currentCamera.x + " New Y: " + currentCamera.y);
+                Camera.update(currentCamera);
+
+            });
+
+            // This function definition will generate a new Camera at the clicked position
+            canvas.on('mouse:down', function (options) {
+                canvas.on('mouse:up', function(options2) {
+                    var firstPointer = canvas.getPointer(options.e);
+                    var secondPointer = canvas.getPointer(options2.e);
+
+                    // Check if coordinates are still the same at the beginning and the end of the click
+                    if (firstPointer.x == secondPointer.x && firstPointer.y == secondPointer.y) {
+                        var pointer = canvas.getPointer(options.e);
+
+                        var actualPosX = pointer.x;
+                        var actualPosY = pointer.y;
+
+                        var gridPosX = Math.floor(actualPosX / grid);
+                        var gridPosY = Math.floor(actualPosY / grid);
+
+                        var newCamera = new Object();
+                        newCamera.x = gridPosX;
+                        newCamera.y = gridPosY;
+                        newCamera.name = "New Camera";
+                        Camera.save(newCamera);
+                        $state.reload();
+                    }
+                });
+            });
+
+            canvas.on('object:selected', function (options) {
+                console.log("Selected: " + options.target.left + " - " + options.target.id);
+            });
+
             for (var i = 0; i < cameraData.length; ++i) {
-                ctx.fillStyle = "#00b0ff";
-                var currentCamera = cameraData[i];
-                ctx.beginPath();
-                ctx.arc(currentCamera.x, currentCamera.y, 5,0,2*Math.PI);
-                ctx.stroke();
-                // ctx.fillRect(cameraData[i].x, cameraData[i].y, 3, 3);
+                drawCamera(canvas, cameraData[i], i);
             }
         }
 
-        function drawGrid(amountWidth, amountHeight) {
-            var parent = document.getElementById("mapGrid");
-            var width = parent.style.width;
-            var height = parent.style.height;
+        function drawCamera(canvas, camera, index) {
+            var rect = new fabric.Rect({
+                left: camera.x * grid,
+                top: camera.y * grid,
+                fill: 'blue',
+                width: grid,
+                height: grid,
+                lockRotation: true,
+                lockScalingX: true,
+                lockScalingY: true,
+                hasControls: false,
+                id: index
+            });
 
-            var squareLength = width / amountWidth;
-
-            var childDiv = document.createElement('div');
-            childDiv.style.height  = squareLength+ "px";
-            childDiv.style.width  = squareLength + "px";
-            childDiv.style.border = "1px solid black";
-            parent.appendChild(childDiv);
+            canvas.add(rect);
         }
 
     }

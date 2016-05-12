@@ -5,3 +5,8 @@ OVERRIDE ALL CSS SETTINGS
 .blue_navbar {
     background-color: #00b0ff;
 }
+
+canvas#concertMap {
+    width: 100%;
+    background-image: url("/content/images/grid15x15.png");
+}
