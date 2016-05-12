@@ -45,29 +45,51 @@
                 Camera.update(currentCamera);
 
             });
+
+            // This function definition will generate a new Camera at the clicked position
+            canvas.on('mouse:up', function (options) {
+                var pointer = canvas.getPointer(options.e);
+
+                var actualPosX = pointer.x;
+                var actualPosY = pointer.y;
+
+                var gridPosX = Math.floor(actualPosX / grid);
+                var gridPosY = Math.floor(actualPosY / grid);
+
+                console.log(gridPosX + ", " + gridPosY);    // Log to console
+
+                var newCamera = new Object();
+                newCamera.x = gridPosX;
+                newCamera.y = gridPosY;
+                newCamera.name = "Gazorpazorpfield";
+                Camera.save(newCamera);
+                drawCamera(canvas, newCamera, 100);
+            });
+
             canvas.on('object:selected', function (options) {
                 console.log("Selected: " + options.target.left + " - " + options.target.id);
             });
 
             for (var i = 0; i < cameraData.length; ++i) {
-                var currentCamera = cameraData[i];
-
-                var rect = new fabric.Rect({
-                    left: currentCamera.x*15,
-                    top: currentCamera.y*15,
-                    fill: 'blue',
-                    width: 15,
-                    height: 15,
-                    lockRotation: true,
-                    lockScalingX: true,
-                    lockScalingY: true,
-                    hasControls: false,
-                    id: i
-                    // id: currentCamera.id
-                });
-
-                canvas.add(rect);
+                drawCamera(canvas, cameraData[i], i);
             }
+        }
+
+        function drawCamera(canvas, camera, index) {
+            var rect = new fabric.Rect({
+                left: camera.x*15,
+                top: camera.y*15,
+                fill: 'blue',
+                width: 15,
+                height: 15,
+                lockRotation: true,
+                lockScalingX: true,
+                lockScalingY: true,
+                hasControls: false,
+                id: index
+            });
+
+            canvas.add(rect);
         }
 
         function drawGrid(amountWidth, amountHeight) {
