@@ -38,7 +38,6 @@
                     top: Math.round(options.target.top / grid) * grid
                 });
 
-                // Dit klopt niet altijd, hier moeten we nog even naar kijken
                 var currentCamera = cameraData[options.target.id];
                 currentCamera.x = options.target.left / grid;
                 currentCamera.y = options.target.top / grid;
