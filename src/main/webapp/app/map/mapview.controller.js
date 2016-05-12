@@ -9,6 +9,8 @@
 
     function MapviewController ($scope, $state, Camera, AlertService) {
         var vm = this;
+        var grid = 15;
+
         vm.loadCamera = loadCamera;
         vm.loadCamera();
 
@@ -70,8 +72,6 @@
                         $state.reload();
                     }
                 });
-
-                // drawCamera(canvas, newCamera, 100);
             });
 
             canvas.on('object:selected', function (options) {
@@ -85,11 +85,11 @@
 
         function drawCamera(canvas, camera, index) {
             var rect = new fabric.Rect({
-                left: camera.x*15,
-                top: camera.y*15,
+                left: camera.x * grid,
+                top: camera.y * grid,
                 fill: 'blue',
-                width: 15,
-                height: 15,
+                width: grid,
+                height: grid,
                 lockRotation: true,
                 lockScalingX: true,
                 lockScalingY: true,
@@ -98,20 +98,6 @@
             });
 
             canvas.add(rect);
-        }
-
-        function drawGrid(amountWidth, amountHeight) {
-            var parent = document.getElementById('mapGrid');
-            var width = parent.style.width;
-            var height = parent.style.height;
-
-            var squareLength = width / amountWidth;
-
-            var childDiv = document.createElement('div');
-            childDiv.style.height  = squareLength+ 'px';
-            childDiv.style.width  = squareLength + 'px';
-            childDiv.style.border = '1px solid black';
-            parent.appendChild(childDiv);
         }
 
     }
