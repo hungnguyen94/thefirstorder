@@ -27,6 +27,11 @@ public class UserDetailsService implements org.springframework.security.core.use
     @Inject
     private UserRepository userRepository;
 
+    /**
+     * Load the User given by a specified username.
+     * @param login the username
+     * @return
+     */
     @Override
     @Transactional
     public UserDetails loadUserByUsername(final String login) {

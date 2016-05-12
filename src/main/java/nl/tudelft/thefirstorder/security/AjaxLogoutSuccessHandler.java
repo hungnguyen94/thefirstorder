@@ -26,6 +26,14 @@ public class AjaxLogoutSuccessHandler extends AbstractAuthenticationTargetUrlReq
     @Inject
     private TokenStore tokenStore;
 
+    /**
+     * Logging out.
+     * @param request http request
+     * @param response http response
+     * @param authentication authentication currently active
+     * @throws IOException input or output is erroneous
+     * @throws ServletException a fault in the http connection
+     */
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
         Authentication authentication)
