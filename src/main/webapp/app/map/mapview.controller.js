@@ -38,22 +38,16 @@
                     top: Math.round(options.target.top / grid) * grid
                 });
             });
-            canvas.on('object:scaling', function (options) {
-                options.target.set({
-                    left: Math.round(options.target.left / grid) * grid,
-                    top: Math.round(options.target.top / grid) * grid
-                });
-            });
 
             for (var i = 0; i < cameraData.length; ++i) {
                 var currentCamera = cameraData[i];
 
                 var rect = new fabric.Rect({
-                    left: currentCamera.x*15,
-                    top: currentCamera.y*15,
+                    left: currentCamera.x*grid,
+                    top: currentCamera.y*grid,
                     fill: 'red',
-                    width: 15,
-                    height: 15,
+                    width: grid,
+                    height: grid,
                     lockRotation: true,
                     lockScalingX: true,
                     lockScalingY: true,
