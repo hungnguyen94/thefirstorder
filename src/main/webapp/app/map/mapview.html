@@ -29,12 +29,16 @@
                 <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                     <th><span>ID</span></th>
                     <th><span>Name</span></th>
+                    <th><span>X</span></th>
+                    <th><span>Y</span></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="player in vm.players track by player.id">
                     <td><a ui-sref="camera-detail({id:camera.id})">{{player.id}}</a></td>
                     <td>{{player.name}}</td>
+                    <td>{{player.x}}</td>
+                    <td>{{player.y}}</td>
                 </tr>
                 </tbody>
             </table><br />
@@ -49,10 +53,10 @@
                 <canvas id="concertMap" width="600" height="500"></canvas>
             </div>
             <fieldset class="form-group">
-                <label for="exampleSelect1">What do you want to add?</label>
-                <select class="form-control" id="exampleSelect1">
-                    <option>Camera</option>
-                    <option>Player</option>
+                <label for="selectObjectType">What do you want to add?</label>
+                <select class="form-control" id="selectObjectType">
+                    <option value="Camera">Camera</option>
+                    <option value="Player">Player</option>
                 </select>
             </fieldset>
             <br />

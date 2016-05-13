@@ -18,11 +18,13 @@
     function MapviewController ($scope, $state, Camera, Player, AlertService) {
         var vm = this;
         var grid = 15;
+        var objectType = document.getElementById('selectObjectType').value;
+
+        console.log(objectType);
 
         vm.loadCameras = loadCameras;
         vm.loadCameras();
         vm.loadPlayers = loadPlayers;
-        vm.loadPlayers();
 
         function loadCameras () {
             Camera.query({
@@ -32,14 +34,14 @@
             function onSuccess(data, headers) {
                 vm.cameras = data;
                 vm.queryCount = vm.totalItems;
-                drawCameras(data);
+                vm.loadPlayers(data);
             }
             function onError(error) {
                 AlertService.error(error.data.message);
             }
         }
 
-        function loadPlayers() {
+        function loadPlayers(cameraData) {
             Player.query({
 
             }, onSuccess, onError);
@@ -47,7 +49,7 @@
             function onSuccess(data, headers) {
                 vm.players = data;
                 vm.queryCount = vm.totalItems;
-
+                drawCameras(cameraData, data);
             }
 
             function onError(error) {
@@ -59,7 +61,7 @@
          * Draws the cameras to the map.
          * @param cameraData the data of the cameras to draw
          */
-        function drawCameras(cameraData) {
+        function drawCameras(cameraData, playerData) {
             var canvas = new fabric.Canvas('concertMap');
 
             var grid = 15;
@@ -73,7 +75,6 @@
                 var currentCamera = cameraData[options.target.id];
                 currentCamera.x = options.target.left / grid;
                 currentCamera.y = options.target.top / grid;
-                console.log("New X: " + currentCamera.x + " New Y: " + currentCamera.y);
                 Camera.update(currentCamera);
 
             });
@@ -109,7 +110,12 @@
             });
 
             for (var i = 0; i < cameraData.length; ++i) {
-                drawCamera(canvas, cameraData[i], i);
+                drawObject(canvas, cameraData[i], i, 'blue');
+            }
+
+            for (var i = 0; i < playerData.length; ++i) {
+                console.log(playerData[i])
+                drawObject(canvas, playerData[i], i, 'green');
             }
         }
 
@@ -119,11 +125,11 @@
          * @param camera the camera to draw
          * @param index the index of the camera
          */
-        function drawCamera(canvas, camera, index) {
+        function drawObject(canvas, object, index, color) {
             var rect = new fabric.Rect({
-                left: camera.x * grid,
-                top: camera.y * grid,
-                fill: 'blue',
+                left: object.x * grid,
+                top: object.y * grid,
+                fill: color,
                 width: grid,
                 height: grid,
                 lockRotation: true,

@@ -4,6 +4,14 @@
         {
             "fieldName": "name",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "x",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "y",
+            "fieldType": "Integer"
         }
     ],
     "changelogDate": "20160504122100",
