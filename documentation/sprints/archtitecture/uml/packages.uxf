@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?><diagram program="umlet" version="13.3">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>190</x>
+      <y>100</y>
+      <w>410</w>
+      <h>300</h>
+    </coordinates>
+    <panel_attributes>Packages</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Component</type>
+    <coordinates>
+      <x>210</x>
+      <y>320</y>
+      <w>180</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>
+'Service</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Component</type>
+    <coordinates>
+      <x>400</x>
+      <y>260</y>
+      <w>180</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>
+'Security</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Component</type>
+    <coordinates>
+      <x>400</x>
+      <y>200</y>
+      <w>180</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>
+'Domain</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Component</type>
+    <coordinates>
+      <x>210</x>
+      <y>260</y>
+      <w>180</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>
+'Repository</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Component</type>
+    <coordinates>
+      <x>400</x>
+      <y>320</y>
+      <w>180</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>
+'Web</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Component</type>
+    <coordinates>
+      <x>210</x>
+      <y>140</y>
+      <w>180</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>
+'AOP</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Component</type>
+    <coordinates>
+      <x>400</x>
+      <y>140</y>
+      <w>180</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>
+'Async</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Component</type>
+    <coordinates>
+      <x>210</x>
+      <y>200</y>
+      <w>180</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>
+'Config</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
