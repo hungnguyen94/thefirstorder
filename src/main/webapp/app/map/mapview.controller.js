@@ -7,6 +7,14 @@
 
     MapviewController.$inject = ['$scope', '$state', 'Camera', 'AlertService'];
 
+    /**
+     * The controller for the map view.
+     * @param $scope the scope of the map
+     * @param $state the state of the map
+     * @param Camera the camera entity
+     * @param AlertService the alertservice
+     * @constructor
+     */
     function MapviewController ($scope, $state, Camera, AlertService) {
         var vm = this;
         var grid = 15;
@@ -29,6 +37,10 @@
             }
         }
 
+        /**
+         * Draws the cameras to the map.
+         * @param cameraData the data of the cameras to draw
+         */
         function drawCameras(cameraData) {
             var canvas = new fabric.Canvas('concertMap');
 
@@ -83,6 +95,12 @@
             }
         }
 
+        /**
+         * Draws a single camera.
+         * @param canvas the canvas to draw to
+         * @param camera the camera to draw
+         * @param index the index of the camera
+         */
         function drawCamera(canvas, camera, index) {
             var rect = new fabric.Rect({
                 left: camera.x * grid,

@@ -7,6 +7,10 @@
 
     stateConfig.$inject = ['$stateProvider'];
 
+    /**
+     * Configures the state of this document.
+     * @param $stateProvider the stateProvider
+     */
     function stateConfig($stateProvider) {
         $stateProvider.state('timeline', {
             parent: 'app',
