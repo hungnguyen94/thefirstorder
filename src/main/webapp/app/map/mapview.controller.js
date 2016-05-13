@@ -95,7 +95,13 @@
                         var newCamera = new Object();
                         newCamera.x = gridPosX;
                         newCamera.y = gridPosY;
-                        newCamera.name = document.getElementById('nameNewObject').value;
+
+                        var name = document.getElementById('nameNewObject').value;;
+
+                        if (name == '')
+                            name = 'Undefined';
+
+                        newCamera.name = name;
 
                         switch(document.getElementById('selectObjectType').value) {
                             case 'Camera':
@@ -105,8 +111,7 @@
                                 Player.save(newCamera);
                                 break;
                         }
-
-                        Camera.save(newCamera);
+                        
                         $state.reload();
                     }
                 });
