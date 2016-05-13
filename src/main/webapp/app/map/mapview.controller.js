@@ -18,9 +18,6 @@
     function MapviewController ($scope, $state, Camera, Player, AlertService) {
         var vm = this;
         var grid = 15;
-        var objectType = document.getElementById('selectObjectType').value;
-
-        console.log(objectType);
 
         vm.loadCameras = loadCameras;
         vm.loadCameras();
@@ -98,7 +95,17 @@
                         var newCamera = new Object();
                         newCamera.x = gridPosX;
                         newCamera.y = gridPosY;
-                        newCamera.name = "New Camera";
+                        newCamera.name = document.getElementById('nameNewObject').value;
+
+                        switch(document.getElementById('selectObjectType').value) {
+                            case 'Camera':
+                                Camera.save(newCamera);
+                                break;
+                            case 'Player':
+                                Player.save(newCamera);
+                                break;
+                        }
+
                         Camera.save(newCamera);
                         $state.reload();
                     }
