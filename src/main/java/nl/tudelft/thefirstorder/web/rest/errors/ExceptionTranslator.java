@@ -45,6 +45,11 @@ public class ExceptionTranslator {
         return processFieldErrors(fieldErrors);
     }
 
+    /**
+     * An exception which tells that the validation of the parameters is incorrect.
+     * @param exception the exception
+     * @return an ErrorDTO object
+     */
     @ExceptionHandler(CustomParameterizedException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
@@ -52,6 +57,11 @@ public class ExceptionTranslator {
         return ex.getErrorDTO();
     }
 
+    /**
+     * An exception which tells that the access is denied.
+     * @param e the exception
+     * @return an ErrorDTO object
+     */
     @ExceptionHandler(AccessDeniedException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ResponseBody
@@ -69,6 +79,11 @@ public class ExceptionTranslator {
         return dto;
     }
 
+    /**
+     * An exception which tells that the method is not supported.
+     * @param exception the exception
+     * @return an ErrorDTO object
+     */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)

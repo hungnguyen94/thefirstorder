@@ -43,38 +43,75 @@ public class Script implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Cue> cues = new HashSet<>();
 
+    /**
+     * Get the id of the script.
+     * @return the id
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Set the id of the script.
+     * @param id the id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * Get the name of the script.
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Set the name of the script.
+     * @param name the name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Get the project to which the script belongs.
+     * @return the project
+     */
     public Project getProject() {
         return project;
     }
 
+    /**
+     * Set the project to which the script belongs.
+     * @param project the project
+     */
     public void setProject(Project project) {
         this.project = project;
     }
 
+    /**
+     * Get the cues of the script.
+     * @return the cues
+     */
     public Set<Cue> getCues() {
         return cues;
     }
 
+    /**
+     * Set the cues of the script.
+     * @param cues the cues
+     */
     public void setCues(Set<Cue> cues) {
         this.cues = cues;
     }
 
+    /**
+     * Checks if two scripts are the same.
+     * @param o the object to compare with
+     * @return the result as a boolean
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -90,11 +127,19 @@ public class Script implements Serializable {
         return Objects.equals(id, script.id);
     }
 
+    /**
+     * Generates a hash code.
+     * @return the hash code
+     */
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
     }
 
+    /**
+     * Represents a script as a string
+     * @return the string
+     */
     @Override
     public String toString() {
         return "Script{"

@@ -20,6 +20,9 @@ import javax.persistence.metamodel.EntityType;
 import java.util.Set;
 import java.util.SortedSet;
 
+/**
+ * Configuration of the cache.
+ */
 @Configuration
 @EnableCaching
 @AutoConfigureAfter(value = { MetricsConfiguration.class, DatabaseConfiguration.class })

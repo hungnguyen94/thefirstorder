@@ -1,13 +1,5 @@
 {
-    "relationships": [
-        {
-            "relationshipName": "cue",
-            "otherEntityName": "cue",
-            "relationshipType": "one-to-one",
-            "ownerSide": false,
-            "otherEntityRelationshipName": "player"
-        }
-    ],
+    "relationships": [],
     "fields": [
         {
             "fieldName": "name",

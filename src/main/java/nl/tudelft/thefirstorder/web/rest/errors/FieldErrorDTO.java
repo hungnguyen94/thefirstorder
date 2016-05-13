@@ -24,14 +24,26 @@ public class FieldErrorDTO implements Serializable {
         this.message = message;
     }
 
+    /**
+     * Get the object name of the field error.
+     * @return the object name
+     */
     public String getObjectName() {
         return objectName;
     }
 
+    /**
+     * Get the field of the field error.
+     * @return the field
+     */
     public String getField() {
         return field;
     }
 
+    /**
+     * Get the message of the field error.
+     * @return the message
+     */
     public String getMessage() {
         return message;
     }

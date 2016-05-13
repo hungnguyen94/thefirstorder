@@ -28,13 +28,6 @@ public interface PlayerService {
     Page<Player> findAll(Pageable pageable);
 
     /**
-     *  Get all the players where Cue is null.
-     *  
-     *  @return the list of entities
-     */
-    List<Player> findAllWhereCueIsNull();
-
-    /**
      *  Get the "id" player.
      *  
      *  @param id the id of the entity

@@ -5,9 +5,9 @@
         .module('thefirstorderApp')
         .controller('PlayerDetailController', PlayerDetailController);
 
-    PlayerDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'entity', 'Player', 'Cue'];
+    PlayerDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'entity', 'Player'];
 
-    function PlayerDetailController($scope, $rootScope, $stateParams, entity, Player, Cue) {
+    function PlayerDetailController($scope, $rootScope, $stateParams, entity, Player) {
         var vm = this;
         vm.player = entity;
         

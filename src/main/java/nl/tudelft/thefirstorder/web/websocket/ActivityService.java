@@ -23,6 +23,9 @@ import java.util.Calendar;
 
 import static nl.tudelft.thefirstorder.config.WebsocketConfiguration.IP_ADDRESS;
 
+/**
+ * Service for the activity.
+ */
 @Controller
 public class ActivityService implements ApplicationListener<SessionDisconnectEvent> {
 
@@ -55,6 +58,10 @@ public class ActivityService implements ApplicationListener<SessionDisconnectEve
         return activityDto;
     }
 
+    /**
+     * Disconnect the session due to an event.
+     * @param event the event.
+     */
     @Override
     public void onApplicationEvent(SessionDisconnectEvent event) {
         ActivityDTO activityDto = new ActivityDTO();

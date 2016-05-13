@@ -1,14 +1,5 @@
 <div ng-cloak>
     <div class="row">
-        <!--<script>-->
-        <!--function drawCamera(x, y) {-->
-        <!--var c = document.getElementById("canvas");-->
-        <!--var ctx = c.getContext("2d");-->
-        <!--ctx.beginPath();-->
-        <!--ctx.arc(x, y, 5, 0, 2 * Math.PI);-->
-        <!--ctx.stroke();-->
-        <!--}-->
-        <!--</script>-->
         <div class="col-md-4">
             <h2>Cameras</h2>
 
@@ -36,12 +27,13 @@
             </ul>
         </div>
         <div class="col-md-8">
-            <canvas id="canvas" width="600px" style="width: 100%; border: 1px gray solid;"></canvas>
+            <div id="map">
+                <canvas id="concertMap" width="600" height="500"></canvas>
+            </div>
         </div>
     </div>
     <div class="row">
         <div id="mapGrid" class="col-md-12">
-
         </div>
     </div>
 </div>
