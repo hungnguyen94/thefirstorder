@@ -5,7 +5,7 @@
         .module('thefirstorderApp')
         .controller('MapviewController', MapviewController);
 
-    MapviewController.$inject = ['$scope', '$state', 'Camera', 'AlertService'];
+    MapviewController.$inject = ['$scope', '$state', 'Camera', 'Player', 'AlertService'];
 
     /**
      * The controller for the map view.
@@ -15,14 +15,16 @@
      * @param AlertService the alertservice
      * @constructor
      */
-    function MapviewController ($scope, $state, Camera, AlertService) {
+    function MapviewController ($scope, $state, Camera, Player, AlertService) {
         var vm = this;
         var grid = 15;
 
-        vm.loadCamera = loadCamera;
-        vm.loadCamera();
+        vm.loadCameras = loadCameras;
+        vm.loadCameras();
+        vm.loadPlayers = loadPlayers;
+        vm.loadPlayers();
 
-        function loadCamera () {
+        function loadCameras () {
             Camera.query({
 
             }, onSuccess, onError);
@@ -32,6 +34,22 @@
                 vm.queryCount = vm.totalItems;
                 drawCameras(data);
             }
+            function onError(error) {
+                AlertService.error(error.data.message);
+            }
+        }
+
+        function loadPlayers() {
+            Player.query({
+
+            }, onSuccess, onError);
+
+            function onSuccess(data, headers) {
+                vm.players = data;
+                vm.queryCount = vm.totalItems;
+
+            }
+
             function onError(error) {
                 AlertService.error(error.data.message);
             }
