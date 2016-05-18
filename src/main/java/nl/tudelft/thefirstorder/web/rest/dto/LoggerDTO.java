@@ -53,7 +53,7 @@ public class LoggerDTO {
     }
 
     /**
-     * Set the level of the DTO
+     * Set the level of the DTO.
      * @param level the level
      */
     public void setLevel(String level) {
