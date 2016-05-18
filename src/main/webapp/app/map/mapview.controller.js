@@ -69,11 +69,26 @@
                     top: Math.round(options.target.top / grid) * grid
                 });
 
-                var currentCamera = cameraData[options.target.id];
-                currentCamera.x = options.target.left / grid;
-                currentCamera.y = options.target.top / grid;
-                Camera.update(currentCamera);
+                var objectType = options.target.type;
+                var objectId = options.target.id;
 
+                var currentObject;
+
+                // Determine whether to update a Camera or a Player object
+                switch(objectType) {
+                    case 'Camera':
+                        currentObject = cameraData[objectId];
+                        currentObject.x = options.target.left / grid;
+                        currentObject.y = options.target.top / grid;
+                        Camera.update(currentObject);
+                        break;
+                    case 'Player':
+                        currentObject = playerData[objectId];
+                        currentObject.x = options.target.left / grid;
+                        currentObject.y = options.target.top / grid;
+                        Player.update(currentObject);
+                        break;
+                }
             });
 
             // This function definition will generate a new Camera at the clicked position
@@ -92,26 +107,41 @@
                         var gridPosX = Math.floor(actualPosX / grid);
                         var gridPosY = Math.floor(actualPosY / grid);
 
-                        var newCamera = new Object();
-                        newCamera.x = gridPosX;
-                        newCamera.y = gridPosY;
+                        var newObject;
 
+                        // Determine wether to initialize a Camera or a Player
+                        switch(document.getElementById('selectObjectType').value) {
+                            case 'Camera':
+                                newObject = new Camera();
+                                break;
+                            case 'Player':
+                                newObject = new Player();
+                                break;
+                        }
+
+                        // Set the coordinates of the object to the coordinates where the mouse has been clicked
+                        newObject.x = gridPosX;
+                        newObject.y = gridPosY;
+
+                        // Get the name for the object from the form
                         var name = document.getElementById('nameNewObject').value;;
 
+                        // Set name to Undefined when no name has been filled in
                         if (name == '')
                             name = 'Undefined';
 
-                        newCamera.name = name;
+                        // Set the name of the new object to the name fetched from the form
+                        newObject.name = name;
 
                         switch(document.getElementById('selectObjectType').value) {
                             case 'Camera':
-                                Camera.save(newCamera);
+                                Camera.save(newObject);
                                 break;
                             case 'Player':
-                                Player.save(newCamera);
+                                Player.save(newObject);
                                 break;
                         }
-                        
+
                         $state.reload();
                     }
                 });
@@ -122,12 +152,12 @@
             });
 
             for (var i = 0; i < cameraData.length; ++i) {
-                drawObject(canvas, cameraData[i], i, 'blue');
+                drawObject(canvas, cameraData[i], i, 'blue', 'Camera');
             }
 
             for (var i = 0; i < playerData.length; ++i) {
                 console.log(playerData[i])
-                drawObject(canvas, playerData[i], i, 'green');
+                drawObject(canvas, playerData[i], i, 'green', 'Player');
             }
         }
 
@@ -137,7 +167,7 @@
          * @param camera the camera to draw
          * @param index the index of the camera
          */
-        function drawObject(canvas, object, index, color) {
+        function drawObject(canvas, object, index, color, type) {
             var rect = new fabric.Rect({
                 left: object.x * grid,
                 top: object.y * grid,
@@ -148,7 +178,8 @@
                 lockScalingX: true,
                 lockScalingY: true,
                 hasControls: false,
-                id: index
+                id: index,
+                type: type
             });
 
             canvas.add(rect);
