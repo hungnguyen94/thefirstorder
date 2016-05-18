@@ -21,19 +21,55 @@
                 </tr>
                 </tbody>
             </table><br />
+
+            <h2>Players</h2>
+
+            <table class="table-bordered table-condensed table table-striped">
+                <thead>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                    <th><span>ID</span></th>
+                    <th><span>Name</span></th>
+                    <th><span>X</span></th>
+                    <th><span>Y</span></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="player in vm.players track by player.id">
+                    <td><a ui-sref="camera-detail({id:camera.id})">{{player.id}}</a></td>
+                    <td>{{player.name}}</td>
+                    <td>{{player.x}}</td>
+                    <td>{{player.y}}</td>
+                </tr>
+                </tbody>
+            </table><br />
             <h2>Diagram Legend</h2>
             <ul class="list-group">
-                <li class="list-group-item"><p style="color: #00b0ff;">Cameras</p></li>
+                <li class="list-group-item"><p style="color: blue;">Camera</p></li>
+                <li class="list-group-item"><p style="color: green;">Player</p></li>
             </ul>
         </div>
         <div class="col-md-8">
+            <h2 class="text-center">Graphical Overview</h2>
             <div id="map">
                 <canvas id="concertMap" width="600" height="500"></canvas>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div id="mapGrid" class="col-md-12">
+            <fieldset class="form-group">
+                <label for="selectObjectType">What do you want to add?</label>
+                <select class="form-control" id="selectObjectType">
+                    <option value="Camera">Camera</option>
+                    <option value="Player">Player</option>
+                </select>
+            </fieldset>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <fieldset class="form-group">
+                        <input type="text" class="form-control" id="nameNewObject" placeholder="Name">
+                    </fieldset>
+                </div>
+                <!--<div class="col-md-4">Test</div>-->
+                <!--<div class="col-md-4">Test</div>-->
+            </div>
         </div>
     </div>
 </div>
