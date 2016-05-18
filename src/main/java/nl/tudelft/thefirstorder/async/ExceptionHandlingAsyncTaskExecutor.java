@@ -60,7 +60,7 @@ public class ExceptionHandlingAsyncTaskExecutor implements AsyncTaskExecutor,
     }
 
     /**
-     * Run a specified task
+     * Run a specified task.
      * @param task the task
      * @return a runnable object of the task
      */

@@ -51,7 +51,7 @@ public class AuditEventService {
     }
 
     /**
-     * Find audit events with a date specification
+     * Find audit events with a date specification.
      * @param fromDate after this date
      * @param toDate before this date
      * @param pageable the page with events

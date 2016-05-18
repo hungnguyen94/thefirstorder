@@ -126,7 +126,7 @@ public class UserDTO {
     }
 
     /**
-     * Get the authorities of the DTO
+     * Get the authorities of the DTO.
      * @return the authorities
      */
     public Set<String> getAuthorities() {
