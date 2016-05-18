@@ -15,7 +15,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A TimePoint.
+ * A TimePoint. Represents the starting time and duration of a bar in a Cue.
  */
 @Entity
 @Table(name = "time_point")
@@ -46,30 +46,60 @@ public class TimePoint implements Serializable {
         this.id = id;
     }
 
+    /**
+     * Getter for start time.
+     * @return Integer representing the start time.
+     */
     public Integer getStartTime() {
         return startTime;
     }
 
+    /**
+     * Setter for start time.
+     * @param startTime Starting time in an integer.
+     */
     public void setStartTime(Integer startTime) {
         this.startTime = startTime;
     }
 
+    /**
+     * Getter for duration.
+     * @return Duration of this bar.
+     */
     public Integer getDuration() {
         return duration;
     }
 
+
+    /**
+     * Setter for duration.
+     * @param duration Duration as an integer.
+     */
     public void setDuration(Integer duration) {
         this.duration = duration;
     }
 
+    /**
+     * Getter for Cue.
+     * @return Cue that owns this TimePoint.
+     */
     public Cue getCue() {
         return cue;
     }
 
+    /**
+     * Setter for Cue.
+     * @param cue Sets cue that owns this TimePoint.
+     */
     public void setCue(Cue cue) {
         this.cue = cue;
     }
 
+    /**
+     * Equals method for timePoint.
+     * @param o Object to compare.
+     * @return True if object is equal.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -85,11 +115,19 @@ public class TimePoint implements Serializable {
         return Objects.equals(id, timePoint.id);
     }
 
+    /**
+     * Generate hashcode for this class.
+     * @return Hashcode
+     */
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
     }
 
+    /**
+     * ToString method.
+     * @return String representation for this class.
+     */
     @Override
     public String toString() {
         return "TimePoint{"
