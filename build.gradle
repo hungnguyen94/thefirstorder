@@ -262,8 +262,11 @@ checkstyle {
 }
 
 pmd {
+    toolVersion = '5.4.1'
     ignoreFailures = true
     sourceSets = [sourceSets.main]
+    ruleSets = []
+    ruleSetFiles = files('config/pmd/parentheses.xml')
     reportsDir = rootProject.file("build/reports/pmd/")
 }
 
