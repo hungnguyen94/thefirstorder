@@ -11,20 +11,22 @@
                 <br />
                 <label for="selectCamera">Which camera should we use for the cue?</label>
                 <select class="form-control" id="selectCamera">
-                    <option ng-repeat="camera in vm.cameras" value="player.id">{{camera.name}}</option>
+                    <option ng-repeat="camera in vm.cameras" value="camera.id">{{camera.name}}</option>
                 </select>
+                <br />
+                <label for="selectCameraAction">Which camera action should we use for the cue?</label>
+                <select class="form-control" id="selectCameraAction">
+                    <option ng-repeat="cameraAction in vm.cameraActions" value="cameraAction.id">{{cameraAction.name}}</option>
+                </select>
+                <br />
+                <label for="selectScript">Which script should we use for the cue?</label>
+                <select class="form-control" id="selectScript">
+                    <option ng-repeat="script in vm.scripts" value="script.id">{{script.name}}</option>
+                </select>
+                <br />
+                <label for="durationCue">How long should this cue be?</label>
+                <input type="number" class="form-control" id="durationCue" placeholder="1">
             </fieldset>
-
-            <br />
-            <div class="row">
-                <div class="col-md-4">
-                    <fieldset class="form-group">
-                        <input type="text" class="form-control" id="nameNewObject" placeholder="Name">
-                    </fieldset>
-                </div>
-                <!--<div class="col-md-4">Test</div>-->
-                <!--<div class="col-md-4">Test</div>-->
-            </div>
         </div>
     </div>
 </div>

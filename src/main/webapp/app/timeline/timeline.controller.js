@@ -5,9 +5,9 @@
         .module('thefirstorderApp')
         .controller('TimelineController', TimelineController);
 
-    TimelineController.$inject = ['$scope', '$state', 'Cue', 'Player', 'Camera', 'AlertService'];
+    TimelineController.$inject = ['$scope', '$state', 'Cue', 'Player', 'Camera', 'CameraAction', 'Script', 'AlertService'];
 
-    function TimelineController ($scope, $state, Cue, Player, Camera, AlertService) {
+    function TimelineController ($scope, $state, Cue, Player, Camera, CameraAction, Script, AlertService) {
         var vm = this;
 
         var width = 120;
@@ -19,6 +19,10 @@
         vm.loadPlayers();
         vm.loadCameras = loadCameras;
         vm.loadCameras();
+        vm.loadCameraActions = loadCameraActions;
+        vm.loadCameraActions();
+        vm.loadScripts = loadScripts;
+        vm.loadScripts();
 
         function loadPlayers() {
             Player.query({
@@ -42,6 +46,36 @@
 
             function onSuccess(data, headers) {
                 vm.cameras = data;
+                vm.queryCount = vm.totalItems;
+            }
+
+            function onError(error) {
+                AlertService.error(error.data.message);
+            }
+        }
+
+        function loadCameraActions() {
+            CameraAction.query({
+
+            }, onSuccess, onError);
+
+            function onSuccess(data, headers) {
+                vm.cameraActions = data;
+                vm.queryCount = vm.totalItems;
+            }
+
+            function onError(error) {
+                AlertService.error(error.data.message);
+            }
+        }
+
+        function loadScripts() {
+            Script.query({
+
+            }, onSuccess, onError);
+
+            function onSuccess(data, headers) {
+                vm.scripts = data;
                 vm.queryCount = vm.totalItems;
             }
 
