@@ -142,6 +142,30 @@
                     $state.go('^');
                 });
             }]
+        })
+        .state('project.download', {
+            parent: 'project',
+            url: '/{id}/download',
+            data: {
+                authorities: ['ROLE_USER']
+            },
+            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+                $uibModal.open({
+                    templateUrl: 'app/entities/project/project-download-dialog.html',
+                    controller: 'ProjectDownloadController',
+                    controllerAs: 'vm',
+                    size: 'md',
+                    resolve: {
+                        entity: ['Project', function(Project) {
+                            return Project.get({id : $stateParams.id});
+                        }]
+                    }
+                }).result.then(function() {
+                    $state.go('project', null, { reload: true });
+                }, function() {
+                    $state.go('^');
+                });
+            }]
         });
     }
 
