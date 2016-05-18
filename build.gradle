@@ -266,7 +266,7 @@ pmd {
     ignoreFailures = true
     sourceSets = [sourceSets.main]
     ruleSets = []
-    ruleSetFiles = files('config/pmd/parentheses.xml')
+    ruleSetFiles = files('config/pmd/custom_pmd_ruleset.xml')
     reportsDir = rootProject.file("build/reports/pmd/")
 }
 
