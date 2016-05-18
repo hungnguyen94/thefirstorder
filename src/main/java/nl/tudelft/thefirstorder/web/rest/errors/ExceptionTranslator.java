@@ -47,7 +47,6 @@ public class ExceptionTranslator {
 
     /**
      * An exception which tells that the validation of the parameters is incorrect.
-     * @param exception the exception
      * @return an ErrorDTO object
      */
     @ExceptionHandler(CustomParameterizedException.class)

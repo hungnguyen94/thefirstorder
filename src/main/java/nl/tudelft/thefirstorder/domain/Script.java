@@ -137,7 +137,7 @@ public class Script implements Serializable {
     }
 
     /**
-     * Represents a script as a string
+     * Represents a script as a string.
      * @return the string
      */
     @Override

@@ -43,6 +43,10 @@ public class Cue implements Serializable {
     @JoinColumn(unique = true)
     private CameraAction cameraAction;
 
+    @OneToOne
+    @JoinColumn(unique = true)
+    private TimePoint timePoint;
+
     /**
      * Get the id of the cue.
      * @return the id
@@ -122,6 +126,23 @@ public class Cue implements Serializable {
     public void setCameraAction(CameraAction cameraAction) {
         this.cameraAction = cameraAction;
     }
+
+    /**
+     * Getter for TimePoint.
+     * @return the TimePoint
+     */
+    public TimePoint getTimePoint() {
+        return timePoint;
+    }
+
+    /**
+     * Setter for TimePoint.
+     * @param timePoint TimePoint to be set
+     */
+    public void setTimePoint(TimePoint timePoint) {
+        this.timePoint = timePoint;
+    }
+
 
     /**
      * Checks if two cues are the same.

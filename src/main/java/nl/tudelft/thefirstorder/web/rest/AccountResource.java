@@ -239,7 +239,7 @@ public class AccountResource {
     }
 
     /**
-     * Check the length of a password
+     * Check the length of a password.
      * @param password the password
      * @return a boolean
      */
