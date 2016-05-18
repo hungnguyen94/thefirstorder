@@ -256,7 +256,7 @@ checkstyle {
     toolVersion = '6.17'
     sourceSets = [sourceSets.main]
     showViolations = true
-    ignoreFailures = true
+    ignoreFailures = false
     configFile = rootProject.file("config/checkstyle/checkstyle.xml")
     reportsDir = rootProject.file("build/reports/checkstyle")
 }
