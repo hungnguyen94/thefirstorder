@@ -42,7 +42,7 @@ public class PDFExport {
      * @param project the project
      * @param resp a http response to send the download to the browser
      */
-    public void export(Project project, HttpServletResponse resp) {
+    public static void export(Project project, HttpServletResponse resp) {
         Script script = project.getScript();
         try {
             Document document = new Document();
@@ -70,7 +70,7 @@ public class PDFExport {
      * @param document the document to which the data has to be added
      * @param script the script from which the data is exported
      */
-    private void addMetaData(Document document, Script script) {
+    public static void addMetaData(Document document, Script script) {
         document.addTitle(script.getName());
         document.addSubject("Script");
         document.addKeywords("Script");
@@ -84,7 +84,7 @@ public class PDFExport {
      * @param script the script from which the data is exported
      * @throws DocumentException if something wrong is added to the document
      */
-    private void addTitlePage(Document document, Script script)
+    public static void addTitlePage(Document document, Script script)
         throws DocumentException {
         Paragraph preface = new Paragraph();
         addEmptyLine(preface, 1);
@@ -109,7 +109,7 @@ public class PDFExport {
      * @param script the script from which the content is exported
      * @throws DocumentException if something wrong is added to the document
      */
-    private void addContent(Document document, Script script) throws DocumentException {
+    public static void addContent(Document document, Script script) throws DocumentException {
         PdfPTable table = new PdfPTable(4);
 
         PdfPCell c1 = new PdfPCell(new Phrase("No."));
@@ -187,7 +187,7 @@ public class PDFExport {
 
     }
 
-    private void addEmptyLine(Paragraph paragraph, int number) {
+    public static void addEmptyLine(Paragraph paragraph, int number) {
         for (int i = 0; i < number; i++) {
             paragraph.add(new Paragraph(" "));
         }
