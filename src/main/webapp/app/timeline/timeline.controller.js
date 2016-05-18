@@ -5,9 +5,9 @@
         .module('thefirstorderApp')
         .controller('TimelineController', TimelineController);
 
-    TimelineController.$inject = ['$scope', '$state', 'Cue', 'Player', 'Camera', 'CameraAction', 'Script', 'AlertService'];
+    TimelineController.$inject = ['$scope', '$state', 'Cue', 'Player', 'Camera', 'CameraAction', 'Script', 'TimePoint', 'AlertService'];
 
-    function TimelineController ($scope, $state, Cue, Player, Camera, CameraAction, Script, AlertService) {
+    function TimelineController ($scope, $state, Cue, Player, Camera, CameraAction, Script, TimePoint, AlertService) {
         var vm = this;
 
         var width = 120;
@@ -84,6 +84,17 @@
             }
         }
 
+        function parseIntAsYear(year) {
+            var current = "";
+
+            for (var j = 0; j < 4 - year.toString().length; ++j)
+                current += '0';
+
+            current += year.toString();
+
+            return current;
+        }
+
         function loadCues () {
             Cue.query({
 
@@ -101,23 +112,12 @@
                     var startTime = vm.cues[i].timePoint.startTime;
                     var endTime = vm.cues[i].timePoint.startTime + vm.cues[i].timePoint.duration;
 
-                    var startYear = '';
-                    var endYear = '';
-                    for (var j = 0; j < 4 - startTime.toString().length; ++j)
-                        startYear += '0';
-
-                    startYear += startTime.toString();
-
-                    for (var j = 0; j < 4 - endTime.toString().length; ++j)
-                        endYear += '0';
-
-                    endYear += endTime.toString();
-
-                    console.log(startYear);
+                    var startYear = parseIntAsYear(startTime);
+                    var endYear = parseIntAsYear(endTime);
 
                     dataSet.push({
-                        id: i,
-                        content: "Cue " + i,
+                        id: vm.cues[i].id,
+                        content: "Cue " + vm.cues[i].id,
                         start: startYear + "-01-01",
                         end: endYear + '-01-01'
                     })
@@ -135,6 +135,66 @@
 
                 // Create a Timeline
                 var timeline = new vis.Timeline(container, items, options)
+
+                // Add callbacks for functionality to the timeline
+                timeline.on('click', function (properties) {
+                    var startTime = parseIntAsYear(properties.time.getFullYear());
+                    var duration = document.getElementById('durationCue').value;
+
+                    // Initialize new time point
+                    var timePoint = new TimePoint();
+                    timePoint.startTime = startTime;
+                    timePoint.duration = duration;
+
+                    // Retrieve the rest of the objects
+                    var player = Player.get({id: document.getElementById('selectPlayer').value});
+                    var camera = Camera.get({id: document.getElementById('selectCamera').value});
+                    var cameraAction = CameraAction.get({id: document.getElementById('selectCameraAction').value});
+                    var script = Script.get({id: document.getElementById('selectScript').value});
+
+                    // Save the time point to the database
+                    TimePoint.save(timePoint);
+
+                    // Initialize new cue
+                    var cue = new Cue();
+
+                    // Initialize the new player
+                    var newPlayer = new Player();
+                    newPlayer.id = player.id;
+                    newPlayer.name = player.name;
+                    newPlayer.x = player.x;
+                    newPlayer.y = player.y;
+
+                    // Initialize the new camera
+                    var newCamera = new Camera();
+                    newCamera.id = camera.id;
+                    newCamera.name = camera.name;
+                    newCamera.x = camera.x;
+                    newCamera.y = camera.y;
+
+                    // Initialize the new camera action
+                    var newCameraAction = new CameraAction();
+                    newCameraAction.id = cameraAction.id;
+                    newCameraAction.name = cameraAction.name;
+                    newCameraAction.duration = cameraAction.duration;
+
+                    // Initialize the new script
+                    var newScript= new Script();
+                    newScript.id = script.id;
+                    newScript.name = script.name;
+
+                    cue.player = newPlayer;
+                    cue.camera = newCamera;
+                    cue.cameraAction = newCameraAction;
+                    cue.script = newScript;
+                    cue.timePoint = timePoint;
+
+                    console.log(player, camera, cameraAction, script, timePoint);
+
+                    // Add the Cue to the database
+                    Cue.save(cue);
+                    $state.reload();
+                });
             }
             function onError(error) {
                 AlertService.error(error.data.message);

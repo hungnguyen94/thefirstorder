@@ -6,22 +6,22 @@
             <fieldset class="form-group">
                 <label for="selectPlayer">Which player should we use for the cue?</label>
                 <select class="form-control" id="selectPlayer">
-                    <option ng-repeat="player in vm.players" value="player.id">{{player.name}}</option>
+                    <option ng-repeat="player in vm.players" value="{{player.id}}">{{player.name}}</option>
                 </select>
                 <br />
                 <label for="selectCamera">Which camera should we use for the cue?</label>
                 <select class="form-control" id="selectCamera">
-                    <option ng-repeat="camera in vm.cameras" value="camera.id">{{camera.name}}</option>
+                    <option ng-repeat="camera in vm.cameras" value="{{camera.id}}">{{camera.name}}</option>
                 </select>
                 <br />
                 <label for="selectCameraAction">Which camera action should we use for the cue?</label>
                 <select class="form-control" id="selectCameraAction">
-                    <option ng-repeat="cameraAction in vm.cameraActions" value="cameraAction.id">{{cameraAction.name}}</option>
+                    <option ng-repeat="cameraAction in vm.cameraActions" value="{{cameraAction.id}}">{{cameraAction.name}}</option>
                 </select>
                 <br />
                 <label for="selectScript">Which script should we use for the cue?</label>
                 <select class="form-control" id="selectScript">
-                    <option ng-repeat="script in vm.scripts" value="script.id">{{script.name}}</option>
+                    <option ng-repeat="script in vm.scripts" value="{{script.id}}">{{script.name}}</option>
                 </select>
                 <br />
                 <label for="durationCue">How long should this cue be?</label>
