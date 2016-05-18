@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-xs-4 no-padding-left">
                 <button class="btn btn-primary"
-                        has-authority="ROLE_ADMIN"
+                        has-any-authority="ROLE_ADMIN,ROLE_DIRECTOR,ROLE_CAMERA_OPERATOR"
                         ui-sref="map.new" >
                     <span class="glyphicon glyphicon-plus"></span>
                     <span >
@@ -38,14 +38,14 @@
                                 <span class="hidden-xs hidden-sm"></span>
                             </button>
                             <button type="submit"
-                                    has-authority="ROLE_ADMIN"
+                                    has-any-authority="ROLE_ADMIN,ROLE_DIRECTOR,ROLE_CAMERA_OPERATOR"
                                     ui-sref="map.edit({id:map.id})"
                                     class="btn btn-primary btn-sm">
                                 <span class="glyphicon glyphicon-pencil"></span>
                                 <span class="hidden-xs hidden-sm"></span>
                             </button>
                             <button type="submit"
-                                    has-authority="ROLE_ADMIN"
+                                    has-any-authority="ROLE_ADMIN,ROLE_DIRECTOR,ROLE_CAMERA_OPERATOR"
                                     ui-sref="map.delete({id:map.id})"
                                     class="btn btn-danger btn-sm">
                                 <span class="glyphicon glyphicon-remove-circle"></span>
