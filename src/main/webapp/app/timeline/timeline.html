@@ -4,9 +4,14 @@
             <h2 class="text-center">Timeline</h2><br /><br />
             <div id="visualization"></div>
             <fieldset class="form-group">
-                <label for="selectObjectType">Which player should we use for the cue?</label>
-                <select class="form-control" id="selectObjectType">
+                <label for="selectPlayer">Which player should we use for the cue?</label>
+                <select class="form-control" id="selectPlayer">
                     <option ng-repeat="player in vm.players" value="player.id">{{player.name}}</option>
+                </select>
+                <br />
+                <label for="selectCamera">Which camera should we use for the cue?</label>
+                <select class="form-control" id="selectCamera">
+                    <option ng-repeat="camera in vm.cameras" value="player.id">{{camera.name}}</option>
                 </select>
             </fieldset>
 

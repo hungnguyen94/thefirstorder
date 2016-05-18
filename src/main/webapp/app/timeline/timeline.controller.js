@@ -5,9 +5,9 @@
         .module('thefirstorderApp')
         .controller('TimelineController', TimelineController);
 
-    TimelineController.$inject = ['$scope', '$state', 'Cue', 'Player', 'AlertService'];
+    TimelineController.$inject = ['$scope', '$state', 'Cue', 'Player', 'Camera', 'AlertService'];
 
-    function TimelineController ($scope, $state, Cue, Player, AlertService) {
+    function TimelineController ($scope, $state, Cue, Player, Camera, AlertService) {
         var vm = this;
 
         var width = 120;
@@ -17,8 +17,10 @@
         vm.loadCues();
         vm.loadPlayers = loadPlayers;
         vm.loadPlayers();
+        vm.loadCameras = loadCameras;
+        vm.loadCameras();
 
-        function loadPlayers(cameraData) {
+        function loadPlayers() {
             Player.query({
 
             }, onSuccess, onError);
@@ -33,6 +35,20 @@
             }
         }
 
+        function loadCameras() {
+            Camera.query({
+
+            }, onSuccess, onError);
+
+            function onSuccess(data, headers) {
+                vm.cameras = data;
+                vm.queryCount = vm.totalItems;
+            }
+
+            function onError(error) {
+                AlertService.error(error.data.message);
+            }
+        }
 
         function loadCues () {
             Cue.query({
