@@ -13,15 +13,18 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 /**
  * REST controller for managing TimePoint.
@@ -39,7 +42,8 @@ public class TimePointResource {
      * POST  /time-points : Create a new timePoint.
      *
      * @param timePoint the timePoint to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new timePoint, or with status 400 (Bad Request) if the timePoint has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the new timePoint,
+     *     or with status 400 (Bad Request) if the timePoint has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/time-points",
@@ -49,7 +53,8 @@ public class TimePointResource {
     public ResponseEntity<TimePoint> createTimePoint(@RequestBody TimePoint timePoint) throws URISyntaxException {
         log.debug("REST request to save TimePoint : {}", timePoint);
         if (timePoint.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("timePoint", "idexists", "A new timePoint cannot already have an ID")).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(
+                    "timePoint", "idexists", "A new timePoint cannot already have an ID")).body(null);
         }
         TimePoint result = timePointService.save(timePoint);
         return ResponseEntity.created(new URI("/api/time-points/" + result.getId()))
@@ -62,8 +67,8 @@ public class TimePointResource {
      *
      * @param timePoint the timePoint to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated timePoint,
-     * or with status 400 (Bad Request) if the timePoint is not valid,
-     * or with status 500 (Internal Server Error) if the timePoint couldnt be updated
+     *      or with status 400 (Bad Request) if the timePoint is not valid,
+     *      or with status 500 (Internal Server Error) if the timePoint couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/time-points",
@@ -93,7 +98,8 @@ public class TimePointResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<List<TimePoint>> getAllTimePoints(Pageable pageable, @RequestParam(required = false) String filter)
+    public ResponseEntity<List<TimePoint>> getAllTimePoints(Pageable pageable,
+                                                            @RequestParam(required = false) String filter)
         throws URISyntaxException {
         if ("cue-is-null".equals(filter)) {
             log.debug("REST request to get all TimePoints where cue is null");

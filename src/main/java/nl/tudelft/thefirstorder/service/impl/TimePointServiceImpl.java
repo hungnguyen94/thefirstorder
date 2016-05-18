@@ -1,14 +1,14 @@
 package nl.tudelft.thefirstorder.service.impl;
 
-import nl.tudelft.thefirstorder.service.TimePointService;
 import nl.tudelft.thefirstorder.domain.TimePoint;
 import nl.tudelft.thefirstorder.repository.TimePointRepository;
+import nl.tudelft.thefirstorder.service.TimePointService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -20,7 +20,7 @@ import java.util.stream.StreamSupport;
  */
 @Service
 @Transactional
-public class TimePointServiceImpl implements TimePointService{
+public class TimePointServiceImpl implements TimePointService {
 
     private final Logger log = LoggerFactory.getLogger(TimePointServiceImpl.class);
     

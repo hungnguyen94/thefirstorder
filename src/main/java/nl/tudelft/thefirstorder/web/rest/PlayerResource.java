@@ -13,7 +13,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
 import java.net.URI;
@@ -37,7 +41,8 @@ public class PlayerResource {
      * POST  /players : Create a new player.
      *
      * @param player the player to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new player, or with status 400 (Bad Request) if the player has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the new player,
+     *      or with status 400 (Bad Request) if the player has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/players",
@@ -47,7 +52,13 @@ public class PlayerResource {
     public ResponseEntity<Player> createPlayer(@RequestBody Player player) throws URISyntaxException {
         log.debug("REST request to save Player : {}", player);
         if (player.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("player", "idexists", "A new player cannot already have an ID")).body(null);
+            return ResponseEntity.badRequest().headers(
+                    HeaderUtil.createFailureAlert(
+                            "player",
+                            "idexists",
+                            "A new player cannot already have an ID"
+                    )
+            ).body(null);
         }
         Player result = playerService.save(player);
         return ResponseEntity.created(new URI("/api/players/" + result.getId()))
@@ -60,8 +71,8 @@ public class PlayerResource {
      *
      * @param player the player to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated player,
-     * or with status 400 (Bad Request) if the player is not valid,
-     * or with status 500 (Internal Server Error) if the player couldnt be updated
+     *      or with status 400 (Bad Request) if the player is not valid,
+     *      or with status 500 (Internal Server Error) if the player couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/players",

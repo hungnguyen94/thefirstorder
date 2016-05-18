@@ -1,16 +1,5 @@
 package nl.tudelft.thefirstorder;
 
-import nl.tudelft.thefirstorder.domain.Project;
-import nl.tudelft.thefirstorder.domain.Script;
-import nl.tudelft.thefirstorder.domain.Camera;
-import nl.tudelft.thefirstorder.domain.CameraAction;
-import nl.tudelft.thefirstorder.domain.Cue;
-
-import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
-import java.util.Date;
-import java.util.Set;
-
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -21,9 +10,18 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import nl.tudelft.thefirstorder.domain.Camera;
+import nl.tudelft.thefirstorder.domain.CameraAction;
+import nl.tudelft.thefirstorder.domain.Cue;
+import nl.tudelft.thefirstorder.domain.Project;
+import nl.tudelft.thefirstorder.domain.Script;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.util.Date;
+import java.util.Set;
 
 /**
  * Exports to a PDF file.

@@ -26,6 +26,7 @@ public interface TimePointService {
      *  @return the list of entities
      */
     Page<TimePoint> findAll(Pageable pageable);
+
     /**
      *  Get all the timePoints where Cue is null.
      *  

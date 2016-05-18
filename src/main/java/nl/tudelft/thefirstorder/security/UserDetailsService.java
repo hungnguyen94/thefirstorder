@@ -30,7 +30,7 @@ public class UserDetailsService implements org.springframework.security.core.use
     /**
      * Load the User given by a specified username.
      * @param login the username
-     * @return
+     * @return UserDetails object.
      */
     @Override
     @Transactional
