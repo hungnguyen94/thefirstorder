@@ -4,7 +4,9 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-4 no-padding-left">
-                <button class="btn btn-primary" ui-sref="camera-action.new" >
+                <button class="btn btn-primary"
+                        has-authority="ROLE_ADMIN"
+                        ui-sref="camera-action.new" >
                     <span class="glyphicon glyphicon-plus"></span>
                     <span >
                         Create new Camera Action
@@ -38,12 +40,14 @@
                                 <span class="hidden-xs hidden-sm"></span>
                             </button>
                             <button type="submit"
+                                    has-authority="ROLE_ADMIN"
                                     ui-sref="camera-action.edit({id:cameraAction.id})"
                                     class="btn btn-primary btn-sm">
                                 <span class="glyphicon glyphicon-pencil"></span>
                                 <span class="hidden-xs hidden-sm"></span>
                             </button>
                             <button type="submit"
+                                    has-authority="ROLE_ADMIN"
                                     ui-sref="camera-action.delete({id:cameraAction.id})"
                                     class="btn btn-danger btn-sm">
                                 <span class="glyphicon glyphicon-remove-circle"></span>
