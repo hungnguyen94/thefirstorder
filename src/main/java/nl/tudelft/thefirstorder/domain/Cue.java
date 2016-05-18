@@ -43,91 +43,58 @@ public class Cue implements Serializable {
     @JoinColumn(unique = true)
     private CameraAction cameraAction;
 
-    /**
-     * Get the id of the cue.
-     * @return the id
-     */
+    @OneToOne
+    @JoinColumn(unique = true)
+    private TimePoint timePoint;
+
     public Long getId() {
         return id;
     }
 
-    /**
-     * Set the id of the cue.
-     * @param id the id
-     */
     public void setId(Long id) {
         this.id = id;
     }
 
-    /**
-     * Get the script to which the cue belongs.
-     * @return the script
-     */
     public Script getScript() {
         return script;
     }
 
-    /**
-     * Set the script to which the cue belongs.
-     * @param script the script
-     */
     public void setScript(Script script) {
         this.script = script;
     }
 
-    /**
-     * Get the player of the cue.
-     * @return the player
-     */
     public Player getPlayer() {
         return player;
     }
 
-    /**
-     * Set the player of the cue.
-     * @param player the player
-     */
     public void setPlayer(Player player) {
         this.player = player;
     }
 
-    /**
-     * Get the camera of the cue.
-     * @return the camera
-     */
     public Camera getCamera() {
         return camera;
     }
 
-    /**
-     * Set the camera of the cue.
-     * @param camera the camera
-     */
     public void setCamera(Camera camera) {
         this.camera = camera;
     }
 
-    /**
-     * Get the camera action of the cue.
-     * @return the camera action
-     */
     public CameraAction getCameraAction() {
         return cameraAction;
     }
 
-    /**
-     * Set the camera action of the cue.
-     * @param cameraAction the camera action
-     */
     public void setCameraAction(CameraAction cameraAction) {
         this.cameraAction = cameraAction;
     }
 
-    /**
-     * Checks if two cues are the same.
-     * @param o the object to compare with
-     * @return the result as boolean
-     */
+    public TimePoint getTimePoint() {
+        return timePoint;
+    }
+
+    public void setTimePoint(TimePoint timePoint) {
+        this.timePoint = timePoint;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -137,29 +104,21 @@ public class Cue implements Serializable {
             return false;
         }
         Cue cue = (Cue) o;
-        if (cue.id == null || id == null) {
+        if(cue.id == null || id == null) {
             return false;
         }
         return Objects.equals(id, cue.id);
     }
 
-    /**
-     * Generates a hash code.
-     * @return the hash code
-     */
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
     }
 
-    /**
-     * Represents the cue as a string.
-     * @return the string
-     */
     @Override
     public String toString() {
-        return "Cue{"
-                + "id=" + id
-                + '}';
+        return "Cue{" +
+            "id=" + id +
+            '}';
     }
 }

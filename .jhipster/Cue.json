@@ -29,6 +29,14 @@
             "otherEntityField": "id",
             "ownerSide": true,
             "otherEntityRelationshipName": "cue"
+        },
+        {
+            "relationshipName": "timePoint",
+            "otherEntityName": "timePoint",
+            "relationshipType": "one-to-one",
+            "otherEntityField": "startTime",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "cue"
         }
     ],
     "fields": [],
