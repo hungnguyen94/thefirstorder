@@ -18,7 +18,12 @@
                     return data;
                 }
             },
-            'update': { method:'PUT' }
+            'update': { method:'PUT' }, 
+            'exportPdf': {
+                method: 'GET',
+                url: 'api/projects/:id/exportpdf', 
+                responseType: 'arraybuffer'
+            }
         });
     }
 })();
