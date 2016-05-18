@@ -7,6 +7,8 @@ import nl.tudelft.thefirstorder.web.rest.util.HeaderUtil;
 import nl.tudelft.thefirstorder.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -20,8 +22,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
+import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -141,4 +148,27 @@ public class ProjectResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("project", id.toString())).build();
     }
 
+
+    @RequestMapping(value = "/projects/{id}/exportpdf",
+            method = RequestMethod.GET,
+            produces = "application/pdf")
+    @Timed
+    public ResponseEntity<Resource> downloadPDF(@PathVariable Long id) throws IOException, URISyntaxException {
+        File file = Paths.get(getClass().getResource("/testPDF.pdf").toURI()).toFile();
+        log.debug("Loaded file: {}", file.getAbsolutePath());
+        Path path = Paths.get(file.getAbsolutePath());
+        Resource resource = new ByteArrayResource(Files.readAllBytes(path));
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        headers.add("Pragma", "no-cache");
+        headers.add("Expires", "0");
+
+        log.debug("Download request for Project {}", id);
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(file.length())
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(resource);
+    }
 }
