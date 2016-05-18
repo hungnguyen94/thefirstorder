@@ -24,6 +24,12 @@ public class Player implements Serializable {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "X")
+    private int x;
+
+    @Column(name = "Y")
+    private int y;
+
     /**
      * Get the id of the player.
      * @return the id
@@ -55,6 +61,23 @@ public class Player implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Integer getX() {
+        return x;
+    }
+
+    public void setX(Integer x) {
+        this.x = x;
+    }
+
+    public Integer getY() {
+        return y;
+    }
+
+    public void setY(Integer y) {
+        this.y = y;
+    }
+
 
     /**
      * Checks if two players are the same.
