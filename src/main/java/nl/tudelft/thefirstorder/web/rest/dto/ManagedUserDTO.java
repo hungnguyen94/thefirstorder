@@ -106,7 +106,7 @@ public class ManagedUserDTO extends UserDTO {
     }
 
     /**
-     * Set the creation date of the DTO
+     * Set the creation date of the DTO.
      * @param createdDate the creation date
      */
     public void setCreatedDate(ZonedDateTime createdDate) {

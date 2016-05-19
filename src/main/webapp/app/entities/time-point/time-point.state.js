@@ -9,17 +9,17 @@
 
     function stateConfig($stateProvider) {
         $stateProvider
-        .state('player', {
+        .state('time-point', {
             parent: 'entity',
-            url: '/player?page&sort&search',
+            url: '/time-point?page&sort&search',
             data: {
                 authorities: ['ROLE_USER'],
-                pageTitle: 'Players'
+                pageTitle: 'TimePoints'
             },
             views: {
                 'content@': {
-                    templateUrl: 'app/entities/player/players.html',
-                    controller: 'PlayerController',
+                    templateUrl: 'app/entities/time-point/time-points.html',
+                    controller: 'TimePointController',
                     controllerAs: 'vm'
                 }
             },
@@ -46,100 +46,99 @@
                 }]
             }
         })
-        .state('player-detail', {
+        .state('time-point-detail', {
             parent: 'entity',
-            url: '/player/{id}',
+            url: '/time-point/{id}',
             data: {
                 authorities: ['ROLE_USER'],
-                pageTitle: 'Player'
+                pageTitle: 'TimePoint'
             },
             views: {
                 'content@': {
-                    templateUrl: 'app/entities/player/player-detail.html',
-                    controller: 'PlayerDetailController',
+                    templateUrl: 'app/entities/time-point/time-point-detail.html',
+                    controller: 'TimePointDetailController',
                     controllerAs: 'vm'
                 }
             },
             resolve: {
-                entity: ['$stateParams', 'Player', function($stateParams, Player) {
-                    return Player.get({id : $stateParams.id});
+                entity: ['$stateParams', 'TimePoint', function($stateParams, TimePoint) {
+                    return TimePoint.get({id : $stateParams.id});
                 }]
             }
         })
-        .state('player.new', {
-            parent: 'player',
+        .state('time-point.new', {
+            parent: 'time-point',
             url: '/new',
             data: {
                 authorities: ['ROLE_USER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/player/player-dialog.html',
-                    controller: 'PlayerDialogController',
+                    templateUrl: 'app/entities/time-point/time-point-dialog.html',
+                    controller: 'TimePointDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
                     size: 'lg',
                     resolve: {
                         entity: function () {
                             return {
-                                name: null,
-                                x: null,
-                                y: null,
+                                startTime: null,
+                                duration: null,
                                 id: null
                             };
                         }
                     }
                 }).result.then(function() {
-                    $state.go('player', null, { reload: true });
+                    $state.go('time-point', null, { reload: true });
                 }, function() {
-                    $state.go('player');
+                    $state.go('time-point');
                 });
             }]
         })
-        .state('player.edit', {
-            parent: 'player',
+        .state('time-point.edit', {
+            parent: 'time-point',
             url: '/{id}/edit',
             data: {
                 authorities: ['ROLE_USER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/player/player-dialog.html',
-                    controller: 'PlayerDialogController',
+                    templateUrl: 'app/entities/time-point/time-point-dialog.html',
+                    controller: 'TimePointDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
                     size: 'lg',
                     resolve: {
-                        entity: ['Player', function(Player) {
-                            return Player.get({id : $stateParams.id});
+                        entity: ['TimePoint', function(TimePoint) {
+                            return TimePoint.get({id : $stateParams.id});
                         }]
                     }
                 }).result.then(function() {
-                    $state.go('player', null, { reload: true });
+                    $state.go('time-point', null, { reload: true });
                 }, function() {
                     $state.go('^');
                 });
             }]
         })
-        .state('player.delete', {
-            parent: 'player',
+        .state('time-point.delete', {
+            parent: 'time-point',
             url: '/{id}/delete',
             data: {
                 authorities: ['ROLE_USER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/player/player-delete-dialog.html',
-                    controller: 'PlayerDeleteController',
+                    templateUrl: 'app/entities/time-point/time-point-delete-dialog.html',
+                    controller: 'TimePointDeleteController',
                     controllerAs: 'vm',
                     size: 'md',
                     resolve: {
-                        entity: ['Player', function(Player) {
-                            return Player.get({id : $stateParams.id});
+                        entity: ['TimePoint', function(TimePoint) {
+                            return TimePoint.get({id : $stateParams.id});
                         }]
                     }
                 }).result.then(function() {
-                    $state.go('player', null, { reload: true });
+                    $state.go('time-point', null, { reload: true });
                 }, function() {
                     $state.go('^');
                 });

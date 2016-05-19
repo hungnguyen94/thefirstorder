@@ -1,7 +1,7 @@
 package nl.tudelft.thefirstorder.web.rest.dto;
 
 /**
- * Key and password DTO
+ * Key and password DTO.
  */
 public class KeyAndPasswordDTO {
 
