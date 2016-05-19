@@ -3,11 +3,11 @@ package nl.tudelft.thefirstorder.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import nl.tudelft.thefirstorder.domain.Project;
 import nl.tudelft.thefirstorder.service.ProjectService;
+import nl.tudelft.thefirstorder.service.util.PDFExportUtil;
 import nl.tudelft.thefirstorder.web.rest.util.HeaderUtil;
 import nl.tudelft.thefirstorder.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,13 +22,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -149,25 +145,39 @@ public class ProjectResource {
     }
 
 
+    /**
+     * GET /projects/:id/exportpdf : exports the project to a PDF.
+     * Serve the PDF as download.
+     * @param id the id of the project to export.
+     * @return the ResponseEntity with status 200 (OK) or with status 404 (Not Found)
+     * @throws IOException This exception is thrown when the resource cannot be read.
+     */
     @RequestMapping(value = "/projects/{id}/exportpdf",
             method = RequestMethod.GET,
             produces = "application/pdf")
     @Timed
-    public ResponseEntity<Resource> downloadPDF(@PathVariable Long id) throws IOException, URISyntaxException {
-        File file = Paths.get(getClass().getResource("/testPDF.pdf").toURI()).toFile();
-        log.debug("Loaded file: {}", file.getAbsolutePath());
-        Path path = Paths.get(file.getAbsolutePath());
-        Resource resource = new ByteArrayResource(Files.readAllBytes(path));
+    public ResponseEntity<Resource> downloadPDF(@PathVariable Long id) throws IOException {
+        log.debug("Request to get download Project : {}", id);
+        Optional<Project> project = Optional.ofNullable(projectService.findOne(id));
 
+        // Disable cache for this response.
         HttpHeaders headers = new HttpHeaders();
         headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
         headers.add("Pragma", "no-cache");
         headers.add("Expires", "0");
 
-        log.debug("Download request for Project {}", id);
+        if (!project.isPresent()) {
+            log.error("Project {} could not be found.", id);
+            return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
+        }
+
+        log.debug("Export Project {} to PDF.", id);
+        Project currentProject = project.get();
+        Resource resource = PDFExportUtil.exportProjectToPDF(currentProject);
+
         return ResponseEntity.ok()
                 .headers(headers)
-                .contentLength(file.length())
+                .contentLength(resource.contentLength())
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(resource);
     }
