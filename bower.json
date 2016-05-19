@@ -27,6 +27,7 @@
     "swagger-ui": "2.1.4",
     "arrive": "2.3.0",
     "fabric.js": "fabric#^1.6.1",
+    "angular-file-saver": "^1.1.1",
     "vis": "4.16.1"
   },
   "devDependencies": {
