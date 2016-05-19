@@ -10,12 +10,13 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import nl.tudelft.thefirstorder.domain.Project;
-import nl.tudelft.thefirstorder.domain.Script;
+import nl.tudelft.thefirstorder.domain.*;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Utility class to export a project to a PDF File.
@@ -145,22 +146,24 @@ public class PDFExportUtil {
         table.setHeaderRows(1);
         cameratable.setHeaderRows(1);
         actiontable.setHeaderRows(1);
-//        Set<Cue> cues = script.getCues();
-//        int index = 1;
-//        for (Cue cue : cues) {
-//            table.addCell(index + ".");
-//            table.addCell(cue.getCamera().getName());
-//            table.addCell(cue.getCameraAction().getName());
-//            table.addCell(cue.getPlayer().getName());
-//            Camera camera = cue.getCamera();
-//            cameratable.addCell(camera.getName());
-//            cameratable.addCell(camera.getX() + "");
-//            cameratable.addCell(camera.getY() + "");
-//            CameraAction action = cue.getCameraAction();
-//            actiontable.addCell(action.getName());
-//            actiontable.addCell(action.getDuration() + "");
-//            index++;
-//        }
+        Set<Cue> cues = script.getCues();
+        int index = 1;
+        Iterator<Cue> iterator = cues.iterator();
+        while(iterator.hasNext()) {
+            Cue cue = iterator.next();
+            table.addCell(index + ".");
+            table.addCell(cue.getCamera().getName());
+            table.addCell(cue.getCameraAction().getName());
+            table.addCell(cue.getPlayer().getName());
+            Camera camera = cue.getCamera();
+            cameratable.addCell(camera.getName());
+            cameratable.addCell(camera.getX() + "");
+            cameratable.addCell(camera.getY() + "");
+            CameraAction action = cue.getCameraAction();
+            actiontable.addCell(action.getName());
+            actiontable.addCell(action.getDuration() + "");
+            index++;
+        }
         Paragraph par = new Paragraph();
         par.add(new Paragraph("Cues"));
         addEmptyLine(par, 2);

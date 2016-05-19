@@ -49,6 +49,7 @@ module.exports = function (config) {
             'src/main/webapp/bower_components/blob-polyfill/Blob.js',
             'src/main/webapp/bower_components/file-saver.js/FileSaver.js',
             'src/main/webapp/bower_components/angular-file-saver/dist/angular-file-saver.bundle.js',
+            'src/main/webapp/bower_components/vis/dist/vis.js',
             'src/main/webapp/bower_components/angular-mocks/angular-mocks.js',
             // endbower
             'src/main/webapp/app/app.module.js',
