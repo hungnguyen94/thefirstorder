@@ -6,9 +6,20 @@
             "relationshipType": "one-to-one",
             "ownerSide": false,
             "otherEntityRelationshipName": "cameraAction"
+        },
+        {
+            "relationshipName": "camera",
+            "otherEntityName": "camera",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "name"
         }
     ],
-    "fields": [],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        }
+    ],
     "changelogDate": "20160504134055",
     "dto": "no",
     "service": "serviceImpl",

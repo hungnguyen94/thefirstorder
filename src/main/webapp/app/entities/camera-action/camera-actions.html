@@ -22,7 +22,7 @@
                 <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                     <th jh-sort-by="id"><span>ID</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="name"><span>Name</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="duration"><span>Duration</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="camera.name"><span>Camera</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
                 </tr>
             </thead>
@@ -30,7 +30,9 @@
                 <tr ng-repeat="cameraAction in vm.cameraActions track by cameraAction.id">
                     <td><a ui-sref="camera-action-detail({id:cameraAction.id})">{{cameraAction.id}}</a></td>
                     <td>{{cameraAction.name}}</td>
-                    <td>{{cameraAction.duration}}</td>
+                    <td>
+                        <a ui-sref="camera-detail({id:cameraAction.camera.id})">{{cameraAction.camera.name}}</a>
+                    </td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"

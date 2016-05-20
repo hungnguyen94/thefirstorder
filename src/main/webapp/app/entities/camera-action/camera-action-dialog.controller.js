@@ -5,11 +5,13 @@
         .module('thefirstorderApp')
         .controller('CameraActionDialogController', CameraActionDialogController);
 
-    CameraActionDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'CameraAction'];
+    CameraActionDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'CameraAction', 'Cue', 'Camera'];
 
-    function CameraActionDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, CameraAction) {
+    function CameraActionDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, CameraAction, Cue, Camera) {
         var vm = this;
         vm.cameraAction = entity;
+        vm.cues = Cue.query();
+        vm.cameras = Camera.query();
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();

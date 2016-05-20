@@ -26,6 +26,12 @@ public interface CameraActionService {
      *  @return the list of entities
      */
     Page<CameraAction> findAll(Pageable pageable);
+    /**
+     *  Get all the cameraActions where Cue is null.
+     *  
+     *  @return the list of entities
+     */
+    List<CameraAction> findAllWhereCueIsNull();
 
     /**
      *  Get the "id" cameraAction.

@@ -8,9 +8,9 @@
             <span>{{vm.cameraAction.name}}</span>
         </dd>
         <hr>
-        <dt><span>Duration</span></dt>
+        <dt><span>Camera</span></dt>
         <dd>
-            <span>{{vm.cameraAction.duration}}</span>
+            <a ui-sref="camera-detail({id:vm.cameraAction.camera.id})">{{vm.cameraAction.camera.name}}</a>
         </dd>
         <hr>
     </dl>

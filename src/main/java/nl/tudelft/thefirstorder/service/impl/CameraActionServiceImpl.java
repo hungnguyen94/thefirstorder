@@ -1,23 +1,26 @@
 package nl.tudelft.thefirstorder.service.impl;
 
+import nl.tudelft.thefirstorder.service.CameraActionService;
 import nl.tudelft.thefirstorder.domain.CameraAction;
 import nl.tudelft.thefirstorder.repository.CameraActionRepository;
-import nl.tudelft.thefirstorder.service.CameraActionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * Service Implementation for managing CameraAction.
  */
 @Service
 @Transactional
-public class CameraActionServiceImpl implements CameraActionService {
+public class CameraActionServiceImpl implements CameraActionService{
 
     private final Logger log = LoggerFactory.getLogger(CameraActionServiceImpl.class);
     
@@ -47,6 +50,20 @@ public class CameraActionServiceImpl implements CameraActionService {
         log.debug("Request to get all CameraActions");
         Page<CameraAction> result = cameraActionRepository.findAll(pageable); 
         return result;
+    }
+
+
+    /**
+     *  get all the cameraActions where Cue is null.
+     *  @return the list of entities
+     */
+    @Transactional(readOnly = true) 
+    public List<CameraAction> findAllWhereCueIsNull() {
+        log.debug("Request to get all cameraActions where Cue is null");
+        return StreamSupport
+            .stream(cameraActionRepository.findAll().spliterator(), false)
+            .filter(cameraAction -> cameraAction.getCue() == null)
+            .collect(Collectors.toList());
     }
 
     /**

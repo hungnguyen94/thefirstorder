@@ -13,8 +13,10 @@
     <include file="classpath:config/liquibase/changelog/20160504113134_added_entity_Cue.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20160504122100_added_entity_Player.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20160518111537_added_entity_TimePoint.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20160504134055_added_entity_CameraAction.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="classpath:config/liquibase/changelog/20160504105827_added_entity_constraints_Project.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20160504113134_added_entity_constraints_Cue.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20160504134055_added_entity_constraints_CameraAction.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

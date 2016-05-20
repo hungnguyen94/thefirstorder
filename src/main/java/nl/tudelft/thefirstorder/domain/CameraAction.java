@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Objects;
@@ -29,8 +30,8 @@ public class CameraAction implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "duration")
-    private Integer duration;
+    @ManyToOne
+    private Camera camera;
 
     /**
      * Get the id of the camera action.
@@ -64,20 +65,12 @@ public class CameraAction implements Serializable {
         this.name = name;
     }
 
-    /**
-     * Get the duration of the camera action.
-     * @return the duration
-     */
-    public Integer getDuration() {
-        return duration;
+    public Camera getCamera() {
+        return camera;
     }
 
-    /**
-     * Set the duration of the camera action.
-     * @param duration the duration
-     */
-    public void setDuration(Integer duration) {
-        this.duration = duration;
+    public void setCamera(Camera camera) {
+        this.camera = camera;
     }
 
     /**
@@ -117,7 +110,6 @@ public class CameraAction implements Serializable {
     public String toString() {
         return "CameraAction{" + "id=" + id
                 + ", name='" + name + "'"
-                + ", duration='" + duration + "'"
                 + '}';
     }
 }
