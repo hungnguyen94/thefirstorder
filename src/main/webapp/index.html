@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/bootstrap-material-design.css" />
     <link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/ripples.css" />
+    <link rel="stylesheet" href="bower_components/vis/dist/vis.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css content/css/main.css -->
@@ -69,6 +70,10 @@
     <script src="bower_components/bootstrap-material-design/dist/js/material.js"></script>
     <script src="bower_components/bootstrap-material-design/dist/js/ripples.js"></script>
     <script src="bower_components/fabric.js/dist/fabric.min.js"></script>
+    <script src="bower_components/blob-polyfill/Blob.js"></script>
+    <script src="bower_components/file-saver.js/FileSaver.js"></script>
+    <script src="bower_components/angular-file-saver/dist/angular-file-saver.bundle.js"></script>
+    <script src="bower_components/vis/dist/vis.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -94,6 +99,12 @@
     <script src="app/layouts/navbar/navbar.controller.js"></script>
     <script src="app/layouts/navbar/active-link.directive.js"></script>
     <script src="app/layouts/error/error.state.js"></script>
+    <script src="app/entities/time-point/time-point.state.js"></script>
+    <script src="app/entities/time-point/time-point.service.js"></script>
+    <script src="app/entities/time-point/time-point.controller.js"></script>
+    <script src="app/entities/time-point/time-point-dialog.controller.js"></script>
+    <script src="app/entities/time-point/time-point-detail.controller.js"></script>
+    <script src="app/entities/time-point/time-point-delete-dialog.controller.js"></script>
     <script src="app/entities/script/script.state.js"></script>
     <script src="app/entities/script/script.service.js"></script>
     <script src="app/entities/script/script.controller.js"></script>
@@ -103,6 +114,8 @@
     <script src="app/entities/project/project.state.js"></script>
     <script src="app/entities/project/project.service.js"></script>
     <script src="app/entities/project/project.controller.js"></script>
+    <script src="app/entities/project/project-download.service.js"></script>
+    <script src="app/entities/project/project-download-dialog.controller.js"></script>
     <script src="app/entities/project/project-dialog.controller.js"></script>
     <script src="app/entities/project/project-detail.controller.js"></script>
     <script src="app/entities/project/project-delete-dialog.controller.js"></script>

@@ -4,7 +4,9 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-4 no-padding-left">
-                <button class="btn btn-primary" ui-sref="cue.new" >
+                <button class="btn btn-primary"
+                        has-any-authority="ROLE_ADMIN,ROLE_DIRECTOR"
+                        ui-sref="cue.new" >
                     <span class="glyphicon glyphicon-plus"></span>
                     <span >
                         Create new Cue
@@ -23,6 +25,7 @@
                     <th jh-sort-by="player.id"><span>Player</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="camera.id"><span>Camera</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="cameraAction.id"><span>Camera Action</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="timePoint.startTime"><span>Time Point</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
                 </tr>
             </thead>
@@ -41,6 +44,9 @@
                     <td>
                         <a ui-sref="camera-action-detail({id:cue.cameraAction.id})">{{cue.cameraAction.id}}</a>
                     </td>
+                    <td>
+                        <a ui-sref="time-point-detail({id:cue.timePoint.id})">{{cue.timePoint.startTime}}</a>
+                    </td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
@@ -50,12 +56,14 @@
                                 <span class="hidden-xs hidden-sm"></span>
                             </button>
                             <button type="submit"
+                                    has-any-authority="ROLE_ADMIN,ROLE_DIRECTOR"
                                     ui-sref="cue.edit({id:cue.id})"
                                     class="btn btn-primary btn-sm">
                                 <span class="glyphicon glyphicon-pencil"></span>
                                 <span class="hidden-xs hidden-sm"></span>
                             </button>
                             <button type="submit"
+                                    has-any-authority="ROLE_ADMIN,ROLE_DIRECTOR"
                                     ui-sref="cue.delete({id:cue.id})"
                                     class="btn btn-danger btn-sm">
                                 <span class="glyphicon glyphicon-remove-circle"></span>

@@ -5,22 +5,95 @@
         .module('thefirstorderApp')
         .controller('TimelineController', TimelineController);
 
-    TimelineController.$inject = ['$scope', '$state', 'Cue', 'AlertService'];
+    TimelineController.$inject = ['$scope', '$state', 'Cue', 'Player', 'Camera', 'CameraAction', 'Script', 'TimePoint', 'AlertService'];
 
-    /**
-     * Controller for the timeline.
-     * @param $scope scope of the timeline
-     * @param $state state of the timeline
-     * @param Cue the cue entity
-     * @param AlertService the alert service.
-     * @constructor
-     */
-    function TimelineController ($scope, $state, Cue, AlertService) {
+    function TimelineController ($scope, $state, Cue, Player, Camera, CameraAction, Script, TimePoint, AlertService) {
         var vm = this;
-        var grid = 15;
+
+        var width = 120;
+        var height = 60;
 
         vm.loadCues = loadCues;
         vm.loadCues();
+        vm.loadPlayers = loadPlayers;
+        vm.loadPlayers();
+        vm.loadCameras = loadCameras;
+        vm.loadCameras();
+        vm.loadCameraActions = loadCameraActions;
+        vm.loadCameraActions();
+        vm.loadScripts = loadScripts;
+        vm.loadScripts();
+
+        function loadPlayers() {
+            Player.query({
+
+            }, onSuccess, onError);
+
+            function onSuccess(data, headers) {
+                vm.players = data;
+                vm.queryCount = vm.totalItems;
+            }
+
+            function onError(error) {
+                AlertService.error(error.data.message);
+            }
+        }
+
+        function loadCameras() {
+            Camera.query({
+
+            }, onSuccess, onError);
+
+            function onSuccess(data, headers) {
+                vm.cameras = data;
+                vm.queryCount = vm.totalItems;
+            }
+
+            function onError(error) {
+                AlertService.error(error.data.message);
+            }
+        }
+
+        function loadCameraActions() {
+            CameraAction.query({
+
+            }, onSuccess, onError);
+
+            function onSuccess(data, headers) {
+                vm.cameraActions = data;
+                vm.queryCount = vm.totalItems;
+            }
+
+            function onError(error) {
+                AlertService.error(error.data.message);
+            }
+        }
+
+        function loadScripts() {
+            Script.query({
+
+            }, onSuccess, onError);
+
+            function onSuccess(data, headers) {
+                vm.scripts = data;
+                vm.queryCount = vm.totalItems;
+            }
+
+            function onError(error) {
+                AlertService.error(error.data.message);
+            }
+        }
+
+        function parseIntAsYear(year) {
+            var current = "";
+
+            for (var j = 0; j < 4 - year.toString().length; ++j)
+                current += '0';
+
+            current += year.toString();
+
+            return current;
+        }
 
         function loadCues () {
             Cue.query({
@@ -30,72 +103,102 @@
             function onSuccess(data, headers) {
                 vm.cues = data;
                 vm.queryCount = vm.totalItems;
-                drawTimeline(data);
+                // DOM element where the Timeline will be attached
+                var container = document.getElementById('visualization');
+
+                // Create a DataSet using the cues from the database
+                var dataSet = [];
+                for (var i = 0; i < vm.cues.length; ++i) {
+                    var startTime = vm.cues[i].timePoint.startTime;
+                    var endTime = vm.cues[i].timePoint.startTime + vm.cues[i].timePoint.duration;
+
+                    var startYear = parseIntAsYear(startTime);
+                    var endYear = parseIntAsYear(endTime);
+
+                    dataSet.push({
+                        id: vm.cues[i].id,
+                        content: "Cue " + vm.cues[i].id,
+                        start: startYear + "-01-01",
+                        end: endYear + '-01-01'
+                    })
+                }
+
+                var items = new vis.DataSet(dataSet);
+
+                // Configuration for the Timeline
+                var options = {
+                    'timeAxis' : {scale: 'year', step: 1},
+                    'min': '0000-01-01',
+                    'zoomMin': 63072000000,
+                    'zoomMax': 700000000000
+                };
+
+                // Create a Timeline
+                var timeline = new vis.Timeline(container, items, options)
+
+                // Add callbacks for functionality to the timeline
+                timeline.on('click', function (properties) {
+                    var startTime = parseIntAsYear(properties.time.getFullYear());
+                    var duration = document.getElementById('durationCue').value;
+
+                    // Initialize new time point
+                    var timePoint = new TimePoint();
+                    timePoint.startTime = startTime;
+                    timePoint.duration = duration;
+
+                    // Retrieve the rest of the objects
+                    var player = Player.get({id: document.getElementById('selectPlayer').value});
+                    var camera = Camera.get({id: document.getElementById('selectCamera').value});
+                    var cameraAction = CameraAction.get({id: document.getElementById('selectCameraAction').value});
+                    var script = Script.get({id: document.getElementById('selectScript').value});
+
+                    // Save the time point to the database
+                    TimePoint.save(timePoint);
+
+                    // Initialize new cue
+                    var cue = new Cue();
+
+                    // Initialize the new player
+                    var newPlayer = new Player();
+                    newPlayer.id = player.id;
+                    newPlayer.name = player.name;
+                    newPlayer.x = player.x;
+                    newPlayer.y = player.y;
+
+                    // Initialize the new camera
+                    var newCamera = new Camera();
+                    newCamera.id = camera.id;
+                    newCamera.name = camera.name;
+                    newCamera.x = camera.x;
+                    newCamera.y = camera.y;
+
+                    // Initialize the new camera action
+                    var newCameraAction = new CameraAction();
+                    newCameraAction.id = cameraAction.id;
+                    newCameraAction.name = cameraAction.name;
+                    newCameraAction.duration = cameraAction.duration;
+
+                    // Initialize the new script
+                    var newScript= new Script();
+                    newScript.id = script.id;
+                    newScript.name = script.name;
+
+                    cue.player = newPlayer;
+                    cue.camera = newCamera;
+                    cue.cameraAction = newCameraAction;
+                    cue.script = newScript;
+                    cue.timePoint = timePoint;
+
+                    console.log(player, camera, cameraAction, script, timePoint);
+
+                    // Add the Cue to the database
+                    Cue.save(cue);
+                    $state.reload();
+                });
             }
             function onError(error) {
                 AlertService.error(error.data.message);
             }
-        }
-
-        /**
-         * Draws the timeline with given cues.
-         * @param cues the cues to draw
-         */
-        function drawTimeline(cues) {
-            var htmlCanvas = document.getElementById('concertTimeline');
-
-            // Resize the timeline to the size of the parent
-            resizeToParent(htmlCanvas);
-
-            var canvas = new fabric.Canvas('concertTimeline');
-            var interval = 25;
-
-            // Draw the grid of the timeline
-            drawInterval(canvas, interval);
-        }
-
-        /**
-         * Draws interval lines on the timeline.
-         * @param canvas the canvas to draw to
-         * @param interval the distance between lines
-         */
-        function drawInterval(canvas, interval) {
-            var x = 0;
-            var line = null;
-            var rect = [];
-
-            for (var i = 0; i < Math.ceil(canvas.width / interval); ++i) {
-                // Instantiate an array representing the line (drawn as rectangle)
-                rect[0] = i * Math.ceil(canvas.width / interval);
-                rect[1] = 0;
-                rect[2] = i * Math.ceil(canvas.width / interval);
-                rect[3] = canvas.height;
-
-                // Overwrite line from the previous loop
-                line = null;
-                line = new fabric.Line(rect, {
-                    stroke: 'black'
-                });
-
-                line.selectable = false;
-                canvas.add(line);
-                line.sendToBack();
-            }
-            canvas.renderAll;
-        }
-
-        /**
-         * Resizes the canvas to parent size.
-         * @param canvas the canvas to resize
-         */
-        function resizeToParent(canvas) {
-            // Resize it to the parents' size
-            canvas.style.width = '100%';
-            canvas.style.height = '100%';
-
-            // Now set the internal size, so it will not appear blurry
-            canvas.width = canvas.offsetWidth;
-            canvas.height = canvas.offsetHeight;
         }
     }
 })();
