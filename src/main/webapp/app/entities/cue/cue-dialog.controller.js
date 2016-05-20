@@ -11,15 +11,7 @@
         var vm = this;
         vm.cue = entity;
         vm.scripts = Script.query();
-        vm.cameraactions = CameraAction.query({filter: 'cue-is-null'});
-        $q.all([vm.cue.$promise, vm.cameraactions.$promise]).then(function() {
-            if (!vm.cue.cameraAction || !vm.cue.cameraAction.id) {
-                return $q.reject();
-            }
-            return CameraAction.get({id : vm.cue.cameraAction.id}).$promise;
-        }).then(function(cameraAction) {
-            vm.cameraactions.push(cameraAction);
-        });
+        vm.cameraactions = CameraAction.query();
         vm.timepoints = TimePoint.query({filter: 'cue-is-null'});
         $q.all([vm.cue.$promise, vm.timepoints.$promise]).then(function() {
             if (!vm.cue.timePoint || !vm.cue.timePoint.id) {

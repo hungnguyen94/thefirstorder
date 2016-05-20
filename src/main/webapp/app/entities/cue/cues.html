@@ -23,10 +23,10 @@
                     <th jh-sort-by="id"><span>ID</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="script.name"><span>Script</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="cameraAction.name"><span>Camera Action</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="timePoint.startTime"><span>Time Point</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="player.name"><span>Player</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="script.name"><span>Script</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="camera.name"><span>Camera</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="timePoint.startTime"><span>Start time</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="timePoint.duration"><span>Duration</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
                 </tr>
             </thead>
@@ -40,14 +40,13 @@
                         <a ui-sref="camera-action-detail({id:cue.cameraAction.id})">{{cue.cameraAction.name}}</a>
                     </td>
                     <td>
-                        <a ui-sref="time-point-detail({id:cue.timePoint.id})">{{cue.timePoint.startTime}}</a>
-                    </td>
-                    <td>
                         <a ui-sref="player-detail({id:cue.player.id})">{{cue.player.name}}</a>
                     </td>
                     <td>
                         <a ui-sref="camera-detail({id:cue.camera.id})">{{cue.camera.name}}</a>
                     </td>
+                    <td>{{cue.timePoint.startTime}}</td>
+                    <td>{{cue.timePoint.duration}}</td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
