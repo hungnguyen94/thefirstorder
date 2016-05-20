@@ -20,12 +20,6 @@
                      />
         </div>
 
-        <div class="form-group">
-            <label for="field_camera">Camera</label>
-            <select class="form-control" id="field_camera" name="camera" ng-model="vm.cameraAction.camera" ng-options="camera as camera.name for camera in vm.cameras track by camera.id">
-                <option value=""></option>
-            </select>
-        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">

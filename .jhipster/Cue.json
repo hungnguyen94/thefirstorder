@@ -33,6 +33,12 @@
             "otherEntityName": "script",
             "relationshipType": "many-to-one",
             "otherEntityField": "name"
+        },
+        {
+            "relationshipName": "camera",
+            "otherEntityName": "camera",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "name"
         }
     ],
     "fields": [],

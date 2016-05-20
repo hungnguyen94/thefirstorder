@@ -1,5 +1,6 @@
 package nl.tudelft.thefirstorder.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -8,10 +9,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A Project.
@@ -31,10 +36,22 @@ public class Project implements Serializable {
     private String name;
 
     @OneToOne
+    @JoinColumn
     private Script script;
 
     @OneToOne
+    @JoinColumn
     private Map map;
+
+    @OneToMany(mappedBy = "project")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Player> players = new HashSet<>();
+
+    @OneToMany(mappedBy = "project")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Camera> cameras = new HashSet<>();
 
     /**
      * Get the id of the project.
@@ -98,6 +115,22 @@ public class Project implements Serializable {
      */
     public void setMap(Map map) {
         this.map = map;
+    }
+
+    public Set<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(Set<Player> players) {
+        this.players = players;
+    }
+
+    public Set<Camera> getCameras() {
+        return cameras;
+    }
+
+    public void setCameras(Set<Camera> cameras) {
+        this.cameras = cameras;
     }
 
     /**

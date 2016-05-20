@@ -5,9 +5,9 @@
         .module('thefirstorderApp')
         .controller('CueDialogController', CueDialogController);
 
-    CueDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$q', 'entity', 'Cue', 'Script', 'CameraAction', 'TimePoint', 'Player'];
+    CueDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$q', 'entity', 'Cue', 'Script', 'CameraAction', 'TimePoint', 'Player', 'Camera'];
 
-    function CueDialogController ($timeout, $scope, $stateParams, $uibModalInstance, $q, entity, Cue, Script, CameraAction, TimePoint, Player) {
+    function CueDialogController ($timeout, $scope, $stateParams, $uibModalInstance, $q, entity, Cue, Script, CameraAction, TimePoint, Player, Camera) {
         var vm = this;
         vm.cue = entity;
         vm.scripts = Script.query();
@@ -30,6 +30,7 @@
             vm.timepoints.push(timePoint);
         });
         vm.players = Player.query();
+        vm.cameras = Camera.query();
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();

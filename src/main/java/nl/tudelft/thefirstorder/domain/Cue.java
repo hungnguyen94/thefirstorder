@@ -4,6 +4,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,14 +29,20 @@ public class Cue implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
     private Player player;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    private Camera camera;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
     private Script script;
 
     @OneToOne
-    @JoinColumn(unique = true)
+    @JoinColumn
     private CameraAction cameraAction;
 
     @OneToOne
@@ -56,6 +63,14 @@ public class Cue implements Serializable {
      */
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Camera getCamera() {
+        return camera;
+    }
+
+    public void setCamera(Camera camera) {
+        this.camera = camera;
     }
 
     /**

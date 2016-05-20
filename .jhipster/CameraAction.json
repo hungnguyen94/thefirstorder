@@ -1,19 +1,5 @@
 {
-    "relationships": [
-        {
-            "relationshipName": "cue",
-            "otherEntityName": "cue",
-            "relationshipType": "one-to-one",
-            "ownerSide": false,
-            "otherEntityRelationshipName": "cameraAction"
-        },
-        {
-            "relationshipName": "camera",
-            "otherEntityName": "camera",
-            "relationshipType": "many-to-one",
-            "otherEntityField": "name"
-        }
-    ],
+    "relationships": [],
     "fields": [
         {
             "fieldName": "name",

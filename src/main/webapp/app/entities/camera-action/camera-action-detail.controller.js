@@ -5,9 +5,9 @@
         .module('thefirstorderApp')
         .controller('CameraActionDetailController', CameraActionDetailController);
 
-    CameraActionDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'entity', 'CameraAction', 'Cue', 'Camera'];
+    CameraActionDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'entity', 'CameraAction'];
 
-    function CameraActionDetailController($scope, $rootScope, $stateParams, entity, CameraAction, Cue, Camera) {
+    function CameraActionDetailController($scope, $rootScope, $stateParams, entity, CameraAction) {
         var vm = this;
         vm.cameraAction = entity;
         

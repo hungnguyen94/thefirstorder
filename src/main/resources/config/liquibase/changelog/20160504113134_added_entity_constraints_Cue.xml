@@ -32,5 +32,11 @@
                                  referencedColumnNames="id"
                                  referencedTableName="player"/>
 
+        <addForeignKeyConstraint baseColumnNames="camera_id"
+                                 baseTableName="cue"
+                                 constraintName="fk_cue_camera_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="camera"/>
+
     </changeSet>
 </databaseChangeLog>
