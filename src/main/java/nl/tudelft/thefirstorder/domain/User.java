@@ -36,6 +36,9 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(name = "current_project_id")
+    private Long currentProjectId;
+
     @NotNull
     @Pattern(regexp = "^[a-z0-9]*$|(anonymousUser)")
     @Size(min = 1, max = 50)
@@ -105,6 +108,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
      */
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getCurrentProjectId() {
+        return currentProjectId;
+    }
+
+    public void setCurrentProjectId(Long currentProjectId) {
+        this.currentProjectId = currentProjectId;
     }
 
     /**

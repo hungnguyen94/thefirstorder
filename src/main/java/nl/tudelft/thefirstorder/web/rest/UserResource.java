@@ -243,4 +243,22 @@ public class UserResource {
                 HeaderUtil.createAlert( "A user is deleted with identifier " + login, login)
         ).build();
     }
+
+    /**
+     * GET  /users/currentproject : get the current project
+     * the user is working on.
+     *
+     * @return ResponseEntity with status 200 (OK) and with the project id in the body,
+     *      or with status 404 (Not Found)
+     */
+    @RequestMapping(value = "/users/currentproject",
+            method = RequestMethod.GET
+    )
+    public ResponseEntity<Long> getCurrentProjectId() {
+        return Optional.ofNullable(userService.getProjectIdCurrentUser())
+                .map(result -> new ResponseEntity<>(
+                        result,
+                        HttpStatus.OK ))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
 }
