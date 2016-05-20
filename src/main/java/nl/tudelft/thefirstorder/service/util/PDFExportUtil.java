@@ -152,15 +152,16 @@ public class PDFExportUtil {
         while(iterator.hasNext()) {
             Cue cue = iterator.next();
             table.addCell(index + ".");
-            table.addCell(cue.getCamera().getName());
+            table.addCell(cue.getCameraAction().getCamera().getName());
             table.addCell(cue.getCameraAction().getName());
             table.addCell(cue.getPlayer().getName());
-            Camera camera = cue.getCamera();
+            Camera camera = cue.getCameraAction().getCamera();
             cameratable.addCell(camera.getName());
             cameratable.addCell(camera.getX() + "");
             cameratable.addCell(camera.getY() + "");
             CameraAction action = cue.getCameraAction();
             actiontable.addCell(action.getName());
+//            actiontable.addCell(cue.getTimePoint().getDuration() + "");
             index++;
         }
         Paragraph par = new Paragraph();

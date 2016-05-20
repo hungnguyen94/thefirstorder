@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
@@ -102,14 +101,8 @@ public class CameraActionResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<List<CameraAction>> getAllCameraActions(Pageable pageable,
-                                                                  @RequestParam(required = false) String filter)
+    public ResponseEntity<List<CameraAction>> getAllCameraActions(Pageable pageable)
             throws URISyntaxException {
-        if ("cue-is-null".equals(filter)) {
-            log.debug("REST request to get all CameraActions where cue is null");
-            return new ResponseEntity<>(cameraActionService.findAllWhereCueIsNull(),
-                    HttpStatus.OK);
-        }
         log.debug("REST request to get a page of CameraActions");
         Page<CameraAction> page = cameraActionService.findAll(pageable); 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/camera-actions");
