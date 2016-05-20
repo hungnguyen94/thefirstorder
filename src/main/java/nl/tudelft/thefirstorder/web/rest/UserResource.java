@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
@@ -243,40 +242,5 @@ public class UserResource {
         return ResponseEntity.ok().headers(
                 HeaderUtil.createAlert( "A user is deleted with identifier " + login, login)
         ).build();
-    }
-
-    /**
-     * GET  /users/currentproject : get the current project
-     * the user is working on.
-     *
-     * @return ResponseEntity with status 200 (OK) and with the project id in the body,
-     *      or with status 404 (Not Found)
-     */
-    @RequestMapping(value = "/users/currentproject",
-            method = RequestMethod.GET
-    )
-    public ResponseEntity<Long> getCurrentProjectId() {
-        return Optional.ofNullable(userService.getUserProjectId())
-                .map(result -> new ResponseEntity<>(
-                        result,
-                        HttpStatus.OK ))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-    /**
-     * GET  /users/currentproject : get the current project
-     * the user is working on.
-     *
-     * @return ResponseEntity with status 200 (OK) and with the project id in the body,
-     *      or with status 404 (Not Found)
-     */
-    @RequestMapping(value = "/users/currentproject",
-            method = RequestMethod.PUT
-    )
-    public ResponseEntity<Long> setCurrentProjectId(@RequestParam Long projectId) {
-        log.debug("REST request to update current project ID of current user to : {}", projectId);
-        userService.updateUserProjectId(projectId);
-        Long currentProjectId = userService.getUserProjectId();
-        return new ResponseEntity<>(currentProjectId, HttpStatus.OK);
     }
 }

@@ -275,10 +275,9 @@ public class UserService {
      * @param id Updated project id
      */
     public void updateUserProjectId(Long id) {
-        userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(u -> {
-            u.setCurrentProjectId(id);
-            userRepository.save(u);
-            log.debug("Changed current project ID to {} for User: {}", id, u);
-        });
+        User user = getUserWithAuthorities();
+        user.setCurrentProjectId(id);
+        userRepository.save(user);
+        log.debug("Changed current project ID to {} for User: {}", id, user);
     }
 }
