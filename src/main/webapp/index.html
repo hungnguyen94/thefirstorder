@@ -11,14 +11,14 @@
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css" />
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/bootstrap-material-design.css" />
-    <link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/ripples.css" />
     <link rel="stylesheet" href="bower_components/vis/dist/vis.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css content/css/main.css -->
     <link rel="stylesheet" href="content/css/main.css">
     <link rel="stylesheet" href="content/css/custom.css">
+    <link rel="stylesheet" href="content/css/bootstrap-material-design.css" />
+    <link rel="stylesheet" href="content/css/ripples.css" />
     <!-- endbuild -->
 </head>
 <body ng-app="thefirstorderApp">
@@ -70,9 +70,6 @@
     <script src="bower_components/bootstrap-material-design/dist/js/material.js"></script>
     <script src="bower_components/bootstrap-material-design/dist/js/ripples.js"></script>
     <script src="bower_components/fabric.js/dist/fabric.min.js"></script>
-    <script src="bower_components/blob-polyfill/Blob.js"></script>
-    <script src="bower_components/file-saver.js/FileSaver.js"></script>
-    <script src="bower_components/angular-file-saver/dist/angular-file-saver.bundle.js"></script>
     <script src="bower_components/vis/dist/vis.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
@@ -80,10 +77,10 @@
     <!-- build:js app/app.js  -->
     <!-- inject:js -->
     <script src="app/app.module.js"></script>
-    <script src="app/account/reset/request/reset.request.state.js"></script>
-    <script src="app/account/reset/request/reset.request.controller.js"></script>
     <script src="app/account/reset/finish/reset.finish.state.js"></script>
     <script src="app/account/reset/finish/reset.finish.controller.js"></script>
+    <script src="app/account/reset/request/reset.request.state.js"></script>
+    <script src="app/account/reset/request/reset.request.controller.js"></script>
     <script src="app/services/user/user.service.js"></script>
     <script src="app/services/auth/register.service.js"></script>
     <script src="app/services/auth/principal.service.js"></script>
@@ -114,8 +111,6 @@
     <script src="app/entities/project/project.state.js"></script>
     <script src="app/entities/project/project.service.js"></script>
     <script src="app/entities/project/project.controller.js"></script>
-    <script src="app/entities/project/project-download.service.js"></script>
-    <script src="app/entities/project/project-download-dialog.controller.js"></script>
     <script src="app/entities/project/project-dialog.controller.js"></script>
     <script src="app/entities/project/project-detail.controller.js"></script>
     <script src="app/entities/project/project-delete-dialog.controller.js"></script>
@@ -206,15 +201,15 @@
     <script src="app/admin/audits/audits.state.js"></script>
     <script src="app/admin/audits/audits.service.js"></script>
     <script src="app/admin/audits/audits.controller.js"></script>
-    <script src="app/account/settings/settings.state.js"></script>
-    <script src="app/account/settings/settings.controller.js"></script>
-    <script src="app/account/register/register.state.js"></script>
-    <script src="app/account/register/register.controller.js"></script>
     <script src="app/account/password/password.state.js"></script>
     <script src="app/account/password/password.controller.js"></script>
     <script src="app/account/password/password-strength-bar.directive.js"></script>
+    <script src="app/account/settings/settings.state.js"></script>
+    <script src="app/account/settings/settings.controller.js"></script>
     <script src="app/account/activate/activate.state.js"></script>
     <script src="app/account/activate/activate.controller.js"></script>
+    <script src="app/account/register/register.state.js"></script>
+    <script src="app/account/register/register.controller.js"></script>
     <script src="app/timeline/timeline.state.js"></script>
     <script src="app/timeline/timeline.controller.js"></script>
     <script src="app/map/mapview.state.js"></script>
@@ -228,6 +223,14 @@
     <script src="app/app.constants.js"></script>
     <!-- endinject -->
     <!-- endbuild -->
-
+    <script src="content/js/material.js"></script>
+    <script src="content/js/ripples.js"></script>
+    <script type="text/javascript">
+        $.material.init();
+        $.material.ripples();
+        $.material.input();
+        $.material.checkbox();
+        $.material.radio();
+    </script>
 </body>
 </html>
