@@ -8,11 +8,6 @@
     -->
     <changeSet id="20160504134055-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="camera_id"
-                                 baseTableName="camera_action"
-                                 constraintName="fk_cameraaction_camera_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="camera"/>
 
     </changeSet>
 </databaseChangeLog>
