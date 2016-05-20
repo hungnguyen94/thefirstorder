@@ -29,15 +29,7 @@ public class Cue implements Serializable {
     private Long id;
 
     @ManyToOne
-    private Script script;
-
-    @OneToOne
-    @JoinColumn(unique = true)
     private Player player;
-
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Camera camera;
 
     @OneToOne
     @JoinColumn(unique = true)
@@ -64,22 +56,6 @@ public class Cue implements Serializable {
     }
 
     /**
-     * Get the script to which the cue belongs.
-     * @return the script
-     */
-    public Script getScript() {
-        return script;
-    }
-
-    /**
-     * Set the script to which the cue belongs.
-     * @param script the script
-     */
-    public void setScript(Script script) {
-        this.script = script;
-    }
-
-    /**
      * Get the player of the cue.
      * @return the player
      */
@@ -93,22 +69,6 @@ public class Cue implements Serializable {
      */
     public void setPlayer(Player player) {
         this.player = player;
-    }
-
-    /**
-     * Get the camera of the cue.
-     * @return the camera
-     */
-    public Camera getCamera() {
-        return camera;
-    }
-
-    /**
-     * Set the camera of the cue.
-     * @param camera the camera
-     */
-    public void setCamera(Camera camera) {
-        this.camera = camera;
     }
 
     /**

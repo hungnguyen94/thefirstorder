@@ -5,30 +5,12 @@
         .module('thefirstorderApp')
         .controller('CueDialogController', CueDialogController);
 
-    CueDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$q', 'entity', 'Cue', 'Script', 'Player', 'Camera', 'CameraAction', 'TimePoint'];
+    CueDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$q', 'entity', 'Cue', 'Script', 'CameraAction', 'TimePoint', 'Player'];
 
-    function CueDialogController ($timeout, $scope, $stateParams, $uibModalInstance, $q, entity, Cue, Script, Player, Camera, CameraAction, TimePoint) {
+    function CueDialogController ($timeout, $scope, $stateParams, $uibModalInstance, $q, entity, Cue, Script, CameraAction, TimePoint, Player) {
         var vm = this;
         vm.cue = entity;
         vm.scripts = Script.query();
-        vm.players = Player.query({filter: 'cue-is-null'});
-        $q.all([vm.cue.$promise, vm.players.$promise]).then(function() {
-            if (!vm.cue.player || !vm.cue.player.id) {
-                return $q.reject();
-            }
-            return Player.get({id : vm.cue.player.id}).$promise;
-        }).then(function(player) {
-            vm.players.push(player);
-        });
-        vm.cameras = Camera.query({filter: 'cue-is-null'});
-        $q.all([vm.cue.$promise, vm.cameras.$promise]).then(function() {
-            if (!vm.cue.camera || !vm.cue.camera.id) {
-                return $q.reject();
-            }
-            return Camera.get({id : vm.cue.camera.id}).$promise;
-        }).then(function(camera) {
-            vm.cameras.push(camera);
-        });
         vm.cameraactions = CameraAction.query({filter: 'cue-is-null'});
         $q.all([vm.cue.$promise, vm.cameraactions.$promise]).then(function() {
             if (!vm.cue.cameraAction || !vm.cue.cameraAction.id) {
@@ -47,6 +29,7 @@
         }).then(function(timePoint) {
             vm.timepoints.push(timePoint);
         });
+        vm.players = Player.query();
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();

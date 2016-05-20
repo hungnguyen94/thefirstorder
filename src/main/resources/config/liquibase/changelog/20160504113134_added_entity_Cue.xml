@@ -22,18 +22,11 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="script_id" type="bigint"/>
-            <column name="player_id" type="bigint">
-                <constraints unique="true"/>
-            </column>
-            <column name="camera_id" type="bigint">
-                <constraints unique="true"/>
-            </column>
-            <column name="camera_action_id" type="bigint">
-                <constraints unique="true"/>
-            </column>
+            <column name="camera_action_id" type="bigint"/>
             <column name="time_point_id" type="bigint">
                 <constraints unique="true"/>
             </column>
+            <column name="player_id" type="bigint"/>
             <!-- jhipster-needle-liquibase-add-column - Jhipster will add columns here, do not remove-->
         </createTable>
         
