@@ -10,7 +10,11 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import nl.tudelft.thefirstorder.domain.*;
+import nl.tudelft.thefirstorder.domain.Camera;
+import nl.tudelft.thefirstorder.domain.CameraAction;
+import nl.tudelft.thefirstorder.domain.Cue;
+import nl.tudelft.thefirstorder.domain.Project;
+import nl.tudelft.thefirstorder.domain.Script;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 
@@ -49,7 +53,7 @@ public class PDFExportUtil {
             addTitlePage(document, project);
             addContent(document, project);
             document.close();
-        } catch(DocumentException e) {
+        } catch (DocumentException e) {
             e.printStackTrace();
         }
 
@@ -100,7 +104,6 @@ public class PDFExportUtil {
      * @throws DocumentException if something wrong is added to the document
      */
     private static void addContent(Document document, Project project) throws DocumentException {
-        Script script = project.getScript();
         PdfPTable table = new PdfPTable(4);
 
         PdfPCell c1 = new PdfPCell(new Phrase("No."));
@@ -146,10 +149,11 @@ public class PDFExportUtil {
         table.setHeaderRows(1);
         cameratable.setHeaderRows(1);
         actiontable.setHeaderRows(1);
+        Script script = project.getScript();
         Set<Cue> cues = script.getCues();
         int index = 1;
         Iterator<Cue> iterator = cues.iterator();
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             Cue cue = iterator.next();
             table.addCell(index + ".");
             table.addCell(cue.getCameraAction().getCamera().getName());
