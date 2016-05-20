@@ -31,6 +31,9 @@ public class Cue implements Serializable {
     @ManyToOne
     private Player player;
 
+    @ManyToOne
+    private Script script;
+
     @OneToOne
     @JoinColumn(unique = true)
     private CameraAction cameraAction;
@@ -142,5 +145,13 @@ public class Cue implements Serializable {
         return "Cue{"
                 + "id=" + id
                 + '}';
+    }
+
+    public Script getScript() {
+        return script;
+    }
+
+    public void setScript(Script script) {
+        this.script = script;
     }
 }

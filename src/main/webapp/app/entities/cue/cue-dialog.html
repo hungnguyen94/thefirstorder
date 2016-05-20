@@ -38,6 +38,12 @@
                 <option value=""></option>
             </select>
         </div>
+        <div class="form-group">
+            <label for="field_script">Script</label>
+            <select class="form-control" id="field_script" name="script" ng-model="vm.cue.script" ng-options="script as script.name for script in vm.scripts track by script.id">
+                <option value=""></option>
+            </select>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">

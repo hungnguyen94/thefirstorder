@@ -27,6 +27,12 @@
             "otherEntityName": "player",
             "relationshipType": "many-to-one",
             "otherEntityField": "name"
+        },
+        {
+            "relationshipName": "script",
+            "otherEntityName": "script",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "name"
         }
     ],
     "fields": [],
