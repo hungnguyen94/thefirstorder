@@ -10,11 +10,11 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import nl.tudelft.thefirstorder.domain.Cue;
-import nl.tudelft.thefirstorder.domain.Script;
-import nl.tudelft.thefirstorder.domain.Project;
 import nl.tudelft.thefirstorder.domain.Camera;
 import nl.tudelft.thefirstorder.domain.CameraAction;
+import nl.tudelft.thefirstorder.domain.Cue;
+import nl.tudelft.thefirstorder.domain.Project;
+import nl.tudelft.thefirstorder.domain.Script;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 
