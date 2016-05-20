@@ -4,7 +4,7 @@ describe('Controller Tests', function() {
 
     describe('Cue Management Detail Controller', function() {
         var $scope, $rootScope;
-        var MockEntity, MockCue, MockScript, MockPlayer, MockCamera, MockCameraAction;
+        var MockEntity, MockCue, MockScript, MockPlayer, MockCamera, MockCameraAction, MockTimePoint;
         var createController;
 
         beforeEach(inject(function($injector) {
@@ -16,6 +16,7 @@ describe('Controller Tests', function() {
             MockPlayer = jasmine.createSpy('MockPlayer');
             MockCamera = jasmine.createSpy('MockCamera');
             MockCameraAction = jasmine.createSpy('MockCameraAction');
+            MockTimePoint = jasmine.createSpy('MockTimePoint');
             
 
             var locals = {
@@ -26,7 +27,8 @@ describe('Controller Tests', function() {
                 'Script': MockScript,
                 'Player': MockPlayer,
                 'Camera': MockCamera,
-                'CameraAction': MockCameraAction
+                'CameraAction': MockCameraAction,
+                'TimePoint': MockTimePoint
             };
             createController = function() {
                 $injector.get('$controller')("CueDetailController", locals);

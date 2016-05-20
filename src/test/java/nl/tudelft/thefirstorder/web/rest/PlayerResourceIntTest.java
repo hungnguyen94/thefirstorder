@@ -45,6 +45,12 @@ public class PlayerResourceIntTest {
     private static final String DEFAULT_NAME = "AAAAA";
     private static final String UPDATED_NAME = "BBBBB";
 
+    private static final Integer DEFAULT_X = 1;
+    private static final Integer UPDATED_X = 2;
+
+    private static final Integer DEFAULT_Y = 1;
+    private static final Integer UPDATED_Y = 2;
+
     @Inject
     private PlayerRepository playerRepository;
 
@@ -75,6 +81,8 @@ public class PlayerResourceIntTest {
     public void initTest() {
         player = new Player();
         player.setName(DEFAULT_NAME);
+        player.setX(DEFAULT_X);
+        player.setY(DEFAULT_Y);
     }
 
     @Test
@@ -94,6 +102,8 @@ public class PlayerResourceIntTest {
         assertThat(players).hasSize(databaseSizeBeforeCreate + 1);
         Player testPlayer = players.get(players.size() - 1);
         assertThat(testPlayer.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testPlayer.getX()).isEqualTo(DEFAULT_X);
+        assertThat(testPlayer.getY()).isEqualTo(DEFAULT_Y);
     }
 
     @Test
@@ -107,7 +117,9 @@ public class PlayerResourceIntTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(player.getId().intValue())))
-                .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
+                .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+                .andExpect(jsonPath("$.[*].x").value(hasItem(DEFAULT_X)))
+                .andExpect(jsonPath("$.[*].y").value(hasItem(DEFAULT_Y)));
     }
 
     @Test
@@ -121,7 +133,9 @@ public class PlayerResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.id").value(player.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()));
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
+            .andExpect(jsonPath("$.x").value(DEFAULT_X))
+            .andExpect(jsonPath("$.y").value(DEFAULT_Y));
     }
 
     @Test
@@ -144,6 +158,8 @@ public class PlayerResourceIntTest {
         Player updatedPlayer = new Player();
         updatedPlayer.setId(player.getId());
         updatedPlayer.setName(UPDATED_NAME);
+        updatedPlayer.setX(UPDATED_X);
+        updatedPlayer.setY(UPDATED_Y);
 
         restPlayerMockMvc.perform(put("/api/players")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -155,6 +171,8 @@ public class PlayerResourceIntTest {
         assertThat(players).hasSize(databaseSizeBeforeUpdate);
         Player testPlayer = players.get(players.size() - 1);
         assertThat(testPlayer.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testPlayer.getX()).isEqualTo(UPDATED_X);
+        assertThat(testPlayer.getY()).isEqualTo(UPDATED_Y);
     }
 
     @Test

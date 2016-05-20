@@ -32,5 +32,11 @@
                                  referencedColumnNames="id"
                                  referencedTableName="camera_action"/>
 
+        <addForeignKeyConstraint baseColumnNames="time_point_id"
+                                 baseTableName="cue"
+                                 constraintName="fk_cue_timepoint_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="time_point"/>
+
     </changeSet>
 </databaseChangeLog>
