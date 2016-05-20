@@ -11,14 +11,14 @@
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css" />
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/bootstrap-material-design.css" />
-    <link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/ripples.css" />
     <link rel="stylesheet" href="bower_components/vis/dist/vis.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css content/css/main.css -->
     <link rel="stylesheet" href="content/css/main.css">
     <link rel="stylesheet" href="content/css/custom.css">
+    <link rel="stylesheet" href="content/css/bootstrap-material-design.css" />
+    <link rel="stylesheet" href="content/css/ripples.css" />
     <!-- endbuild -->
 </head>
 <body ng-app="thefirstorderApp">
@@ -70,9 +70,6 @@
     <script src="bower_components/bootstrap-material-design/dist/js/material.js"></script>
     <script src="bower_components/bootstrap-material-design/dist/js/ripples.js"></script>
     <script src="bower_components/fabric.js/dist/fabric.min.js"></script>
-    <script src="bower_components/blob-polyfill/Blob.js"></script>
-    <script src="bower_components/file-saver.js/FileSaver.js"></script>
-    <script src="bower_components/angular-file-saver/dist/angular-file-saver.bundle.js"></script>
     <script src="bower_components/vis/dist/vis.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
@@ -114,8 +111,6 @@
     <script src="app/entities/project/project.state.js"></script>
     <script src="app/entities/project/project.service.js"></script>
     <script src="app/entities/project/project.controller.js"></script>
-    <script src="app/entities/project/project-download.service.js"></script>
-    <script src="app/entities/project/project-download-dialog.controller.js"></script>
     <script src="app/entities/project/project-dialog.controller.js"></script>
     <script src="app/entities/project/project-detail.controller.js"></script>
     <script src="app/entities/project/project-delete-dialog.controller.js"></script>
@@ -228,6 +223,14 @@
     <script src="app/app.constants.js"></script>
     <!-- endinject -->
     <!-- endbuild -->
-
+    <script src="content/js/material.js"></script>
+    <script src="content/js/ripples.js"></script>
+    <script type="text/javascript">
+        $.material.init();
+        $.material.ripples();
+        $.material.input();
+        $.material.checkbox();
+        $.material.radio();
+    </script>
 </body>
 </html>
