@@ -310,8 +310,8 @@ jacocoTestReport {
 
 tasks.withType(FindBugs) {
     reports {
-        xml.enabled = false
-        html.enabled = true
+        xml.enabled = true
+        html.enabled = false
         html.destination rootProject.file("build/reports/findbugs/findbugs.html")
     }
 }
