@@ -265,8 +265,20 @@ public class UserService {
      * @return Project id
      */
     @Transactional(readOnly = true)
-    public Long getProjectIdCurrentUser() {
+    public Long getUserProjectId() {
         User user = getUserWithAuthorities();
         return user.getCurrentProjectId();
+    }
+
+    /**
+     * Update the current project id of the currently logged in User.
+     * @param id Updated project id
+     */
+    public void updateUserProjectId(Long id) {
+        userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(u -> {
+            u.setCurrentProjectId(id);
+            userRepository.save(u);
+            log.debug("Changed current project ID to {} for User: {}", id, u);
+        });
     }
 }
