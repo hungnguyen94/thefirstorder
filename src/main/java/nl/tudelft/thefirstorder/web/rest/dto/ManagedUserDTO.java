@@ -73,7 +73,7 @@ public class ManagedUserDTO extends UserDTO {
                           ZonedDateTime createdDate,
                           String lastModifiedBy,
                           ZonedDateTime lastModifiedDate ) {
-        super(login, firstName, lastName, email, activated, langKey, authorities);
+        super(login, firstName, lastName, email, activated, langKey, authorities, null);
         this.id = id;
         this.createdDate = createdDate;
         this.lastModifiedBy = lastModifiedBy;
