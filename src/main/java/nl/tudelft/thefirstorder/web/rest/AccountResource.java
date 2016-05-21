@@ -239,40 +239,6 @@ public class AccountResource {
     }
 
     /**
-     * GET  /account/currentproject : get the current project the user is working on.
-     *
-     * @return ResponseEntity with status 200 (OK) and with the project id in the body,
-     *      or with status 404 (Not Found)
-     */
-    @RequestMapping(value = "/account/currentproject",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public ResponseEntity<Long> getCurrentProjectId() {
-        return Optional.ofNullable(userService.getUserProjectId())
-                .map(result -> new ResponseEntity<>(
-                        result,
-                        HttpStatus.OK ))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-    /**
-     * PUT  /users/currentproject : update the current project the user is working on.
-     *
-     * @return ResponseEntity with status 200 (OK) and with the project id in the body,
-     *      or with status 404 (Not Found)
-     */
-    @RequestMapping(value = "/account/update_currentproject",
-            method = RequestMethod.PUT,
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public ResponseEntity<Long> setCurrentProjectId(@RequestParam Long projectId) {
-        log.debug("REST request to update current project ID of current user to : {}", projectId);
-        userService.updateUserProjectId(projectId);
-        Long currentProjectId = userService.getUserProjectId();
-        return new ResponseEntity<>(currentProjectId, HttpStatus.OK);
-    }
-    /**
      * Check the length of a password.
      * @param password the password
      * @return a boolean
