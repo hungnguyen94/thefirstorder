@@ -2,8 +2,20 @@
 OVERRIDE ALL CSS SETTINGS
 */
 
-.blue_navbar {
-    background-color: #00b0ff;
+@media (min-width: 768px) {
+  .container {
+    width: 95%;
+  }
+}
+@media (min-width: 992px) {
+  .container {
+    width: 95%;
+  }
+}
+@media (min-width: 1200px) {
+  .container {
+    width: 95%;
+  }
 }
 
 canvas#concertMap {
