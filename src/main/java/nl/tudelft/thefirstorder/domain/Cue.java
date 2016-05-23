@@ -135,9 +135,6 @@ public class Cue implements Serializable {
             return false;
         }
         Cue cue = (Cue) o;
-        if (cue.id == null || id == null) {
-            return false;
-        }
         return Objects.equals(id, cue.id);
     }
 
