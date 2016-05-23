@@ -22,13 +22,13 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="script_id" type="bigint">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="camera_action_id" type="bigint">
                 <constraints nullable="true"/>
             </column>
             <column name="time_point_id" type="bigint">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="player_id" type="bigint">
                 <constraints nullable="true"/>
