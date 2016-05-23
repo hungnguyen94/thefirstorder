@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
@@ -91,7 +90,6 @@ public class ScriptResource {
      * GET  /scripts : get all the scripts.
      *
      * @param pageable the pagination information
-     * @param filter the filter of the request
      * @return the ResponseEntity with status 200 (OK) and the list of scripts in body
      * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
@@ -99,13 +97,8 @@ public class ScriptResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<List<Script>> getAllScripts(Pageable pageable, @RequestParam(required = false) String filter)
-        throws URISyntaxException {
-        if ("project-is-null".equals(filter)) {
-            log.debug("REST request to get all Scripts where project is null");
-            return new ResponseEntity<>(scriptService.findAllWhereProjectIsNull(),
-                    HttpStatus.OK);
-        }
+    public ResponseEntity<List<Script>> getAllScripts(Pageable pageable)
+            throws URISyntaxException {
         log.debug("REST request to get a page of Scripts");
         Page<Script> page = scriptService.findAll(pageable); 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/scripts");

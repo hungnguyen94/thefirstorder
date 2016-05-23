@@ -1,14 +1,11 @@
 {
-    "relationships": [
+    "relationships": [],
+    "fields": [
         {
-            "relationshipName": "cue",
-            "otherEntityName": "cue",
-            "relationshipType": "one-to-one",
-            "ownerSide": false,
-            "otherEntityRelationshipName": "cameraAction"
+            "fieldName": "name",
+            "fieldType": "String"
         }
     ],
-    "fields": [],
     "changelogDate": "20160504134055",
     "dto": "no",
     "service": "serviceImpl",

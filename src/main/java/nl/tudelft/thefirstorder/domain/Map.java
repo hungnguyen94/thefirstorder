@@ -1,6 +1,5 @@
 package nl.tudelft.thefirstorder.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -9,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Objects;
@@ -30,10 +28,6 @@ public class Map implements Serializable {
 
     @Column(name = "name")
     private String name;
-
-    @OneToOne(mappedBy = "map")
-    @JsonIgnore
-    private Project project;
 
     /**
      * Get the id of the map.
@@ -65,22 +59,6 @@ public class Map implements Serializable {
      */
     public void setName(String name) {
         this.name = name;
-    }
-
-    /**
-     * Get the project to which the map belongs.
-     * @return the map
-     */
-    public Project getProject() {
-        return project;
-    }
-
-    /**
-     * Set the id of the map.
-     * @param project the project
-     */
-    public void setProject(Project project) {
-        this.project = project;
     }
 
     /**

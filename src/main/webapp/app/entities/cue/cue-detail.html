@@ -5,27 +5,27 @@
     <dl class="dl-horizontal">
         <dt><span>Script</span></dt>
         <dd>
-            <a ui-sref="script-detail({id:vm.cue.script.id})">{{vm.cue.script.id}}</a>
-        </dd>
-        <hr>
-        <dt><span>Player</span></dt>
-        <dd>
-            <a ui-sref="player-detail({id:vm.cue.player.id})">{{vm.cue.player.id}}</a>
-        </dd>
-        <hr>
-        <dt><span>Camera</span></dt>
-        <dd>
-            <a ui-sref="camera-detail({id:vm.cue.camera.id})">{{vm.cue.camera.id}}</a>
+            <a ui-sref="script-detail({id:vm.cue.script.id})">{{vm.cue.script.name}}</a>
         </dd>
         <hr>
         <dt><span>Camera Action</span></dt>
         <dd>
-            <a ui-sref="camera-action-detail({id:vm.cue.cameraAction.id})">{{vm.cue.cameraAction.id}}</a>
+            <a ui-sref="camera-action-detail({id:vm.cue.cameraAction.id})">{{vm.cue.cameraAction.name}}</a>
         </dd>
         <hr>
         <dt><span>Time Point</span></dt>
         <dd>
             <a ui-sref="time-point-detail({id:vm.cue.timePoint.id})">{{vm.cue.timePoint.startTime}}</a>
+        </dd>
+        <hr>
+        <dt><span>Player</span></dt>
+        <dd>
+            <a ui-sref="player-detail({id:vm.cue.player.id})">{{vm.cue.player.name}}</a>
+        </dd>
+        <hr>
+        <dt><span>Camera</span></dt>
+        <dd>
+            <a ui-sref="camera-detail({id:vm.cue.camera.id})">{{vm.cue.camera.name}}</a>
         </dd>
         <hr>
     </dl>

@@ -118,4 +118,10 @@ public class UserServiceIntTest {
         List<User> users = userRepository.findAllByActivatedIsFalseAndCreatedDateBefore(now.minusDays(3));
         assertThat(users).isEmpty();
     }
+
+    @Test
+    public void assertThatCurrentProjectIdIsNull() {
+        User user = userService.createUserInformation("johndoe", "johndoe", "John", "Doe", "john.doe@localhost", "en-US");
+        assertThat(user.getCurrentProjectId()).isNull();
+    }
 }
