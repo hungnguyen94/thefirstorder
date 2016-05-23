@@ -165,7 +165,7 @@ public class PDFExportUtil {
             cameratable.addCell(camera.getY() + "");
             CameraAction action = cue.getCameraAction();
             actiontable.addCell(action.getName());
-            actiontable.addCell(action.getDuration() + "");
+//            actiontable.addCell(cue.getTimePoint().getDuration() + "");
             index++;
         }
         Paragraph par = new Paragraph();

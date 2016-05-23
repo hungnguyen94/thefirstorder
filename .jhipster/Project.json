@@ -15,6 +15,18 @@
             "otherEntityField": "id",
             "ownerSide": true,
             "otherEntityRelationshipName": "project"
+        },
+        {
+            "relationshipName": "player",
+            "otherEntityName": "player",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "project"
+        },
+        {
+            "relationshipName": "camera",
+            "otherEntityName": "camera",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "project"
         }
     ],
     "fields": [

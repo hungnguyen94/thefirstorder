@@ -102,7 +102,7 @@ public class CameraActionResource {
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<List<CameraAction>> getAllCameraActions(Pageable pageable)
-        throws URISyntaxException {
+            throws URISyntaxException {
         log.debug("REST request to get a page of CameraActions");
         Page<CameraAction> page = cameraActionService.findAll(pageable); 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/camera-actions");

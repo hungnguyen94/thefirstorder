@@ -11,7 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -34,10 +33,6 @@ public class Script implements Serializable {
 
     @Column(name = "name")
     private String name;
-
-    @OneToOne(mappedBy = "script")
-    @JsonIgnore
-    private Project project;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "script")
     @JsonIgnore
@@ -74,22 +69,6 @@ public class Script implements Serializable {
      */
     public void setName(String name) {
         this.name = name;
-    }
-
-    /**
-     * Get the project to which the script belongs.
-     * @return the project
-     */
-    public Project getProject() {
-        return project;
-    }
-
-    /**
-     * Set the project to which the script belongs.
-     * @param project the project
-     */
-    public void setProject(Project project) {
-        this.project = project;
     }
 
     /**
