@@ -79,9 +79,7 @@ public class ProjectManagerResourceIntTest {
         doNothing().when(mockMailService).sendActivationEmail((User) anyObject(), anyString());
 
         ProjectManagerResource projectManagerResource = new ProjectManagerResource();
-//        ReflectionTestUtils.setField(projectManagerResource, "userRepository", userRepository);
         ReflectionTestUtils.setField(projectManagerResource, "userService", mockUserService);
-//        ReflectionTestUtils.setField(projectManagerResource, "mailService", mockMailService);
 
         this.restUserMockMvc = MockMvcBuilders.standaloneSetup(projectManagerResource).build();
     }
@@ -101,29 +99,10 @@ public class ProjectManagerResourceIntTest {
         user.setAuthorities(authorities);
         user.setCurrentProjectId(321L);
         when(mockUserService.getUserWithAuthorities()).thenReturn(user);
-//        doAnswer(invocation -> {
-////            Object[] args = invocation.getArguments();
-//            user.setCurrentProjectId(123L);
-//            return null;
-//        }).when(mockUserService).updateUserProjectId(anyLong());
 
-
-//        restUserMockMvc.perform(get("/api/account/currentproject")
-//                .accept(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isNotFound());
-
-//        doCallRealMethod().when(mockUserService).updateUserProjectId(anyLong());
-        restUserMockMvc.perform(put("/api/account/update_currentproject?projectId=123"))
-//                .param("projectId", String.valueOf(projectId)))
+        restUserMockMvc.perform(put("/api/account/update_currentproject")
+                .param("projectId", String.valueOf(projectId)))
                 .andExpect(status().isOk());
-//                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-
-//        MvcResult result = restUserMockMvc.perform(get("/api/account/currentproject")
-//                .accept(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-//                .andReturn();
-//        assertThat(result.getResponse().getContentAsString()).isEqualTo(String.valueOf(projectId));
     }
 
     @Test
