@@ -4,13 +4,13 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
     <!--
-        Added the constraints for entity Camera.
+        Added the constraints for entity Player.
     -->
-    <changeSet id="20160430231818-2" author="jhipster">
+    <changeSet id="20160504122100-2" author="jhipster">
         
         <addForeignKeyConstraint baseColumnNames="project_id"
-                                 baseTableName="camera"
-                                 constraintName="fk_camera_project_id"
+                                 baseTableName="player"
+                                 constraintName="fk_player_project_id"
                                  referencedColumnNames="id"
                                  referencedTableName="project"/>
 

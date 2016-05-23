@@ -52,8 +52,9 @@ bootRun {
 test {
     include '**/*UnitTest*'
     include '**/*IntTest*'
+    include '**/*Test*'
 
-    ignoreFailures true
+    ignoreFailures false
     reports.html.enabled = false
 }
 
@@ -221,6 +222,10 @@ sourceSets {
     main {
         java.srcDir('src/main/java')
         resources.srcDir('src/main/resources')
+    }
+    test {
+        java.srcDir('src/test/java')
+        resources.srcDir('src/test/resources')
     }
 }
 

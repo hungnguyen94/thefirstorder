@@ -5,9 +5,9 @@
         .module('thefirstorderApp')
         .controller('CueDetailController', CueDetailController);
 
-    CueDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'entity', 'Cue', 'Script', 'Player', 'Camera', 'CameraAction', 'TimePoint'];
+    CueDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'entity', 'Cue', 'Script', 'CameraAction', 'TimePoint', 'Player', 'Camera'];
 
-    function CueDetailController($scope, $rootScope, $stateParams, entity, Cue, Script, Player, Camera, CameraAction, TimePoint) {
+    function CueDetailController($scope, $rootScope, $stateParams, entity, Cue, Script, CameraAction, TimePoint, Player, Camera) {
         var vm = this;
         vm.cue = entity;
         

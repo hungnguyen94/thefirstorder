@@ -5,12 +5,11 @@
         .module('thefirstorderApp')
         .controller('ScriptDialogController', ScriptDialogController);
 
-    ScriptDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Script', 'Project', 'Cue'];
+    ScriptDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Script', 'Cue'];
 
-    function ScriptDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Script, Project, Cue) {
+    function ScriptDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Script, Cue) {
         var vm = this;
         vm.script = entity;
-        vm.projects = Project.query();
         vm.cues = Cue.query();
 
         $timeout(function (){

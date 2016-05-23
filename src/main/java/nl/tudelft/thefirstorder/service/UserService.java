@@ -259,4 +259,25 @@ public class UserService {
             userRepository.delete(user);
         }
     }
+
+    /**
+     * Get the current project id this user is working on.
+     * @return Project id
+     */
+    @Transactional(readOnly = true)
+    public Long getUserProjectId() {
+        User user = getUserWithAuthorities();
+        return user.getCurrentProjectId();
+    }
+
+    /**
+     * Update the current project id of the currently logged in User.
+     * @param id Updated project id
+     */
+    public void updateUserProjectId(Long id) {
+        User user = getUserWithAuthorities();
+        user.setCurrentProjectId(id);
+        userRepository.save(user);
+        log.debug("Changed current project ID to {} for User: {}", id, user);
+    }
 }
