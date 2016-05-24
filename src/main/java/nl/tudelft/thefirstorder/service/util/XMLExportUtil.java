@@ -38,7 +38,7 @@ public class XMLExportUtil {
      * @param project the project
      * @return A resource to be downloaded
      */
-    public static Resource export(Project project) {
+    public static Resource exportProjectToXML(Project project) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DocumentBuilderFactory icFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder icBuilder;

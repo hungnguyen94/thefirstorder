@@ -211,7 +211,7 @@ public class ProjectResource {
 
         log.debug("Export Project {} to XML.", id);
         Project currentProject = project.get();
-        Resource resource = XMLExportUtil.export(currentProject);
+        Resource resource = XMLExportUtil.exportProjectToXML(currentProject);
 
         return ResponseEntity.ok()
             .headers(headers)
