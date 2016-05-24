@@ -33,7 +33,6 @@ before_script:
 script: 
   - npm install
   - bower install
-  - gulp build
   - ./gradlew assemble -x test
   - gulp test
   - ./gradlew check
