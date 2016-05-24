@@ -14,6 +14,7 @@ cache:
     - $HOME/.gradle/wrapper/
     - $HOME/.gradle/nodejs/
     - node_modules
+    - $TRAVIS_BUILD_DIR/src/main/webapp/bower_components/
 
 env: 
   - NODE_VERSION=4.4.3
@@ -23,14 +24,15 @@ install:
   - npm install -g npm
   - npm install -g gulp
   - npm install -g bower
-  - ./gradlew wrapper
-  - npm install
+  # - ./gradlew wrapper
 before_script: 
   - npm -v
   - java -version
   - gulp -v
   - bower -v
 script: 
+  - npm install
+  - bower install
   - gulp build
   - ./gradlew assemble -x test
   - gulp test
