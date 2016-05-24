@@ -93,62 +93,6 @@
                 }
             });
 
-            // This function definition will generate a new Camera at the clicked position
-            canvas.on('mouse:down', function (options) {
-                canvas.on('mouse:up', function(options2) {
-                    var firstPointer = canvas.getPointer(options.e);
-                    var secondPointer = canvas.getPointer(options2.e);
-
-                    // Check if coordinates are still the same at the beginning and the end of the click
-                    if (firstPointer.x == secondPointer.x && firstPointer.y == secondPointer.y) {
-                        var pointer = canvas.getPointer(options.e);
-
-                        var actualPosX = pointer.x;
-                        var actualPosY = pointer.y;
-
-                        var gridPosX = Math.floor(actualPosX / grid);
-                        var gridPosY = Math.floor(actualPosY / grid);
-
-                        var newObject;
-
-                        // Determine wether to initialize a Camera or a Player
-                        switch(document.getElementById('selectObjectType').value) {
-                            case 'Camera':
-                                newObject = new Camera();
-                                break;
-                            case 'Player':
-                                newObject = new Player();
-                                break;
-                        }
-
-                        // Set the coordinates of the object to the coordinates where the mouse has been clicked
-                        newObject.x = gridPosX;
-                        newObject.y = gridPosY;
-
-                        // Get the name for the object from the form
-                        var name = document.getElementById('nameNewObject').value;;
-
-                        // Set name to Undefined when no name has been filled in
-                        if (name == '')
-                            name = 'Undefined';
-
-                        // Set the name of the new object to the name fetched from the form
-                        newObject.name = name;
-
-                        switch(document.getElementById('selectObjectType').value) {
-                            case 'Camera':
-                                Camera.save(newObject);
-                                break;
-                            case 'Player':
-                                Player.save(newObject);
-                                break;
-                        }
-
-                        $state.reload();
-                    }
-                });
-            });
-
             canvas.on('object:selected', function (options) {
                 console.log("Selected: " + options.target.left + " - " + options.target.id);
             });
@@ -236,6 +180,8 @@
                 lockRotation: true,
                 lockScalingX: true,
                 lockScalingY: true,
+                lockMovementX: true,
+                lockMovementY: true,
                 hasControls: false,
                 id: index,
                 type: type
