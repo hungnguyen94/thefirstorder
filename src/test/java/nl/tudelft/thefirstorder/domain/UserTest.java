@@ -12,7 +12,8 @@ public class UserTest {
     private User entity;
 
     private static long DEFAULT_ID = 1L;
-    private static String DEFAULT_NAME = "AAAAA";
+    private static String DEFAULT_LOGIN = "AAAAA";
+    private static String OTHER_LOGIN = "BBBBB";
 
     @Before
     public void setUp() throws Exception {
@@ -42,31 +43,32 @@ public class UserTest {
 
     @Test
     public void equalsBranch4() throws Exception {
-        entity.setId(DEFAULT_ID);
+        entity.setLogin(DEFAULT_LOGIN);
         User entity2 = new User();
-        entity2.setId(entity.getId());
+        entity2.setLogin(DEFAULT_LOGIN);
         assertThat(entity.equals(entity2)).isTrue();
     }
 
     @Test
     public void equalsBranch5() throws Exception {
-        entity.setId(DEFAULT_ID);
+        entity.setLogin(DEFAULT_LOGIN);
         User entity2 = new User();
         assertThat(entity.equals(entity2)).isFalse();
     }
 
     @Test
     public void equalsBranch6() throws Exception {
+        entity.setLogin(OTHER_LOGIN);
         User entity2 = new User();
-        entity2.setId(DEFAULT_ID);
+        entity2.setLogin(DEFAULT_LOGIN);
         assertThat(entity.equals(entity2)).isFalse();
     }
 
     @Test
     public void hashCodeTest() throws Exception {
         User entity2 = new User();
-        entity.setId(DEFAULT_ID);
-        entity2.setId(DEFAULT_ID);
+        entity.setLogin(DEFAULT_LOGIN);
+        entity2.setLogin(DEFAULT_LOGIN);
         assertThat(entity.hashCode() == entity2.hashCode());
     }
 
