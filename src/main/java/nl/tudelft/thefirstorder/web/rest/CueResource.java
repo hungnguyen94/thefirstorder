@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
@@ -97,8 +98,13 @@ public class CueResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<List<Cue>> getAllCues(Pageable pageable)
-        throws URISyntaxException {
+    public ResponseEntity<List<Cue>> getAllCues(Pageable pageable,
+                                                @RequestParam(required = false) Long projectId)
+            throws URISyntaxException {
+        if(projectId != null) {
+            List<Cue> cues = cueService.findAllByProject(projectId);
+            return ResponseEntity.ok(cues);
+        }
         log.debug("REST request to get a page of Cues");
         Page<Cue> page = cueService.findAll(pageable); 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/cues");
