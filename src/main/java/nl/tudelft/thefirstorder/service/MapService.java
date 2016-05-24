@@ -13,7 +13,7 @@ public interface MapService {
 
     /**
      * Save a map.
-     * 
+     *
      * @param map the entity to save
      * @return the persisted entity
      */
@@ -21,7 +21,7 @@ public interface MapService {
 
     /**
      *  Get all the maps.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
@@ -29,15 +29,23 @@ public interface MapService {
 
     /**
      *  Get the "id" map.
-     *  
+     *
      *  @param id the id of the entity
      *  @return the entity
      */
     Map findOne(Long id);
 
     /**
+     *  Get all maps associated to a project with given id.
+     *
+     *  @param projectId the id of the Project entity
+     *  @return the Map entity
+     */
+    List<Map> findMapsByProject(Long projectId);
+
+    /**
      *  Delete the "id" map.
-     *  
+     *
      *  @param id the id of the entity
      */
     void delete(Long id);

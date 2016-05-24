@@ -11,6 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * Service Implementation for managing Map.
@@ -20,13 +24,13 @@ import javax.inject.Inject;
 public class MapServiceImpl implements MapService {
 
     private final Logger log = LoggerFactory.getLogger(MapServiceImpl.class);
-    
+
     @Inject
     private MapRepository mapRepository;
-    
+
     /**
      * Save a map.
-     * 
+     *
      * @param map the entity to save
      * @return the persisted entity
      */
@@ -38,24 +42,24 @@ public class MapServiceImpl implements MapService {
 
     /**
      *  Get all the maps.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Page<Map> findAll(Pageable pageable) {
         log.debug("Request to get all Maps");
-        Page<Map> result = mapRepository.findAll(pageable); 
+        Page<Map> result = mapRepository.findAll(pageable);
         return result;
     }
 
     /**
-     *  Get one map by id.
+     *  Get one map by projectId.
      *
-     *  @param id the id of the entity
+     *  @param id the projectId of the entity
      *  @return the entity
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Map findOne(Long id) {
         log.debug("Request to get Map : {}", id);
         Map map = mapRepository.findOne(id);
@@ -63,9 +67,24 @@ public class MapServiceImpl implements MapService {
     }
 
     /**
-     *  Delete the  map by id.
-     *  
-     *  @param id the id of the entity
+     *  Get all maps belonging to project projectId.
+     *
+     *  @param projectId the projectId of the project entity
+     *  @return the map entity
+     */
+    @Transactional(readOnly = true)
+    public List<Map> findMapsByProject(Long projectId) {
+        log.debug("Request to get Maps for Project: {}", projectId);
+        return StreamSupport
+            .stream(mapRepository.findAll().spliterator(), false)
+            .filter(map -> Objects.equals(map.getId(), projectId))
+            .collect(Collectors.toList());
+    }
+
+    /**
+     *  Delete the  map by projectId.
+     *
+     *  @param id the projectId of the entity
      */
     public void delete(Long id) {
         log.debug("Request to delete Map : {}", id);

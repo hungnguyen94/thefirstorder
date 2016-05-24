@@ -1,6 +1,7 @@
 package nl.tudelft.thefirstorder.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import nl.tudelft.thefirstorder.domain.Map;
 import nl.tudelft.thefirstorder.domain.Project;
 import nl.tudelft.thefirstorder.service.ProjectService;
 import nl.tudelft.thefirstorder.service.util.PDFExportUtil;
@@ -36,10 +37,10 @@ import java.util.Optional;
 public class ProjectResource {
 
     private final Logger log = LoggerFactory.getLogger(ProjectResource.class);
-        
+
     @Inject
     private ProjectService projectService;
-    
+
     /**
      * POST  /projects : Create a new project.
      *
@@ -103,7 +104,7 @@ public class ProjectResource {
     public ResponseEntity<List<Project>> getAllProjects(Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of Projects");
-        Page<Project> page = projectService.findAll(pageable); 
+        Page<Project> page = projectService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/projects");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -180,5 +181,25 @@ public class ProjectResource {
                 .contentLength(resource.contentLength())
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(resource);
+    }
+
+    /**
+     * GET  /projects/:id/map : get the map of "id" project.
+     *
+     * @param id the id of the project to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the project, or with status 404 (Not Found)
+     */
+    @RequestMapping(value = "/projects/{id}/map",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<Map> getMapOfProject(@PathVariable Long id) {
+        log.debug("REST request to get map of Project : {}", id);
+        Map map = projectService.getMap(id);
+        return Optional.ofNullable(map)
+            .map(result -> new ResponseEntity<>(
+                result,
+                HttpStatus.OK))
+            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }
