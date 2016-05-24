@@ -1,14 +1,13 @@
 package nl.tudelft.thefirstorder.service.util;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.util.Iterator;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -19,15 +18,26 @@ import org.springframework.core.io.Resource;
 import nl.tudelft.thefirstorder.domain.Cue;
 import nl.tudelft.thefirstorder.domain.Project;
 import nl.tudelft.thefirstorder.domain.Script;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
+/**
+ * Export a project to a XML file.
+ */
 public class XMLExportUtil {
 
+    /**
+     * Constructor.
+     */
     private XMLExportUtil() {
     }
 
+    /**
+     * Export the project.
+     * @param project the project
+     * @return A resource to be downloaded
+     */
     public static Resource export(Project project) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DocumentBuilderFactory icFactory = DocumentBuilderFactory.newInstance();
@@ -35,7 +45,8 @@ public class XMLExportUtil {
         try {
             icBuilder = icFactory.newDocumentBuilder();
             Document doc = icBuilder.newDocument();
-            Element mainRootElement = doc.createElementNS(project.getName(), "Project");
+            Element mainRootElement = doc.createElement("Project");
+            mainRootElement.setAttribute("name",project.getName());
             doc.appendChild(mainRootElement);
 
             Script script = project.getScript();
@@ -67,9 +78,9 @@ public class XMLExportUtil {
 
             TransformerFactory tf = TransformerFactory.newInstance();
             // identity
-            Transformer t = tf.newTransformer();
-            t.setOutputProperty(OutputKeys.INDENT, "yes");
-            t.transform(new DOMSource(mainRootElement), new StreamResult(baos));
+            Transformer trans = tf.newTransformer();
+            trans.setOutputProperty(OutputKeys.INDENT, "yes");
+            trans.transform(new DOMSource(mainRootElement), new StreamResult(baos));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -78,8 +89,13 @@ public class XMLExportUtil {
         return resource;
     }
 
+    /**
+     * Get the information of a camera.
+     * @param doc The document for which the data is extracted.
+     * @param cue The camera from this cue
+     * @return An element with the information
+     */
     private static Element getCamera(Document doc, Cue cue) {
-        Element cameraNode = doc.createElement("Camera");
         Element cameraId = doc.createElement("Id");
         cameraId.appendChild(doc.createTextNode(cue.getCamera().getId() + ""));
         Element cameraName = doc.createElement("Name");
@@ -88,6 +104,7 @@ public class XMLExportUtil {
         cameraX.appendChild(doc.createTextNode(cue.getCamera().getX() + ""));
         Element cameraY = doc.createElement("Y-Position");
         cameraY.appendChild(doc.createTextNode(cue.getCamera().getY() + ""));
+        Element cameraNode = doc.createElement("Camera");
         cameraNode.appendChild(cameraId);
         cameraNode.appendChild(cameraName);
         cameraNode.appendChild(cameraX);
@@ -95,33 +112,50 @@ public class XMLExportUtil {
         return cameraNode;
     }
 
+    /**
+     * Get the information of a camera action.
+     * @param doc The document for which the data is extracted.
+     * @param cue The camera action from this cue
+     * @return An element with the information
+     */
     private static Element getCameraAction(Document doc, Cue cue) {
-        Element cameraNode = doc.createElement("Camera-Action");
         Element cameraId = doc.createElement("Id");
         cameraId.appendChild(doc.createTextNode(cue.getCameraAction().getId() + ""));
         Element cameraName = doc.createElement("Name");
         cameraName.appendChild(doc.createTextNode(cue.getCameraAction().getName()));
+        Element cameraNode = doc.createElement("Camera-Action");
         cameraNode.appendChild(cameraId);
         cameraNode.appendChild(cameraName);
         return cameraNode;
     }
 
+    /**
+     * Get the information of a time point.
+     * @param doc The document for which the data is extracted.
+     * @param cue The time point from this cue
+     * @return An element with the information
+     */
     private static Element getTimePoint(Document doc, Cue cue) {
-        Element timeNode = doc.createElement("Time-Point");
         Element timeId = doc.createElement("Id");
         timeId.appendChild(doc.createTextNode(cue.getTimePoint().getId() + ""));
         Element timeStart = doc.createElement("Start-Time");
         timeStart.appendChild(doc.createTextNode(cue.getTimePoint().getStartTime() + ""));
         Element timeDuration = doc.createElement("Duration");
         timeDuration.appendChild(doc.createTextNode(cue.getTimePoint().getDuration() + ""));
+        Element timeNode = doc.createElement("Time-Point");
         timeNode.appendChild(timeId);
         timeNode.appendChild(timeStart);
         timeNode.appendChild(timeDuration);
         return timeNode;
     }
 
+    /**
+     * Get the information of a player.
+     * @param doc The document for which the data is extracted.
+     * @param cue The player from this cue
+     * @return An element with the information
+     */
     private static Element getPlayer(Document doc, Cue cue) {
-        Element playerNode = doc.createElement("Player");
         Element playerId = doc.createElement("Id");
         playerId.appendChild(doc.createTextNode(cue.getPlayer().getId() + ""));
         Element playerName = doc.createElement("Name");
@@ -130,6 +164,7 @@ public class XMLExportUtil {
         playerX.appendChild(doc.createTextNode(cue.getPlayer().getX() + ""));
         Element playerY = doc.createElement("Y-Position");
         playerY.appendChild(doc.createTextNode(cue.getPlayer().getY() + ""));
+        Element playerNode = doc.createElement("Player");
         playerNode.appendChild(playerId);
         playerNode.appendChild(playerName);
         playerNode.appendChild(playerX);
