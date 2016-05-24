@@ -1,5 +1,6 @@
 package nl.tudelft.thefirstorder.service.util;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.Iterator;
 
@@ -7,9 +8,12 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 
 import nl.tudelft.thefirstorder.domain.Cue;
@@ -21,7 +25,11 @@ import org.w3c.dom.Node;
 
 public class XMLExportUtil {
 
+    private XMLExportUtil() {
+    }
+
     public static Resource export(Project project) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DocumentBuilderFactory icFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder icBuilder;
         try {
@@ -45,10 +53,10 @@ public class XMLExportUtil {
                 Cue cue = iterator.next();
                 Element cueId = doc.createElement("Id");
                 cueId.appendChild(doc.createTextNode(cue.getId() + ""));
-                Element cameraNode = getCamera(doc,cue);
-                Element cameraActionNode = getCameraAction(doc,cue);
-                Element playerNode = getPlayer(doc,cue);
-                Element timeNode = getTimePoint(doc,cue);
+                Element cameraNode = getCamera(doc, cue);
+                Element cameraActionNode = getCameraAction(doc, cue);
+                Element playerNode = getPlayer(doc, cue);
+                Element timeNode = getTimePoint(doc, cue);
                 cueNode.appendChild(cueId);
                 cueNode.appendChild(cameraNode);
                 cueNode.appendChild(cameraActionNode);
@@ -57,20 +65,17 @@ public class XMLExportUtil {
                 scriptNode.appendChild(cueNode);
             }
 
-
-            // output DOM XML to console
-            Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            DOMSource source = new DOMSource(doc);
-            StreamResult console = new StreamResult(System.out);
-            transformer.transform(source, console);
-
-            System.out.println("\nXML DOM Created Successfully..");
+            TransformerFactory tf = TransformerFactory.newInstance();
+            // identity
+            Transformer t = tf.newTransformer();
+            t.setOutputProperty(OutputKeys.INDENT, "yes");
+            t.transform(new DOMSource(mainRootElement), new StreamResult(baos));
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        Resource resource = new ByteArrayResource(baos.toByteArray());
+        return resource;
     }
 
     private static Element getCamera(Document doc, Cue cue) {
