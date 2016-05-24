@@ -14,10 +14,19 @@
             $uibModalInstance.dismiss('cancel');
         };
 
-        vm.confirmDownload = function (id) {
+        vm.confirmPDFDownload = function (id) {
             ProjectDownload.exportPdf(id).then(function (result) {
                 var file = new Blob([result.data], {type: 'application/pdf'});
                 var fileName = 'Project_' + id + '.pdf';
+                saveAs(file, fileName);
+                $uibModalInstance.close(true);
+            });
+        }
+
+        vm.confirmXMLDownload = function (id) {
+            ProjectDownload.exportXml(id).then(function (result) {
+                var file = new Blob([result.data], {type: 'application/xml'});
+                var fileName = 'Project_' + id + '.xml';
                 saveAs(file, fileName);
                 $uibModalInstance.close(true);
             });
