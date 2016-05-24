@@ -18,6 +18,12 @@
                     </a>
                 </li>
                 <li ui-sref-active="active">
+                    <a ui-sref="scriptingview" ng-click="vm.collapseNavbar()" ng-switch-when="true">
+                        <span class="glyphicon glyphicon-book"></span>
+                        <span class="hidden-sm">Scripting</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active">
                     <a ui-sref="mapview" ng-click="vm.collapseNavbar()" ng-switch-when="true">
                         <span class="glyphicon glyphicon-globe"></span>
                         <span class="hidden-sm">Map</span>
