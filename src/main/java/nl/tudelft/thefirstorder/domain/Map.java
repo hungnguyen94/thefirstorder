@@ -8,9 +8,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A Map.
@@ -28,6 +33,14 @@ public class Map implements Serializable {
 
     @Column(name = "name")
     private String name;
+
+    @OneToMany
+    @JoinTable(name = "map_cameras",
+            joinColumns = @JoinColumn(name = "map_id"),
+            inverseJoinColumns = @JoinColumn(name = "camera_id")
+    )
+//    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Camera> cameras = new HashSet<>();
 
     /**
      * Get the id of the map.
@@ -59,6 +72,18 @@ public class Map implements Serializable {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Camera> getCameras() {
+        return cameras;
+    }
+
+    public void setCameras(Set<Camera> cameras) {
+        this.cameras = cameras;
+    }
+
+    public void addCamera(Camera camera) {
+        this.cameras.add(camera);
     }
 
     /**

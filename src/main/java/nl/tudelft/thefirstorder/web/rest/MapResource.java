@@ -1,7 +1,9 @@
 package nl.tudelft.thefirstorder.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import nl.tudelft.thefirstorder.domain.Camera;
 import nl.tudelft.thefirstorder.domain.Map;
+import nl.tudelft.thefirstorder.service.CameraService;
 import nl.tudelft.thefirstorder.service.MapService;
 import nl.tudelft.thefirstorder.web.rest.util.HeaderUtil;
 import nl.tudelft.thefirstorder.web.rest.util.PaginationUtil;
@@ -13,10 +15,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
@@ -36,6 +40,9 @@ public class MapResource {
         
     @Inject
     private MapService mapService;
+
+    @Inject
+    private CameraService cameraService;
     
     /**
      * POST  /maps : Create a new map.
@@ -139,6 +146,22 @@ public class MapResource {
         log.debug("REST request to delete Map : {}", id);
         mapService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("map", id.toString())).build();
+    }
+
+    @RequestMapping(value = "/maps/{mapId}/addCamera",
+        method = RequestMethod.PUT,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @Transactional
+    public ResponseEntity<Map> addCameraToMap(@PathVariable Long mapId, @RequestParam Long cameraId) {
+        Camera camera = cameraService.findOne(cameraId);
+        return Optional.ofNullable(mapService.findOne(mapId))
+                .map(map -> {
+                    map.getCameras();
+                    map.addCamera(camera);
+                    mapService.save(map);
+                    return new ResponseEntity<Map>(map, HttpStatus.OK);
+                }).orElse(new ResponseEntity<Map>(HttpStatus.NOT_FOUND));
     }
 
 }
