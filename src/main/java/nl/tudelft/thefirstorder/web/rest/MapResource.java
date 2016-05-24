@@ -2,7 +2,6 @@ package nl.tudelft.thefirstorder.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import nl.tudelft.thefirstorder.domain.Map;
-import nl.tudelft.thefirstorder.service.CameraService;
 import nl.tudelft.thefirstorder.service.MapService;
 import nl.tudelft.thefirstorder.web.rest.util.HeaderUtil;
 import nl.tudelft.thefirstorder.web.rest.util.PaginationUtil;
@@ -40,9 +39,6 @@ public class MapResource {
     @Inject
     private MapService mapService;
 
-    @Inject
-    private CameraService cameraService;
-    
     /**
      * POST  /maps : Create a new map.
      *
