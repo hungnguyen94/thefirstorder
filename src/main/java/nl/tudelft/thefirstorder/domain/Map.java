@@ -39,8 +39,16 @@ public class Map implements Serializable {
             joinColumns = @JoinColumn(name = "map_id"),
             inverseJoinColumns = @JoinColumn(name = "camera_id")
     )
-//    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Camera> cameras = new HashSet<>();
+
+    @OneToMany
+    @JoinTable(name = "map_players",
+            joinColumns = @JoinColumn(name = "map_id"),
+            inverseJoinColumns = @JoinColumn(name = "player_id")
+    )
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Player> players = new HashSet<>();
 
     /**
      * Get the id of the map.
@@ -82,8 +90,28 @@ public class Map implements Serializable {
         this.cameras = cameras;
     }
 
+    /**
+     * Adds a camera to the map.
+     * @param camera Camera
+     */
     public void addCamera(Camera camera) {
-        this.cameras.add(camera);
+        cameras.add(camera);
+    }
+
+    public Set<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(Set<Player> players) {
+        this.players = players;
+    }
+
+    /**
+     * Adds a player to the map.
+     * @param player Player
+     */
+    public void addPlayer(Player player) {
+        players.add(player);
     }
 
     /**
