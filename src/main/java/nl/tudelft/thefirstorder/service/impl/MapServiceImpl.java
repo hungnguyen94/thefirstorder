@@ -11,9 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 /**
  * Service Implementation for managing Map.
@@ -50,20 +47,6 @@ public class MapServiceImpl implements MapService {
         log.debug("Request to get all Maps");
         Page<Map> result = mapRepository.findAll(pageable); 
         return result;
-    }
-
-
-    /**
-     *  get all the maps where Project is null.
-     *  @return the list of entities
-     */
-    @Transactional(readOnly = true) 
-    public List<Map> findAllWhereProjectIsNull() {
-        log.debug("Request to get all maps where Project is null");
-        return StreamSupport
-            .stream(mapRepository.findAll().spliterator(), false)
-            .filter(map -> map.getProject() == null)
-            .collect(Collectors.toList());
     }
 
     /**

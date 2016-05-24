@@ -1,5 +1,12 @@
 {
-    "relationships": [],
+    "relationships": [
+        {
+            "relationshipName": "project",
+            "otherEntityName": "project",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "name"
+        }
+    ],
     "fields": [
         {
             "fieldName": "name",
