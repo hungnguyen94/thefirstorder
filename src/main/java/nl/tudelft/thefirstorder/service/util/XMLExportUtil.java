@@ -9,6 +9,7 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import org.springframework.core.io.Resource;
 
 import nl.tudelft.thefirstorder.domain.Project;
 import org.w3c.dom.Document;
@@ -17,7 +18,7 @@ import org.w3c.dom.Node;
 
 public class XMLExportUtil {
 
-    public static void export(Project project) {
+    public static Resource export(Project project) {
         DocumentBuilderFactory icFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder icBuilder;
         try {
@@ -43,6 +44,7 @@ public class XMLExportUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     private static Node getCamera(Document doc, String id, String name, String age, String role) {

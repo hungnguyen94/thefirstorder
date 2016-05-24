@@ -1,19 +1,24 @@
-<form name="downloadForm" ng-submit="vm.confirmDownload(vm.project.id)">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                ng-click="vm.clear()">&times;</button>
-        <h4 class="modal-title">Confirm download operation</h4>
-    </div>
-    <div class="modal-body">
-        <jhi-alert-error></jhi-alert-error>
-        <p>Are you sure you want to download this Project?</p>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
-            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
-        </button>
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+            ng-click="vm.clear()">&times;</button>
+    <h4 class="modal-title">Confirm download operation</h4>
+</div>
+<div class="modal-body">
+    <jhi-alert-error></jhi-alert-error>
+    <p>Are you sure you want to download this Project?</p>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+    </button>
+    <form name="downloadPDFForm" ng-submit="vm.confirmPDFDownload(vm.project.id)">
         <button type="submit" ng-disabled="downloadForm.$invalid" class="btn btn-primary">
-            <span class="glyphicon glyphicon-download"></span>&nbsp;<span>Download</span>
+            <span class="glyphicon glyphicon-book"></span>&nbsp;<span>PDF</span>
         </button>
-    </div>
-</form>
+    </form>
+    <form name="downloadXMLForm" ng-submit="vm.confirmXMLDownload(vm.project.id)">
+        <button type="submit" ng-disabled="downloadForm.$invalid" class="btn btn-primary">
+            <span class="glyphicon glyphicon-console"></span>&nbsp;<span>XML</span>
+        </button>
+    </form>
+</div>
