@@ -53,6 +53,11 @@ public class Project implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Camera> cameras = new HashSet<>();
 
+    @OneToMany(mappedBy = "project")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Cue> cues = new HashSet<>();
+
     /**
      * Get the id of the project.
      * @return the id
@@ -131,6 +136,14 @@ public class Project implements Serializable {
 
     public void setCameras(Set<Camera> cameras) {
         this.cameras = cameras;
+    }
+
+    public Set<Cue> getCues() {
+        return cues;
+    }
+
+    public void setCues(Set<Cue> cues) {
+        this.cues = cues;
     }
 
     /**
