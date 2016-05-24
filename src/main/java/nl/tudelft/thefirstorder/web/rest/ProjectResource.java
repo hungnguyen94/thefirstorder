@@ -216,7 +216,7 @@ public class ProjectResource {
         return ResponseEntity.ok()
             .headers(headers)
             .contentLength(resource.contentLength())
-            .contentType(MediaType.parseMediaType("application/octet-stream"))
+            .contentType(MediaType.parseMediaType("application/xml"))
             .body(resource);
     }
 }
