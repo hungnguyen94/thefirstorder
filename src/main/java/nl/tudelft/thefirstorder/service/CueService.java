@@ -28,6 +28,14 @@ public interface CueService {
     Page<Cue> findAll(Pageable pageable);
 
     /**
+     * Get all cues belonging to this project.
+     *
+     * @param projectId Id of the project
+     * @return Collection of cues
+     */
+    List<Cue> findAllByProject(Long projectId);
+
+    /**
      *  Get the "id" cue.
      *  
      *  @param id the id of the entity

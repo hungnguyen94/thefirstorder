@@ -11,6 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * Service Implementation for managing Cue.
@@ -47,6 +51,20 @@ public class CueServiceImpl implements CueService {
         log.debug("Request to get all Cues");
         Page<Cue> result = cueRepository.findAll(pageable); 
         return result;
+    }
+
+    /**
+     * Get all cues belonging to this project.
+     *
+     * @param projectId Id of the project
+     * @return Collection of cues
+     */
+    @Transactional(readOnly = true)
+    public List<Cue> findAllByProject(Long projectId) {
+        return StreamSupport
+                .stream(cueRepository.findAll().spliterator(), false)
+                .filter(cue -> Objects.equals(cue.getId(), projectId))
+                .collect(Collectors.toList());
     }
 
     /**
