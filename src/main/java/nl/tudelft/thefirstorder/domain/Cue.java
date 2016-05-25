@@ -48,6 +48,10 @@ public class Cue implements Serializable {
     @JoinColumn(unique = true)
     private TimePoint timePoint;
 
+    @ManyToOne
+    @JoinColumn
+    private Project project;
+
     /**
      * Get the id of the cue.
      * @return the id
@@ -120,6 +124,13 @@ public class Cue implements Serializable {
         this.timePoint = timePoint;
     }
 
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
 
     /**
      * Checks if two cues are the same.

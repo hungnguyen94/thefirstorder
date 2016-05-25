@@ -44,6 +44,12 @@
                 <option value=""></option>
             </select>
         </div>
+        <div class="form-group">
+            <label for="field_project">Project</label>
+            <select class="form-control" id="field_project" name="project" ng-model="vm.cue.project" ng-options="project as project.name for project in vm.projects track by project.id">
+                <option value=""></option>
+            </select>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
