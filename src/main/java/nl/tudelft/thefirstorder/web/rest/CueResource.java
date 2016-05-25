@@ -31,13 +31,13 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api")
-public class CueResource {
+class CueResource {
 
     private final Logger log = LoggerFactory.getLogger(CueResource.class);
-        
+
     @Inject
     private CueService cueService;
-    
+
     /**
      * POST  /cues : Create a new cue.
      *
@@ -99,14 +99,14 @@ public class CueResource {
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<List<Cue>> getAllCues(Pageable pageable,
-                                                @RequestParam(required = false) Long projectId)
+                                                @RequestParam(required = false) Long scriptId)
             throws URISyntaxException {
-        if(projectId != null) {
-            List<Cue> cues = cueService.findAllByProject(projectId);
+        if(scriptId != null) {
+            List<Cue> cues = cueService.findCuesByScript(scriptId);
             return ResponseEntity.ok(cues);
         }
         log.debug("REST request to get a page of Cues");
-        Page<Cue> page = cueService.findAll(pageable); 
+        Page<Cue> page = cueService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/cues");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
