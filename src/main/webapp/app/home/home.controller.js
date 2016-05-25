@@ -12,10 +12,13 @@
 
         vm.account = null;
         vm.isAuthenticated = null;
+        vm.hasProject = false;
         vm.login = LoginService.open;
         vm.register = register;
         vm.loadProject = loadProject;
-        vm.loadProject()
+        vm.loadProject();
+        vm.loadAllProjects = loadAllProjects;
+        vm.loadAllProjects();
         $scope.$on('authenticationSuccess', function () {
             getAccount();
         });
@@ -38,6 +41,7 @@
                 .then(function (object) {
                     var projectId = object.data;
                     vm.currentProject = Project.get({id: projectId});
+                    vm.hasProject = true;
                 });
         }
 

@@ -9,7 +9,9 @@
                 <div ng-switch-when="true" class="row">
                     <div class="col-md-4"><span class="glyphicon glyphicon-file" style="font-size: 60pt;"></span><hr/><p class="lead">Create a new project</p></div>
                     <div class="col-md-4"><span class="glyphicon glyphicon-folder-open" style="font-size: 60pt;"></span><hr/><p class="lead">Load an existing project</p></div>
-                    <div class="col-md-4"><span class="glyphicon glyphicon-circle-arrow-right" style="font-size: 60pt;"></span><hr/><p class="lead">Move on from were you left: </br>{{vm.currentProject.name}}</p></div>
+                    <div ng-switch="vm.hasProject">
+                        <div ng-switch-when="true" class="col-md-4"><span class="glyphicon glyphicon-circle-arrow-right" style="font-size: 60pt;"></span><hr/><p class="lead">Move on from were you left: </br>{{vm.currentProject.name}}</p></div>
+                    </div>
                 </div>
             </CENTER>
         </div>
