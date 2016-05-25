@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * Service Implementation for managing Camera.
@@ -20,13 +21,13 @@ import javax.inject.Inject;
 public class CameraServiceImpl implements CameraService {
 
     private final Logger log = LoggerFactory.getLogger(CameraServiceImpl.class);
-    
+
     @Inject
     private CameraRepository cameraRepository;
-    
+
     /**
      * Save a camera.
-     * 
+     *
      * @param camera the entity to save
      * @return the persisted entity
      */
@@ -38,14 +39,14 @@ public class CameraServiceImpl implements CameraService {
 
     /**
      *  Get all the cameras.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Page<Camera> findAll(Pageable pageable) {
         log.debug("Request to get all Cameras");
-        Page<Camera> result = cameraRepository.findAll(pageable); 
+        Page<Camera> result = cameraRepository.findAll(pageable);
         return result;
     }
 
@@ -55,16 +56,21 @@ public class CameraServiceImpl implements CameraService {
      *  @param id the id of the entity
      *  @return the entity
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Camera findOne(Long id) {
         log.debug("Request to get Camera : {}", id);
         Camera camera = cameraRepository.findOne(id);
         return camera;
     }
 
+    @Override
+    public List<Camera> findCamerasByMap(Long mapId) {
+        return null; // TODO create method
+    }
+
     /**
      *  Delete the  camera by id.
-     *  
+     *
      *  @param id the id of the entity
      */
     public void delete(Long id) {

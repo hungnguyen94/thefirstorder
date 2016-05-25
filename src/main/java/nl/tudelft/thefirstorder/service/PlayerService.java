@@ -13,7 +13,7 @@ public interface PlayerService {
 
     /**
      * Save a player.
-     * 
+     *
      * @param player the entity to save
      * @return the persisted entity
      */
@@ -21,15 +21,23 @@ public interface PlayerService {
 
     /**
      *  Get all the players.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
     Page<Player> findAll(Pageable pageable);
 
     /**
+     * Get the players, associated with the map with the given id.
+     *
+     * @param mapId the id of the map.
+     * @return the list of player entities
+     */
+    List<Player> findPlayersByMap(Long mapId);
+
+    /**
      *  Get the "id" player.
-     *  
+     *
      *  @param id the id of the entity
      *  @return the entity
      */
@@ -37,7 +45,7 @@ public interface PlayerService {
 
     /**
      *  Delete the "id" player.
-     *  
+     *
      *  @param id the id of the entity
      */
     void delete(Long id);

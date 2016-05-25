@@ -2,6 +2,7 @@ package nl.tudelft.thefirstorder.service;
 
 import nl.tudelft.thefirstorder.domain.Map;
 import nl.tudelft.thefirstorder.domain.Project;
+import nl.tudelft.thefirstorder.domain.Script;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -37,12 +38,20 @@ public interface ProjectService {
     Project findOne(Long id);
 
     /**
-     *  Get the map, associated with the given project.
+     * Get the map, belonging to the project with the given id.
      *
-     *  @param projectId the id of the Project entity
-     *  @return the Map entity
+     * @param projectId the id of the project.
+     * @return the map entity
      */
     Map getMap(Long projectId);
+
+    /**
+     * Get the script, belonging to the project with the given id.
+     *
+     * @param projectId the id of the project.
+     * @return the script entity
+     */
+    Script getScript(Long projectId);
 
     /**
      *  Delete the "id" project.

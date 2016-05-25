@@ -4,8 +4,6 @@ import nl.tudelft.thefirstorder.domain.Map;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-
 /**
  * Service Interface for managing Map.
  */
@@ -34,14 +32,6 @@ public interface MapService {
      *  @return the entity
      */
     Map findOne(Long id);
-
-    /**
-     *  Get all maps associated to a project with given id.
-     *
-     *  @param projectId the id of the Project entity
-     *  @return the Map entity
-     */
-    List<Map> findMapsByProject(Long projectId);
 
     /**
      *  Delete the "id" map.

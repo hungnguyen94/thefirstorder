@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * Service Implementation for managing Player.
@@ -20,13 +21,13 @@ import javax.inject.Inject;
 public class PlayerServiceImpl implements PlayerService {
 
     private final Logger log = LoggerFactory.getLogger(PlayerServiceImpl.class);
-    
+
     @Inject
     private PlayerRepository playerRepository;
-    
+
     /**
      * Save a player.
-     * 
+     *
      * @param player the entity to save
      * @return the persisted entity
      */
@@ -38,15 +39,20 @@ public class PlayerServiceImpl implements PlayerService {
 
     /**
      *  Get all the players.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Page<Player> findAll(Pageable pageable) {
         log.debug("Request to get all Players");
-        Page<Player> result = playerRepository.findAll(pageable); 
+        Page<Player> result = playerRepository.findAll(pageable);
         return result;
+    }
+
+    @Override
+    public List<Player> findPlayersByMap(Long mapId) {
+        return null; // TODO create method
     }
 
     /**
@@ -55,7 +61,7 @@ public class PlayerServiceImpl implements PlayerService {
      *  @param id the id of the entity
      *  @return the entity
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Player findOne(Long id) {
         log.debug("Request to get Player : {}", id);
         Player player = playerRepository.findOne(id);
@@ -64,7 +70,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     /**
      *  Delete the  player by id.
-     *  
+     *
      *  @param id the id of the entity
      */
     public void delete(Long id) {

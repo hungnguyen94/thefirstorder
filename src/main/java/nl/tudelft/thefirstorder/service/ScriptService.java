@@ -13,7 +13,7 @@ public interface ScriptService {
 
     /**
      * Save a script.
-     * 
+     *
      * @param script the entity to save
      * @return the persisted entity
      */
@@ -21,7 +21,7 @@ public interface ScriptService {
 
     /**
      *  Get all the scripts.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
@@ -29,15 +29,17 @@ public interface ScriptService {
 
     /**
      *  Get the "id" script.
-     *  
+     *
      *  @param id the id of the entity
      *  @return the entity
      */
     Script findOne(Long id);
 
+
+
     /**
      *  Delete the "id" script.
-     *  
+     *
      *  @param id the id of the entity
      */
     void delete(Long id);

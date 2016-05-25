@@ -67,21 +67,6 @@ public class MapServiceImpl implements MapService {
     }
 
     /**
-     *  Get all maps belonging to project projectId.
-     *
-     *  @param projectId the projectId of the project entity
-     *  @return the map entity
-     */
-    @Transactional(readOnly = true)
-    public List<Map> findMapsByProject(Long projectId) {
-        log.debug("Request to get Maps for Project: {}", projectId);
-        return StreamSupport
-            .stream(mapRepository.findAll().spliterator(), false)
-            .filter(map -> Objects.equals(map.getId(), projectId))
-            .collect(Collectors.toList());
-    }
-
-    /**
      *  Delete the  map by projectId.
      *
      *  @param id the projectId of the entity

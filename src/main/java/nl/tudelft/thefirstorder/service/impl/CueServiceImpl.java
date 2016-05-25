@@ -1,6 +1,8 @@
 package nl.tudelft.thefirstorder.service.impl;
 
+import nl.tudelft.thefirstorder.domain.Camera;
 import nl.tudelft.thefirstorder.domain.Cue;
+import nl.tudelft.thefirstorder.domain.Player;
 import nl.tudelft.thefirstorder.repository.CueRepository;
 import nl.tudelft.thefirstorder.service.CueService;
 import org.slf4j.Logger;
@@ -24,13 +26,13 @@ import java.util.stream.StreamSupport;
 public class CueServiceImpl implements CueService {
 
     private final Logger log = LoggerFactory.getLogger(CueServiceImpl.class);
-    
+
     @Inject
     private CueRepository cueRepository;
-    
+
     /**
      * Save a cue.
-     * 
+     *
      * @param cue the entity to save
      * @return the persisted entity
      */
@@ -42,15 +44,30 @@ public class CueServiceImpl implements CueService {
 
     /**
      *  Get all the cues.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Page<Cue> findAll(Pageable pageable) {
         log.debug("Request to get all Cues");
-        Page<Cue> result = cueRepository.findAll(pageable); 
+        Page<Cue> result = cueRepository.findAll(pageable);
         return result;
+    }
+
+    @Override
+    public List<Cue> findCuesByMap(Long scriptId) {
+        return null; // TODO create method
+    }
+
+    @Override
+    public Player getPlayer(Long cueId) {
+        return null; // TODO create method
+    }
+
+    @Override
+    public Camera getCamera(Long cueId) {
+        return null; // TODO create method
     }
 
     /**
@@ -73,7 +90,7 @@ public class CueServiceImpl implements CueService {
      *  @param id the id of the entity
      *  @return the entity
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Cue findOne(Long id) {
         log.debug("Request to get Cue : {}", id);
         Cue cue = cueRepository.findOne(id);
@@ -82,7 +99,7 @@ public class CueServiceImpl implements CueService {
 
     /**
      *  Delete the  cue by id.
-     *  
+     *
      *  @param id the id of the entity
      */
     public void delete(Long id) {
