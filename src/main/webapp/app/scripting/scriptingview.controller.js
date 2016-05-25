@@ -29,7 +29,7 @@
         vm.loadScripts = loadScripts;
         vm.loadScripts();
         vm.loadTimePoints = loadTimePoints;
-        vm.loadTimePoints();
+        // vm.loadTimePoints();
 
         function loadTimePoints () {
             TimePoint.query({
