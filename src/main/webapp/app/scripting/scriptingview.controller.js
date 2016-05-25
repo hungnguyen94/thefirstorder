@@ -93,8 +93,21 @@
                 }
             });
 
+            // When selecting a square in the gridview, update the select boxes
             canvas.on('object:selected', function (options) {
-                console.log("Selected: " + options.target.left + " - " + options.target.id);
+                var id = options.target.id;
+                var type = options.target.type;
+
+                switch(type) {
+                    case 'Camera':
+                        var selectBox = document.getElementById('selectCamera');
+                        selectBox.value = id;
+                        break;
+                    case 'Player':
+                        var selectBox = document.getElementById('selectPlayer');
+                        selectBox.value = id;
+                        break;
+                }
             });
 
             for (var i = 0; i < cameraData.length; ++i) {
