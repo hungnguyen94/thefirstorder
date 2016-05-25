@@ -2,7 +2,9 @@ package nl.tudelft.thefirstorder.service.impl;
 
 import nl.tudelft.thefirstorder.domain.Map;
 import nl.tudelft.thefirstorder.repository.MapRepository;
+import nl.tudelft.thefirstorder.service.CameraService;
 import nl.tudelft.thefirstorder.service.MapService;
+import nl.tudelft.thefirstorder.service.PlayerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.util.Optional;
 
 /**
  * Service Implementation for managing Map.
@@ -23,7 +26,13 @@ public class MapServiceImpl implements MapService {
     
     @Inject
     private MapRepository mapRepository;
-    
+
+    @Inject
+    private CameraService cameraService;
+
+    @Inject
+    private PlayerService playerService;
+
     /**
      * Save a map.
      * 
@@ -71,4 +80,39 @@ public class MapServiceImpl implements MapService {
         log.debug("Request to delete Map : {}", id);
         mapRepository.delete(id);
     }
+
+    /**
+     * Adds a camera to the Map.
+     * @param mapId Id of the Map
+     * @param cameraId Id of the Camera
+     * @return The updated map
+     */
+    public Optional<Map> addCamera(Long mapId, Long cameraId) {
+        Map map = findOne(mapId);
+        return Optional.ofNullable(cameraService.findOne(cameraId))
+                .map(camera -> {
+                    log.debug("Request to add camera {} to map {}", mapId, cameraId);
+                    map.addCamera(camera);
+                    return mapRepository.save(map);
+                });
+    }
+
+    /**
+     * Adds a player to the Map.
+     *
+     * @param mapId    Id of the Map
+     * @param playerId Id of the Player
+     * @return The updated map
+     */
+    @Override
+    public Optional<Map> addPlayer(Long mapId, Long playerId) {
+        Map map = findOne(mapId);
+        return Optional.ofNullable(playerService.findOne(playerId))
+                .map(player -> {
+                    log.debug("Request to add player {} to map {}", mapId, playerId);
+                    map.addPlayer(player);
+                    return mapRepository.save(map);
+                });
+    }
+
 }
