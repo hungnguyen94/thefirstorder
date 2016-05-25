@@ -38,10 +38,10 @@ public interface CameraService {
     /**
      * Get the cameras, associated with the map with the given id.
      *
-     * @param mapId the id of the map.
+     * @param projectId the id of the map.
      * @return the list of camera entities
      */
-    List<Camera> findCamerasByMap(Long mapId);
+    List<Camera> findCamerasByProject(Long projectId);
 
     /**
      *  Delete the "id" camera.

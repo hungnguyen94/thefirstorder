@@ -12,13 +12,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * Service Implementation for managing Player.
  */
 @Service
 @Transactional
-public class PlayerServiceImpl implements PlayerService {
+class PlayerServiceImpl implements PlayerService {
 
     private final Logger log = LoggerFactory.getLogger(PlayerServiceImpl.class);
 
@@ -33,8 +36,7 @@ public class PlayerServiceImpl implements PlayerService {
      */
     public Player save(Player player) {
         log.debug("Request to save Player : {}", player);
-        Player result = playerRepository.save(player);
-        return result;
+        return playerRepository.save(player);
     }
 
     /**
@@ -46,13 +48,15 @@ public class PlayerServiceImpl implements PlayerService {
     @Transactional(readOnly = true)
     public Page<Player> findAll(Pageable pageable) {
         log.debug("Request to get all Players");
-        Page<Player> result = playerRepository.findAll(pageable);
-        return result;
+        return playerRepository.findAll(pageable);
     }
 
     @Override
-    public List<Player> findPlayersByMap(Long mapId) {
-        return null; // TODO create method
+    public List<Player> findPlayersByProject(Long projectId) {
+        return StreamSupport
+            .stream(playerRepository.findAll().spliterator(), false)
+            .filter(player -> Objects.equals(player.getProject().getId(), projectId))
+            .collect(Collectors.toList());
     }
 
     /**
@@ -64,8 +68,7 @@ public class PlayerServiceImpl implements PlayerService {
     @Transactional(readOnly = true)
     public Player findOne(Long id) {
         log.debug("Request to get Player : {}", id);
-        Player player = playerRepository.findOne(id);
-        return player;
+        return playerRepository.findOne(id);
     }
 
     /**

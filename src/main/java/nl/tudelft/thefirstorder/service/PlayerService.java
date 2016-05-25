@@ -30,10 +30,10 @@ public interface PlayerService {
     /**
      * Get the players, associated with the map with the given id.
      *
-     * @param mapId the id of the map.
+     * @param projectId the id of the map.
      * @return the list of player entities
      */
-    List<Player> findPlayersByMap(Long mapId);
+    List<Player> findPlayersByProject(Long projectId);
 
     /**
      *  Get the "id" player.

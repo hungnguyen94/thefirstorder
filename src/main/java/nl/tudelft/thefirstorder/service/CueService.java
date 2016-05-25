@@ -35,7 +35,7 @@ public interface CueService {
      * @param scriptId the id of the script.
      * @return the list of cue entities
      */
-    List<Cue> findCuesByMap(Long scriptId);
+    List<Cue> findCuesByScript(Long scriptId);
 
     /**
      * Get the player, belonging to the cue with the given id.

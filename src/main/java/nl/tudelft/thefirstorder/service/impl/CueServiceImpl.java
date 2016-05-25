@@ -4,6 +4,7 @@ import nl.tudelft.thefirstorder.domain.Camera;
 import nl.tudelft.thefirstorder.domain.Cue;
 import nl.tudelft.thefirstorder.domain.Player;
 import nl.tudelft.thefirstorder.repository.CueRepository;
+import nl.tudelft.thefirstorder.repository.ScriptRepository;
 import nl.tudelft.thefirstorder.service.CueService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +24,7 @@ import java.util.stream.StreamSupport;
  */
 @Service
 @Transactional
-public class CueServiceImpl implements CueService {
+class CueServiceImpl implements CueService {
 
     private final Logger log = LoggerFactory.getLogger(CueServiceImpl.class);
 
@@ -38,69 +39,57 @@ public class CueServiceImpl implements CueService {
      */
     public Cue save(Cue cue) {
         log.debug("Request to save Cue : {}", cue);
-        Cue result = cueRepository.save(cue);
-        return result;
+        return cueRepository.save(cue);
     }
 
     /**
-     *  Get all the cues.
+     * Get all the cues.
      *
-     *  @param pageable the pagination information
-     *  @return the list of entities
+     * @param pageable the pagination information
+     * @return the list of entities
      */
     @Transactional(readOnly = true)
     public Page<Cue> findAll(Pageable pageable) {
         log.debug("Request to get all Cues");
-        Page<Cue> result = cueRepository.findAll(pageable);
-        return result;
+        return cueRepository.findAll(pageable);
     }
 
     @Override
-    public List<Cue> findCuesByMap(Long scriptId) {
-        return null; // TODO create method
+    public List<Cue> findCuesByScript(Long scriptId) {
+        return StreamSupport
+            .stream(cueRepository.findAll().spliterator(), false)
+            .filter(cue -> Objects.equals(cue.getScript().getId(), scriptId))
+            .collect(Collectors.toList());
     }
 
     @Override
     public Player getPlayer(Long cueId) {
-        return null; // TODO create method
+        Cue cue = findOne(cueId);
+        return cue.getPlayer();
     }
 
     @Override
     public Camera getCamera(Long cueId) {
-        return null; // TODO create method
+        Cue cue = findOne(cueId);
+        return cue.getCamera();
     }
 
     /**
-     * Get all cues belonging to this project.
+     * Get one cue by id.
      *
-     * @param projectId Id of the project
-     * @return Collection of cues
-     */
-    @Transactional(readOnly = true)
-    public List<Cue> findAllByProject(Long projectId) {
-        return StreamSupport
-                .stream(cueRepository.findAll().spliterator(), false)
-                .filter(cue -> Objects.equals(cue.getId(), projectId))
-                .collect(Collectors.toList());
-    }
-
-    /**
-     *  Get one cue by id.
-     *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     @Transactional(readOnly = true)
     public Cue findOne(Long id) {
         log.debug("Request to get Cue : {}", id);
-        Cue cue = cueRepository.findOne(id);
-        return cue;
+        return cueRepository.findOne(id);
     }
 
     /**
-     *  Delete the  cue by id.
+     * Delete the  cue by id.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     public void delete(Long id) {
         log.debug("Request to delete Cue : {}", id);

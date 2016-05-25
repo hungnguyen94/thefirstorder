@@ -12,13 +12,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * Service Implementation for managing Camera.
  */
 @Service
 @Transactional
-public class CameraServiceImpl implements CameraService {
+class CameraServiceImpl implements CameraService {
 
     private final Logger log = LoggerFactory.getLogger(CameraServiceImpl.class);
 
@@ -33,8 +36,7 @@ public class CameraServiceImpl implements CameraService {
      */
     public Camera save(Camera camera) {
         log.debug("Request to save Camera : {}", camera);
-        Camera result = cameraRepository.save(camera);
-        return result;
+        return cameraRepository.save(camera);
     }
 
     /**
@@ -46,8 +48,7 @@ public class CameraServiceImpl implements CameraService {
     @Transactional(readOnly = true)
     public Page<Camera> findAll(Pageable pageable) {
         log.debug("Request to get all Cameras");
-        Page<Camera> result = cameraRepository.findAll(pageable);
-        return result;
+        return cameraRepository.findAll(pageable);
     }
 
     /**
@@ -59,13 +60,15 @@ public class CameraServiceImpl implements CameraService {
     @Transactional(readOnly = true)
     public Camera findOne(Long id) {
         log.debug("Request to get Camera : {}", id);
-        Camera camera = cameraRepository.findOne(id);
-        return camera;
+        return cameraRepository.findOne(id);
     }
 
     @Override
-    public List<Camera> findCamerasByMap(Long mapId) {
-        return null; // TODO create method
+    public List<Camera> findCamerasByProject(Long projectId) {
+        return StreamSupport
+            .stream(cameraRepository.findAll().spliterator(), false)
+            .filter(camera -> Objects.equals(camera.getProject().getId(), projectId))
+            .collect(Collectors.toList());
     }
 
     /**

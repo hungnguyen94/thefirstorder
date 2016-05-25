@@ -19,7 +19,7 @@ import javax.inject.Inject;
  */
 @Service
 @Transactional
-public class ProjectServiceImpl implements ProjectService {
+class ProjectServiceImpl implements ProjectService {
 
     private final Logger log = LoggerFactory.getLogger(ProjectServiceImpl.class);
 
@@ -34,8 +34,7 @@ public class ProjectServiceImpl implements ProjectService {
      */
     public Project save(Project project) {
         log.debug("Request to save Project : {}", project);
-        Project result = projectRepository.save(project);
-        return result;
+        return projectRepository.save(project);
     }
 
     /**
@@ -47,8 +46,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Transactional(readOnly = true)
     public Page<Project> findAll(Pageable pageable) {
         log.debug("Request to get all Projects");
-        Page<Project> result = projectRepository.findAll(pageable);
-        return result;
+        return projectRepository.findAll(pageable);
     }
 
     /**
@@ -60,18 +58,18 @@ public class ProjectServiceImpl implements ProjectService {
     @Transactional(readOnly = true)
     public Project findOne(Long id) {
         log.debug("Request to get Project : {}", id);
-        Project project = projectRepository.findOne(id);
-        return project;
+        return projectRepository.findOne(id);
     }
 
     public Map getMap(Long projectId) {
-        Project proj = findOne(projectId);
-        return proj.getMap();
+        Project project = findOne(projectId);
+        return project.getMap();
     }
 
     @Override
     public Script getScript(Long projectId) {
-        return null; // TODO create method
+        Project project = findOne(projectId);
+        return project.getScript();
     }
 
     /**
