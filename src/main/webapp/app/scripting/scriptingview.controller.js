@@ -101,11 +101,11 @@
                 switch(type) {
                     case 'Camera':
                         var selectBox = document.getElementById('selectCamera');
-                        selectBox.value = id;
+                        selectBox.value = id + 1;
                         break;
                     case 'Player':
                         var selectBox = document.getElementById('selectPlayer');
-                        selectBox.value = id;
+                        selectBox.value = id + 1;
                         break;
                 }
             });
