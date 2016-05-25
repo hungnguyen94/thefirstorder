@@ -5,7 +5,7 @@
         .module('thefirstorderApp')
         .controller('ScriptingviewController', ScriptingviewController);
 
-    ScriptingviewController.$inject = ['$scope', '$state', 'Camera', 'Player', 'Cue', 'AlertService'];
+    ScriptingviewController.$inject = ['$scope', '$state', 'Camera', 'Player', 'CameraAction', 'Script', 'Cue', 'AlertService'];
 
     /**
      * The controller for the script view.
@@ -15,7 +15,7 @@
      * @param AlertService the alertservice
      * @constructor
      */
-    function ScriptingviewController ($scope, $state, Camera, Player, Cue, AlertService) {
+    function ScriptingviewController ($scope, $state, Camera, Player, CameraAction, Script, Cue, AlertService) {
         var vm = this;
         var grid = 15;
 
@@ -24,6 +24,10 @@
         vm.loadPlayers = loadPlayers;
         vm.loadCues = loadCues;
         vm.loadCues();
+        vm.loadCameraActions = loadCameraActions;
+        vm.loadCameraActions();
+        vm.loadScripts = loadScripts;
+        vm.loadScripts();
 
         function loadCameras () {
             Camera.query({
@@ -49,6 +53,36 @@
                 vm.players = data;
                 vm.queryCount = vm.totalItems;
                 drawCameras(cameraData, data);
+            }
+
+            function onError(error) {
+                AlertService.error(error.data.message);
+            }
+        }
+
+        function loadCameraActions() {
+            CameraAction.query({
+
+            }, onSuccess, onError);
+
+            function onSuccess(data, headers) {
+                vm.cameraActions = data;
+                vm.queryCount = vm.totalItems;
+            }
+
+            function onError(error) {
+                AlertService.error(error.data.message);
+            }
+        }
+
+        function loadScripts() {
+            Script.query({
+
+            }, onSuccess, onError);
+
+            function onSuccess(data, headers) {
+                vm.scripts = data;
+                vm.queryCount = vm.totalItems;
             }
 
             function onError(error) {
