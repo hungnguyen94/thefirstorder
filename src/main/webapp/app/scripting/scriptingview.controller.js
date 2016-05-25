@@ -5,7 +5,7 @@
         .module('thefirstorderApp')
         .controller('ScriptingviewController', ScriptingviewController);
 
-    ScriptingviewController.$inject = ['$scope', '$state', 'Camera', 'Player', 'CameraAction', 'Script', 'Cue', 'AlertService'];
+    ScriptingviewController.$inject = ['$scope', '$state', 'Camera', 'Player', 'CameraAction', 'Script', 'TimePoint', 'Cue', 'AlertService'];
 
     /**
      * The controller for the script view.
@@ -15,7 +15,7 @@
      * @param AlertService the alertservice
      * @constructor
      */
-    function ScriptingviewController ($scope, $state, Camera, Player, CameraAction, Script, Cue, AlertService) {
+    function ScriptingviewController ($scope, $state, Camera, Player, CameraAction, Script, TimePoint, Cue, AlertService) {
         var vm = this;
         var grid = 15;
 
@@ -28,6 +28,23 @@
         vm.loadCameraActions();
         vm.loadScripts = loadScripts;
         vm.loadScripts();
+        vm.loadTimePoints = loadTimePoints;
+        vm.loadTimePoints();
+
+        function loadTimePoints () {
+            TimePoint.query({
+
+            }, onSuccess, onError);
+
+            function onSuccess(data, headers) {
+                vm.timePoints = data;
+                vm.queryCount = vm.totalItems;
+                vm.loadPlayers(data);
+            }
+            function onError(error) {
+                AlertService.error(error.data.message);
+            }
+        }
 
         function loadCameras () {
             Camera.query({
@@ -205,6 +222,43 @@
 
                 // Create a Timeline
                 var timeline = new vis.Timeline(container, items, options);
+
+                timeline.on('click', function (properties) {
+                    var startTime = parseIntAsYear(properties.time.getFullYear());
+                    var duration = document.getElementById('durationCue').value;
+
+                    // Initialize new time point
+                    var timePoint = new Object();
+                    timePoint.startTime = startTime;
+                    timePoint.duration = duration;
+
+                    // Retrieve the rest of the objects
+                    var player = Player.get({id: document.getElementById('selectPlayer').value});
+                    var camera = Camera.get({id: document.getElementById('selectCamera').value});
+                    var cameraAction = CameraAction.get({id: document.getElementById('selectCameraAction').value});
+                    var script = Script.get({id: document.getElementById('selectScript').value});
+
+                    // Save the time point to the database
+                    var temp = TimePoint.save(timePoint);
+
+                    // Reload all timepoints, so the newly added one is in the memory
+                    vm.loadTimePoints();
+
+                    // Initialize new cue
+                    var cue = new Object();
+
+                    // cue.player = player;
+                    // cue.camera = camera;
+                    // cue.cameraAction = cameraAction;
+                    // cue.script = script;
+                    cue.timePoint = vm.timePoints.pop();
+
+                    console.log("Test: ", vm.timePoints.length);
+
+                    // Add the Cue to the database
+                    Cue.save(cue);
+                    $state.reload();
+                });
             }
             function onError(error) {
                 AlertService.error(error.data.message);
