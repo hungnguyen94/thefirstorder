@@ -30,7 +30,7 @@ public class XMLExportUtil {
     /**
      * Constructor.
      */
-    private XMLExportUtil() {
+    public XMLExportUtil() {
     }
 
     /**
@@ -168,7 +168,7 @@ public class XMLExportUtil {
         playerNode.appendChild(playerId);
         playerNode.appendChild(playerName);
         playerNode.appendChild(playerX);
-        playerNode.appendChild(playerX);
+        playerNode.appendChild(playerY);
         return playerNode;
     }
 
