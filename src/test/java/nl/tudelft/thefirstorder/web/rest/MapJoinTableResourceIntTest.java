@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -105,9 +106,8 @@ public class MapJoinTableResourceIntTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").value(map.getId().intValue()))
-                .andExpect(jsonPath("$.name").value(DEFAULT_MAP_NAME))
-                .andExpect(jsonPath("$.cameras[0].id").value(camera.getId().intValue()))
-                .andExpect(jsonPath("$.cameras[0].name").value(DEFAULT_CAMERA_NAME));
+                .andExpect(jsonPath("$.name").value(DEFAULT_MAP_NAME));
+        assertThat(map.getCameras()).contains(camera);
     }
 
     @Test
@@ -126,9 +126,8 @@ public class MapJoinTableResourceIntTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").value(map.getId().intValue()))
-                .andExpect(jsonPath("$.name").value(DEFAULT_MAP_NAME))
-                .andExpect(jsonPath("$.players[0].id").value(player.getId().intValue()))
-                .andExpect(jsonPath("$.players[0].name").value(DEFAULT_PLAYER_NAME));
+                .andExpect(jsonPath("$.name").value(DEFAULT_MAP_NAME));
+        assertThat(map.getPlayers()).contains(player);
     }
 
     @Test

@@ -93,7 +93,8 @@ public class MapServiceImpl implements MapService {
                 .map(camera -> {
                     log.debug("Request to add camera {} to map {}", mapId, cameraId);
                     map.addCamera(camera);
-                    return mapRepository.save(map);
+                    mapRepository.save(map);
+                    return map;
                 });
     }
 
