@@ -66,7 +66,7 @@ public class PDFExportUtil {
      * Add the meta data to the pdf.
      * @param document the document to which the data has to be added
      */
-    private static void addMetaData(Document document, Project project) {
+    public static void addMetaData(Document document, Project project) {
         document.addTitle(project.getScript().getName());
         document.addSubject("Script");
         document.addKeywords("Script");
@@ -80,7 +80,7 @@ public class PDFExportUtil {
      * @param project the project from which the data is exported
      * @throws DocumentException if something wrong is added to the document
      */
-    private static void addTitlePage(Document document, Project project)
+    public static void addTitlePage(Document document, Project project)
             throws DocumentException {
         Script script = project.getScript();
         Paragraph preface = new Paragraph();
@@ -103,7 +103,7 @@ public class PDFExportUtil {
      * @param project the project from which the content is exported
      * @throws DocumentException if something wrong is added to the document
      */
-    private static void addContent(Document document, Project project) throws DocumentException {
+    public static void addContent(Document document, Project project) throws DocumentException {
         PdfPTable table = new PdfPTable(4);
 
         PdfPCell c1 = new PdfPCell(new Phrase("No."));
@@ -182,7 +182,7 @@ public class PDFExportUtil {
         document.add(par);
     }
 
-    private static void addEmptyLine(Paragraph paragraph, int number) {
+    public static void addEmptyLine(Paragraph paragraph, int number) {
         for (int i = 0; i < number; i++) {
             paragraph.add(new Paragraph(" "));
         }

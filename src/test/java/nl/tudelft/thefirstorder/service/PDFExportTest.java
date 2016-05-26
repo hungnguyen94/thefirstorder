@@ -1,4 +1,4 @@
-package nl.tudelft.thefirstorder;
+package nl.tudelft.thefirstorder.service;
 
 /**
  * Created by Martin on 18-5-2016.
@@ -10,6 +10,7 @@ import com.itextpdf.text.Paragraph;
 import nl.tudelft.thefirstorder.domain.Cue;
 import nl.tudelft.thefirstorder.domain.Project;
 import nl.tudelft.thefirstorder.domain.Script;
+import nl.tudelft.thefirstorder.service.util.PDFExportUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,8 +45,9 @@ public class PDFExportTest {
 
     @Test
     public void addMetaDataTest() {
+        when(project.getScript()).thenReturn(script);
         when(script.getName()).thenReturn("Script");
-        PDFExport.addMetaData(document,script);
+        PDFExportUtil.addMetaData(document,project);
         verify(document).addTitle("Script");
         verify(document).addSubject("Script");
         verify(document).addKeywords("Script");
@@ -55,23 +57,25 @@ public class PDFExportTest {
 
     @Test
     public void addTitlePageTest() throws DocumentException {
+        when(project.getScript()).thenReturn(script);
         when(script.getName()).thenReturn("Script");
-        PDFExport.addTitlePage(document,script);
+        PDFExportUtil.addTitlePage(document,project);
         verify(document).add(any(Paragraph.class));
         verify(document).newPage();
     }
 
     @Test
     public void addContentTest() throws DocumentException {
+        when(project.getScript()).thenReturn(script);
         when(script.getCues()).thenReturn(new HashSet<Cue>());
-        PDFExport.addContent(document,script);
+        PDFExportUtil.addContent(document,project);
         verify(script).getCues();
         verify(document).add(any(Paragraph.class));
     }
 
     @Test
     public void addEmptyLine() {
-        PDFExport.addEmptyLine(paragraph,1);
+        PDFExportUtil.addEmptyLine(paragraph,1);
         verify(paragraph).add(any(Paragraph.class));
         verifyZeroInteractions(paragraph);
     }
