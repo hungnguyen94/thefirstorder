@@ -38,22 +38,6 @@ public interface ProjectService {
     Project findOne(Long id);
 
     /**
-     * Get the map, belonging to the project with the given id.
-     *
-     * @param projectId the id of the project.
-     * @return the map entity
-     */
-    Map getMap(Long projectId);
-
-    /**
-     * Get the script, belonging to the project with the given id.
-     *
-     * @param projectId the id of the project.
-     * @return the script entity
-     */
-    Script getScript(Long projectId);
-
-    /**
      *  Delete the "id" project.
      *
      *  @param id the id of the entity

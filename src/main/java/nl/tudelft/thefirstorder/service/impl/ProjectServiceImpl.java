@@ -61,17 +61,6 @@ class ProjectServiceImpl implements ProjectService {
         return projectRepository.findOne(id);
     }
 
-    public Map getMap(Long projectId) {
-        Project project = findOne(projectId);
-        return project.getMap();
-    }
-
-    @Override
-    public Script getScript(Long projectId) {
-        Project project = findOne(projectId);
-        return project.getScript();
-    }
-
     /**
      *  Delete the  project by id.
      *

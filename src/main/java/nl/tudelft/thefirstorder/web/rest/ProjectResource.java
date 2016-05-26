@@ -197,7 +197,7 @@ public class ProjectResource {
     @Timed
     public ResponseEntity<Map> getMapOfProject(@PathVariable Long id) {
         log.debug("REST request to get map of Project : {}", id);
-        Map map = projectService.getMap(id);
+        Map map = projectService.findOne(id).getMap();
         return Optional.ofNullable(map)
             .map(result -> new ResponseEntity<>(
                 result,
