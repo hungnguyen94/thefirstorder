@@ -1,6 +1,7 @@
 package nl.tudelft.thefirstorder.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import nl.tudelft.thefirstorder.domain.Map;
 import nl.tudelft.thefirstorder.domain.Project;
 import nl.tudelft.thefirstorder.service.ProjectService;
 import nl.tudelft.thefirstorder.service.util.PDFExportUtil;
@@ -46,7 +47,7 @@ public class ProjectResource {
      *
      * @param project the project to create
      * @return the ResponseEntity with status 201 (Created) and with body the new project,
-     *      or with status 400 (Bad Request) if the project has already an ID
+     * or with status 400 (Bad Request) if the project has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/projects",
@@ -57,7 +58,7 @@ public class ProjectResource {
         log.debug("REST request to save Project : {}", project);
         if (project.getId() != null) {
             return ResponseEntity.badRequest().headers(
-                    HeaderUtil.createFailureAlert("project", "idexists", "A new project cannot already have an ID")
+                HeaderUtil.createFailureAlert("project", "idexists", "A new project cannot already have an ID")
             ).body(null);
         }
         Project result = projectService.save(project);
@@ -71,8 +72,8 @@ public class ProjectResource {
      *
      * @param project the project to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated project,
-     *      or with status 400 (Bad Request) if the project is not valid,
-     *      or with status 500 (Internal Server Error) if the project couldnt be updated
+     * or with status 400 (Bad Request) if the project is not valid,
+     * or with status 500 (Internal Server Error) if the project couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/projects",
@@ -149,13 +150,14 @@ public class ProjectResource {
     /**
      * GET /projects/:id/exportpdf : exports the project to a PDF.
      * Serve the PDF as download.
+     *
      * @param id the id of the project to export.
      * @return the ResponseEntity with status 200 (OK) or with status 404 (Not Found)
      * @throws IOException This exception is thrown when the resource cannot be read.
      */
     @RequestMapping(value = "/projects/{id}/exportpdf",
-            method = RequestMethod.GET,
-            produces = "application/pdf")
+        method = RequestMethod.GET,
+        produces = "application/pdf")
     @Timed
     public ResponseEntity<Resource> downloadPDF(@PathVariable Long id) throws IOException {
         log.debug("Request to get PDF download Project : {}", id);
@@ -177,15 +179,36 @@ public class ProjectResource {
         Resource resource = PDFExportUtil.exportProjectToPDF(currentProject);
 
         return ResponseEntity.ok()
-                .headers(headers)
-                .contentLength(resource.contentLength())
-                .contentType(MediaType.parseMediaType("application/octet-stream"))
-                .body(resource);
+            .headers(headers)
+            .contentLength(resource.contentLength())
+            .contentType(MediaType.parseMediaType("application/octet-stream"))
+            .body(resource);
+    }
+
+    /**
+     * GET  /projects/:id/map : get the map of "id" project.
+     *
+     * @param id the id of the project to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the project, or with status 404 (Not Found)
+     */
+    @RequestMapping(value = "/projects/{id}/map",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<Map> getMapOfProject(@PathVariable Long id) {
+        log.debug("REST request to get map of Project : {}", id);
+        Map map = projectService.findOne(id).getMap();
+        return Optional.ofNullable(map)
+            .map(result -> new ResponseEntity<>(
+                result,
+                HttpStatus.OK))
+            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     /**
      * GET /projects/:id/exportxml : exports the project to a XML.
      * Serve the XML as download.
+     *
      * @param id the id of the project to export.
      * @return the ResponseEntity with status 200 (OK) or with status 404 (Not Found)
      * @throws IOException This exception is thrown when the resource cannot be read.

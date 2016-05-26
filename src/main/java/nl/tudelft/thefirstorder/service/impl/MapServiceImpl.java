@@ -23,7 +23,7 @@ import java.util.Optional;
 public class MapServiceImpl implements MapService {
 
     private final Logger log = LoggerFactory.getLogger(MapServiceImpl.class);
-    
+
     @Inject
     private MapRepository mapRepository;
 
@@ -35,7 +35,7 @@ public class MapServiceImpl implements MapService {
 
     /**
      * Save a map.
-     * 
+     *
      * @param map the entity to save
      * @return the persisted entity
      */
@@ -46,15 +46,15 @@ public class MapServiceImpl implements MapService {
     }
 
     /**
-     *  Get all the maps.
-     *  
-     *  @param pageable the pagination information
-     *  @return the list of entities
+     * Get all the maps.
+     *
+     * @param pageable the pagination information
+     * @return the list of entities
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Page<Map> findAll(Pageable pageable) {
         log.debug("Request to get all Maps");
-        Page<Map> result = mapRepository.findAll(pageable); 
+        Page<Map> result = mapRepository.findAll(pageable);
         return result;
     }
 
@@ -64,7 +64,7 @@ public class MapServiceImpl implements MapService {
      *  @param id the id of the entity
      *  @return the entity
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Map findOne(Long id) {
         log.debug("Request to get Map : {}", id);
         Map map = mapRepository.findOne(id);
@@ -83,7 +83,8 @@ public class MapServiceImpl implements MapService {
 
     /**
      * Adds a camera to the Map.
-     * @param mapId Id of the Map
+     *
+     * @param mapId    Id of the Map
      * @param cameraId Id of the Camera
      * @return The updated map
      */

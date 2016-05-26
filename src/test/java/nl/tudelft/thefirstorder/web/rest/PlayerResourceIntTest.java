@@ -108,6 +108,42 @@ public class PlayerResourceIntTest {
 
     @Test
     @Transactional
+    public void createPlayerWithId() throws Exception {
+        int databaseSizeBeforeCreate = playerRepository.findAll().size();
+
+        player.setId(123L);
+
+        // Create the Player
+        restPlayerMockMvc.perform(post("/api/players")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(player)))
+            .andExpect(status().isBadRequest());
+
+        // Validate the Player is not in the database
+        List<Player> players = playerRepository.findAll();
+        assertThat(players).hasSize(databaseSizeBeforeCreate);
+    }
+
+    @Test
+    @Transactional
+    public void updatePlayerNoId() throws Exception {
+        int databaseSizeBeforeUpdate = playerRepository.findAll().size();
+
+        // Update the Player
+        Player updatedPlayer = new Player();
+
+        restPlayerMockMvc.perform(put("/api/players")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedPlayer)))
+            .andExpect(status().isCreated());
+
+        // Validate the Player in the database
+        List<Player> players = playerRepository.findAll();
+        assertThat(players).hasSize(databaseSizeBeforeUpdate + 1);
+    }
+
+    @Test
+    @Transactional
     public void getAllPlayers() throws Exception {
         // Initialize the database
         playerRepository.saveAndFlush(player);
