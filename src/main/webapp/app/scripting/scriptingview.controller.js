@@ -251,20 +251,24 @@
                     // Reload all timepoints, so the newly added one is in the memory
                     vm.loadTimePoints();
 
-                    // Initialize new cue
-                    var cue = new Object();
+                    timeline.on('click', function (properties) {
 
-                    cue.player = player;
-                    cue.camera = camera;
-                    cue.cameraAction = cameraAction;
-                    cue.script = script;
-                    cue.timePoint = vm.timePoints.pop();
+                        vm.loadTimePoints();
+                        // Initialize new cue
+                        var cue = new Object();
 
-                    console.log("Test: ", vm.timePoints.length);
+                        cue.player = player;
+                        cue.camera = camera;
+                        cue.cameraAction = cameraAction;
+                        cue.script = script;
+                        cue.timePoint = vm.timePoints.pop();
 
-                    // Add the Cue to the database
-                    Cue.save(cue);
-                    $state.reload();
+                        console.log("Test: ", vm.timePoints.length);
+
+                        // Add the Cue to the database
+                        Cue.save(cue);
+                        $state.reload();
+                    });
                 });
             }
             function onError(error) {
