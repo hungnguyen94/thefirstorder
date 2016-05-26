@@ -3,11 +3,11 @@
 
     angular
         .module('thefirstorderApp')
-        .controller('CreateDialogController', CreateDialogController);
+        .controller('CreateProjectDialogController', CreateProjectDialogController);
 
-    CreateDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$q', 'entity', 'Project', 'Script', 'Map', 'Player', 'Camera', 'ProjectManager'];
+    CreateProjectDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$q', 'entity', 'Project', 'Script', 'Map', 'Player', 'Camera', 'ProjectManager'];
 
-    function CreateDialogController($timeout, $scope, $stateParams, $uibModalInstance, $q, entity, Project, Script, Map, Player, Camera, ProjectManager) {
+    function CreateProjectDialogController($timeout, $scope, $stateParams, $uibModalInstance, $q, entity, Project, Script, Map, Player, Camera, ProjectManager) {
         var vm = this;
         vm.project = entity;
         vm.scripts = Script.query({filter: 'project-is-null'});

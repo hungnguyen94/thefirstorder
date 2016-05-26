@@ -30,8 +30,8 @@
                 },
                 onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                     $uibModal.open({
-                        templateUrl: 'app/home/create-dialog.html',
-                        controller: 'CreateDialogController',
+                        templateUrl: 'app/home/createproject-dialog.html',
+                        controller: 'CreateProjectDialogController',
                         controllerAs: 'vm',
                         backdrop: 'static',
                         size: 'lg',
@@ -58,8 +58,8 @@
                 },
                 onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                     $uibModal.open({
-                        templateUrl: 'app/home/load-dialog.html',
-                        controller: 'LoadDialogController',
+                        templateUrl: 'app/home/loadproject-dialog.html',
+                        controller: 'LoadProjectDialogController',
                         controllerAs: 'vm',
                         backdrop: 'static',
                         size: 'lg',

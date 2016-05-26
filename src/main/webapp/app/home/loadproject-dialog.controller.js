@@ -3,16 +3,15 @@
 
     angular
         .module('thefirstorderApp')
-        .controller('LoadDialogController', LoadDialogController);
+        .controller('LoadProjectDialogController', LoadProjectDialogController);
 
-    LoadDialogController.$inject = ['$timeout', '$scope', '$state', '$stateParams', '$uibModalInstance', '$q', 'entity', 'Project', 'ProjectManager'];
+    LoadProjectDialogController.$inject = ['$timeout', '$scope', '$state', '$stateParams', '$uibModalInstance', '$q', 'entity', 'Project', 'ProjectManager'];
 
-    function LoadDialogController($timeout, $scope, $state, $stateParams, $uibModalInstance, $q, entity, Project, ProjectManager) {
+    function LoadProjectDialogController($timeout, $scope, $state, $stateParams, $uibModalInstance, $q, entity, Project, ProjectManager) {
         var vm = this;
         vm.project = entity;
 
-        vm.loadAllProjects = loadAllProjects;
-        vm.loadAllProjects();
+        vm.projects = Project.query();
 
         $timeout(function () {
             angular.element('.form-group:eq(1)>input').focus();
@@ -40,18 +39,5 @@
         var onLoadError = function () {
             vm.isLoading = false;
         };
-
-        function loadAllProjects() {
-            Project.query({}, onSuccess, onError);
-
-            function onSuccess(data, headers) {
-                vm.projects = data;
-                vm.queryCount = vm.totalItems;
-            }
-
-            function onError(error) {
-                AlertService.error(error.data.message);
-            }
-        }
     }
 })();
