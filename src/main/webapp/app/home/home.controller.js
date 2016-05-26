@@ -17,8 +17,7 @@
         vm.register = register;
         vm.loadProject = loadProject;
         vm.loadProject();
-        vm.loadAllProjects = loadAllProjects;
-        vm.loadAllProjects();
+
         $scope.$on('authenticationSuccess', function () {
             getAccount();
         });
@@ -43,19 +42,6 @@
                     vm.currentProject = Project.get({id: projectId});
                     vm.hasProject = true;
                 });
-        }
-
-        function loadAllProjects() {
-            Project.query({}, onSuccess, onError);
-
-            function onSuccess(data, headers) {
-                vm.projects = data;
-                vm.queryCount = vm.totalItems;
-            }
-
-            function onError(error) {
-                AlertService.error(error.data.message);
-            }
         }
     }
 })();
