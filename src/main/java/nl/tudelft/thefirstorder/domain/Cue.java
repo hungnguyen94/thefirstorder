@@ -3,6 +3,7 @@ package nl.tudelft.thefirstorder.domain;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -44,7 +45,7 @@ public class Cue implements Serializable {
     @JoinColumn
     private CameraAction cameraAction;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(unique = true)
     private TimePoint timePoint;
 

@@ -1,5 +1,6 @@
 package nl.tudelft.thefirstorder.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -35,6 +36,7 @@ public class Map implements Serializable {
     private String name;
 
     @OneToMany
+    @JsonIgnore
     @JoinTable(name = "map_cameras",
             joinColumns = @JoinColumn(name = "map_id"),
             inverseJoinColumns = @JoinColumn(name = "camera_id")
@@ -43,6 +45,7 @@ public class Map implements Serializable {
     private Set<Camera> cameras = new HashSet<>();
 
     @OneToMany
+    @JsonIgnore
     @JoinTable(name = "map_players",
             joinColumns = @JoinColumn(name = "map_id"),
             inverseJoinColumns = @JoinColumn(name = "player_id")
