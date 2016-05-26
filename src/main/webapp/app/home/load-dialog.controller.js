@@ -5,31 +5,12 @@
         .module('thefirstorderApp')
         .controller('LoadDialogController', LoadDialogController);
 
-    LoadDialogController.$inject = ['$timeout', '$scope', '$state', '$stateParams', '$uibModalInstance', '$q', 'entity', 'Project', 'Script', 'Map', 'Player', 'Camera'];
+    LoadDialogController.$inject = ['$timeout', '$scope', '$state', '$stateParams', '$uibModalInstance', '$q', 'entity', 'Project', 'ProjectManager'];
 
-    function LoadDialogController($timeout, $scope, $state, $stateParams, $uibModalInstance, $q, entity, Project, Script, Map, Player, Camera) {
+    function LoadDialogController($timeout, $scope, $state, $stateParams, $uibModalInstance, $q, entity, Project, ProjectManager) {
         var vm = this;
+        vm.isLoading = false;
         vm.project = entity;
-        vm.scripts = Script.query({filter: 'project-is-null'});
-        $q.all([vm.project.$promise, vm.scripts.$promise]).then(function () {
-            if (!vm.project.script || !vm.project.script.id) {
-                return $q.reject();
-            }
-            return Script.get({id: vm.project.script.id}).$promise;
-        }).then(function (script) {
-            vm.scripts.push(script);
-        });
-        vm.maps = Map.query({filter: 'project-is-null'});
-        $q.all([vm.project.$promise, vm.maps.$promise]).then(function () {
-            if (!vm.project.map || !vm.project.map.id) {
-                return $q.reject();
-            }
-            return Map.get({id: vm.project.map.id}).$promise;
-        }).then(function (map) {
-            vm.maps.push(map);
-        });
-        vm.players = Player.query();
-        vm.cameras = Camera.query();
 
         vm.loadAllProjects = loadAllProjects;
         vm.loadAllProjects();
@@ -42,8 +23,26 @@
             $uibModalInstance.dismiss('cancel');
         };
 
-        vm.open = function (projectId) {
-            $uibModalInstance.dismiss();
+        vm.load = function (projectId) {
+            vm.isLoading = true;
+            console.log("loading project...");
+            if (projectId !== null) {
+                ProjectManager.update(projectId);
+                onLoadSuccess();
+            } else {
+                vm.clear();
+            }
+        };
+
+        var onLoadSuccess = function (result) {
+            $scope.$emit('thefirstorderApp:projectUpdate', result);
+            $uibModalInstance.close(result);
+            vm.isLoading = false;
+        };
+
+        var onLoadError = function () {
+            console.log("not able to load project");
+            vm.isLoading = false;
         };
 
         function loadAllProjects() {
@@ -51,7 +50,6 @@
 
             function onSuccess(data, headers) {
                 vm.projects = data;
-                console.log(vm.projects);
                 vm.queryCount = vm.totalItems;
             }
 
