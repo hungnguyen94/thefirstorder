@@ -2,7 +2,9 @@ package nl.tudelft.thefirstorder.service.impl;
 
 import nl.tudelft.thefirstorder.domain.Map;
 import nl.tudelft.thefirstorder.repository.MapRepository;
+import nl.tudelft.thefirstorder.service.CameraService;
 import nl.tudelft.thefirstorder.service.MapService;
+import nl.tudelft.thefirstorder.service.PlayerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -11,10 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+import java.util.Optional;
 
 /**
  * Service Implementation for managing Map.
@@ -27,6 +26,12 @@ public class MapServiceImpl implements MapService {
 
     @Inject
     private MapRepository mapRepository;
+
+    @Inject
+    private CameraService cameraService;
+
+    @Inject
+    private PlayerService playerService;
 
     /**
      * Save a map.
@@ -41,10 +46,10 @@ public class MapServiceImpl implements MapService {
     }
 
     /**
-     *  Get all the maps.
+     * Get all the maps.
      *
-     *  @param pageable the pagination information
-     *  @return the list of entities
+     * @param pageable the pagination information
+     * @return the list of entities
      */
     @Transactional(readOnly = true)
     public Page<Map> findAll(Pageable pageable) {
@@ -54,10 +59,10 @@ public class MapServiceImpl implements MapService {
     }
 
     /**
-     *  Get one map by projectId.
+     * Get one map by projectId.
      *
-     *  @param id the projectId of the entity
-     *  @return the entity
+     * @param id the projectId of the entity
+     * @return the entity
      */
     @Transactional(readOnly = true)
     public Map findOne(Long id) {
@@ -67,12 +72,48 @@ public class MapServiceImpl implements MapService {
     }
 
     /**
-     *  Delete the  map by projectId.
+     * Delete the  map by projectId.
      *
-     *  @param id the projectId of the entity
+     * @param id the projectId of the entity
      */
     public void delete(Long id) {
         log.debug("Request to delete Map : {}", id);
         mapRepository.delete(id);
     }
+
+    /**
+     * Adds a camera to the Map.
+     *
+     * @param mapId    Id of the Map
+     * @param cameraId Id of the Camera
+     * @return The updated map
+     */
+    public Optional<Map> addCamera(Long mapId, Long cameraId) {
+        Map map = findOne(mapId);
+        return Optional.ofNullable(cameraService.findOne(cameraId))
+            .map(camera -> {
+                log.debug("Request to add camera {} to map {}", mapId, cameraId);
+                map.addCamera(camera);
+                return mapRepository.save(map);
+            });
+    }
+
+    /**
+     * Adds a player to the Map.
+     *
+     * @param mapId    Id of the Map
+     * @param playerId Id of the Player
+     * @return The updated map
+     */
+    @Override
+    public Optional<Map> addPlayer(Long mapId, Long playerId) {
+        Map map = findOne(mapId);
+        return Optional.ofNullable(playerService.findOne(playerId))
+            .map(player -> {
+                log.debug("Request to add player {} to map {}", mapId, playerId);
+                map.addPlayer(player);
+                return mapRepository.save(map);
+            });
+    }
+
 }

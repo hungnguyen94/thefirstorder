@@ -5,9 +5,9 @@
         .module('thefirstorderApp')
         .controller('ProjectDialogController', ProjectDialogController);
 
-    ProjectDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$q', 'entity', 'Project', 'Script', 'Map', 'Player', 'Camera'];
+    ProjectDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$q', 'entity', 'Project', 'Script', 'Map', 'Player', 'Camera', 'Cue'];
 
-    function ProjectDialogController ($timeout, $scope, $stateParams, $uibModalInstance, $q, entity, Project, Script, Map, Player, Camera) {
+    function ProjectDialogController ($timeout, $scope, $stateParams, $uibModalInstance, $q, entity, Project, Script, Map, Player, Camera, Cue) {
         var vm = this;
         vm.project = entity;
         vm.scripts = Script.query({filter: 'project-is-null'});
@@ -30,6 +30,7 @@
         });
         vm.players = Player.query();
         vm.cameras = Camera.query();
+        vm.cues = Cue.query();
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();

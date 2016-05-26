@@ -38,5 +38,10 @@
                                  referencedColumnNames="id"
                                  referencedTableName="camera"/>
 
+        <addForeignKeyConstraint baseColumnNames="project_id"
+                                 baseTableName="cue"
+                                 constraintName="fk_cue_project_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="project"/>
     </changeSet>
 </databaseChangeLog>
