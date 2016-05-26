@@ -1,5 +1,6 @@
 package nl.tudelft.thefirstorder.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -28,6 +29,7 @@ public class Camera implements Serializable {
     private Long id;
 
     @ManyToOne
+    @JsonIgnore
     private Project project;
 
     @Column(name = "name")
