@@ -3,7 +3,6 @@ package nl.tudelft.thefirstorder.service;
 import nl.tudelft.thefirstorder.domain.Map;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
 import java.util.Optional;
 
 /**
@@ -13,7 +12,7 @@ public interface MapService {
 
     /**
      * Save a map.
-     * 
+     *
      * @param map the entity to save
      * @return the persisted entity
      */
@@ -21,7 +20,7 @@ public interface MapService {
 
     /**
      *  Get all the maps.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
@@ -29,7 +28,7 @@ public interface MapService {
 
     /**
      *  Get the "id" map.
-     *  
+     *
      *  @param id the id of the entity
      *  @return the entity
      */
@@ -37,7 +36,7 @@ public interface MapService {
 
     /**
      *  Delete the "id" map.
-     *  
+     *
      *  @param id the id of the entity
      */
     void delete(Long id);

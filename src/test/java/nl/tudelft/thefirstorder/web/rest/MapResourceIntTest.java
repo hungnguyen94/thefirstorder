@@ -98,6 +98,42 @@ public class MapResourceIntTest {
 
     @Test
     @Transactional
+    public void createMapWithId() throws Exception {
+        int databaseSizeBeforeCreate = mapRepository.findAll().size();
+
+        map.setId(123L);
+
+        // Create the Cue
+        restMapMockMvc.perform(post("/api/maps")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(map)))
+            .andExpect(status().isBadRequest());
+
+        // Validate the Cue is not in the database
+        List<Map> maps = mapRepository.findAll();
+        assertThat(maps).hasSize(databaseSizeBeforeCreate);
+    }
+
+    @Test
+    @Transactional
+    public void updateMapNoId() throws Exception {
+        int databaseSizeBeforeUpdate = mapRepository.findAll().size();
+
+        // Update the cue
+        Map updatedMap = new Map();
+
+        restMapMockMvc.perform(put("/api/maps")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedMap)))
+            .andExpect(status().isCreated());
+
+        // Validate the Cue in the database
+        List<Map> maps = mapRepository.findAll();
+        assertThat(maps).hasSize(databaseSizeBeforeUpdate + 1);
+    }
+
+    @Test
+    @Transactional
     public void getAllMaps() throws Exception {
         // Initialize the database
         mapRepository.saveAndFlush(map);

@@ -2,14 +2,23 @@ package nl.tudelft.thefirstorder.domain;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class MapTest {
 
     private Map entity;
+
+    @Mock
+    private Camera camera;
+
+    @Mock
+    private Player player;
 
     private static long DEFAULT_ID = 1L;
     private static String DEFAULT_NAME = "AAAAA";
@@ -29,6 +38,22 @@ public class MapTest {
     public void getName() throws Exception {
         entity.setName(DEFAULT_NAME);
         assertThat(entity.getName()).isEqualTo(DEFAULT_NAME);
+    }
+
+    @Test
+    public void getPlayer() throws Exception {
+        Set<Player> players = new HashSet<>();
+        players.add(player);
+        entity.setPlayers(players);
+        assertThat(entity.getPlayers()).isEqualTo(players);
+    }
+
+    @Test
+    public void getCameras() throws Exception {
+        Set<Camera> cameras = new HashSet<>();
+        cameras.add(camera);
+        entity.setCameras(cameras);
+        assertThat(entity.getCameras()).isEqualTo(cameras);
     }
 
 

@@ -11,42 +11,44 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * Service Implementation for managing Camera.
  */
 @Service
 @Transactional
-public class CameraServiceImpl implements CameraService {
+class CameraServiceImpl implements CameraService {
 
     private final Logger log = LoggerFactory.getLogger(CameraServiceImpl.class);
-    
+
     @Inject
     private CameraRepository cameraRepository;
-    
+
     /**
      * Save a camera.
-     * 
+     *
      * @param camera the entity to save
      * @return the persisted entity
      */
     public Camera save(Camera camera) {
         log.debug("Request to save Camera : {}", camera);
-        Camera result = cameraRepository.save(camera);
-        return result;
+        return cameraRepository.save(camera);
     }
 
     /**
      *  Get all the cameras.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Page<Camera> findAll(Pageable pageable) {
         log.debug("Request to get all Cameras");
-        Page<Camera> result = cameraRepository.findAll(pageable); 
-        return result;
+        return cameraRepository.findAll(pageable);
     }
 
     /**
@@ -55,16 +57,23 @@ public class CameraServiceImpl implements CameraService {
      *  @param id the id of the entity
      *  @return the entity
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Camera findOne(Long id) {
         log.debug("Request to get Camera : {}", id);
-        Camera camera = cameraRepository.findOne(id);
-        return camera;
+        return cameraRepository.findOne(id);
+    }
+
+    @Override
+    public List<Camera> findCamerasByProject(Long projectId) {
+        return StreamSupport
+            .stream(cameraRepository.findAll().spliterator(), false)
+            .filter(camera -> Objects.equals(camera.getProject().getId(), projectId))
+            .collect(Collectors.toList());
     }
 
     /**
      *  Delete the  camera by id.
-     *  
+     *
      *  @param id the id of the entity
      */
     public void delete(Long id) {

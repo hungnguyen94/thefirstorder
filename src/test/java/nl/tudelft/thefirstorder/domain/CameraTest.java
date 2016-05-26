@@ -2,6 +2,7 @@ package nl.tudelft.thefirstorder.domain;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import java.util.Objects;
 
@@ -10,6 +11,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class CameraTest {
 
     private Camera entity;
+
+    @Mock
+    private Project project;
 
     private static long DEFAULT_ID = 1L;
     private static String DEFAULT_NAME = "AAAAA";
@@ -41,6 +45,12 @@ public class CameraTest {
     public void getY() throws Exception {
         entity.setY(1);
         assertThat(entity.getY()).isEqualTo(1);
+    }
+
+    @Test
+    public void getProject() throws Exception {
+        entity.setProject(project);
+        assertThat(entity.getProject()).isEqualTo(project);
     }
 
     @Test
