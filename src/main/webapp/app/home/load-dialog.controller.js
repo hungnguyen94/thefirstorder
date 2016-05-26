@@ -9,7 +9,6 @@
 
     function LoadDialogController($timeout, $scope, $state, $stateParams, $uibModalInstance, $q, entity, Project, ProjectManager) {
         var vm = this;
-        vm.isLoading = false;
         vm.project = entity;
 
         vm.loadAllProjects = loadAllProjects;
@@ -25,23 +24,20 @@
 
         vm.load = function (projectId) {
             vm.isLoading = true;
-            console.log("loading project...");
             if (projectId !== null) {
-                ProjectManager.update(projectId);
-                onLoadSuccess();
+                ProjectManager.update(projectId).then(onLoadSuccess, onLoadError);
             } else {
                 vm.clear();
             }
         };
 
         var onLoadSuccess = function (result) {
-            $scope.$emit('thefirstorderApp:projectUpdate', result);
+            $scope.$emit('thefirstorderApp:projectLoad', result);
             $uibModalInstance.close(result);
             vm.isLoading = false;
         };
 
         var onLoadError = function () {
-            console.log("not able to load project");
             vm.isLoading = false;
         };
 

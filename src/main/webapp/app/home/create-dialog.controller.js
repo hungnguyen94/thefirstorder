@@ -5,9 +5,9 @@
         .module('thefirstorderApp')
         .controller('CreateDialogController', CreateDialogController);
 
-    CreateDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$q', 'entity', 'Project', 'Script', 'Map', 'Player', 'Camera'];
+    CreateDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$q', 'entity', 'Project', 'Script', 'Map', 'Player', 'Camera', 'ProjectManager'];
 
-    function CreateDialogController($timeout, $scope, $stateParams, $uibModalInstance, $q, entity, Project, Script, Map, Player, Camera) {
+    function CreateDialogController($timeout, $scope, $stateParams, $uibModalInstance, $q, entity, Project, Script, Map, Player, Camera, ProjectManager) {
         var vm = this;
         vm.project = entity;
         vm.scripts = Script.query({filter: 'project-is-null'});
@@ -37,8 +37,8 @@
 
         var onSaveSuccess = function (result) {
             $scope.$emit('thefirstorderApp:projectUpdate', result);
-            $uibModalInstance.close(result);
             vm.isSaving = false;
+            vm.load(result.id);
         };
 
         var onSaveError = function () {
@@ -54,8 +54,27 @@
             }
         };
 
+        var onLoadSuccess = function (result) {
+            $scope.$emit('thefirstorderApp:projectLoad', result);
+            $uibModalInstance.close(result);
+            vm.isLoading = false;
+        };
+
+        var onLoadError = function () {
+            vm.isLoading = false;
+        };
+
         vm.clear = function () {
             $uibModalInstance.dismiss('cancel');
+        };
+
+        vm.load = function (projectId) {
+            vm.isLoading = true;
+            if (projectId !== null) {
+                ProjectManager.update(projectId).then(onLoadSuccess, onLoadError);
+            } else {
+                vm.clear();
+            }
         };
     }
 })();
