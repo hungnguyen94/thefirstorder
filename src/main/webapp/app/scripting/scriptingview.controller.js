@@ -238,6 +238,11 @@
                     var cameraAction = CameraAction.get({id: document.getElementById('selectCameraAction').value});
                     var script = Script.get({id: document.getElementById('selectScript').value});
 
+                    player.id = document.getElementById('selectPlayer').value;
+                    camera.id = document.getElementById('selectCamera').value;
+                    cameraAction.id = document.getElementById('selectCameraAction').value;
+                    script.id = document.getElementById('selectScript').value;
+
                     // Save the time point to the database
                     var temp = TimePoint.save(timePoint);
 
@@ -247,10 +252,10 @@
                     // Initialize new cue
                     var cue = new Object();
 
-                    // cue.player = player;
-                    // cue.camera = camera;
-                    // cue.cameraAction = cameraAction;
-                    // cue.script = script;
+                    cue.player = player;
+                    cue.camera = camera;
+                    cue.cameraAction = cameraAction;
+                    cue.script = script;
                     cue.timePoint = vm.timePoints.pop();
 
                     console.log("Test: ", vm.timePoints.length);
