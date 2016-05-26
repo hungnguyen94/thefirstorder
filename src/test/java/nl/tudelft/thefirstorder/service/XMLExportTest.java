@@ -44,6 +44,7 @@ public class XMLExportTest {
 
     @Test
     public void exportProjectToXMLTest(){
+        XMLExportUtil util = new XMLExportUtil();
         when(cue.getCamera()).thenReturn(camera);
         when(camera.getId()).thenReturn(new Long(1));
         when(camera.getName()).thenReturn("Camera");

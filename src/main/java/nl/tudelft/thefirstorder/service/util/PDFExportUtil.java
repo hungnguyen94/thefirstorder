@@ -34,6 +34,9 @@ public class PDFExportUtil {
     private static Font smallBold = new Font(Font.FontFamily.COURIER, 12,
             Font.BOLD);
 
+    public PDFExportUtil() {
+    }
+
 
     /**
      * Export a project to pdf.

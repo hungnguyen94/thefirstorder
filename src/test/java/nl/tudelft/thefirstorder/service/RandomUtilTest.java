@@ -12,6 +12,11 @@ import static org.junit.Assert.assertNotEquals;
  */
 public class RandomUtilTest {
 
+    @Before
+    public void setUp() {
+        RandomUtil util = new RandomUtil();
+    }
+
     @Test
     public void generatePasswordTest() {
         assertNotEquals(RandomUtil.generatePassword(), RandomStringUtils.randomAlphanumeric(20));

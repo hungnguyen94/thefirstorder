@@ -46,6 +46,7 @@ public class PDFExportTest {
 
     @Test
     public void exportProjectToPDFTest() {
+        PDFExportUtil util = new PDFExportUtil();
         when(project.getScript()).thenReturn(script);
         when(script.getName()).thenReturn("script");
         when(cue.getCamera()).thenReturn(camera);
