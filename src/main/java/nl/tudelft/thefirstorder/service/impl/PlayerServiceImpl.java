@@ -11,42 +11,52 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * Service Implementation for managing Player.
  */
 @Service
 @Transactional
-public class PlayerServiceImpl implements PlayerService {
+class PlayerServiceImpl implements PlayerService {
 
     private final Logger log = LoggerFactory.getLogger(PlayerServiceImpl.class);
-    
+
     @Inject
     private PlayerRepository playerRepository;
-    
+
     /**
      * Save a player.
-     * 
+     *
      * @param player the entity to save
      * @return the persisted entity
      */
     public Player save(Player player) {
         log.debug("Request to save Player : {}", player);
-        Player result = playerRepository.save(player);
-        return result;
+        return playerRepository.save(player);
     }
 
     /**
      *  Get all the players.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Page<Player> findAll(Pageable pageable) {
         log.debug("Request to get all Players");
-        Page<Player> result = playerRepository.findAll(pageable); 
-        return result;
+        return playerRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<Player> findPlayersByProject(Long projectId) {
+        return StreamSupport
+            .stream(playerRepository.findAll().spliterator(), false)
+            .filter(player -> Objects.equals(player.getProject().getId(), projectId))
+            .collect(Collectors.toList());
     }
 
     /**
@@ -55,16 +65,15 @@ public class PlayerServiceImpl implements PlayerService {
      *  @param id the id of the entity
      *  @return the entity
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Player findOne(Long id) {
         log.debug("Request to get Player : {}", id);
-        Player player = playerRepository.findOne(id);
-        return player;
+        return playerRepository.findOne(id);
     }
 
     /**
      *  Delete the  player by id.
-     *  
+     *
      *  @param id the id of the entity
      */
     public void delete(Long id) {

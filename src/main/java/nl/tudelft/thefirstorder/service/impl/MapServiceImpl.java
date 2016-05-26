@@ -23,7 +23,7 @@ import java.util.Optional;
 public class MapServiceImpl implements MapService {
 
     private final Logger log = LoggerFactory.getLogger(MapServiceImpl.class);
-    
+
     @Inject
     private MapRepository mapRepository;
 
@@ -35,7 +35,7 @@ public class MapServiceImpl implements MapService {
 
     /**
      * Save a map.
-     * 
+     *
      * @param map the entity to save
      * @return the persisted entity
      */
@@ -46,25 +46,25 @@ public class MapServiceImpl implements MapService {
     }
 
     /**
-     *  Get all the maps.
-     *  
-     *  @param pageable the pagination information
-     *  @return the list of entities
+     * Get all the maps.
+     *
+     * @param pageable the pagination information
+     * @return the list of entities
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Page<Map> findAll(Pageable pageable) {
         log.debug("Request to get all Maps");
-        Page<Map> result = mapRepository.findAll(pageable); 
+        Page<Map> result = mapRepository.findAll(pageable);
         return result;
     }
 
     /**
-     *  Get one map by id.
+     * Get one map by projectId.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the projectId of the entity
+     * @return the entity
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Map findOne(Long id) {
         log.debug("Request to get Map : {}", id);
         Map map = mapRepository.findOne(id);
@@ -72,9 +72,9 @@ public class MapServiceImpl implements MapService {
     }
 
     /**
-     *  Delete the  map by id.
-     *  
-     *  @param id the id of the entity
+     * Delete the  map by projectId.
+     *
+     * @param id the projectId of the entity
      */
     public void delete(Long id) {
         log.debug("Request to delete Map : {}", id);
@@ -83,18 +83,19 @@ public class MapServiceImpl implements MapService {
 
     /**
      * Adds a camera to the Map.
-     * @param mapId Id of the Map
+     *
+     * @param mapId    Id of the Map
      * @param cameraId Id of the Camera
      * @return The updated map
      */
     public Optional<Map> addCamera(Long mapId, Long cameraId) {
         Map map = findOne(mapId);
         return Optional.ofNullable(cameraService.findOne(cameraId))
-                .map(camera -> {
-                    log.debug("Request to add camera {} to map {}", mapId, cameraId);
-                    map.addCamera(camera);
-                    return mapRepository.save(map);
-                });
+            .map(camera -> {
+                log.debug("Request to add camera {} to map {}", mapId, cameraId);
+                map.addCamera(camera);
+                return mapRepository.save(map);
+            });
     }
 
     /**
@@ -108,11 +109,11 @@ public class MapServiceImpl implements MapService {
     public Optional<Map> addPlayer(Long mapId, Long playerId) {
         Map map = findOne(mapId);
         return Optional.ofNullable(playerService.findOne(playerId))
-                .map(player -> {
-                    log.debug("Request to add player {} to map {}", mapId, playerId);
-                    map.addPlayer(player);
-                    return mapRepository.save(map);
-                });
+            .map(player -> {
+                log.debug("Request to add player {} to map {}", mapId, playerId);
+                map.addPlayer(player);
+                return mapRepository.save(map);
+            });
     }
 
 }

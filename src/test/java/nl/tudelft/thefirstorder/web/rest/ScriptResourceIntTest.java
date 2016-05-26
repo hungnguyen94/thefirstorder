@@ -98,6 +98,43 @@ public class ScriptResourceIntTest {
 
     @Test
     @Transactional
+    public void createScriptWithId() throws Exception {
+        int databaseSizeBeforeCreate = scriptRepository.findAll().size();
+
+        script.setId(123L);
+
+        // Create the Script
+        restScriptMockMvc.perform(post("/api/scripts")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(script)))
+            .andExpect(status().isBadRequest());
+
+        // Validate the Script is not in the database
+        List<Script> scripts = scriptRepository.findAll();
+        assertThat(scripts).hasSize(databaseSizeBeforeCreate);
+    }
+
+    @Test
+    @Transactional
+    public void updateScriptNoId() throws Exception {
+        int databaseSizeBeforeUpdate = scriptRepository.findAll().size();
+
+        // Update the Script
+        Script updatedScript = new Script();
+        updatedScript.setName("FooScript");
+
+        restScriptMockMvc.perform(put("/api/scripts")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedScript)))
+            .andExpect(status().isCreated());
+
+        // Validate the Script in the database
+        List<Script> scripts = scriptRepository.findAll();
+        assertThat(scripts).hasSize(databaseSizeBeforeUpdate + 1);
+    }
+
+    @Test
+    @Transactional
     public void getAllScripts() throws Exception {
         // Initialize the database
         scriptRepository.saveAndFlush(script);
