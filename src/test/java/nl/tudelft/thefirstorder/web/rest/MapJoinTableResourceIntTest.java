@@ -99,6 +99,7 @@ public class MapJoinTableResourceIntTest {
         // Initialize the database
         cameraRepository.saveAndFlush(camera);
         mapRepository.saveAndFlush(map);
+        assertThat(map.getCameras()).doesNotContain(camera);
 
         // Get the map
         restMapMockMvc.perform(put("/api/maps/{id}/addCamera", map.getId())
@@ -119,6 +120,7 @@ public class MapJoinTableResourceIntTest {
         // Initialize the database
         playerRepository.saveAndFlush(player);
         mapRepository.saveAndFlush(map);
+        assertThat(map.getPlayers()).doesNotContain(player);
 
         // Get the map
         restMapMockMvc.perform(put("/api/maps/{id}/addPlayer", map.getId())
