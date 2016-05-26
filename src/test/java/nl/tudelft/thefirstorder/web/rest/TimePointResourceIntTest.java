@@ -104,6 +104,42 @@ public class TimePointResourceIntTest {
 
     @Test
     @Transactional
+    public void createTimePointWithId() throws Exception {
+        int databaseSizeBeforeCreate = timePointRepository.findAll().size();
+
+        timePoint.setId(123L);
+
+        // Create the TimePoint
+        restTimePointMockMvc.perform(post("/api/time-points")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(timePoint)))
+            .andExpect(status().isBadRequest());
+
+        // Validate the TimePoint is not in the database
+        List<TimePoint> timePoints = timePointRepository.findAll();
+        assertThat(timePoints).hasSize(databaseSizeBeforeCreate);
+    }
+
+    @Test
+    @Transactional
+    public void updateTimePointNoId() throws Exception {
+        int databaseSizeBeforeUpdate = timePointRepository.findAll().size();
+
+        // Update the TimePoint
+        TimePoint updatedTimePoint = new TimePoint();
+
+        restTimePointMockMvc.perform(put("/api/time-points")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedTimePoint)))
+            .andExpect(status().isCreated());
+
+        // Validate the TimePoint in the database
+        List<TimePoint> timePoints = timePointRepository.findAll();
+        assertThat(timePoints).hasSize(databaseSizeBeforeUpdate + 1);
+    }
+
+    @Test
+    @Transactional
     public void getAllTimePoints() throws Exception {
         // Initialize the database
         timePointRepository.saveAndFlush(timePoint);
