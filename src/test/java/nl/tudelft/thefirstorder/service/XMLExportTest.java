@@ -1,12 +1,14 @@
 package nl.tudelft.thefirstorder.service;
-import nl.tudelft.thefirstorder.domain.Cue;
-import nl.tudelft.thefirstorder.domain.Project;
-import nl.tudelft.thefirstorder.domain.Script;
+import nl.tudelft.thefirstorder.domain.*;
+import nl.tudelft.thefirstorder.service.util.XMLExportUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Text;
 
 import java.util.*;
 
@@ -22,11 +24,128 @@ import static org.mockito.Mockito.when;
  * Class which tests the XML Export.
  *
  */
-//@RunWith(MockitoJUnitRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class XMLExportTest {
 
-//    @Mock private Project project;
-//    @Mock private Cue cue;
+    @Mock private Project project;
+    @Mock private Cue cue;
+    @Mock private Document document;
+    @Mock private Element element1;
+    @Mock private Element element2;
+    @Mock private Element element3;
+    @Mock private Element element4;
+    @Mock private Element special;
+    @Mock private Text text;
+    @Mock private Camera camera;
+    @Mock private CameraAction action;
+    @Mock private TimePoint time;
+    @Mock private Player player;
+    @Mock private Script script;
 
+    @Test
+    public void exportProjectToXMLTest(){
+        XMLExportUtil util = new XMLExportUtil();
+        when(cue.getCamera()).thenReturn(camera);
+        when(camera.getId()).thenReturn(new Long(1));
+        when(camera.getName()).thenReturn("Camera");
+        when(camera.getX()).thenReturn(1);
+        when(camera.getY()).thenReturn(1);
+        when(document.createElement(any(String.class))).thenReturn(special);
+        when(document.createTextNode(any(String.class))).thenReturn(text);
+        when(cue.getCameraAction()).thenReturn(action);
+        when(action.getId()).thenReturn(new Long(1));
+        when(action.getName()).thenReturn("Camera");
+        when(cue.getTimePoint()).thenReturn(time);
+        when(time.getId()).thenReturn(new Long(1));
+        when(time.getStartTime()).thenReturn(1);
+        when(time.getDuration()).thenReturn(1);
+        when(cue.getPlayer()).thenReturn(player);
+        when(player.getId()).thenReturn(new Long(1));
+        when(player.getName()).thenReturn("Player");
+        when(player.getX()).thenReturn(1);
+        when(player.getY()).thenReturn(1);
+        when(project.getName()).thenReturn("Project");
+        when(project.getScript()).thenReturn(script);
+        when(script.getName()).thenReturn("Script");
+        Set<Cue> cues = new HashSet<Cue>();
+        cues.add(cue);
+        when(script.getCues()).thenReturn(cues);
+        XMLExportUtil.exportProjectToXML(project);
+    }
+
+    @Test
+    public void getCameraTest() {
+        when(cue.getCamera()).thenReturn(camera);
+        when(camera.getId()).thenReturn(new Long(1));
+        when(camera.getName()).thenReturn("Camera");
+        when(camera.getX()).thenReturn(1);
+        when(camera.getY()).thenReturn(1);
+        when(document.createElement("Camera")).thenReturn(special);
+        when(document.createElement("Id")).thenReturn(element1);
+        when(document.createElement("Name")).thenReturn(element2);
+        when(document.createElement("X-Position")).thenReturn(element3);
+        when(document.createElement("Y-Position")).thenReturn(element4);
+        when(document.createTextNode(any(String.class))).thenReturn(text);
+        XMLExportUtil.getCamera(document,cue);
+        verify(special).appendChild(element1);
+        verify(special).appendChild(element2);
+        verify(special).appendChild(element3);
+        verify(special).appendChild(element4);
+        verifyZeroInteractions(special);
+    }
+
+    @Test
+    public void getCameraActionTest() {
+        when(cue.getCameraAction()).thenReturn(action);
+        when(action.getId()).thenReturn(new Long(1));
+        when(action.getName()).thenReturn("Camera");
+        when(document.createElement("Camera-Action")).thenReturn(special);
+        when(document.createElement("Id")).thenReturn(element1);
+        when(document.createElement("Name")).thenReturn(element2);
+        when(document.createTextNode(any(String.class))).thenReturn(text);
+        XMLExportUtil.getCameraAction(document,cue);
+        verify(special).appendChild(element1);
+        verify(special).appendChild(element2);
+        verifyZeroInteractions(special);
+    }
+
+    @Test
+    public void getTimePointTest() {
+        when(cue.getTimePoint()).thenReturn(time);
+        when(time.getId()).thenReturn(new Long(1));
+        when(time.getStartTime()).thenReturn(1);
+        when(time.getDuration()).thenReturn(1);
+        when(document.createElement("Time-Point")).thenReturn(special);
+        when(document.createElement("Id")).thenReturn(element1);
+        when(document.createElement("Start-Time")).thenReturn(element2);
+        when(document.createElement("Duration")).thenReturn(element3);
+        when(document.createTextNode(any(String.class))).thenReturn(text);
+        XMLExportUtil.getTimePoint(document,cue);
+        verify(special).appendChild(element1);
+        verify(special).appendChild(element2);
+        verify(special).appendChild(element3);
+        verifyZeroInteractions(special);
+    }
+
+    @Test
+    public void getPlayerTest() {
+        when(cue.getPlayer()).thenReturn(player);
+        when(player.getId()).thenReturn(new Long(1));
+        when(player.getName()).thenReturn("Player");
+        when(player.getX()).thenReturn(1);
+        when(player.getY()).thenReturn(1);
+        when(document.createElement("Player")).thenReturn(special);
+        when(document.createElement("Id")).thenReturn(element1);
+        when(document.createElement("Name")).thenReturn(element2);
+        when(document.createElement("X-Position")).thenReturn(element3);
+        when(document.createElement("Y-Position")).thenReturn(element4);
+        when(document.createTextNode(any(String.class))).thenReturn(text);
+        XMLExportUtil.getPlayer(document,cue);
+        verify(special).appendChild(element1);
+        verify(special).appendChild(element2);
+        verify(special).appendChild(element3);
+        verify(special).appendChild(element4);
+        verifyZeroInteractions(special);
+    }
 
 }

@@ -30,7 +30,7 @@ public class XMLExportUtil {
     /**
      * Constructor.
      */
-    private XMLExportUtil() {
+    public XMLExportUtil() {
     }
 
     /**
@@ -95,7 +95,7 @@ public class XMLExportUtil {
      * @param cue The camera from this cue
      * @return An element with the information
      */
-    private static Element getCamera(Document doc, Cue cue) {
+    public static Element getCamera(Document doc, Cue cue) {
         Element cameraId = doc.createElement("Id");
         cameraId.appendChild(doc.createTextNode(cue.getCamera().getId() + ""));
         Element cameraName = doc.createElement("Name");
@@ -118,7 +118,7 @@ public class XMLExportUtil {
      * @param cue The camera action from this cue
      * @return An element with the information
      */
-    private static Element getCameraAction(Document doc, Cue cue) {
+    public static Element getCameraAction(Document doc, Cue cue) {
         Element cameraId = doc.createElement("Id");
         cameraId.appendChild(doc.createTextNode(cue.getCameraAction().getId() + ""));
         Element cameraName = doc.createElement("Name");
@@ -135,7 +135,7 @@ public class XMLExportUtil {
      * @param cue The time point from this cue
      * @return An element with the information
      */
-    private static Element getTimePoint(Document doc, Cue cue) {
+    public static Element getTimePoint(Document doc, Cue cue) {
         Element timeId = doc.createElement("Id");
         timeId.appendChild(doc.createTextNode(cue.getTimePoint().getId() + ""));
         Element timeStart = doc.createElement("Start-Time");
@@ -155,7 +155,7 @@ public class XMLExportUtil {
      * @param cue The player from this cue
      * @return An element with the information
      */
-    private static Element getPlayer(Document doc, Cue cue) {
+    public static Element getPlayer(Document doc, Cue cue) {
         Element playerId = doc.createElement("Id");
         playerId.appendChild(doc.createTextNode(cue.getPlayer().getId() + ""));
         Element playerName = doc.createElement("Name");
@@ -168,7 +168,7 @@ public class XMLExportUtil {
         playerNode.appendChild(playerId);
         playerNode.appendChild(playerName);
         playerNode.appendChild(playerX);
-        playerNode.appendChild(playerX);
+        playerNode.appendChild(playerY);
         return playerNode;
     }
 
