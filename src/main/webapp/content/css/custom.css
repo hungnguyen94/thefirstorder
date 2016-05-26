@@ -2,11 +2,17 @@
 OVERRIDE ALL CSS SETTINGS
 */
 
-.blue_navbar {
-    background-color: #00b0ff;
+@media (min-width: 768px) {
+    .container {
+        width: 95%;
+    }
 }
 
 canvas#concertMap {
     width: 100%;
     background-image: url("/content/images/grid15x15.png");
+}
+
+.modal-footer form {
+    display: inline-block;
 }

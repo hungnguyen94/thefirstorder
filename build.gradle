@@ -52,8 +52,9 @@ bootRun {
 test {
     include '**/*UnitTest*'
     include '**/*IntTest*'
+    include '**/*Test*'
 
-    ignoreFailures true
+    ignoreFailures false
     reports.html.enabled = false
 }
 
@@ -222,6 +223,10 @@ sourceSets {
         java.srcDir('src/main/java')
         resources.srcDir('src/main/resources')
     }
+    test {
+        java.srcDir('src/test/java')
+        resources.srcDir('src/test/resources')
+    }
 }
 
 test {
@@ -256,14 +261,17 @@ checkstyle {
     toolVersion = '6.17'
     sourceSets = [sourceSets.main]
     showViolations = true
-    ignoreFailures = true
+    ignoreFailures = false
     configFile = rootProject.file("config/checkstyle/checkstyle.xml")
     reportsDir = rootProject.file("build/reports/checkstyle")
 }
 
 pmd {
+    toolVersion = '5.4.1'
     ignoreFailures = true
     sourceSets = [sourceSets.main]
+    ruleSets = []
+    ruleSetFiles = files('config/pmd/custom_pmd_ruleset.xml')
     reportsDir = rootProject.file("build/reports/pmd/")
 }
 

@@ -83,6 +83,8 @@
                         entity: function () {
                             return {
                                 name: null,
+                                x: null,
+                                y: null,
                                 id: null
                             };
                         }

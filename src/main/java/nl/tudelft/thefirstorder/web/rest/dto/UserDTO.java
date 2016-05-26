@@ -38,6 +38,8 @@ public class UserDTO {
 
     private Set<String> authorities;
 
+    private Long currentProjectId;
+
     /**
      * Constructor.
      */
@@ -52,7 +54,7 @@ public class UserDTO {
         this(user.getLogin(), user.getFirstName(), user.getLastName(),
             user.getEmail(), user.getActivated(), user.getLangKey(),
             user.getAuthorities().stream().map(Authority::getName)
-                .collect(Collectors.toSet()));
+                .collect(Collectors.toSet()), user.getCurrentProjectId());
     }
 
     /**
@@ -66,7 +68,8 @@ public class UserDTO {
      * @param authorities Authorities
      */
     public UserDTO(String login, String firstName, String lastName,
-        String email, boolean activated, String langKey, Set<String> authorities) {
+                   String email, boolean activated, String langKey,
+                   Set<String> authorities, Long currentProjectId) {
 
         this.login = login;
         this.firstName = firstName;
@@ -75,6 +78,7 @@ public class UserDTO {
         this.activated = activated;
         this.langKey = langKey;
         this.authorities = authorities;
+        this.currentProjectId = currentProjectId;
     }
 
     /**
@@ -126,11 +130,15 @@ public class UserDTO {
     }
 
     /**
-     * Get the authorities of the DTO
+     * Get the authorities of the DTO.
      * @return the authorities
      */
     public Set<String> getAuthorities() {
         return authorities;
+    }
+
+    public Long getCurrentProjectId() {
+        return currentProjectId;
     }
 
     /**
@@ -146,6 +154,7 @@ public class UserDTO {
             + ", email='" + email + '\''
             + ", activated=" + activated
             + ", authorities=" + authorities
+            + ", currentProjectId=" + currentProjectId
             + "}";
     }
 }

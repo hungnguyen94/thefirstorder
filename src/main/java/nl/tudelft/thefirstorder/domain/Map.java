@@ -1,6 +1,5 @@
 package nl.tudelft.thefirstorder.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -9,10 +8,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A Map.
@@ -31,9 +34,21 @@ public class Map implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @OneToOne(mappedBy = "map")
-    @JsonIgnore
-    private Project project;
+    @OneToMany
+    @JoinTable(name = "map_cameras",
+            joinColumns = @JoinColumn(name = "map_id"),
+            inverseJoinColumns = @JoinColumn(name = "camera_id")
+    )
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Camera> cameras = new HashSet<>();
+
+    @OneToMany
+    @JoinTable(name = "map_players",
+            joinColumns = @JoinColumn(name = "map_id"),
+            inverseJoinColumns = @JoinColumn(name = "player_id")
+    )
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Player> players = new HashSet<>();
 
     /**
      * Get the id of the map.
@@ -67,20 +82,36 @@ public class Map implements Serializable {
         this.name = name;
     }
 
-    /**
-     * Get the project to which the map belongs.
-     * @return the map
-     */
-    public Project getProject() {
-        return project;
+    public Set<Camera> getCameras() {
+        return cameras;
+    }
+
+    public void setCameras(Set<Camera> cameras) {
+        this.cameras = cameras;
     }
 
     /**
-     * Set the id of the map.
-     * @param project the project
+     * Adds a camera to the map.
+     * @param camera Camera
      */
-    public void setProject(Project project) {
-        this.project = project;
+    public void addCamera(Camera camera) {
+        cameras.add(camera);
+    }
+
+    public Set<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(Set<Player> players) {
+        this.players = players;
+    }
+
+    /**
+     * Adds a player to the map.
+     * @param player Player
+     */
+    public void addPlayer(Player player) {
+        players.add(player);
     }
 
     /**

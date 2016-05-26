@@ -14,6 +14,18 @@
                                  referencedColumnNames="id"
                                  referencedTableName="script"/>
 
+        <addForeignKeyConstraint baseColumnNames="camera_action_id"
+                                 baseTableName="cue"
+                                 constraintName="fk_cue_cameraaction_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="camera_action"/>
+
+        <addForeignKeyConstraint baseColumnNames="time_point_id"
+                                 baseTableName="cue"
+                                 constraintName="fk_cue_timepoint_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="time_point"/>
+
         <addForeignKeyConstraint baseColumnNames="player_id"
                                  baseTableName="cue"
                                  constraintName="fk_cue_player_id"
@@ -26,11 +38,10 @@
                                  referencedColumnNames="id"
                                  referencedTableName="camera"/>
 
-        <addForeignKeyConstraint baseColumnNames="camera_action_id"
+        <addForeignKeyConstraint baseColumnNames="project_id"
                                  baseTableName="cue"
-                                 constraintName="fk_cue_cameraaction_id"
+                                 constraintName="fk_cue_project_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="camera_action"/>
-
+                                 referencedTableName="project"/>
     </changeSet>
 </databaseChangeLog>

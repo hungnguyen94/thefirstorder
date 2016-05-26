@@ -1,13 +1,6 @@
 {
     "relationships": [
         {
-            "relationshipName": "project",
-            "otherEntityName": "project",
-            "relationshipType": "one-to-one",
-            "ownerSide": false,
-            "otherEntityRelationshipName": "script"
-        },
-        {
             "relationshipName": "cue",
             "otherEntityName": "cue",
             "relationshipType": "one-to-many",

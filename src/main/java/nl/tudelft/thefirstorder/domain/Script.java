@@ -6,11 +6,11 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -34,11 +34,7 @@ public class Script implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @OneToOne(mappedBy = "script")
-    @JsonIgnore
-    private Project project;
-
-    @OneToMany(mappedBy = "script")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "script")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Cue> cues = new HashSet<>();
@@ -73,22 +69,6 @@ public class Script implements Serializable {
      */
     public void setName(String name) {
         this.name = name;
-    }
-
-    /**
-     * Get the project to which the script belongs.
-     * @return the project
-     */
-    public Project getProject() {
-        return project;
-    }
-
-    /**
-     * Set the project to which the script belongs.
-     * @param project the project
-     */
-    public void setProject(Project project) {
-        this.project = project;
     }
 
     /**
@@ -137,7 +117,7 @@ public class Script implements Serializable {
     }
 
     /**
-     * Represents a script as a string
+     * Represents a script as a string.
      * @return the string
      */
     @Override

@@ -3,7 +3,13 @@ package nl.tudelft.thefirstorder.domain;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -23,6 +29,15 @@ public class Player implements Serializable {
 
     @Column(name = "name")
     private String name;
+
+    @ManyToOne
+    private Project project;
+
+    @Column(name = "X")
+    private int x;
+
+    @Column(name = "Y")
+    private int y;
 
     /**
      * Get the id of the player.
@@ -56,6 +71,31 @@ public class Player implements Serializable {
         this.name = name;
     }
 
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public Integer getX() {
+        return x;
+    }
+
+    public void setX(Integer x) {
+        this.x = x;
+    }
+
+    public Integer getY() {
+        return y;
+    }
+
+    public void setY(Integer y) {
+        this.y = y;
+    }
+
+
     /**
      * Checks if two players are the same.
      * @param o the object to compare with
@@ -70,7 +110,7 @@ public class Player implements Serializable {
             return false;
         }
         Player player = (Player) o;
-        if(player.id == null || id == null) {
+        if (player.id == null || id == null) {
             return false;
         }
         return Objects.equals(id, player.id);
@@ -91,9 +131,9 @@ public class Player implements Serializable {
      */
     @Override
     public String toString() {
-        return "Player{" +
-            "id=" + id +
-            ", name='" + name + "'" +
-            '}';
+        return "Player{"
+                + "id=" + id
+                + ", name='" + name + "'"
+                + '}';
     }
 }

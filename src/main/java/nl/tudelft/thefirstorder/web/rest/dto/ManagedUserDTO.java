@@ -73,7 +73,7 @@ public class ManagedUserDTO extends UserDTO {
                           ZonedDateTime createdDate,
                           String lastModifiedBy,
                           ZonedDateTime lastModifiedDate ) {
-        super(login, firstName, lastName, email, activated, langKey, authorities);
+        super(login, firstName, lastName, email, activated, langKey, authorities, null);
         this.id = id;
         this.createdDate = createdDate;
         this.lastModifiedBy = lastModifiedBy;
@@ -106,7 +106,7 @@ public class ManagedUserDTO extends UserDTO {
     }
 
     /**
-     * Set the creation date of the DTO
+     * Set the creation date of the DTO.
      * @param createdDate the creation date
      */
     public void setCreatedDate(ZonedDateTime createdDate) {

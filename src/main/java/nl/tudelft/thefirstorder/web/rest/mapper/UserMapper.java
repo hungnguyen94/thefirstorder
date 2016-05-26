@@ -48,7 +48,7 @@ public interface UserMapper {
     }
 
     /**
-     * Maps authorities to strings
+     * Maps authorities to strings.
      * @param authorities the authorities
      * @return the strings
      */

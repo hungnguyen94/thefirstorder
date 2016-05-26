@@ -28,13 +28,6 @@ public interface ScriptService {
     Page<Script> findAll(Pageable pageable);
 
     /**
-     *  Get all the scripts where Project is null.
-     *  
-     *  @return the list of entities
-     */
-    List<Script> findAllWhereProjectIsNull();
-
-    /**
      *  Get the "id" script.
      *  
      *  @param id the id of the entity

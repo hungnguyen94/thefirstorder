@@ -29,9 +29,6 @@ public class CameraAction implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "duration")
-    private Integer duration;
-
     /**
      * Get the id of the camera action.
      * @return the id
@@ -62,22 +59,6 @@ public class CameraAction implements Serializable {
      */
     public void setName(String name) {
         this.name = name;
-    }
-
-    /**
-     * Get the duration of the camera action.
-     * @return the duration
-     */
-    public Integer getDuration() {
-        return duration;
-    }
-
-    /**
-     * Set the duration of the camera action.
-     * @param duration the duration
-     */
-    public void setDuration(Integer duration) {
-        this.duration = duration;
     }
 
     /**
@@ -117,7 +98,6 @@ public class CameraAction implements Serializable {
     public String toString() {
         return "CameraAction{" + "id=" + id
                 + ", name='" + name + "'"
-                + ", duration='" + duration + "'"
                 + '}';
     }
 }

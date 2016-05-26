@@ -8,6 +8,21 @@
             <span>{{vm.player.name}}</span>
         </dd>
         <hr>
+        <dt><span>X</span></dt>
+        <dd>
+            <span>{{vm.player.x}}</span>
+        </dd>
+        <hr>
+        <dt><span>Y</span></dt>
+        <dd>
+            <span>{{vm.player.y}}</span>
+        </dd>
+        <hr>
+        <dt><span>Project</span></dt>
+        <dd>
+            <a ui-sref="project-detail({id:vm.player.project.id})">{{vm.player.project.name}}</a>
+        </dd>
+        <hr>
     </dl>
 
     <button type="submit"
