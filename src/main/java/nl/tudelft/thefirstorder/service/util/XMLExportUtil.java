@@ -28,12 +28,6 @@ import org.w3c.dom.Element;
 public class XMLExportUtil {
 
     /**
-     * Constructor.
-     */
-    public XMLExportUtil() {
-    }
-
-    /**
      * Export the project.
      * @param project the project
      * @return A resource to be downloaded
