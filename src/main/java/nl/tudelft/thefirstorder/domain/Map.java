@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -34,6 +35,10 @@ public class Map implements Serializable {
 
     @Column(name = "name")
     private String name;
+
+    @OneToOne(mappedBy = "map")
+    @JsonIgnore
+    private Project project;
 
     @OneToMany
     @JsonIgnore
@@ -115,6 +120,14 @@ public class Map implements Serializable {
      */
     public void addPlayer(Player player) {
         players.add(player);
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     /**

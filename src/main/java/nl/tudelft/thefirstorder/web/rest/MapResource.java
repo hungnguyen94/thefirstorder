@@ -92,6 +92,7 @@ public class MapResource {
      * GET  /maps : get all the maps.
      *
      * @param pageable the pagination information
+     * @param filter the filter of this request
      * @return the ResponseEntity with status 200 (OK) and the list of maps in body
      * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
@@ -99,8 +100,14 @@ public class MapResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<List<Map>> getAllMaps(Pageable pageable)
+    public ResponseEntity<List<Map>> getAllMaps(Pageable pageable,
+                                                @RequestParam(required = false) String filter)
             throws URISyntaxException {
+        if ("project-is-null".equals(filter)) {
+            log.debug("REST request to get all Maps where project is null");
+            return new ResponseEntity<>(mapService.findAllWhereProjectIsNull(),
+                    HttpStatus.OK);
+        }
         log.debug("REST request to get a page of Maps");
         Page<Map> page = mapService.findAll(pageable); 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/maps");
