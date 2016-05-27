@@ -159,7 +159,7 @@
 
             for (var i = 0; i < playerData.length; ++i) {
                 console.log(playerData[i])
-                drawObject(canvas, playerData[i], i, 'green', 'Player');
+                drawObject(canvas, playerData[i], i, 'white', 'Player');
             }
         }
 
