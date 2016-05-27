@@ -108,6 +108,42 @@ public class CameraResourceIntTest {
 
     @Test
     @Transactional
+    public void createCameraWithId() throws Exception {
+        int databaseSizeBeforeCreate = cameraRepository.findAll().size();
+
+        camera.setId(123L);
+
+        // Create the Camera
+        restCameraMockMvc.perform(post("/api/cameras")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(camera)))
+            .andExpect(status().isBadRequest());
+
+        // Validate the Camera is not in the database
+        List<Camera> cameras = cameraRepository.findAll();
+        assertThat(cameras).hasSize(databaseSizeBeforeCreate);
+    }
+
+    @Test
+    @Transactional
+    public void updateCameraNoId() throws Exception {
+        int databaseSizeBeforeUpdate = cameraRepository.findAll().size();
+
+        // Update the Camera
+        Camera updatedCamera = new Camera();
+
+        restCameraMockMvc.perform(put("/api/cameras")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedCamera)))
+            .andExpect(status().isCreated());
+
+        // Validate the Camera in the database
+        List<Camera> cameras = cameraRepository.findAll();
+        assertThat(cameras).hasSize(databaseSizeBeforeUpdate + 1);
+    }
+
+    @Test
+    @Transactional
     public void getAllCameras() throws Exception {
         // Initialize the database
         cameraRepository.saveAndFlush(camera);

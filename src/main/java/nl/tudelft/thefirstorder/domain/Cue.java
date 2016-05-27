@@ -3,6 +3,7 @@ package nl.tudelft.thefirstorder.domain;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -44,9 +45,13 @@ public class Cue implements Serializable {
     @JoinColumn
     private CameraAction cameraAction;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(unique = true)
     private TimePoint timePoint;
+
+    @ManyToOne
+    @JoinColumn
+    private Project project;
 
     /**
      * Get the id of the cue.
@@ -120,6 +125,13 @@ public class Cue implements Serializable {
         this.timePoint = timePoint;
     }
 
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
 
     /**
      * Checks if two cues are the same.

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * Service Implementation for managing Script.
@@ -47,6 +48,18 @@ public class ScriptServiceImpl implements ScriptService {
         log.debug("Request to get all Scripts");
         Page<Script> result = scriptRepository.findAll(pageable); 
         return result;
+    }
+
+    /**
+     * Get all the scripts where Project is null.
+     *
+     * @return the list of entities
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<Script> findAllWhereProjectIsNull() {
+        log.debug("Request to get all scripts where Project is null");
+        return scriptRepository.findByProjectIsNull();
     }
 
     /**

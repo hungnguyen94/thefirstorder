@@ -1,14 +1,22 @@
 package nl.tudelft.thefirstorder.web.rest;
 
 import nl.tudelft.thefirstorder.ThefirstorderApp;
+import nl.tudelft.thefirstorder.domain.Cue;
+import nl.tudelft.thefirstorder.domain.Map;
 import nl.tudelft.thefirstorder.domain.Project;
+import nl.tudelft.thefirstorder.domain.Script;
 import nl.tudelft.thefirstorder.repository.ProjectRepository;
+import nl.tudelft.thefirstorder.service.CueService;
+import nl.tudelft.thefirstorder.service.MapService;
 import nl.tudelft.thefirstorder.service.ProjectService;
 
+import nl.tudelft.thefirstorder.service.ScriptService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import static org.hamcrest.Matchers.hasItem;
+
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -24,7 +32,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -50,6 +60,15 @@ public class ProjectResourceIntTest {
 
     @Inject
     private ProjectService projectService;
+
+    @Inject
+    private MapService mapService;
+
+    @Inject
+    private ScriptService scriptService;
+
+    @Inject
+    private CueService cueService;
 
     @Inject
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -85,9 +104,9 @@ public class ProjectResourceIntTest {
         // Create the Project
 
         restProjectMockMvc.perform(post("/api/projects")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(project)))
-                .andExpect(status().isCreated());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(project)))
+            .andExpect(status().isCreated());
 
         // Validate the Project in the database
         List<Project> projects = projectRepository.findAll();
@@ -98,16 +117,52 @@ public class ProjectResourceIntTest {
 
     @Test
     @Transactional
+    public void createProjectWithId() throws Exception {
+        int databaseSizeBeforeCreate = projectRepository.findAll().size();
+
+        project.setId(123L);
+
+        // Create the Project
+        restProjectMockMvc.perform(post("/api/projects")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(project)))
+            .andExpect(status().isBadRequest());
+
+        // Validate the Project is not in the database
+        List<Project> projects = projectRepository.findAll();
+        assertThat(projects).hasSize(databaseSizeBeforeCreate);
+    }
+
+    @Test
+    @Transactional
+    public void updateProjectNoId() throws Exception {
+        int databaseSizeBeforeUpdate = projectRepository.findAll().size();
+
+        // Update the Project
+        Project updatedProject = new Project();
+
+        restProjectMockMvc.perform(put("/api/projects")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedProject)))
+            .andExpect(status().isCreated());
+
+        // Validate the Project in the database
+        List<Project> projects = projectRepository.findAll();
+        assertThat(projects).hasSize(databaseSizeBeforeUpdate + 1);
+    }
+
+    @Test
+    @Transactional
     public void getAllProjects() throws Exception {
         // Initialize the database
         projectRepository.saveAndFlush(project);
 
         // Get all the projects
         restProjectMockMvc.perform(get("/api/projects?sort=id,desc"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(project.getId().intValue())))
-                .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(project.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
     }
 
     @Test
@@ -129,7 +184,7 @@ public class ProjectResourceIntTest {
     public void getNonExistingProject() throws Exception {
         // Get the project
         restProjectMockMvc.perform(get("/api/projects/{id}", Long.MAX_VALUE))
-                .andExpect(status().isNotFound());
+            .andExpect(status().isNotFound());
     }
 
     @Test
@@ -146,9 +201,9 @@ public class ProjectResourceIntTest {
         updatedProject.setName(UPDATED_NAME);
 
         restProjectMockMvc.perform(put("/api/projects")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(updatedProject)))
-                .andExpect(status().isOk());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedProject)))
+            .andExpect(status().isOk());
 
         // Validate the Project in the database
         List<Project> projects = projectRepository.findAll();
@@ -167,11 +222,38 @@ public class ProjectResourceIntTest {
 
         // Get the project
         restProjectMockMvc.perform(delete("/api/projects/{id}", project.getId())
-                .accept(TestUtil.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
+            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .andExpect(status().isOk());
 
         // Validate the database is empty
         List<Project> projects = projectRepository.findAll();
         assertThat(projects).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void getMapTest() throws Exception {
+        Map map = new Map();
+        String mapName = "FooMap";
+        map.setName(mapName);
+        project.setMap(map);
+
+        // Initialize the database
+        mapService.save(map);
+        projectService.save(project);
+
+        // Get the project
+        restProjectMockMvc.perform(get("/api/projects/{id}/map", project.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.name").value(mapName.toString()));
+    }
+
+    @Test
+    @Transactional
+    public void downloadPDFNonExistingProjectTest() throws Exception {
+        // Get the project
+        restProjectMockMvc.perform(get("/api/projects/{id}/exportpdf", project.getId()))
+            .andExpect(status().isBadRequest());
     }
 }

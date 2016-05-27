@@ -5,6 +5,12 @@ jdk:
   - oraclejdk8
 sudo: false
 
+branches: 
+    only: 
+    - dev
+    - stable
+    - /^fix.*$/
+
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
@@ -14,6 +20,7 @@ cache:
     - $HOME/.gradle/wrapper/
     - $HOME/.gradle/nodejs/
     - node_modules
+    - $TRAVIS_BUILD_DIR/src/main/webapp/bower_components/
 
 env: 
   - NODE_VERSION=4.4.3
@@ -23,15 +30,15 @@ install:
   - npm install -g npm
   - npm install -g gulp
   - npm install -g bower
-  - ./gradlew wrapper
-  - npm install
+  # - ./gradlew wrapper
 before_script: 
   - npm -v
   - java -version
   - gulp -v
   - bower -v
 script: 
-  - gulp build
+  - npm install
+  - bower install
   - ./gradlew assemble -x test
   - gulp test
   - ./gradlew check

@@ -13,10 +13,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
@@ -36,7 +38,7 @@ public class MapResource {
         
     @Inject
     private MapService mapService;
-    
+
     /**
      * POST  /maps : Create a new map.
      *
@@ -90,6 +92,7 @@ public class MapResource {
      * GET  /maps : get all the maps.
      *
      * @param pageable the pagination information
+     * @param filter the filter of this request
      * @return the ResponseEntity with status 200 (OK) and the list of maps in body
      * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
@@ -97,8 +100,14 @@ public class MapResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<List<Map>> getAllMaps(Pageable pageable)
+    public ResponseEntity<List<Map>> getAllMaps(Pageable pageable,
+                                                @RequestParam(required = false) String filter)
             throws URISyntaxException {
+        if ("project-is-null".equals(filter)) {
+            log.debug("REST request to get all Maps where project is null");
+            return new ResponseEntity<>(mapService.findAllWhereProjectIsNull(),
+                    HttpStatus.OK);
+        }
         log.debug("REST request to get a page of Maps");
         Page<Map> page = mapService.findAll(pageable); 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/maps");
@@ -139,6 +148,42 @@ public class MapResource {
         log.debug("REST request to delete Map : {}", id);
         mapService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("map", id.toString())).build();
+    }
+
+    /**
+     * PUT  /maps/{mapId}/addCamera?cameraId={cameraId}
+     * Adds a (existing) camera to the map.
+     * @param mapId Map id
+     * @param cameraId Camera id
+     * @return ResponseEntity with status OK if succeeded, or status 404 if an error occurred.
+     */
+    @RequestMapping(value = "/maps/{mapId}/addCamera",
+        method = RequestMethod.PUT,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @Transactional
+    public ResponseEntity<Map> addCameraToMap(@PathVariable Long mapId, @RequestParam Long cameraId) {
+        return mapService.addCamera(mapId, cameraId)
+                .map(map -> new ResponseEntity<>(map, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    /**
+     * PUT  /maps/{mapId}/addPlayer?playerId={playerId}
+     * Adds a (existing) player to the map.
+     * @param mapId Map id
+     * @param playerId Player id
+     * @return ResponseEntity with status OK if succeeded, or status 404 if an error occurred.
+     */
+    @RequestMapping(value = "/maps/{mapId}/addPlayer",
+            method = RequestMethod.PUT,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @Transactional
+    public ResponseEntity<Map> addPlayerToMap(@PathVariable Long mapId, @RequestParam Long playerId) {
+        return mapService.addPlayer(mapId, playerId)
+                .map(map -> new ResponseEntity<>(map, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
 }

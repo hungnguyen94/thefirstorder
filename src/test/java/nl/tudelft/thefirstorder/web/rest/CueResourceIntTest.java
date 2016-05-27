@@ -2,9 +2,11 @@ package nl.tudelft.thefirstorder.web.rest;
 
 import nl.tudelft.thefirstorder.ThefirstorderApp;
 import nl.tudelft.thefirstorder.domain.Cue;
+import nl.tudelft.thefirstorder.domain.Script;
 import nl.tudelft.thefirstorder.repository.CueRepository;
 import nl.tudelft.thefirstorder.service.CueService;
 
+import nl.tudelft.thefirstorder.service.ScriptService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +26,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -49,6 +53,8 @@ public class CueResourceIntTest {
     @Inject
     private CueService cueService;
 
+    @Inject
+    private ScriptService scriptService;
     @Inject
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
@@ -90,6 +96,24 @@ public class CueResourceIntTest {
         List<Cue> cues = cueRepository.findAll();
         assertThat(cues).hasSize(databaseSizeBeforeCreate + 1);
         Cue testCue = cues.get(cues.size() - 1);
+    }
+
+    @Test
+    @Transactional
+    public void createCueWithId() throws Exception {
+        int databaseSizeBeforeCreate = cueRepository.findAll().size();
+
+        cue.setId(123L);
+
+        // Create the Cue
+        restCueMockMvc.perform(post("/api/cues")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(cue)))
+            .andExpect(status().isBadRequest());
+
+        // Validate the Cue is not in the database
+        List<Cue> cues = cueRepository.findAll();
+        assertThat(cues).hasSize(databaseSizeBeforeCreate);
     }
 
     @Test
@@ -147,6 +171,24 @@ public class CueResourceIntTest {
         List<Cue> cues = cueRepository.findAll();
         assertThat(cues).hasSize(databaseSizeBeforeUpdate);
         Cue testCue = cues.get(cues.size() - 1);
+    }
+
+    @Test
+    @Transactional
+    public void updateCueNoId() throws Exception {
+        int databaseSizeBeforeUpdate = cueRepository.findAll().size();
+
+        // Update the cue
+        Cue updatedCue = new Cue();
+
+        restCueMockMvc.perform(put("/api/cues")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedCue)))
+            .andExpect(status().isCreated());
+
+        // Validate the Cue in the database
+        List<Cue> cues = cueRepository.findAll();
+        assertThat(cues).hasSize(databaseSizeBeforeUpdate + 1);
     }
 
     @Test

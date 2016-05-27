@@ -98,6 +98,42 @@ public class CameraActionResourceIntTest {
 
     @Test
     @Transactional
+    public void createCameraActionWithId() throws Exception {
+        int databaseSizeBeforeCreate = cameraActionRepository.findAll().size();
+
+        cameraAction.setId(123L);
+
+        // Create the CameraAction
+        restCameraActionMockMvc.perform(post("/api/camera-actions")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(cameraAction)))
+            .andExpect(status().isBadRequest());
+
+        // Validate the CameraAction is not in the database
+        List<CameraAction> cameraActions = cameraActionRepository.findAll();
+        assertThat(cameraActions).hasSize(databaseSizeBeforeCreate);
+    }
+
+    @Test
+    @Transactional
+    public void updateCameraActionNoId() throws Exception {
+        int databaseSizeBeforeUpdate = cameraActionRepository.findAll().size();
+
+        // Update the CameraAction
+        CameraAction updatedCameraAction = new CameraAction();
+
+        restCameraActionMockMvc.perform(put("/api/camera-actions")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedCameraAction)))
+            .andExpect(status().isCreated());
+
+        // Validate the CameraAction in the database
+        List<CameraAction> cameraActions = cameraActionRepository.findAll();
+        assertThat(cameraActions).hasSize(databaseSizeBeforeUpdate + 1);
+    }
+
+    @Test
+    @Transactional
     public void getAllCameraActions() throws Exception {
         // Initialize the database
         cameraActionRepository.saveAndFlush(cameraAction);
