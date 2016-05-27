@@ -77,22 +77,6 @@ public class Script implements Serializable {
     }
 
     /**
-     * Get the project to which the script belongs.
-     * @return the project
-     */
-    public Project getProject() {
-        return project;
-    }
-
-    /**
-     * Set the project to which the script belongs.
-     * @param project the project
-     */
-    public void setProject(Project project) {
-        this.project = project;
-    }
-
-    /**
      * Get the cues of the script.
      * @return the cues
      */
@@ -106,6 +90,14 @@ public class Script implements Serializable {
      */
     public void setCues(Set<Cue> cues) {
         this.cues = cues;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     /**

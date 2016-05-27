@@ -21,11 +21,13 @@
             <thead>
                 <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                     <th jh-sort-by="id"><span>ID</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="script.id"><span>Script</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="player.id"><span>Player</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="camera.id"><span>Camera</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="cameraAction.id"><span>Camera Action</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="timePoint.startTime"><span>Time Point</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="script.name"><span>Script</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="cameraAction.name"><span>Camera Action</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="player.name"><span>Player</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="camera.name"><span>Camera</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="timePoint.startTime"><span>Start time</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="timePoint.duration"><span>Duration</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="project.name"><span>Project</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
                 </tr>
             </thead>
@@ -33,20 +35,22 @@
                 <tr ng-repeat="cue in vm.cues track by cue.id">
                     <td><a ui-sref="cue-detail({id:cue.id})">{{cue.id}}</a></td>
                     <td>
-                        <a ui-sref="script-detail({id:cue.script.id})">{{cue.script.id}}</a>
+                        <a ui-sref="script-detail({id:cue.script.id})">{{cue.script.name}}</a>
                     </td>
                     <td>
-                        <a ui-sref="player-detail({id:cue.player.id})">{{cue.player.id}}</a>
+                        <a ui-sref="camera-action-detail({id:cue.cameraAction.id})">{{cue.cameraAction.name}}</a>
                     </td>
                     <td>
-                        <a ui-sref="camera-detail({id:cue.camera.id})">{{cue.camera.id}}</a>
+                        <a ui-sref="player-detail({id:cue.player.id})">{{cue.player.name}}</a>
                     </td>
                     <td>
-                        <a ui-sref="camera-action-detail({id:cue.cameraAction.id})">{{cue.cameraAction.id}}</a>
+                        <a ui-sref="camera-detail({id:cue.camera.id})">{{cue.camera.name}}</a>
                     </td>
                     <td>
-                        <a ui-sref="time-point-detail({id:cue.timePoint.id})">{{cue.timePoint.startTime}}</a>
+                        <a ui-sref="project-detail({id:cue.project.id})">{{cue.project.name}}</a>
                     </td>
+                    <td>{{cue.timePoint.startTime}}</td>
+                    <td>{{cue.timePoint.duration}}</td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"

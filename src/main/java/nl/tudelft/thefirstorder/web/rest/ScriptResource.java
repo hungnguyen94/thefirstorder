@@ -99,8 +99,9 @@ public class ScriptResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<List<Script>> getAllScripts(Pageable pageable, @RequestParam(required = false) String filter)
-        throws URISyntaxException {
+    public ResponseEntity<List<Script>> getAllScripts(Pageable pageable,
+                                                      @RequestParam(required = false) String filter)
+            throws URISyntaxException {
         if ("project-is-null".equals(filter)) {
             log.debug("REST request to get all Scripts where project is null");
             return new ResponseEntity<>(scriptService.findAllWhereProjectIsNull(),

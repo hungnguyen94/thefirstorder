@@ -45,9 +45,6 @@ public class CameraActionResourceIntTest {
     private static final String DEFAULT_NAME = "AAAAA";
     private static final String UPDATED_NAME = "BBBBB";
 
-    private static final Integer DEFAULT_DURATION = 1;
-    private static final Integer UPDATED_DURATION = 2;
-
     @Inject
     private CameraActionRepository cameraActionRepository;
 
@@ -78,7 +75,6 @@ public class CameraActionResourceIntTest {
     public void initTest() {
         cameraAction = new CameraAction();
         cameraAction.setName(DEFAULT_NAME);
-        cameraAction.setDuration(DEFAULT_DURATION);
     }
 
     @Test
@@ -98,7 +94,42 @@ public class CameraActionResourceIntTest {
         assertThat(cameraActions).hasSize(databaseSizeBeforeCreate + 1);
         CameraAction testCameraAction = cameraActions.get(cameraActions.size() - 1);
         assertThat(testCameraAction.getName()).isEqualTo(DEFAULT_NAME);
-        assertThat(testCameraAction.getDuration()).isEqualTo(DEFAULT_DURATION);
+    }
+
+    @Test
+    @Transactional
+    public void createCameraActionWithId() throws Exception {
+        int databaseSizeBeforeCreate = cameraActionRepository.findAll().size();
+
+        cameraAction.setId(123L);
+
+        // Create the CameraAction
+        restCameraActionMockMvc.perform(post("/api/camera-actions")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(cameraAction)))
+            .andExpect(status().isBadRequest());
+
+        // Validate the CameraAction is not in the database
+        List<CameraAction> cameraActions = cameraActionRepository.findAll();
+        assertThat(cameraActions).hasSize(databaseSizeBeforeCreate);
+    }
+
+    @Test
+    @Transactional
+    public void updateCameraActionNoId() throws Exception {
+        int databaseSizeBeforeUpdate = cameraActionRepository.findAll().size();
+
+        // Update the CameraAction
+        CameraAction updatedCameraAction = new CameraAction();
+
+        restCameraActionMockMvc.perform(put("/api/camera-actions")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedCameraAction)))
+            .andExpect(status().isCreated());
+
+        // Validate the CameraAction in the database
+        List<CameraAction> cameraActions = cameraActionRepository.findAll();
+        assertThat(cameraActions).hasSize(databaseSizeBeforeUpdate + 1);
     }
 
     @Test
@@ -112,8 +143,7 @@ public class CameraActionResourceIntTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(cameraAction.getId().intValue())))
-                .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-                .andExpect(jsonPath("$.[*].duration").value(hasItem(DEFAULT_DURATION)));
+                .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
     }
 
     @Test
@@ -127,8 +157,7 @@ public class CameraActionResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.id").value(cameraAction.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
-            .andExpect(jsonPath("$.duration").value(DEFAULT_DURATION));
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()));
     }
 
     @Test
@@ -151,7 +180,6 @@ public class CameraActionResourceIntTest {
         CameraAction updatedCameraAction = new CameraAction();
         updatedCameraAction.setId(cameraAction.getId());
         updatedCameraAction.setName(UPDATED_NAME);
-        updatedCameraAction.setDuration(UPDATED_DURATION);
 
         restCameraActionMockMvc.perform(put("/api/camera-actions")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -163,7 +191,6 @@ public class CameraActionResourceIntTest {
         assertThat(cameraActions).hasSize(databaseSizeBeforeUpdate);
         CameraAction testCameraAction = cameraActions.get(cameraActions.size() - 1);
         assertThat(testCameraAction.getName()).isEqualTo(UPDATED_NAME);
-        assertThat(testCameraAction.getDuration()).isEqualTo(UPDATED_DURATION);
     }
 
     @Test

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,7 +35,7 @@ public class TimePoint implements Serializable {
     @Column(name = "duration")
     private Integer duration;
 
-    @OneToOne(mappedBy = "timePoint")
+    @OneToOne(mappedBy = "timePoint", cascade = CascadeType.ALL)
     @JsonIgnore
     private Cue cue;
 

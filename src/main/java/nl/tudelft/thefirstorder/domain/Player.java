@@ -1,5 +1,6 @@
 package nl.tudelft.thefirstorder.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -8,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Objects;
@@ -28,6 +30,10 @@ public class Player implements Serializable {
 
     @Column(name = "name")
     private String name;
+
+    @ManyToOne
+    @JsonIgnore
+    private Project project;
 
     @Column(name = "X")
     private int x;
@@ -65,6 +71,14 @@ public class Player implements Serializable {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     public Integer getX() {

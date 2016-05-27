@@ -14,18 +14,6 @@
                                  referencedColumnNames="id"
                                  referencedTableName="script"/>
 
-        <addForeignKeyConstraint baseColumnNames="player_id"
-                                 baseTableName="cue"
-                                 constraintName="fk_cue_player_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="player"/>
-
-        <addForeignKeyConstraint baseColumnNames="camera_id"
-                                 baseTableName="cue"
-                                 constraintName="fk_cue_camera_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="camera"/>
-
         <addForeignKeyConstraint baseColumnNames="camera_action_id"
                                  baseTableName="cue"
                                  constraintName="fk_cue_cameraaction_id"
@@ -38,5 +26,22 @@
                                  referencedColumnNames="id"
                                  referencedTableName="time_point"/>
 
+        <addForeignKeyConstraint baseColumnNames="player_id"
+                                 baseTableName="cue"
+                                 constraintName="fk_cue_player_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="player"/>
+
+        <addForeignKeyConstraint baseColumnNames="camera_id"
+                                 baseTableName="cue"
+                                 constraintName="fk_cue_camera_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="camera"/>
+
+        <addForeignKeyConstraint baseColumnNames="project_id"
+                                 baseTableName="cue"
+                                 constraintName="fk_cue_project_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="project"/>
     </changeSet>
 </databaseChangeLog>

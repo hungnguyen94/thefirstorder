@@ -3,14 +3,53 @@
         <div ng-switch="vm.isAuthenticated()" class="col-md-12">
             <CENTER>
                 <h1 ng-switch-when="false">You are currently not logged in!</h1>
-                <h1 ng-switch-when="true">Welcome back {{vm.account.login}}!</h1><hr />
+                <h1 ng-switch-when="true">Welcome back {{vm.account.login}}!</h1>
+                <hr/>
                 <p class="lead" ng-switch-when="false">Please login or register</p>
-                <p class="lead" ng-switch-when="true">What is on your mind today?</p><br /><br /><br />
+                <p class="lead" ng-switch-when="true">What is on your mind today?</p><br/><br/><br/>
                 <div ng-switch-when="true" class="row">
-                    <div class="col-md-4"><span class="glyphicon glyphicon-camera" style="font-size: 60pt;"></span><hr/><p class="lead">{{vm.cameras.length}} Cameras</p></div>
-                    <div class="col-md-4"><span class="glyphicon glyphicon-film" style="font-size: 60pt;"></span><hr/><p class="lead">{{vm.cameraActions.length}} Camera Actions</p></div>
-                    <div class="col-md-4"><span class="glyphicon glyphicon-apple" style="font-size: 60pt;"></span><hr/><p class="lead">42 Apples</p></div>
+                    <div class="col-md-4"><span class="glyphicon glyphicon-file" style="font-size: 60pt;"></span>
+                        <hr/>
+                        <p class="lead">
+                            <button class="btn btn-primary"
+                                    has-any-authority="ROLE_ADMIN,ROLE_DIRECTOR"
+                                    ui-sref="home.create">
+                    <span>
+                        Create a new project
+                    </span>
+                            </button>
+                        </p>
+                    </div>
+                    <div class="col-md-4"><span class="glyphicon glyphicon-folder-open" style="font-size: 60pt;"></span>
+                        <hr/>
+                        <p class="lead">
+                            <button class="btn btn-primary"
+                                    has-any-authority="ROLE_ADMIN,ROLE_DIRECTOR"
+                                    ui-sref="home.load">
+                    <span>
+                        Load an existing project
+                    </span>
+                            </button>
+                        </p>
+                    </div>
+                    <div ng-switch="vm.hasProject">
+                        <div ng-switch-when="true" class="col-md-4"><span class="glyphicon glyphicon-circle-arrow-right"
+                                                                          style="font-size: 60pt;"></span>
+                            <hr/>
+                            <p class="lead">
+                                <button class="btn btn-primary"
+                                        has-any-authority="ROLE_ADMIN,ROLE_DIRECTOR"
+                                        ui-sref="mapview">
+                    <span>
+                        Move on from were you left: </br>{{vm.currentProject.name}}
+                    </span>
+                                </button>
+
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </CENTER>
         </div>
     </div>
+</div>

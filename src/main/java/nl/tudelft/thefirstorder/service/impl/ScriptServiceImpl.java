@@ -12,8 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 /**
  * Service Implementation for managing Script.
@@ -52,18 +50,16 @@ public class ScriptServiceImpl implements ScriptService {
         return result;
     }
 
-
     /**
-     *  get all the scripts where Project is null.
-     *  @return the list of entities
+     * Get all the scripts where Project is null.
+     *
+     * @return the list of entities
      */
-    @Transactional(readOnly = true) 
+    @Override
+    @Transactional(readOnly = true)
     public List<Script> findAllWhereProjectIsNull() {
         log.debug("Request to get all scripts where Project is null");
-        return StreamSupport
-            .stream(scriptRepository.findAll().spliterator(), false)
-            .filter(script -> script.getProject() == null)
-            .collect(Collectors.toList());
+        return scriptRepository.findByProjectIsNull();
     }
 
     /**

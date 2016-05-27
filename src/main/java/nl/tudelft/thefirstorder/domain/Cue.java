@@ -3,6 +3,7 @@ package nl.tudelft.thefirstorder.domain;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,23 +30,28 @@ public class Cue implements Serializable {
     private Long id;
 
     @ManyToOne
+    @JoinColumn
+    private Player player;
+
+    @ManyToOne
+    @JoinColumn
+    private Camera camera;
+
+    @ManyToOne
+    @JoinColumn
     private Script script;
 
     @OneToOne
-    @JoinColumn(unique = true)
-    private Player player;
-
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Camera camera;
-
-    @OneToOne
-    @JoinColumn(unique = true)
+    @JoinColumn
     private CameraAction cameraAction;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(unique = true)
     private TimePoint timePoint;
+
+    @ManyToOne
+    @JoinColumn
+    private Project project;
 
     /**
      * Get the id of the cue.
@@ -63,20 +69,12 @@ public class Cue implements Serializable {
         this.id = id;
     }
 
-    /**
-     * Get the script to which the cue belongs.
-     * @return the script
-     */
-    public Script getScript() {
-        return script;
+    public Camera getCamera() {
+        return camera;
     }
 
-    /**
-     * Set the script to which the cue belongs.
-     * @param script the script
-     */
-    public void setScript(Script script) {
-        this.script = script;
+    public void setCamera(Camera camera) {
+        this.camera = camera;
     }
 
     /**
@@ -93,22 +91,6 @@ public class Cue implements Serializable {
      */
     public void setPlayer(Player player) {
         this.player = player;
-    }
-
-    /**
-     * Get the camera of the cue.
-     * @return the camera
-     */
-    public Camera getCamera() {
-        return camera;
-    }
-
-    /**
-     * Set the camera of the cue.
-     * @param camera the camera
-     */
-    public void setCamera(Camera camera) {
-        this.camera = camera;
     }
 
     /**
@@ -143,6 +125,13 @@ public class Cue implements Serializable {
         this.timePoint = timePoint;
     }
 
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
 
     /**
      * Checks if two cues are the same.
@@ -158,9 +147,6 @@ public class Cue implements Serializable {
             return false;
         }
         Cue cue = (Cue) o;
-        if (cue.id == null || id == null) {
-            return false;
-        }
         return Objects.equals(id, cue.id);
     }
 
@@ -182,5 +168,13 @@ public class Cue implements Serializable {
         return "Cue{"
                 + "id=" + id
                 + '}';
+    }
+
+    public Script getScript() {
+        return script;
+    }
+
+    public void setScript(Script script) {
+        this.script = script;
     }
 }
