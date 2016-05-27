@@ -1,26 +1,22 @@
 package nl.tudelft.thefirstorder.service.util;
 
-import java.io.ByteArrayOutputStream;
-import java.util.Iterator;
+import nl.tudelft.thefirstorder.domain.Cue;
+import nl.tudelft.thefirstorder.domain.Project;
+import nl.tudelft.thefirstorder.domain.Script;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
-
-import nl.tudelft.thefirstorder.domain.Cue;
-import nl.tudelft.thefirstorder.domain.Project;
-import nl.tudelft.thefirstorder.domain.Script;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import java.io.ByteArrayOutputStream;
+import java.util.Iterator;
 
 /**
  * Export a project to a XML file.

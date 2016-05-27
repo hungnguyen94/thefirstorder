@@ -44,8 +44,7 @@ public class Map implements Serializable {
     @JsonIgnore
     @JoinTable(name = "map_cameras",
             joinColumns = @JoinColumn(name = "map_id"),
-            inverseJoinColumns = @JoinColumn(name = "camera_id")
-    )
+            inverseJoinColumns = @JoinColumn(name = "camera_id"))
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Camera> cameras = new HashSet<>();
 
@@ -53,8 +52,7 @@ public class Map implements Serializable {
     @JsonIgnore
     @JoinTable(name = "map_players",
             joinColumns = @JoinColumn(name = "map_id"),
-            inverseJoinColumns = @JoinColumn(name = "player_id")
-    )
+            inverseJoinColumns = @JoinColumn(name = "player_id"))
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Player> players = new HashSet<>();
 

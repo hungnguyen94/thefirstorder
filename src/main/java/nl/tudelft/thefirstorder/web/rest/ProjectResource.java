@@ -47,7 +47,7 @@ public class ProjectResource {
      *
      * @param project the project to create
      * @return the ResponseEntity with status 201 (Created) and with body the new project,
-     * or with status 400 (Bad Request) if the project has already an ID
+     *      or with status 400 (Bad Request) if the project has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/projects",
@@ -72,8 +72,8 @@ public class ProjectResource {
      *
      * @param project the project to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated project,
-     * or with status 400 (Bad Request) if the project is not valid,
-     * or with status 500 (Internal Server Error) if the project couldnt be updated
+     *      or with status 400 (Bad Request) if the project is not valid,
+     *      or with status 500 (Internal Server Error) if the project couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/projects",
