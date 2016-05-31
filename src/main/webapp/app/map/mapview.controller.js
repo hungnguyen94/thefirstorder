@@ -6,7 +6,7 @@
         .controller('MapviewController', MapviewController);
 
     MapviewController.$inject = ['$scope', '$state', 'Camera', 'Player', 'Cue', 'AlertService'];
-
+    
     /**
      * The controller for the map view.
      * @param $scope the scope of the map
