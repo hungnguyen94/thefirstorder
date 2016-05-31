@@ -101,7 +101,7 @@ class CueResource {
     public ResponseEntity<List<Cue>> getAllCues(Pageable pageable,
                                                 @RequestParam(required = false) Long scriptId)
             throws URISyntaxException {
-        if(scriptId != null) {
+        if (scriptId != null) {
             List<Cue> cues = cueService.findCuesByScript(scriptId);
             return ResponseEntity.ok(cues);
         }

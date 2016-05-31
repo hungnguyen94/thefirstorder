@@ -10,7 +10,7 @@ OVERRIDE ALL CSS SETTINGS
 
 canvas#concertMap {
     width: 100%;
-    /*background-image: url("/content/images/grid15x15.png");*/
+    background-image: url("/content/images/concertzaal.jpg");
 }
 
 .modal-footer form {

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>nl.tudelft.thefirstorder.domain</OriginalElement>
+  <nodes>
+    <node x="89.5" y="158.0">nl.tudelft.thefirstorder.domain.User</node>
+    <node x="85.34342105263158" y="336.0">nl.tudelft.thefirstorder.domain.Player</node>
+    <node x="26.593421052631584" y="0.0">nl.tudelft.thefirstorder.domain.Camera</node>
+    <node x="212.46447368421053" y="79.0">nl.tudelft.thefirstorder.domain.Cue</node>
+    <node x="3.5" y="158.0">nl.tudelft.thefirstorder.domain.Map</node>
+    <node x="289.2184210526316" y="0.0">nl.tudelft.thefirstorder.domain.CameraAction</node>
+    <node x="179.21842105263158" y="0.0">nl.tudelft.thefirstorder.domain.TimePoint</node>
+    <node x="168.5" y="158.0">nl.tudelft.thefirstorder.domain.Script</node>
+    <node x="83.34342105263158" y="257.0">nl.tudelft.thefirstorder.domain.Project</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="nl.tudelft.thefirstorder.domain.Project" target="nl.tudelft.thefirstorder.domain.Map">
+      <point x="-32.0" y="-14.5" />
+      <point x="87.34342105263158" y="237.0" />
+      <point x="32.0" y="237.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="nl.tudelft.thefirstorder.domain.Cue" target="nl.tudelft.thefirstorder.domain.TimePoint">
+      <point x="-7.0" y="-14.5" />
+      <point x="233.46447368421053" y="49.0" />
+      <point x="201.71842105263158" y="49.0" />
+      <point x="-22.5" y="14.5" />
+    </edge>
+    <edge source="nl.tudelft.thefirstorder.domain.Map" target="nl.tudelft.thefirstorder.domain.Project">
+      <point x="19.0" y="14.5" />
+      <point x="51.0" y="227.0" />
+      <point x="95.34342105263158" y="227.0" />
+      <point x="-24.0" y="-14.5" />
+    </edge>
+    <edge source="nl.tudelft.thefirstorder.domain.Project" target="nl.tudelft.thefirstorder.domain.User">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="nl.tudelft.thefirstorder.domain.Camera" target="nl.tudelft.thefirstorder.domain.Project">
+      <point x="9.75" y="14.5" />
+      <point x="75.34342105263158" y="49.0" />
+      <point x="79.0" y="49.0" />
+      <point x="79.0" y="207.0" />
+      <point x="111.34342105263158" y="207.0" />
+      <point x="-8.0" y="-14.5" />
+    </edge>
+    <edge source="nl.tudelft.thefirstorder.domain.Script" target="nl.tudelft.thefirstorder.domain.Cue">
+      <point x="-16.25" y="-14.5" />
+      <point x="184.75" y="128.0" />
+      <point x="218.06447368421055" y="128.0" />
+      <point x="-22.399999999999977" y="14.5" />
+    </edge>
+    <edge source="nl.tudelft.thefirstorder.domain.Cue" target="nl.tudelft.thefirstorder.domain.Project">
+      <point x="0.0" y="14.5" />
+      <point x="240.46447368421053" y="138.0" />
+      <point x="244.0" y="138.0" />
+      <point x="244.0" y="227.0" />
+      <point x="143.34342105263158" y="227.0" />
+      <point x="24.0" y="-14.5" />
+    </edge>
+    <edge source="nl.tudelft.thefirstorder.domain.Cue" target="nl.tudelft.thefirstorder.domain.CameraAction">
+      <point x="21.0" y="-14.5" />
+      <point x="261.46447368421053" y="59.0" />
+      <point x="345.2184210526316" y="59.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="nl.tudelft.thefirstorder.domain.Project" target="nl.tudelft.thefirstorder.domain.Script">
+      <point x="8.0" y="-14.5" />
+      <point x="127.34342105263158" y="207.0" />
+      <point x="184.75" y="207.0" />
+      <point x="-16.25" y="14.5" />
+    </edge>
+    <edge source="nl.tudelft.thefirstorder.domain.Cue" target="nl.tudelft.thefirstorder.domain.Script">
+      <point x="-11.200000000000045" y="14.5" />
+      <point x="229.2644736842105" y="138.0" />
+      <point x="217.25" y="138.0" />
+      <point x="16.249999999999993" y="-14.5" />
+    </edge>
+    <edge source="nl.tudelft.thefirstorder.domain.Player" target="nl.tudelft.thefirstorder.domain.Project">
+      <point x="-8.5" y="-14.5" />
+      <point x="110.84342105263158" y="311.0" />
+      <point x="101.34342105263158" y="311.0" />
+      <point x="-18.0" y="14.5" />
+    </edge>
+    <edge source="nl.tudelft.thefirstorder.domain.Project" target="nl.tudelft.thefirstorder.domain.Camera">
+      <point x="-16.0" y="-14.5" />
+      <point x="103.34342105263158" y="217.0" />
+      <point x="71.0" y="217.0" />
+      <point x="71.0" y="59.0" />
+      <point x="55.843421052631584" y="59.0" />
+      <point x="-9.75" y="14.5" />
+    </edge>
+    <edge source="nl.tudelft.thefirstorder.domain.Cue" target="nl.tudelft.thefirstorder.domain.Camera">
+      <point x="-21.0" y="-14.5" />
+      <point x="219.46447368421053" y="59.0" />
+      <point x="94.84342105263158" y="59.0" />
+      <point x="29.25" y="14.5" />
+    </edge>
+    <edge source="nl.tudelft.thefirstorder.domain.Cue" target="nl.tudelft.thefirstorder.domain.Player">
+      <point x="22.399999999999977" y="14.5" />
+      <point x="262.8644736842105" y="138.0" />
+      <point x="264.2907894736843" y="138.0" />
+      <point x="264.2907894736843" y="311.0" />
+      <point x="144.84342105263158" y="311.0" />
+      <point x="25.5" y="-14.5" />
+    </edge>
+    <edge source="nl.tudelft.thefirstorder.domain.Project" target="nl.tudelft.thefirstorder.domain.Cue">
+      <point x="32.0" y="-14.5" />
+      <point x="151.34342105263158" y="237.0" />
+      <point x="252.0" y="237.0" />
+      <point x="11.200000000000045" y="14.5" />
+    </edge>
+    <edge source="nl.tudelft.thefirstorder.domain.Project" target="nl.tudelft.thefirstorder.domain.Player">
+      <point x="18.0" y="14.5" />
+      <point x="137.34342105263158" y="311.0" />
+      <point x="127.84342105263158" y="311.0" />
+      <point x="8.5" y="-14.5" />
+    </edge>
+    <edge source="nl.tudelft.thefirstorder.domain.Map" target="nl.tudelft.thefirstorder.domain.Player">
+      <point x="-19.0" y="14.5" />
+      <point x="13.0" y="237.0" />
+      <point x="16.969736842105334" y="237.0" />
+      <point x="16.969736842105334" y="311.0" />
+      <point x="93.84342105263158" y="311.0" />
+      <point x="-25.5" y="-14.5" />
+    </edge>
+    <edge source="nl.tudelft.thefirstorder.domain.Map" target="nl.tudelft.thefirstorder.domain.Camera">
+      <point x="0.0" y="-14.5" />
+      <point x="32.0" y="59.0" />
+      <point x="36.343421052631584" y="59.0" />
+      <point x="-29.25" y="14.5" />
+    </edge>
+    <edge source="nl.tudelft.thefirstorder.domain.TimePoint" target="nl.tudelft.thefirstorder.domain.Cue">
+      <point x="22.5" y="14.5" />
+      <point x="7.0" y="-14.5" />
+    </edge>
+    <edge source="nl.tudelft.thefirstorder.domain.Script" target="nl.tudelft.thefirstorder.domain.Project">
+      <point x="16.249999999999993" y="14.5" />
+      <point x="217.25" y="217.0" />
+      <point x="135.34342105263158" y="217.0" />
+      <point x="16.0" y="-14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="234.03846153846155" y="180.4230769230769" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Inner Classes</Category>
+    <Category>Constructors</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

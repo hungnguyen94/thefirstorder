@@ -13,6 +13,9 @@ Login with username `admin` and password `admin`.
 Hot reloading for Java is configured. Recompile the changed classes manually, if your IDE doesn't do this for you.
 To enable hot reloading for the frontend, run `gulp` and navigate to [http://localhost:9000](http://localhost:9000).
 
+## Reports
+Run `./gradlew check` to run all static code analysis tools(Checkstyle, PMD, FindBugs). Test coverage is provided by Coveralls. To manually generate a test coverage report, run `./gradlew test` followed by `./gradlew jacocoTestReport`. All reports will be generated in `build/reports/`. 
+
 ## Building for production
 
 To optimize the thefirstorder client for production, run:

@@ -5,9 +5,9 @@
         .module('thefirstorderApp')
         .controller('NavbarController', NavbarController);
 
-    NavbarController.$inject = ['$state', 'Auth', 'Principal', 'ENV', 'LoginService'];
+    NavbarController.$inject = ['$state', 'Auth', 'Principal', 'ENV', 'LoginService', 'Project', 'ProjectManager'];
 
-    function NavbarController ($state, Auth, Principal, ENV, LoginService) {
+    function NavbarController ($state, Auth, Principal, ENV, LoginService, Project, ProjectManager) {
         var vm = this;
 
         vm.isNavbarCollapsed = true;
@@ -18,6 +18,8 @@
         vm.toggleNavbar = toggleNavbar;
         vm.collapseNavbar = collapseNavbar;
         vm.$state = $state;
+        
+        loadProject();
 
         function login () {
             collapseNavbar();
@@ -36,6 +38,13 @@
 
         function collapseNavbar () {
             vm.isNavbarCollapsed = true;
+        }
+
+        function loadProject() {
+            ProjectManager.get().then(function (object) {
+                var projectId = object.data;
+                vm.currentProject = Project.get({id: projectId});
+            });
         }
     }
 })();

@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -35,12 +36,15 @@ public class Map implements Serializable {
     @Column(name = "name")
     private String name;
 
+    @OneToOne(mappedBy = "map")
+    @JsonIgnore
+    private Project project;
+
     @OneToMany
     @JsonIgnore
     @JoinTable(name = "map_cameras",
             joinColumns = @JoinColumn(name = "map_id"),
-            inverseJoinColumns = @JoinColumn(name = "camera_id")
-    )
+            inverseJoinColumns = @JoinColumn(name = "camera_id"))
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Camera> cameras = new HashSet<>();
 
@@ -48,8 +52,7 @@ public class Map implements Serializable {
     @JsonIgnore
     @JoinTable(name = "map_players",
             joinColumns = @JoinColumn(name = "map_id"),
-            inverseJoinColumns = @JoinColumn(name = "player_id")
-    )
+            inverseJoinColumns = @JoinColumn(name = "player_id"))
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Player> players = new HashSet<>();
 
@@ -115,6 +118,14 @@ public class Map implements Serializable {
      */
     public void addPlayer(Player player) {
         players.add(player);
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     /**

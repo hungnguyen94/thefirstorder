@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -115,6 +116,16 @@ public class MapServiceImpl implements MapService {
                     map.addPlayer(player);
                     return mapRepository.save(map);
                 });
+    }
+
+    /**
+     * Get all maps where project is null.
+     *
+     * @return List of maps.
+     */
+    @Override
+    public List<Map> findAllWhereProjectIsNull() {
+        return mapRepository.findByProjectIsNull();
     }
 
 }
