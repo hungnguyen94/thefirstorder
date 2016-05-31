@@ -192,10 +192,22 @@
         }
 
         function draw_grid(gridsize, canvas) {
-            for(var x=0;x<(canvas.width/gridsize);x++)
+            for(var x = 0; x < (canvas.width / gridsize); x++)
             {
-                canvas.add(new fabric.Line([gridsize*x, 0, gridsize*x, Math.floor(canvas.height / gridsize) * gridsize],{ stroke: "#000000", strokeWidth: 1, selectable:false, strokeDashArray: [1, 1]}));
-                canvas.add(new fabric.Line([0, gridsize*x, Math.floor(canvas.width / gridsize) * gridsize - gridsize, gridsize*x],{ stroke: "#000000", strokeWidth: 1, selectable:false, strokeDashArray: [1, 1]}));
+                canvas.add(new fabric.Line([
+                    gridsize * x,
+                    0, 
+                    gridsize * x,
+                    Math.floor(canvas.height / gridsize) * gridsize],
+                    { stroke: "#000000", strokeWidth: 1, selectable:false, strokeDashArray: [1, 1]}
+                ));
+                canvas.add(new fabric.Line([
+                    0,
+                    gridsize * x,
+                    Math.floor(canvas.width / gridsize) * gridsize - gridsize,
+                    gridsize * x],
+                    { stroke: "#000000", strokeWidth: 1, selectable:false, strokeDashArray: [1, 1]}
+                ));
             }
         }
     }
