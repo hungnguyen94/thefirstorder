@@ -17,6 +17,8 @@ import org.junit.runner.RunWith;
 
 import static org.hamcrest.Matchers.hasItem;
 
+import static org.mockito.Mockito.when;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -79,6 +81,9 @@ public class ProjectResourceIntTest {
     private MockMvc restProjectMockMvc;
 
     private Project project;
+
+    @Mock private Script script;
+    @Mock private Map map;
 
     @PostConstruct
     public void setup() {
@@ -256,4 +261,23 @@ public class ProjectResourceIntTest {
         restProjectMockMvc.perform(get("/api/projects/{id}/exportpdf", project.getId()))
             .andExpect(status().isBadRequest());
     }
+
+    @Test
+    @Transactional
+    public void downloadXMLNonExistingProjectTest() throws Exception {
+        // Get the project
+        restProjectMockMvc.perform(get("/api/projects/{id}/exportxml", project.getId()))
+            .andExpect(status().isBadRequest());
+    }
+
+//    @Test
+//    @Transactional
+//    public void downloadXMLProjectTest() throws Exception {
+//        project.setMap(map);
+//        project.setScript(script);
+//        projectService.save(project);
+//        // Get the project
+//        restProjectMockMvc.perform(get("/api/projects/{id}/exportxml", project.getId()))
+//            .andExpect(status().isOk());
+//    }
 }
