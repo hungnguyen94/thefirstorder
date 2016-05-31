@@ -22,7 +22,12 @@
                     function (Auth) {
                         return Auth.authorize();
                     }
-                ]
+                ], 
+                currentProject: function (ProjectManager) {
+                    return ProjectManager.get().then(function (result) {
+                        return result.data;
+                    });
+                } 
             }
         });
     }
