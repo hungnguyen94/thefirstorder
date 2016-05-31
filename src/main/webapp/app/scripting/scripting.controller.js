@@ -3,9 +3,9 @@
 
     angular
         .module('thefirstorderApp')
-        .controller('ScriptingviewController', ScriptingviewController);
+        .controller('ScriptingController', ScriptingController);
 
-    ScriptingviewController.$inject = ['$scope', '$state', 'Camera', 'Player', 'CameraAction', 'Script', 'TimePoint', 'Cue', 'AlertService'];
+    ScriptingController.$inject = ['$scope', '$state', 'Camera', 'Player', 'CameraAction', 'Script', 'TimePoint', 'Cue', 'AlertService'];
 
     /**
      * The controller for the script view.
@@ -15,7 +15,7 @@
      * @param AlertService the alertservice
      * @constructor
      */
-    function ScriptingviewController ($scope, $state, Camera, Player, CameraAction, Script, TimePoint, Cue, AlertService) {
+    function ScriptingController ($scope, $state, Camera, Player, CameraAction, Script, TimePoint, Cue, AlertService) {
         var vm = this;
         var grid = 15;
 
@@ -224,16 +224,14 @@
 
                 // Configuration for the Timeline
                 var options = {
-                    'groupOrder': function (a, b) {
+                    groupOrder: function (a, b) {
                         return a.value - b.value;
                     },
-                    'timeAxis' : {scale: 'year', step: 1},
-                    'start': '0000-01-01',
-                    'end': '0010-01-01',
-                    'zoomMin': 63072000000,
-                    'zoomMax': 700000000000,
-                    'editable': true,
-                    'stack': false
+                    timeAxis : {scale: 'year', step: 1},
+                    start: '0000-01-01',
+                    end: '0010-01-01',
+                    editable: true,
+                    stack: false
                 };
 
                 // Create a Timeline
