@@ -10,6 +10,7 @@ import nl.tudelft.thefirstorder.web.rest.dto.ManagedUserDTO;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -24,6 +25,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import java.time.ZonedDateTime;
 import java.util.Arrays;
@@ -32,12 +34,11 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doNothing;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -52,6 +53,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebAppConfiguration
 @IntegrationTest
 public class UserResourceIntTest {
+
+    @Mock private HttpServletRequest request;
 
     @Inject
     private UserRepository userRepository;
@@ -69,52 +72,52 @@ public class UserResourceIntTest {
 
     private User user;
 
-//    @Before
-//    public void setup() {
-//        MockitoAnnotations.initMocks(this);
-//        UserResource userResource = new UserResource();
-//        ReflectionTestUtils.setField(userResource, "userRepository", userRepository);
-//        ReflectionTestUtils.setField(userResource, "userService", userService);
-//        this.restUserMockMvc = MockMvcBuilders.standaloneSetup(userResource)
-//            .setCustomArgumentResolvers(pageableArgumentResolver)
-//            .setMessageConverters(jacksonMessageConverter).build();
-//
-//        user = new User();
-//    }
-
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
+        UserResource userResource = new UserResource();
+        ReflectionTestUtils.setField(userResource, "userRepository", userRepository);
+        ReflectionTestUtils.setField(userResource, "userService", userService);
+        this.restUserMockMvc = MockMvcBuilders.standaloneSetup(userResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setMessageConverters(jacksonMessageConverter).build();
 
-        AccountResource accountResource = new AccountResource();
-        ReflectionTestUtils.setField(accountResource, "userRepository", userRepository);
-        ReflectionTestUtils.setField(accountResource, "userService", userService);
-
-        AccountResource accountUserMockResource = new AccountResource();
-        ReflectionTestUtils.setField(accountUserMockResource, "userRepository", userRepository);
-        ReflectionTestUtils.setField(accountUserMockResource, "userService", userService);
-
-        this.restUserMockMvc = MockMvcBuilders.standaloneSetup(accountUserMockResource).build();
+        user = new User();
     }
 
-    @Test
-    @Transactional
-    public void createUser() throws Exception {
+//    @Before
+//    public void setup() {
+//        MockitoAnnotations.initMocks(this);
+//
+//        AccountResource accountResource = new AccountResource();
+//        ReflectionTestUtils.setField(accountResource, "userRepository", userRepository);
+//        ReflectionTestUtils.setField(accountResource, "userService", userService);
+//
+//        AccountResource accountUserMockResource = new AccountResource();
+//        ReflectionTestUtils.setField(accountUserMockResource, "userRepository", userRepository);
+//        ReflectionTestUtils.setField(accountUserMockResource, "userService", userService);
+//
+//        this.restUserMockMvc = MockMvcBuilders.standaloneSetup(accountUserMockResource).build();
+//    }
 
-        ManagedUserDTO validUser = new ManagedUserDTO(
-            null,                   // id
-            "joe",                  // login
-            "password",             // password
-            "Joe",                  // firstName
-            "Shmoe",                // lastName
-            "joe@example.com",      // e-mail
-            true,                   // activated
-            "en",               // langKey
-            new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
-            null,                   // createdDate
-            null,                   // lastModifiedBy
-            null                    // lastModifiedDate
-        );
+//    @Test
+//    @Transactional
+//    public void createUser() throws Exception {
+//
+//        ManagedUserDTO validUser = new ManagedUserDTO(
+//            null,                   // id
+//            "joe",                  // login
+//            "password",             // password
+//            "Joe",                  // firstName
+//            "Shmoe",                // lastName
+//            "joe@example.com",      // e-mail
+//            true,                   // activated
+//            "en",               // langKey
+//            new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
+//            null,                   // createdDate
+//            null,                   // lastModifiedBy
+//            null                    // lastModifiedDate
+//        );
 //
 //        restUserMockMvc.perform(
 //            post("/api/users")
@@ -124,7 +127,55 @@ public class UserResourceIntTest {
 //
 //        Optional<User> user = userRepository.findOneByLogin("joe");
 //        assertThat(user.isPresent()).isTrue();
-    }
+//    }
+
+//    @Test
+//    @Transactional
+//    public void updateUser() throws Exception {
+//        // Initialize the database
+//        userService.save(user);
+//
+//        int databaseSizeBeforeUpdate = userRepository.findAll().size();
+//
+//        ManagedUserDTO updatedUser = new ManagedUserDTO(
+//            user.getId(),                   // id
+//            "Test",                  // login
+//            "password",             // password
+//            "Joe",                  // firstName
+//            "Shmoe",                // lastName
+//            "joe@example.com",      // e-mail
+//            true,                   // activated
+//            "en",               // langKey
+//            new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
+//            null,                   // createdDate
+//            null,                   // lastModifiedBy
+//            null                    // lastModifiedDate
+//        );
+//
+//        restUserMockMvc.perform(put("/api/users")
+//            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+//            .content(TestUtil.convertObjectToJsonBytes(updatedUser)))
+//            .andExpect(status().isOk());
+//
+//        // Validate the Map in the database
+//        List<User> users = userRepository.findAll();
+//        assertThat(users).hasSize(databaseSizeBeforeUpdate);
+//        User testUser = users.get(users.size() - 1);
+//        assertThat(testUser.getFirstName()).isEqualTo("Test");
+//    }
+
+//    @Test
+//    @Transactional
+//    public void getAllUsers() throws Exception {
+//        // Initialize the database
+//        userRepository.saveAndFlush(user);
+//
+//        restUserMockMvc.perform(get("/api/users?sort=id,desc"))
+//            .andExpect(status().isOk())
+//            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+//            .andExpect(jsonPath("$.[*].id").value(hasItem(user.getId().intValue())))
+//            .andExpect(jsonPath("$.[*].name").value(hasItem("Test".toString())));
+//    }
 
     @Test
     public void testGetExistingUser() throws Exception {
