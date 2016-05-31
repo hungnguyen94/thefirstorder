@@ -7,11 +7,11 @@
 
     function fabricMapView() {
         var directive = {
-            restrict: 'EA', 
+            restrict: 'EA',
             link: link,
-            // templateUrl: 'app/map/fabric-map-view-template.html', 
-            controller: 'FabricMapViewController', 
-            controllerAs: 'vm', 
+            // templateUrl: 'app/map/fabric-map-view-template.html',
+            controller: 'FabricMapViewController',
+            controllerAs: 'vm',
             bindToController: true
         };
         return directive;
@@ -21,17 +21,17 @@
             // var canvasElement = document.getElementById('fabricCanvas');
             var canvas = new fabric.Canvas(element[0]);
             var grid = 15;
-            
+
             // console.log('element parent: ', element.parent().parent());
             canvas.setWidth(600);
             // canvasElement.width = element.parent().width() * 0.95;
             // temp hardcoded
             canvas.setHeight(500);
 
-            drawGrid();
-            
+            drawGrid(grid);
+
             scope.fabriccanvas = canvas;
-            
+
             scope.draw = function (drawables) {
                 drawables = drawables.map(setDrawableProperties);
                 console.log('drawing ', drawables);
@@ -39,12 +39,12 @@
                     canvas.add(d);
                 });
             };
-            
+
             function setDrawableProperties(drawable) {
                 drawable.width = grid;
                 drawable.height = grid;
                 drawable.lockScalingX = true;
-                drawable.lockScalingY = true; 
+                drawable.lockScalingY = true;
                 drawable.hasControls = false;
                 return drawable;
             }
@@ -53,7 +53,7 @@
              * Draws a grid on the canvas
              * @param gridsize Size of the blocks in the grid
              */
-            function draw_grid(gridsize) {
+            function drawGrid(gridsize) {
                 for(var x = 0; x < (canvas.width / gridsize); x++) {
                     canvas.add(new fabric.Line([
                             gridsize * x,
@@ -71,7 +71,7 @@
                     ));
                 }
             }
-            
+
             console.log('Link from directive fabricMapView called');
         }
     }
@@ -84,7 +84,7 @@
     //     vm.canvas = $scope.canvas;
     //     vm.draw = $scope.draw;
     //     console.log('Scope is: ', $scope);
-    //    
+    //
     //     vm.transformCamera = transformCamera;
     //     vm.transformPlayer = transformPlayer;
     //
@@ -98,11 +98,11 @@
     //     //     console.log('Drawables: ', vm.drawables);
     //     //     $scope.draw(vm.drawables);
     //     // });
-    //    
+    //
     //     function transformCamera(camera) {
     //         var rect = new fabric.Rect({
-    //             left: camera.x, 
-    //             top: camera.y, 
+    //             left: camera.x,
+    //             top: camera.y,
     //             fill: 'red'
     //         });
     //         return rect;
