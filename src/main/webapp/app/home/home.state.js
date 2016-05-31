@@ -73,8 +73,12 @@
                         }
                     }).result.then(function () {
                         $state.go('mapview', null, {reload: true});
-                    }, function () {
-                        $state.go('home');
+                    }, function (message) {
+                        if(message == 'create'){
+                            $state.go('home.create');
+                        } else {
+                            $state.go('home');
+                        }
                     });
                 }]
             });

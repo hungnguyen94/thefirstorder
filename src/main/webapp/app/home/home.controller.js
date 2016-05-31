@@ -12,7 +12,7 @@
 
         vm.account = null;
         vm.isAuthenticated = null;
-        vm.hasProject = false;
+        vm.hasCurrentProject = false;
         vm.login = LoginService.open;
         vm.register = register;
         vm.loadProject = loadProject;
@@ -40,7 +40,7 @@
                 .then(function (object) {
                     var projectId = object.data;
                     vm.currentProject = Project.get({id: projectId});
-                    vm.hasProject = true;
+                    vm.hasCurrentProject = true;
                 });
         }
     }
