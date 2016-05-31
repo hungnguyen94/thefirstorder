@@ -23,11 +23,15 @@
                         return Auth.authorize();
                     }
                 ],
-                currentProject: function (ProjectManager) {
-                    return ProjectManager.get().then(function (result) {
-                        return result.data;
-                    });
-                }
+                currentProject: ['ProjectManager',
+                    function (ProjectManager) {
+                        return ProjectManager.get().then(function (result) {
+                            return result.data;
+                        }, function (error) {
+                            return null;
+                        });
+                    }
+                ]
             }
         });
     }

@@ -8,7 +8,8 @@
     stateConfig.$inject = ['$stateProvider'];
 
     function stateConfig($stateProvider) {
-        $stateProvider.state('scripting', {
+        $stateProvider
+        .state('scripting', {
             parent: 'app',
             url: '/scripting',
             data: {
@@ -24,7 +25,7 @@
         })
         .state('scripting.new', {
             parent: 'scripting',
-            url: '/new',
+            url: '/scripting/new',
             data: {
                 authorities: ['ROLE_USER']
             },
