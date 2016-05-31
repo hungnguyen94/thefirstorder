@@ -116,6 +116,8 @@
 
             var grid = 15;
 
+            draw_grid(grid, canvas);
+
             canvas.on('object:moving', function (options) {
                 options.target.set({
                     left: Math.round(options.target.left / grid) * grid,
@@ -240,42 +242,51 @@
                 timeline.setGroups(groups);
                 timeline.setItems(items);
 
-                // timeline.on('click', function (properties) {
-                //     var startTime = parseIntAsYear(properties.time.getFullYear());
-                //     var duration = document.getElementById('durationCue').value;
-                //
-                //     // Initialize new time point
-                //     var timePoint = new Object();
-                //     timePoint.startTime = startTime;
-                //     timePoint.duration = duration;
-                //
-                //     // Retrieve the rest of the objects
-                //     var player = Player.get({id: document.getElementById('selectPlayer').value});
-                //     var camera = Camera.get({id: document.getElementById('selectCamera').value});
-                //     var cameraAction = CameraAction.get({id: document.getElementById('selectCameraAction').value});
-                //     var script = Script.get({id: document.getElementById('selectScript').value});
-                //
-                //     // Save the time point to the database
-                //     var temp = TimePoint.save(timePoint);
-                //
-                //     // Reload all timepoints, so the newly added one is in the memory
-                //     vm.loadTimePoints();
-                //
-                //     // Initialize new cue
-                //     var cue = new Object();
-                //
-                //     // cue.player = player;
-                //     // cue.camera = camera;
-                //     // cue.cameraAction = cameraAction;
-                //     // cue.script = script;
-                //     cue.timePoint = vm.timePoints.pop();
-                //
-                //     console.log("Test: ", vm.timePoints.length);
-                //
-                //     // Add the Cue to the database
-                //     Cue.save(cue);
-                //     $state.reload();
-                // });
+                timeline.on('click', function (properties) {
+                    var startTime = parseIntAsYear(properties.time.getFullYear());
+                    var duration = document.getElementById('durationCue').value;
+
+                    // Initialize new time point
+                    var timePoint = new Object();
+                    timePoint.startTime = startTime;
+                    timePoint.duration = duration;
+
+                    // Retrieve the rest of the objects
+                    var player = Player.get({id: document.getElementById('selectPlayer').value});
+                    var camera = Camera.get({id: document.getElementById('selectCamera').value});
+                    var cameraAction = CameraAction.get({id: document.getElementById('selectCameraAction').value});
+                    var script = Script.get({id: document.getElementById('selectScript').value});
+
+                    player.id = document.getElementById('selectPlayer').value;
+                    camera.id = document.getElementById('selectCamera').value;
+                    cameraAction.id = document.getElementById('selectCameraAction').value;
+                    script.id = document.getElementById('selectScript').value;
+
+                    // Save the time point to the database
+                    var temp = TimePoint.save(timePoint);
+
+                    // Reload all timepoints, so the newly added one is in the memory
+                    vm.loadTimePoints();
+
+                    timeline.on('click', function (properties) {
+
+                        vm.loadTimePoints();
+                        // Initialize new cue
+                        var cue = new Object();
+
+                        cue.player = player;
+                        cue.camera = camera;
+                        cue.cameraAction = cameraAction;
+                        cue.script = script;
+                        cue.timePoint = vm.timePoints.pop();
+
+                        console.log("Test: ", vm.timePoints.length);
+
+                        // Add the Cue to the database
+                        Cue.save(cue);
+                        $state.reload();
+                    });
+                });
             }
             function onError(error) {
                 AlertService.error(error.data.message);
@@ -308,5 +319,29 @@
             canvas.add(rect);
         }
 
+        /**
+         * Draws a grid on the canvas
+         * @param gridsize Size of the blocks in the grid
+         * @param canvas The canvas to draw the grid on
+         */
+        function draw_grid(gridsize, canvas) {
+            for(var x = 0; x < (canvas.width / gridsize); x++)
+            {
+                canvas.add(new fabric.Line([
+                        gridsize * x,
+                        0,
+                        gridsize * x,
+                        Math.floor(canvas.height / gridsize) * gridsize],
+                    { stroke: "#000000", strokeWidth: 1, selectable:false, strokeDashArray: [1, 1]}
+                ));
+                canvas.add(new fabric.Line([
+                        0,
+                        gridsize * x,
+                        Math.floor(canvas.width / gridsize) * gridsize - gridsize,
+                        gridsize * x],
+                    { stroke: "#000000", strokeWidth: 1, selectable:false, strokeDashArray: [1, 1]}
+                ));
+            }
+        }
     }
 })();

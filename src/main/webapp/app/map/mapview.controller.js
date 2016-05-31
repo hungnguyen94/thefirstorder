@@ -5,7 +5,7 @@
         .module('thefirstorderApp')
         .controller('MapviewController', MapviewController);
 
-    MapviewController.$inject = ['$scope', '$state', 'Camera', 'Player', 'Cue', 'AlertService'];
+    MapviewController.$inject = ['$scope', '$state', 'Camera', 'Player', 'Cue', 'AlertService', 'ProjectManager'];
 
     /**
      * The controller for the map view.
@@ -15,55 +15,30 @@
      * @param AlertService the alertservice
      * @constructor
      */
-    function MapviewController ($scope, $state, Camera, Player, Cue, AlertService) {
+    function MapviewController ($scope, $state, Camera, Player, Cue, AlertService, ProjectManager) {
         var vm = this;
-        var grid = 15;
 
-        vm.loadCameras = loadCameras;
-        vm.loadCameras();
-        vm.loadPlayers = loadPlayers;
-        vm.loadCues = loadCues;
-        vm.loadCues();
+        ProjectManager.get().then(function (result) {
+            vm.currentProject = result.data;
+            console.log('Current project: ', vm.currentProject);
+        }, function (error) {
+            console.log('Error fetching current project: ', error);
+        });
 
-        function loadCameras () {
-            Camera.query({
-
-            }, onSuccess, onError);
-
-            function onSuccess(data, headers) {
-                vm.cameras = data;
-                vm.queryCount = vm.totalItems;
-                vm.loadPlayers(data);
-            }
-            function onError(error) {
-                AlertService.error(error.data.message);
-            }
-        }
-
-        function loadPlayers(cameraData) {
-            Player.query({
-
-            }, onSuccess, onError);
-
-            function onSuccess(data, headers) {
-                vm.players = data;
-                vm.queryCount = vm.totalItems;
-                drawCameras(cameraData, data);
-            }
-
-            function onError(error) {
-                AlertService.error(error.data.message);
-            }
-        }
+        vm.cameras = Camera.query({projectId: vm.currentProject});
+        vm.cues = Cue.query({projectId: vm.currentProject});
+        vm.players = Player.query({projectId: vm.currentProject});
 
         /**
-         * Draws the cameras to the map.
+         * Draws the cameras to the map. 
          * @param cameraData the data of the cameras to draw
          */
         function drawCameras(cameraData, playerData) {
             var canvas = new fabric.Canvas('concertMap');
 
             var grid = 15;
+
+            draw_grid(grid, canvas);
 
             canvas.on('object:moving', function (options) {
                 options.target.set({
@@ -163,7 +138,7 @@
             }
         }
 
-        
+
 
         /**
          * Draws a single camera.
@@ -189,5 +164,29 @@
             canvas.add(rect);
         }
 
+        /**
+         * Draws a grid on the canvas
+         * @param gridsize Size of the blocks in the grid
+         * @param canvas The canvas to draw the grid on
+         */
+        function draw_grid(gridsize, canvas) {
+            for(var x = 0; x < (canvas.width / gridsize); x++)
+            {
+                canvas.add(new fabric.Line([
+                    gridsize * x,
+                    0,
+                    gridsize * x,
+                    Math.floor(canvas.height / gridsize) * gridsize],
+                    { stroke: "#000000", strokeWidth: 1, selectable:false, strokeDashArray: [1, 1]}
+                ));
+                canvas.add(new fabric.Line([
+                    0,
+                    gridsize * x,
+                    Math.floor(canvas.width / gridsize) * gridsize - gridsize,
+                    gridsize * x],
+                    { stroke: "#000000", strokeWidth: 1, selectable:false, strokeDashArray: [1, 1]}
+                ));
+            }
+        }
     }
 })();

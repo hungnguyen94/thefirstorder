@@ -34,6 +34,7 @@
                 vm.totalItems = headers('X-Total-Count');
                 vm.queryCount = vm.totalItems;
                 vm.maps = data;
+                vm.cameras = vm.maps.cameras;
                 vm.page = pagingParams.page;
             }
             function onError(error) {

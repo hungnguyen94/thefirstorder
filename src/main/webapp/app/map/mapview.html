@@ -1,5 +1,9 @@
 <div ng-cloak>
     <div class="row">
+        <div class="col-md-8">
+            <h2 class="text-center">Graphical Overview</h2>
+            <canvas fabric-map-view="fabricCanvas"></canvas>
+        </div>
         <div class="col-md-4">
             <h3 class="text-center">Add new Object</h3>
             <fieldset class="form-group">
@@ -9,12 +13,6 @@
                 </select>
                 <input type="text" class="form-control" id="nameNewObject" placeholder="Name">
             </fieldset>
-        </div>
-        <div class="col-md-8">
-            <h2 class="text-center">Graphical Overview</h2>
-            <div id="map">
-                <canvas id="concertMap" width="755" height="500"></canvas>
-            </div>
         </div>
     </div>
 </div>

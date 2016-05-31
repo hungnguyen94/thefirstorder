@@ -33,12 +33,6 @@
                         <span class="hidden-sm">Map</span>
                     </a>
                 </li>
-                <li ui-sref-active="active">
-                    <a ui-sref="timeline" ng-click="vm.collapseNavbar()" ng-switch-when="true">
-                        <span class="glyphicon glyphicon-time"></span>
-                        <span class="hidden-sm">Timeline</span>
-                    </a>
-                </li>
                 <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
                 <li ng-class="{active: vm.$state.includes('entity')}" ng-switch-when="true" uib-dropdown dropdown>
                     <a class="dropdown-toggle" uib-dropdown-toggle href="" id="entity-menu">
