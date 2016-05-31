@@ -228,6 +228,8 @@
                     timeAxis : {scale: 'year', step: 1},
                     start: '0000-01-01',
                     end: '0010-01-01',
+                    zoomMin: 63072000000,
+                    zoomMax: 700000000000,
                     editable: true,
                     stack: false,
                     onAdd: function (item, callback) {
