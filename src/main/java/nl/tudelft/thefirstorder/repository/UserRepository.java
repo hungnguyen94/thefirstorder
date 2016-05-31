@@ -14,6 +14,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     /**
      * Find an optional user via an activation key.
+     *
      * @param activationKey the key
      * @return an optional user
      */
@@ -21,6 +22,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     /**
      * Find all users which are not activated and are created before a certain date.
+     *
      * @param dateTime the date
      * @return the list of users
      */
@@ -28,6 +30,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     /**
      * Find an optional user via a reset key.
+     *
      * @param resetKey the key
      * @return an optional user
      */
@@ -35,6 +38,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     /**
      * Find an optional user via a email address.
+     *
      * @param email the address
      * @return an optional user
      */
@@ -42,6 +46,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     /**
      * Find an optional user via a login string.
+     *
      * @param login the login string
      * @return an optional user
      */
@@ -49,13 +54,23 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     /**
      * Find an optional user via a user ID.
+     *
      * @param userId the user ID
      * @return an optional user
      */
     Optional<User> findOneById(Long userId);
 
     /**
+     * Find all users which have the project with given project id as their current project
+     *
+     * @param currentProjectId the user ID
+     * @return a list of users
+     */
+    List<User> findAllByCurrentProjectId(Long currentProjectId);
+
+    /**
      * Remove a user.
+     *
      * @param t the user to remove
      */
     @Override
