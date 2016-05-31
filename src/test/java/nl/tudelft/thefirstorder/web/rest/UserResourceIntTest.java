@@ -4,7 +4,9 @@ import nl.tudelft.thefirstorder.ThefirstorderApp;
 import nl.tudelft.thefirstorder.domain.Map;
 import nl.tudelft.thefirstorder.domain.User;
 import nl.tudelft.thefirstorder.repository.UserRepository;
+import nl.tudelft.thefirstorder.security.AuthoritiesConstants;
 import nl.tudelft.thefirstorder.service.UserService;
+import nl.tudelft.thefirstorder.web.rest.dto.ManagedUserDTO;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,10 +25,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 
+import java.time.ZonedDateTime;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -61,57 +69,77 @@ public class UserResourceIntTest {
 
     private User user;
 
+//    @Before
+//    public void setup() {
+//        MockitoAnnotations.initMocks(this);
+//        UserResource userResource = new UserResource();
+//        ReflectionTestUtils.setField(userResource, "userRepository", userRepository);
+//        ReflectionTestUtils.setField(userResource, "userService", userService);
+//        this.restUserMockMvc = MockMvcBuilders.standaloneSetup(userResource)
+//            .setCustomArgumentResolvers(pageableArgumentResolver)
+//            .setMessageConverters(jacksonMessageConverter).build();
+//
+//        user = new User();
+//    }
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        UserResource userResource = new UserResource();
-        ReflectionTestUtils.setField(userResource, "userRepository", userRepository);
-        ReflectionTestUtils.setField(userResource, "userService", userService);
-        this.restUserMockMvc = MockMvcBuilders.standaloneSetup(userResource)
-            .setCustomArgumentResolvers(pageableArgumentResolver)
-            .setMessageConverters(jacksonMessageConverter).build();
+
+        AccountResource accountResource = new AccountResource();
+        ReflectionTestUtils.setField(accountResource, "userRepository", userRepository);
+        ReflectionTestUtils.setField(accountResource, "userService", userService);
+
+        AccountResource accountUserMockResource = new AccountResource();
+        ReflectionTestUtils.setField(accountUserMockResource, "userRepository", userRepository);
+        ReflectionTestUtils.setField(accountUserMockResource, "userService", userService);
+
+        this.restUserMockMvc = MockMvcBuilders.standaloneSetup(accountUserMockResource).build();
     }
 
-    @Before
-    public void initTest() {
-        user = new User();
-        user.setLogin("test");
-        user.setEmail("Test@test.nl");
-        user.setPassword("Foo1223435axsfascc..!!");
-    }
+    @Test
+    @Transactional
+    public void createUser() throws Exception {
 
-//    @Test
-//    @Transactional
-//    public void createUser() throws Exception {
-//        int databaseSizeBeforeCreate = userRepository.findAll().size();
+        ManagedUserDTO validUser = new ManagedUserDTO(
+            null,                   // id
+            "joe",                  // login
+            "password",             // password
+            "Joe",                  // firstName
+            "Shmoe",                // lastName
+            "joe@example.com",      // e-mail
+            true,                   // activated
+            "en",               // langKey
+            new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
+            null,                   // createdDate
+            null,                   // lastModifiedBy
+            null                    // lastModifiedDate
+        );
 //
-//        userRepository.save(user);
-//
-//        restUserMockMvc.perform(post("/api/users")
-//            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-//            .content(TestUtil.convertObjectToJsonBytes(user)))
+//        restUserMockMvc.perform(
+//            post("/api/users")
+//                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+//                .content(TestUtil.convertObjectToJsonBytes(validUser)))
 //            .andExpect(status().isCreated());
 //
-//        List<User> users = userRepository.findAll();
-//        assertThat(users).hasSize(databaseSizeBeforeCreate + 1);
-//        User testUser = users.get(users.size() - 1);
-//        assertThat(testUser.getLogin()).isEqualTo("test");
-//    }
+//        Optional<User> user = userRepository.findOneByLogin("joe");
+//        assertThat(user.isPresent()).isTrue();
+    }
 
     @Test
     public void testGetExistingUser() throws Exception {
         restUserMockMvc.perform(get("/api/users/admin")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json"))
-                .andExpect(jsonPath("$.lastName").value("Administrator"));
+            .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType("application/json"))
+            .andExpect(jsonPath("$.lastName").value("Administrator"));
     }
 
     @Test
     public void testGetUnknownUser() throws Exception {
         restUserMockMvc.perform(get("/api/users/unknown")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
+            .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isNotFound());
     }
 
 }
