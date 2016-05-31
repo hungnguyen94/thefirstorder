@@ -5,7 +5,7 @@
         .module('thefirstorderApp')
         .controller('MapviewController', MapviewController);
 
-    MapviewController.$inject = ['$scope', '$state', 'Camera', 'Player', 'Cue', 'AlertService'];
+    MapviewController.$inject = ['$scope', '$state', 'Camera', 'Player', 'Cue', 'AlertService', 'ProjectManager'];
 
     /**
      * The controller for the map view.
@@ -15,49 +15,22 @@
      * @param AlertService the alertservice
      * @constructor
      */
-    function MapviewController ($scope, $state, Camera, Player, Cue, AlertService) {
+    function MapviewController ($scope, $state, Camera, Player, Cue, AlertService, ProjectManager) {
         var vm = this;
-        var grid = 15;
 
-        vm.loadCameras = loadCameras;
-        vm.loadCameras();
-        vm.loadPlayers = loadPlayers;
-        vm.loadCues = loadCues;
-        vm.loadCues();
+        ProjectManager.get().then(function (result) {
+            vm.currentProject = result.data;
+            console.log('Current project: ', vm.currentProject);
+        }, function (error) {
+            console.log('Error fetching current project: ', error);
+        });
 
-        function loadCameras () {
-            Camera.query({
-
-            }, onSuccess, onError);
-
-            function onSuccess(data, headers) {
-                vm.cameras = data;
-                vm.queryCount = vm.totalItems;
-                vm.loadPlayers(data);
-            }
-            function onError(error) {
-                AlertService.error(error.data.message);
-            }
-        }
-
-        function loadPlayers(cameraData) {
-            Player.query({
-
-            }, onSuccess, onError);
-
-            function onSuccess(data, headers) {
-                vm.players = data;
-                vm.queryCount = vm.totalItems;
-                drawCameras(cameraData, data);
-            }
-
-            function onError(error) {
-                AlertService.error(error.data.message);
-            }
-        }
+        vm.cameras = Camera.query({projectId: vm.currentProject});
+        vm.cues = Cue.query({projectId: vm.currentProject});
+        vm.players = Player.query({projectId: vm.currentProject});
 
         /**
-         * Draws the cameras to the map.
+         * Draws the cameras to the map. 
          * @param cameraData the data of the cameras to draw
          */
         function drawCameras(cameraData, playerData) {
