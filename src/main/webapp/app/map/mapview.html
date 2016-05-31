@@ -16,17 +16,19 @@
                 <canvas id="concertMap" width="755" height="500"></canvas>
             </div>
             <input type='file' id='getval' name="background-image" /><br/><br/>
-            <script>    document.getElementById('getval').addEventListener('change', readURL, true);
-            function readURL(){
-                var file = document.getElementById("getval").files[0];
-                var reader = new FileReader();
-                reader.onloadend = function(){
-                    document.getElementById('concertMap').style.backgroundImage = "url(" + reader.result + ")";
-                }
-                if(file){
-                    reader.readAsDataURL(file);
-                }else{
-                }
+            <script>
+                document.getElementById('getval').addEventListener('change', readURL, true);
+                function readURL(){
+                    var file = document.getElementById("getval").files[0];
+                    var reader = new FileReader();
+                    reader.onloadend = function(){
+                        document.getElementById('concertMap').style.backgroundImage = "url(" + reader.result + ")";
+                    }
+                    if(file){
+                        reader.readAsDataURL(file);
+                    }else{
+
+                    }
             }</script>
         </div>
         <div class="row">
