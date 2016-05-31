@@ -3,6 +3,7 @@ package nl.tudelft.thefirstorder.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import nl.tudelft.thefirstorder.domain.Map;
 import nl.tudelft.thefirstorder.service.MapService;
+import nl.tudelft.thefirstorder.web.rest.dto.MapDTO;
 import nl.tudelft.thefirstorder.web.rest.util.HeaderUtil;
 import nl.tudelft.thefirstorder.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
@@ -184,6 +185,17 @@ public class MapResource {
         return mapService.addPlayer(mapId, playerId)
                 .map(map -> new ResponseEntity<>(map, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @RequestMapping(value = "/maps/{mapId}/dto",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @Transactional
+    public ResponseEntity<MapDTO> getMapDTO(@PathVariable Long mapId) {
+        return Optional.ofNullable(mapService.findOne(mapId))
+                .map(map -> new ResponseEntity<MapDTO>(new MapDTO(map), HttpStatus.OK))
+                .orElse(new ResponseEntity<MapDTO>(HttpStatus.NOT_FOUND));
     }
 
 }
