@@ -163,62 +163,7 @@
             }
         }
 
-        function parseIntAsYear(year) {
-            var current = "";
-
-            for (var j = 0; j < 4 - year.toString().length; ++j)
-                current += '0';
-
-            current += year.toString();
-
-            return current;
-        }
-
-        function loadCues () {
-            Cue.query({
-
-            }, onSuccess, onError);
-
-            function onSuccess(data, headers) {
-                vm.cues = data;
-                vm.queryCount = vm.totalItems;
-                // DOM element where the Timeline will be attached
-                var container = document.getElementById('visualization');
-
-                // Create a DataSet using the cues from the database
-                var dataSet = [];
-                for (var i = 0; i < vm.cues.length; ++i) {
-                    var startTime = vm.cues[i].timePoint.startTime;
-                    var endTime = vm.cues[i].timePoint.startTime + vm.cues[i].timePoint.duration;
-
-                    var startYear = parseIntAsYear(startTime);
-                    var endYear = parseIntAsYear(endTime);
-
-                    dataSet.push({
-                        id: vm.cues[i].id,
-                        content: "Cue " + vm.cues[i].id,
-                        start: startYear + "-01-01",
-                        end: endYear + '-01-01'
-                    })
-                }
-
-                var items = new vis.DataSet(dataSet);
-
-                // Configuration for the Timeline
-                var options = {
-                    'timeAxis' : {scale: 'year', step: 1},
-                    'min': '0000-01-01',
-                    'zoomMin': 63072000000,
-                    'zoomMax': 700000000000
-                };
-
-                // Create a Timeline
-                var timeline = new vis.Timeline(container, items, options);
-            }
-            function onError(error) {
-                AlertService.error(error.data.message);
-            }
-        }
+        
 
         /**
          * Draws a single camera.

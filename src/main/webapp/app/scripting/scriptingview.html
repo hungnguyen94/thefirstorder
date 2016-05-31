@@ -1,0 +1,42 @@
+<div ng-cloak>
+    <div class="row">
+        <div class="col-md-7">
+            <div id="map">
+                <canvas id="concertMap" width="600" height="500"></canvas>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <h3 class="text-center">Add new Cue</h3>
+            <fieldset class="form-group">
+                <label for="selectPlayer">Which player should we use for the cue?</label>
+                <select class="form-control" id="selectPlayer">
+                    <option ng-repeat="player in vm.players" value="{{player.id}}">{{player.name}}</option>
+                </select>
+                <br />
+                <label for="selectCamera">Which camera should we use for the cue?</label>
+                <select class="form-control" id="selectCamera">
+                    <option ng-repeat="camera in vm.cameras" value="{{camera.id}}">{{camera.name}}</option>
+                </select>
+                <br />
+                <label for="selectCameraAction">Which camera action should we use for the cue?</label>
+                <select class="form-control" id="selectCameraAction">
+                    <option ng-repeat="cameraAction in vm.cameraActions" value="{{cameraAction.id}}">{{cameraAction.name}}</option>
+                </select>
+                <br />
+                <label for="selectScript">Which script should we use for the cue?</label>
+                <select class="form-control" id="selectScript">
+                    <option ng-repeat="script in vm.scripts" value="{{script.id}}">{{script.name}}</option>
+                </select>
+                <br />
+                <label for="durationCue">How long should this cue be?</label>
+                <input type="number" class="form-control" id="durationCue" placeholder="1">
+            </fieldset>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <br />
+                <div id="visualization"></div>
+            </div>
+        </div>
+    </div>
+</div>
