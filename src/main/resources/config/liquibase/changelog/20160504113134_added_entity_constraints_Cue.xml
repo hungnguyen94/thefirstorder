@@ -7,18 +7,12 @@
         Added the constraints for entity Cue.
     -->
     <changeSet id="20160504113134-2" author="jhipster">
-        
+
         <addForeignKeyConstraint baseColumnNames="script_id"
                                  baseTableName="cue"
                                  constraintName="fk_cue_script_id"
                                  referencedColumnNames="id"
                                  referencedTableName="script"/>
-
-        <addForeignKeyConstraint baseColumnNames="time_point_id"
-                                 baseTableName="cue"
-                                 constraintName="fk_cue_timepoint_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="time_point"/>
 
         <addForeignKeyConstraint baseColumnNames="player_id"
                                  baseTableName="cue"

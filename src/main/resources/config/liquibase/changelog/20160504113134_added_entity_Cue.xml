@@ -24,6 +24,15 @@
             <column name="script_id" type="bigint">
                 <constraints nullable="true"/>
             </column>
+            <column name="bar" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="duration" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="action" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
             <column name="action" type="varchar(255)">
                 <constraints nullable="true"/>
             </column>
@@ -41,6 +50,6 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - Jhipster will add columns here, do not remove-->
         </createTable>
-        
+
     </changeSet>
 </databaseChangeLog>
