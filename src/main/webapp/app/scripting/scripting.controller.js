@@ -5,7 +5,7 @@
         .module('thefirstorderApp')
         .controller('ScriptingController', ScriptingController);
 
-    ScriptingController.$inject = ['$rootScope', '$scope', '$state', 'Camera', 'Player', 'CameraAction', 'Script', 'TimePoint', 'Cue', 'AlertService'];
+    ScriptingController.$inject = ['$rootScope', '$scope', '$state', 'Camera', 'Player', 'Script', 'TimePoint', 'Cue', 'AlertService'];
 
     /**
      * The controller for the script view.
@@ -15,7 +15,7 @@
      * @param AlertService the alertservice
      * @constructor
      */
-    function ScriptingController ($rootScope, $scope, $state, Camera, Player, CameraAction, Script, TimePoint, Cue, AlertService) {
+    function ScriptingController ($rootScope, $scope, $state, Camera, Player, Script, TimePoint, Cue, AlertService) {
         var vm = this;
         var grid = 15;
 
@@ -24,8 +24,6 @@
         vm.loadPlayers = loadPlayers;
         vm.loadCues = loadCues;
         vm.loadCues();
-        vm.loadCameraActions = loadCameraActions;
-        vm.loadCameraActions();
         vm.loadScripts = loadScripts;
         vm.loadScripts();
         vm.loadTimePoints = loadTimePoints;
@@ -70,21 +68,6 @@
                 vm.players = data;
                 vm.queryCount = vm.totalItems;
                 drawCameras(cameraData, data);
-            }
-
-            function onError(error) {
-                AlertService.error(error.data.message);
-            }
-        }
-
-        function loadCameraActions() {
-            CameraAction.query({
-
-            }, onSuccess, onError);
-
-            function onSuccess(data, headers) {
-                vm.cameraActions = data;
-                vm.queryCount = vm.totalItems;
             }
 
             function onError(error) {
