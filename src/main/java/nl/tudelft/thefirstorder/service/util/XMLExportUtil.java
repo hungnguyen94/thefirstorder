@@ -115,12 +115,9 @@ public class XMLExportUtil {
      * @return An element with the information
      */
     private static Element getCameraAction(Document doc, Cue cue) {
-        Element cameraId = doc.createElement("Id");
-        cameraId.appendChild(doc.createTextNode(cue.getCameraAction().getId() + ""));
         Element cameraName = doc.createElement("Name");
-        cameraName.appendChild(doc.createTextNode(cue.getCameraAction().getName()));
+        cameraName.appendChild(doc.createTextNode(cue.getAction()));
         Element cameraNode = doc.createElement("Camera-Action");
-        cameraNode.appendChild(cameraId);
         cameraNode.appendChild(cameraName);
         return cameraNode;
     }

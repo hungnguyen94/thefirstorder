@@ -24,7 +24,7 @@
             <column name="script_id" type="bigint">
                 <constraints nullable="true"/>
             </column>
-            <column name="camera_action_id" type="bigint">
+            <column name="action" type="varchar(255)">
                 <constraints nullable="true"/>
             </column>
             <column name="time_point_id" type="bigint">

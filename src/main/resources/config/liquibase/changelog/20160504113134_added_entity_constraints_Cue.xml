@@ -14,12 +14,6 @@
                                  referencedColumnNames="id"
                                  referencedTableName="script"/>
 
-        <addForeignKeyConstraint baseColumnNames="camera_action_id"
-                                 baseTableName="cue"
-                                 constraintName="fk_cue_cameraaction_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="camera_action"/>
-
         <addForeignKeyConstraint baseColumnNames="time_point_id"
                                  baseTableName="cue"
                                  constraintName="fk_cue_timepoint_id"

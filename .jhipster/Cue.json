@@ -7,14 +7,6 @@
             "otherEntityField": "name"
         },
         {
-            "relationshipName": "cameraAction",
-            "otherEntityName": "cameraAction",
-            "relationshipType": "one-to-one",
-            "otherEntityField": "name",
-            "ownerSide": true,
-            "otherEntityRelationshipName": "cue"
-        },
-        {
             "relationshipName": "timePoint",
             "otherEntityName": "timePoint",
             "relationshipType": "one-to-one",
@@ -47,7 +39,13 @@
             "otherEntityField": "name"
         }
     ],
-    "fields": [],
+    "fields": [
+        {
+            "fieldName": "action",
+            "fieldType": "String",
+            "fieldValidateRules": []
+        }
+    ],
     "changelogDate": "20160504113134",
     "dto": "no",
     "service": "serviceImpl",
