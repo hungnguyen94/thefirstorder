@@ -12,13 +12,14 @@
             restrict: 'EA',
             link: link,
             // templateUrl: 'app/map/fabric-map-view-template.html',
-            scope: {
-                map: '=', 
-                selected: '='
-                // onSelect: '&', 
-                // onClick: '&'
-            }, 
-            controller: 'FabricMapController',
+            // scope: {
+            //     map: '='
+            //     // selected: '='
+            //     // onSelect: '&', 
+            //     // onClick: '&'
+            // }, 
+            // controller: 'FabricMapController',
+            controller: 'MapViewController',
             controllerAs: 'vm',
             bindToController: true
         };
@@ -40,7 +41,7 @@
 
             scope.$watch('vm.map', function (newMap) {
                 console.log('Changed map :', newMap);
-                draw(newMap.cameras, newMap.players);
+                draw(scope.vm.map.cameras, scope.vm.map.players);
             });
             
             scope.canvas.on('object:selected', onSelect);

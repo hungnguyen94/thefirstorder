@@ -10,10 +10,11 @@
             restrict: 'EA', 
             templateUrl: 'app/map/map-table-view-template.html',
             link: link,
-            scope: {
-                map: '='
-            }, 
-            controller: mapTableViewController, 
+            // scope: {
+            //     map: '='
+            // }, 
+            // controller: mapTableViewController,
+            controller: 'MapViewController', 
             controllerAs: 'vm', 
             bindToController: true
         };
@@ -26,27 +27,27 @@
         }
     }
 
-    mapTableViewController.$inject = ['$scope'];
-
-    function mapTableViewController ($scope) {
-        console.log('This is the map-table controller: ', $scope);
-        var vm = this;
-        vm.setSelected = setSelected;
-        
-        vm.isCamerasCollapsed = true;
-        vm.isPlayersCollapsed = true;
-        
-        console.log('Scope is: ', $scope);
-
-        function setSelected(entity) {
-            if(vm.selected == entity) {
-                vm.selected = null;
-            } else {
-                vm.selected = entity;
-            }
-            console.log('Selected entity: ', vm.selected);
-            return vm.selected;
-        }
-    }
+    // mapTableViewController.$inject = ['$scope'];
+    //
+    // function mapTableViewController ($scope) {
+    //     console.log('This is the map-table controller: ', $scope);
+    //     var vm = this;
+    //     vm.setSelected = setSelected;
+    //    
+    //     vm.isCamerasCollapsed = true;
+    //     vm.isPlayersCollapsed = true;
+    //    
+    //     console.log('Scope is: ', $scope);
+    //
+    //     function setSelected(entity) {
+    //         if(vm.selected == entity) {
+    //             vm.selected = null;
+    //         } else {
+    //             vm.selected = entity;
+    //         }
+    //         console.log('Selected entity: ', vm.selected);
+    //         return vm.selected;
+    //     }
+    // }
 })();
 
