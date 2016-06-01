@@ -5,22 +5,18 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
     <include file="classpath:config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
-    <!--<include file="classpath:config/liquibase/changelog/20160430231201_added_entity_CameraAction.xml" relativeToChangelogFile="false"/>-->
     <include file="classpath:config/liquibase/changelog/20160430231818_added_entity_Camera.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20160504105827_added_entity_Project.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20160504105939_added_entity_Script.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20160504110010_added_entity_Map.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20160504113134_added_entity_Cue.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20160504122100_added_entity_Player.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20160518111537_added_entity_TimePoint.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20160504134055_added_entity_CameraAction.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20160520223310_added_entity_column_User.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20160524154401_added_jointable_map_cameras.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20160524163221_added_jointable_map_players.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="classpath:config/liquibase/changelog/20160504105827_added_entity_constraints_Project.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20160504113134_added_entity_constraints_Cue.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20160504134055_added_entity_constraints_CameraAction.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20160430231818_added_entity_constraints_Camera.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20160504122100_added_entity_constraints_Player.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
