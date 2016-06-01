@@ -35,9 +35,11 @@
         }
 
         function loadProject() {
-            vm.currentProject = Project.get({id: currentProject});
-            if(vm.currentProject != null) {
-                vm.hasCurrentProject = true;
+            if(currentProject != null) {
+                vm.currentProject = Project.get({id: currentProject});
+                if (vm.currentProject != null) {
+                    vm.hasCurrentProject = true;
+                }
             }
         }
     }
