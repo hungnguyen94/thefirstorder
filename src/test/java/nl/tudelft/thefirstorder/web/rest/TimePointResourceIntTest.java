@@ -9,10 +9,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.hamcrest.Matchers.hasItem;
+
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -65,10 +71,14 @@ public class TimePointResourceIntTest {
 
     private TimePoint timePoint;
 
+    private TimePointResource timePointResource;
+
+    @Mock private Pageable pageable;
+
     @PostConstruct
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        TimePointResource timePointResource = new TimePointResource();
+        timePointResource = new TimePointResource();
         ReflectionTestUtils.setField(timePointResource, "timePointService", timePointService);
         this.restTimePointMockMvc = MockMvcBuilders.standaloneSetup(timePointResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
@@ -80,6 +90,12 @@ public class TimePointResourceIntTest {
         timePoint = new TimePoint();
         timePoint.setStartTime(DEFAULT_START_TIME);
         timePoint.setDuration(DEFAULT_DURATION);
+    }
+
+    @Test
+    public void getAllTimePointsCueIsNullFilter() throws Exception {
+        assertThat(timePointResource.getAllTimePoints(pageable,"cue-is-null")).isEqualTo(new ResponseEntity<>(timePointService.findAllWhereCueIsNull(),
+            HttpStatus.OK));
     }
 
     @Test

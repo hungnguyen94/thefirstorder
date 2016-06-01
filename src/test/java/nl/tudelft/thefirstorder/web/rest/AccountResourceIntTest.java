@@ -8,6 +8,7 @@ import nl.tudelft.thefirstorder.repository.UserRepository;
 import nl.tudelft.thefirstorder.security.AuthoritiesConstants;
 import nl.tudelft.thefirstorder.service.MailService;
 import nl.tudelft.thefirstorder.service.UserService;
+import nl.tudelft.thefirstorder.web.rest.dto.KeyAndPasswordDTO;
 import nl.tudelft.thefirstorder.web.rest.dto.ManagedUserDTO;
 import nl.tudelft.thefirstorder.web.rest.dto.UserDTO;
 import org.junit.Before;
@@ -21,7 +22,9 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -76,12 +79,14 @@ public class AccountResourceIntTest {
 
     private MockMvc restMvc;
 
+    private AccountResource accountResource;
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
         doNothing().when(mockMailService).sendActivationEmail((User) anyObject(), anyString());
 
-        AccountResource accountResource = new AccountResource();
+        accountResource = new AccountResource();
         ReflectionTestUtils.setField(accountResource, "userRepository", userRepository);
         ReflectionTestUtils.setField(accountResource, "userService", userService);
         ReflectionTestUtils.setField(accountResource, "mailService", mockMailService);
@@ -93,6 +98,50 @@ public class AccountResourceIntTest {
 
         this.restMvc = MockMvcBuilders.standaloneSetup(accountResource).build();
         this.restUserMockMvc = MockMvcBuilders.standaloneSetup(accountUserMockResource).build();
+    }
+
+    @Test
+    public void finishPasswordResetWrongLength() {
+        KeyAndPasswordDTO dto = new KeyAndPasswordDTO();
+        dto.setKey("key");
+        dto.setNewPassword("e");
+        assertThat(accountResource.finishPasswordReset(dto)).isEqualTo(new ResponseEntity<>("Incorrect password", HttpStatus.BAD_REQUEST));
+    }
+
+    @Test
+    public void finishPasswordResetCorrectLength() {
+        KeyAndPasswordDTO dto = new KeyAndPasswordDTO();
+        dto.setKey("key");
+        dto.setNewPassword("testtest");
+        assertThat(accountResource.finishPasswordReset(dto)).isEqualTo(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
+    }
+
+    @Test
+    public void activateAccountNoneExistingKey() {
+        assertThat(accountResource.activateAccount("Test")).isEqualTo(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
+    }
+
+    @Test
+    public void changePasswordShortLength() {
+        assertThat(accountResource.changePassword("t")).isEqualTo(new ResponseEntity<>("Incorrect password", HttpStatus.BAD_REQUEST));
+    }
+
+    @Test
+    public void changePasswordEmptyLength() {
+        assertThat(accountResource.changePassword("")).isEqualTo(new ResponseEntity<>("Incorrect password", HttpStatus.BAD_REQUEST));
+    }
+
+    @Test
+    public void changePasswordLongLength() {
+        assertThat(accountResource.changePassword("tttttttttt" +
+            "ttttttttttttttttttttttttttttttttttttttt" +
+            "ttttttttttttttttttttttttttttttttttttttt" +
+            "ttttttttttttttttttt")).isEqualTo(new ResponseEntity<>("Incorrect password", HttpStatus.BAD_REQUEST));
+    }
+
+    @Test
+    public void changePasswordCorrectLength() {
+        assertThat(accountResource.changePassword("testtest")).isEqualTo(new ResponseEntity<>(HttpStatus.OK));
     }
 
     @Test
@@ -165,7 +214,7 @@ public class AccountResourceIntTest {
             new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
             null,                   // createdDate
             null,                   // lastModifiedBy
-            null                    // lastModifiedDate 
+            null                    // lastModifiedDate
         );
 
         restMvc.perform(
@@ -193,7 +242,7 @@ public class AccountResourceIntTest {
             new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
             null,                   // createdDate
             null,                   // lastModifiedBy
-            null                    // lastModifiedDate 
+            null                    // lastModifiedDate
         );
 
         restUserMockMvc.perform(
@@ -221,7 +270,7 @@ public class AccountResourceIntTest {
             new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
             null,                   // createdDate
             null,                   // lastModifiedBy
-            null                    // lastModifiedDate 
+            null                    // lastModifiedDate
         );
 
         restUserMockMvc.perform(
@@ -249,7 +298,7 @@ public class AccountResourceIntTest {
             new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
             null,                   // createdDate
             null,                   // lastModifiedBy
-            null                    // lastModifiedDate 
+            null                    // lastModifiedDate
         );
 
         restUserMockMvc.perform(
@@ -260,7 +309,7 @@ public class AccountResourceIntTest {
 
         Optional<User> user = userRepository.findOneByLogin("bob");
         assertThat(user.isPresent()).isFalse();
-    }    
+    }
 
     @Test
     @Transactional
@@ -277,7 +326,7 @@ public class AccountResourceIntTest {
             new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
             null,                   // createdDate
             null,                   // lastModifiedBy
-            null                    // lastModifiedDate 
+            null                    // lastModifiedDate
         );
 
         restUserMockMvc.perform(
@@ -306,7 +355,7 @@ public class AccountResourceIntTest {
             new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
             null,                   // createdDate
             null,                   // lastModifiedBy
-            null                    // lastModifiedDate 
+            null                    // lastModifiedDate
         );
 
         // Duplicate login, different e-mail
@@ -347,7 +396,7 @@ public class AccountResourceIntTest {
             new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
             null,                   // createdDate
             null,                   // lastModifiedBy
-            null                    // lastModifiedDate 
+            null                    // lastModifiedDate
         );
 
         // Duplicate e-mail, different login
@@ -387,7 +436,7 @@ public class AccountResourceIntTest {
             new HashSet<>(Arrays.asList(AuthoritiesConstants.ADMIN)),
             null,                   // createdDate
             null,                   // lastModifiedBy
-            null                    // lastModifiedDate 
+            null                    // lastModifiedDate
         );
 
         restMvc.perform(
@@ -403,7 +452,7 @@ public class AccountResourceIntTest {
     }
 
     @Test
-    @Transactional    
+    @Transactional
     public void testSaveInvalidLogin() throws Exception {
         UserDTO invalidUser = new UserDTO(
             "funky-log!n",          // login <-- invalid
@@ -424,5 +473,5 @@ public class AccountResourceIntTest {
 
         Optional<User> user = userRepository.findOneByEmail("funky@example.com");
         assertThat(user.isPresent()).isFalse();
-    }    
+    }
 }

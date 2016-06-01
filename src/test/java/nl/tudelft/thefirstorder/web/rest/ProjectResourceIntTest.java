@@ -11,10 +11,13 @@ import nl.tudelft.thefirstorder.service.MapService;
 import nl.tudelft.thefirstorder.service.ProjectService;
 
 import nl.tudelft.thefirstorder.service.ScriptService;
+import nl.tudelft.thefirstorder.service.util.PDFExportUtil;
+import nl.tudelft.thefirstorder.service.util.XMLExportUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static org.hamcrest.Matchers.any;
 import static org.hamcrest.Matchers.hasItem;
 
 import static org.mockito.Mockito.when;
@@ -22,7 +25,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -36,6 +43,7 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -82,13 +90,15 @@ public class ProjectResourceIntTest {
 
     private Project project;
 
+    private ProjectResource projectResource;
+
     @Mock private Script script;
     @Mock private Map map;
 
     @PostConstruct
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        ProjectResource projectResource = new ProjectResource();
+        projectResource = new ProjectResource();
         ReflectionTestUtils.setField(projectResource, "projectService", projectService);
         this.restProjectMockMvc = MockMvcBuilders.standaloneSetup(projectResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
@@ -257,27 +267,51 @@ public class ProjectResourceIntTest {
     @Test
     @Transactional
     public void downloadPDFNonExistingProjectTest() throws Exception {
-        // Get the project
-        restProjectMockMvc.perform(get("/api/projects/{id}/exportpdf", project.getId()))
-            .andExpect(status().isBadRequest());
+        assertThat(projectResource.downloadPDF(new Long(200))).isEqualTo(new ResponseEntity<Resource>(HttpStatus.NOT_FOUND));
     }
 
     @Test
     @Transactional
     public void downloadXMLNonExistingProjectTest() throws Exception {
-        // Get the project
-        restProjectMockMvc.perform(get("/api/projects/{id}/exportxml", project.getId()))
-            .andExpect(status().isBadRequest());
+        assertThat(projectResource.downloadXML(new Long(200))).isEqualTo(new ResponseEntity<Resource>(HttpStatus.NOT_FOUND));
     }
 
-//    @Test
-//    @Transactional
-//    public void downloadXMLProjectTest() throws Exception {
-//        project.setMap(map);
-//        project.setScript(script);
-//        projectService.save(project);
-//        // Get the project
-//        restProjectMockMvc.perform(get("/api/projects/{id}/exportxml", project.getId()))
-//            .andExpect(status().isOk());
-//    }
+    @Test
+    @Transactional
+    public void downloadXMLProjectTest() throws Exception {
+        Project project = new Project();
+        projectRepository.save(project);
+        Optional<Project> projectop = Optional.ofNullable(projectService.findOne(project.getId()));
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        headers.add("Pragma", "no-cache");
+        headers.add("Expires", "0");
+        Project currentProject = projectop.get();
+        Resource resource = XMLExportUtil.exportProjectToXML(currentProject);
+        assertThat(projectResource.downloadXML(project.getId())).isEqualTo(ResponseEntity.ok()
+            .headers(headers)
+            .contentLength(resource.contentLength())
+            .contentType(MediaType.parseMediaType("application/xml"))
+            .body(resource));
+    }
+
+    @Test
+    @Transactional
+    public void downloadPDFProjectTest() throws Exception {
+        Project project = new Project();
+        Script script = new Script();
+        project.setScript(script);
+        script.setName("Test");
+        script.setCues(new HashSet<>());
+
+        projectRepository.save(project);
+        Optional<Project> projectop = Optional.ofNullable(projectService.findOne(project.getId()));
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        headers.add("Pragma", "no-cache");
+        headers.add("Expires", "0");
+        Project currentProject = projectop.get();
+        Resource resource = PDFExportUtil.exportProjectToPDF(currentProject);
+        projectResource.downloadPDF(project.getId());
+    }
 }
