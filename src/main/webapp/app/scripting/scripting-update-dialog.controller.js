@@ -3,13 +3,15 @@
 
     angular
         .module('thefirstorderApp')
-        .controller('ScriptingNewDialogController', ScriptingNewDialogController);
+        .controller('ScriptingUpdateDialogController', ScriptingUpdateDialogController);
 
-    ScriptingNewDialogController.$inject = ['$timeout', '$scope', '$uibModalInstance', 'entity'];
+    ScriptingUpdateDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity'];
 
-    function ScriptingNewDialogController ($timeout, $scope, $uibModalInstance, entity) {
+    function ScriptingUpdateDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity) {
         var vm = this;
         vm.cue = entity;
+
+        $scope.cuename = $stateParams.name;
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();
@@ -17,7 +19,7 @@
 
         vm.save = function () {
             vm.isSaving = true;
-            $scope.$emit('cueadded', {cuename: vm.cue.name});
+            $scope.$emit('cueupdated', {cuename: vm.cue.name});
             $uibModalInstance.dismiss();
             vm.isSaving = false;
         };

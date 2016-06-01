@@ -5,7 +5,7 @@
         .module('thefirstorderApp')
         .controller('ScriptingController', ScriptingController);
 
-    ScriptingController.$inject = ['$scope', '$state', 'Camera', 'Player', 'CameraAction', 'Script', 'TimePoint', 'Cue', 'AlertService'];
+    ScriptingController.$inject = ['$rootScope', '$scope', '$state', 'Camera', 'Player', 'CameraAction', 'Script', 'TimePoint', 'Cue', 'AlertService'];
 
     /**
      * The controller for the script view.
@@ -15,7 +15,7 @@
      * @param AlertService the alertservice
      * @constructor
      */
-    function ScriptingController ($scope, $state, Camera, Player, CameraAction, Script, TimePoint, Cue, AlertService) {
+    function ScriptingController ($rootScope, $scope, $state, Camera, Player, CameraAction, Script, TimePoint, Cue, AlertService) {
         var vm = this;
         var grid = 15;
 
@@ -171,17 +171,6 @@
             }
         }
 
-        function parseIntAsYear(year) {
-            var current = "";
-
-            for (var j = 0; j < 4 - year.toString().length; ++j)
-                current += '0';
-
-            current += year.toString();
-
-            return current;
-        }
-
         function loadCues () {
             Cue.query({
 
@@ -195,9 +184,9 @@
 
                 // Create groups
                 var groups = new vis.DataSet([
-                    {"content": "Camera 1", "id": "Camera 1", "value": 1},
-                    {"content": "Camera 2", "id": "Camera 2", "value": 2},
-                    {"content": "Camera 3", "id": "Camera 3", "value": 3}
+                    {content: "Camera 1", id: "Camera 1", value: 1, className: "camera" + 1},
+                    {content: "Camera 2", id: "Camera 2", value: 2, className: "camera" + 2},
+                    {content: "Camera 3", id: "Camera 3", value: 3, className: "camera" + 3}
                 ])
 
                 // Create a DataSet using the cues from the database
@@ -226,18 +215,16 @@
                         return a.value - b.value;
                     },
                     timeAxis : {scale: 'year', step: 1},
+                    min: '0000-01-01',
                     start: '0000-01-01',
                     end: '0010-01-01',
                     zoomMin: 63072000000,
                     zoomMax: 700000000000,
                     editable: true,
                     stack: false,
-                    onAdd: function (item, callback) {
-                        $state.go('scripting.new');
-                        var endyear = item.start.getFullYear() + 5;
-                        item.end = endyear + '-01-01';
-                        callback(item);
-                    }
+                    itemsAlwaysDraggable: true,
+                    onAdd: onAdd,
+                    onUpdate: onUpdate
                 };
 
                 // Create a Timeline
@@ -245,56 +232,40 @@
                 timeline.setOptions(options);
                 timeline.setGroups(groups);
                 timeline.setItems(items);
-
-                // timeline.on('click', function (properties) {
-                //     var startTime = parseIntAsYear(properties.time.getFullYear());
-                //     var duration = document.getElementById('durationCue').value;
-                //
-                //     // Initialize new time point
-                //     var timePoint = new Object();
-                //     timePoint.startTime = startTime;
-                //     timePoint.duration = duration;
-                //
-                //     // Retrieve the rest of the objects
-                //     var player = Player.get({id: document.getElementById('selectPlayer').value});
-                //     var camera = Camera.get({id: document.getElementById('selectCamera').value});
-                //     var cameraAction = CameraAction.get({id: document.getElementById('selectCameraAction').value});
-                //     var script = Script.get({id: document.getElementById('selectScript').value});
-                //
-                //     player.id = document.getElementById('selectPlayer').value;
-                //     camera.id = document.getElementById('selectCamera').value;
-                //     cameraAction.id = document.getElementById('selectCameraAction').value;
-                //     script.id = document.getElementById('selectScript').value;
-                //
-                //     // Save the time point to the database
-                //     var temp = TimePoint.save(timePoint);
-                //
-                //     // Reload all timepoints, so the newly added one is in the memory
-                //     vm.loadTimePoints();
-                //
-                //     timeline.on('click', function (properties) {
-                //
-                //         vm.loadTimePoints();
-                //         // Initialize new cue
-                //         var cue = new Object();
-                //
-                //         cue.player = player;
-                //         cue.camera = camera;
-                //         cue.cameraAction = cameraAction;
-                //         cue.script = script;
-                //         cue.timePoint = vm.timePoints.pop();
-                //
-                //         console.log("Test: ", vm.timePoints.length);
-                //
-                //         // Add the Cue to the database
-                //         Cue.save(cue);
-                //         $state.reload();
-                //     });
-                // });
             }
             function onError(error) {
                 AlertService.error(error.data.message);
             }
+
+            function onAdd(item, callback) {
+                $state.go('scripting.new');
+                var endyear = item.start.getFullYear() + 5;
+                item.end = endyear + '-01-01';
+                $rootScope.$on('cueadded', function (event, args) {
+                    item.content = args.cuename;
+                    callback(item);
+                });
+            }
+
+            function onUpdate(item, callback) {
+                $state.go('scripting.update', {name: item.content});
+                $rootScope.$on('cueupdated', function (event, args) {
+                    item.content = args.cuename;
+                    callback(item);
+                    item = null;
+                });
+            }
+        }
+
+        function parseIntAsYear(year) {
+            var current = "";
+
+            for (var j = 0; j < 4 - year.toString().length; ++j)
+                current += '0';
+
+            current += year.toString();
+
+            return current;
         }
 
         /**

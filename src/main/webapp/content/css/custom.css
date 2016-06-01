@@ -16,3 +16,16 @@ canvas#concertMap {
 .modal-footer form {
     display: inline-block;
 }
+
+.camera1 .vis-item:not(.vis-selected) {
+    background-color: #00aa9a;
+    border-color: #00aa9a;
+}
+.camera2 .vis-item:not(.vis-selected) {
+    background-color: #8BC34A;
+    border-color: #8BC34A;
+}
+.camera3 .vis-item:not(.vis-selected) {
+    background-color: #2299dd;
+    border-color: #2299dd;
+}

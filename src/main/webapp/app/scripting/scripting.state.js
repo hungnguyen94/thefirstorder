@@ -50,6 +50,34 @@
                     $state.go('scripting');
                 });
             }]
+        })
+        .state('scripting.update', {
+            parent: 'scripting',
+            url: '/scripting/update/:name',
+            data: {
+                authorities: ['ROLE_USER']
+            },
+            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+                $uibModal.open({
+                    templateUrl: 'app/scripting/scripting-update-dialog.html',
+                    controller: 'ScriptingUpdateDialogController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    size: 'lg',
+                    resolve: {
+                        entity: function () {
+                            return {
+                                name: null,
+                                id: null
+                            };
+                        }
+                    }
+                }).result.then(function() {
+                    $state.go('scripting', null, { reload: true });
+                }, function() {
+                    $state.go('scripting');
+                });
+            }]
         });
     }
 })();
