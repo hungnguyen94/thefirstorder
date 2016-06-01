@@ -18,14 +18,17 @@ canvas#concertMap {
 }
 
 .camera1 .vis-item:not(.vis-selected) {
-    background-color: #00aa9a;
-    border-color: #00aa9a;
+    background-color: #59c5bb;
+    border-color: #b2fcf5;
+    border-width: 0 50px;
 }
 .camera2 .vis-item:not(.vis-selected) {
     background-color: #8BC34A;
-    border-color: #8BC34A;
+    border-color: #ddffb6;
+    border-width: 0 50px;
 }
 .camera3 .vis-item:not(.vis-selected) {
     background-color: #2299dd;
-    border-color: #2299dd;
+    border-color: #b4e1fb;
+    border-width: 0 50px;
 }

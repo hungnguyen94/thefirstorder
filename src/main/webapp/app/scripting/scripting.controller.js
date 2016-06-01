@@ -19,30 +19,15 @@
         var vm = this;
         var grid = 15;
 
+        $scope.saved = true;
+
         vm.loadCameras = loadCameras;
-        vm.loadCameras();
-        vm.loadPlayers = loadPlayers;
         vm.loadCues = loadCues;
-        vm.loadCues();
-        vm.loadScripts = loadScripts;
-        vm.loadScripts();
-        vm.loadTimePoints = loadTimePoints;
-        // vm.loadTimePoints();
-
-        function loadTimePoints () {
-            TimePoint.query({
-
-            }, onSuccess, onError);
-
-            function onSuccess(data, headers) {
-                vm.timePoints = data;
-                vm.queryCount = vm.totalItems;
-                vm.loadPlayers(data);
-            }
-            function onError(error) {
-                AlertService.error(error.data.message);
-            }
-        }
+        vm.loadPlayers = loadPlayers;
+        vm.loadCameras();
+        vm.loadScripts = Script.query();
+        vm.loadTimePoints = TimePoint.query();
+        var cameraData;
 
         function loadCameras () {
             Camera.query({
@@ -53,6 +38,7 @@
                 vm.cameras = data;
                 vm.queryCount = vm.totalItems;
                 vm.loadPlayers(data);
+                vm.loadCues(data);
             }
             function onError(error) {
                 AlertService.error(error.data.message);
@@ -68,21 +54,6 @@
                 vm.players = data;
                 vm.queryCount = vm.totalItems;
                 drawCameras(cameraData, data);
-            }
-
-            function onError(error) {
-                AlertService.error(error.data.message);
-            }
-        }
-
-        function loadScripts() {
-            Script.query({
-
-            }, onSuccess, onError);
-
-            function onSuccess(data, headers) {
-                vm.scripts = data;
-                vm.queryCount = vm.totalItems;
             }
 
             function onError(error) {
@@ -152,9 +123,35 @@
                 console.log(playerData[i])
                 drawObject(canvas, playerData[i], i, 'white', 'Player');
             }
+
+            /**
+             * Draws a single camera.
+             * @param canvas the canvas to draw to
+             * @param camera the camera to draw
+             * @param index the index of the camera
+             */
+            function drawObject(canvas, object, index, color, type) {
+                var rect = new fabric.Rect({
+                    left: object.x * grid,
+                    top: object.y * grid,
+                    fill: color,
+                    width: grid,
+                    height: grid,
+                    lockRotation: true,
+                    lockScalingX: true,
+                    lockScalingY: true,
+                    lockMovementX: true,
+                    lockMovementY: true,
+                    hasControls: false,
+                    id: index,
+                    type: type
+                });
+
+                canvas.add(rect);
+            }
         }
 
-        function loadCues () {
+        function loadCues (cameraData) {
             Cue.query({
 
             }, onSuccess, onError);
@@ -166,11 +163,18 @@
                 var container = document.getElementById('visualization');
 
                 // Create groups
-                var groups = new vis.DataSet([
-                    {content: "Camera 1", id: "Camera 1", value: 1, className: "camera" + 1},
-                    {content: "Camera 2", id: "Camera 2", value: 2, className: "camera" + 2},
-                    {content: "Camera 3", id: "Camera 3", value: 3, className: "camera" + 3}
-                ])
+                var groupsArray = [];
+                for (var i = 0; i < cameraData.length; ++i) {
+                    var classnr = cameraData[i].id % 3;
+                    groupsArray.push({
+                        content: cameraData[i].name,
+                        id: cameraData[i].name,
+                        value: cameraData[i].id,
+                        className: "camera" + classnr
+                    })
+                }
+                var groups = new vis.DataSet(groupsArray);
+
 
                 // Create a DataSet using the cues from the database
                 var dataSet = [];
@@ -186,7 +190,7 @@
                         content: "Cue " + vm.cues[i].id,
                         start: startYear + "-01-01",
                         end: endYear + '-01-01',
-                        group: "Camera 1"
+                        group: vm.cues[i].camera.name
                     })
                 }
 
@@ -215,12 +219,14 @@
                 timeline.setOptions(options);
                 timeline.setGroups(groups);
                 timeline.setItems(items);
+                timeline.addCustomTime('0000-01-01', 'scroller');
             }
             function onError(error) {
                 AlertService.error(error.data.message);
             }
 
             function onAdd(item, callback) {
+                $scope.saved = false;
                 $state.go('scripting.new');
                 var endyear = item.start.getFullYear() + 5;
                 item.end = endyear + '-01-01';
@@ -231,6 +237,8 @@
             }
 
             function onUpdate(item, callback) {
+                $scope.saved = false;
+                console.log($scope.saved);
                 $state.go('scripting.update', {name: item.content});
                 $rootScope.$on('cueupdated', function (event, args) {
                     item.content = args.cuename;
@@ -249,32 +257,6 @@
             current += year.toString();
 
             return current;
-        }
-
-        /**
-         * Draws a single camera.
-         * @param canvas the canvas to draw to
-         * @param camera the camera to draw
-         * @param index the index of the camera
-         */
-        function drawObject(canvas, object, index, color, type) {
-            var rect = new fabric.Rect({
-                left: object.x * grid,
-                top: object.y * grid,
-                fill: color,
-                width: grid,
-                height: grid,
-                lockRotation: true,
-                lockScalingX: true,
-                lockScalingY: true,
-                lockMovementX: true,
-                lockMovementY: true,
-                hasControls: false,
-                id: index,
-                type: type
-            });
-
-            canvas.add(rect);
         }
     }
 })();
