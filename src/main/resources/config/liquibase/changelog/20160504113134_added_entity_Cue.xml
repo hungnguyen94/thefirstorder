@@ -33,9 +33,6 @@
             <column name="action" type="varchar(255)">
                 <constraints nullable="true"/>
             </column>
-            <column name="action" type="varchar(255)">
-                <constraints nullable="true"/>
-            </column>
             <column name="time_point_id" type="bigint">
                 <constraints nullable="true"/>
             </column>
