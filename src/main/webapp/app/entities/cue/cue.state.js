@@ -82,6 +82,7 @@
                     resolve: {
                         entity: function () {
                             return {
+                                action: null,
                                 id: null
                             };
                         }

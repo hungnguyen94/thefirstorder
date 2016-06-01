@@ -4,6 +4,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -41,10 +42,6 @@ public class Cue implements Serializable {
     @JoinColumn
     private Script script;
 
-    @OneToOne
-    @JoinColumn
-    private CameraAction cameraAction;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(unique = true)
     private TimePoint timePoint;
@@ -52,6 +49,9 @@ public class Cue implements Serializable {
     @ManyToOne
     @JoinColumn
     private Project project;
+
+    @Column(name = "action")
+    private String action;
 
     /**
      * Get the id of the cue.
@@ -94,22 +94,6 @@ public class Cue implements Serializable {
     }
 
     /**
-     * Get the camera action of the cue.
-     * @return the camera action
-     */
-    public CameraAction getCameraAction() {
-        return cameraAction;
-    }
-
-    /**
-     * Set the camera action of the cue.
-     * @param cameraAction the camera action
-     */
-    public void setCameraAction(CameraAction cameraAction) {
-        this.cameraAction = cameraAction;
-    }
-
-    /**
      * Getter for TimePoint.
      * @return the TimePoint
      */
@@ -131,6 +115,14 @@ public class Cue implements Serializable {
 
     public void setProject(Project project) {
         this.project = project;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
     }
 
     /**
