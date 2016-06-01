@@ -27,7 +27,10 @@
         vm.loadCameras();
         vm.loadScripts = Script.query();
         vm.loadTimePoints = TimePoint.query();
-        var cameraData;
+
+        vm.save = function() {
+            $scope.saved = true;
+        }
 
         function loadCameras () {
             Camera.query({
@@ -165,7 +168,7 @@
                 // Create groups
                 var groupsArray = [];
                 for (var i = 0; i < cameraData.length; ++i) {
-                    var classnr = cameraData[i].id % 3;
+                    var classnr = cameraData[i].id % 3 + 1;
                     groupsArray.push({
                         content: cameraData[i].name,
                         id: cameraData[i].name,
