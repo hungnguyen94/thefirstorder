@@ -5,21 +5,12 @@
         .module('thefirstorderApp')
         .controller('CueDialogController', CueDialogController);
 
-    CueDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$q', 'entity', 'Cue', 'Script', 'TimePoint', 'Player', 'Camera', 'Project'];
+    CueDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$q', 'entity', 'Cue', 'Script', 'Player', 'Camera', 'Project'];
 
-    function CueDialogController ($timeout, $scope, $stateParams, $uibModalInstance, $q, entity, Cue, Script, TimePoint, Player, Camera, Project) {
+    function CueDialogController ($timeout, $scope, $stateParams, $uibModalInstance, $q, entity, Cue, Script, Player, Camera, Project) {
         var vm = this;
         vm.cue = entity;
         vm.scripts = Script.query();
-        vm.timepoints = TimePoint.query({filter: 'cue-is-null'});
-        $q.all([vm.cue.$promise, vm.timepoints.$promise]).then(function() {
-            if (!vm.cue.timePoint || !vm.cue.timePoint.id) {
-                return $q.reject();
-            }
-            return TimePoint.get({id : vm.cue.timePoint.id}).$promise;
-        }).then(function(timePoint) {
-            vm.timepoints.push(timePoint);
-        });
         vm.players = Player.query();
         vm.cameras = Camera.query();
         vm.projects = Project.query();

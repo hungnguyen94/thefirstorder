@@ -83,6 +83,8 @@
                         entity: function () {
                             return {
                                 action: null,
+                                bar: null,
+                                duration: null,
                                 id: null
                             };
                         }

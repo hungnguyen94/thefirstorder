@@ -7,14 +7,6 @@
             "otherEntityField": "name"
         },
         {
-            "relationshipName": "timePoint",
-            "otherEntityName": "timePoint",
-            "relationshipType": "one-to-one",
-            "otherEntityField": "startTime",
-            "ownerSide": true,
-            "otherEntityRelationshipName": "cue"
-        },
-        {
             "relationshipName": "player",
             "otherEntityName": "player",
             "relationshipType": "many-to-one",
@@ -43,6 +35,16 @@
         {
             "fieldName": "action",
             "fieldType": "String",
+            "fieldValidateRules": []
+        },
+        {
+            "fieldName": "bar",
+            "fieldType": "Integer",
+            "fieldValidateRules": []
+        },
+        {
+            "fieldName": "duration",
+            "fieldType": "Integer",
             "fieldValidateRules": []
         }
     ],

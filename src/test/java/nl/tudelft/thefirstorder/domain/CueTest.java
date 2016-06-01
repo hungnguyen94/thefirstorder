@@ -22,12 +22,6 @@ public class CueTest {
     @Mock
     private Camera camera;
 
-    @Mock
-    private CameraAction cameraAction;
-
-    @Mock
-    private TimePoint timePoint;
-
     @Before
     public void setUp() throws Exception {
         cue = new Cue();
@@ -53,15 +47,21 @@ public class CueTest {
     }
 
     @Test
-    public void getCameraAction() throws Exception {
-        cue.setCameraAction(cameraAction);
-        assertThat(cue.getCameraAction()).isEqualTo(cameraAction);
+    public void getActionTest() throws Exception {
+        cue.setAction("Zoom");
+        assertThat(cue.getAction()).isEqualTo("Zoom");
     }
 
     @Test
-    public void getTimePoint() throws Exception {
-        cue.setTimePoint(timePoint);
-        assertThat(cue.getTimePoint()).isEqualTo(timePoint);
+    public void getBarTest() throws Exception {
+        cue.setBar(1);
+        assertThat(cue.getBar()).isEqualTo(1);
+    }
+
+    @Test
+    public void getDurationTest() throws Exception {
+        cue.setDuration(1);
+        assertThat(cue.getDuration()).isEqualTo(1);
     }
 
     @Test

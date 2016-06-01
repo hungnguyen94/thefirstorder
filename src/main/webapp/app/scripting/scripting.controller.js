@@ -5,7 +5,7 @@
         .module('thefirstorderApp')
         .controller('ScriptingController', ScriptingController);
 
-    ScriptingController.$inject = ['$rootScope', '$scope', '$state', 'Camera', 'Player', 'Script', 'TimePoint', 'Cue', 'AlertService'];
+    ScriptingController.$inject = ['$rootScope', '$scope', '$state', 'Camera', 'Player', 'Script', 'Cue', 'AlertService'];
 
     /**
      * The controller for the script view.
@@ -15,22 +15,20 @@
      * @param AlertService the alertservice
      * @constructor
      */
-    function ScriptingController ($rootScope, $scope, $state, Camera, Player, Script, TimePoint, Cue, AlertService) {
+    function ScriptingController ($rootScope, $scope, $state, Camera, Player, Script, Cue, AlertService) {
         var vm = this;
-        var grid = 15;
 
         $scope.saved = true;
+
+        vm.save = function() {
+            $scope.saved = true;
+        }
 
         vm.loadCameras = loadCameras;
         vm.loadCues = loadCues;
         vm.loadPlayers = loadPlayers;
         vm.loadCameras();
         vm.loadScripts = Script.query();
-        vm.loadTimePoints = TimePoint.query();
-
-        vm.save = function() {
-            $scope.saved = true;
-        }
 
         function loadCameras () {
             Camera.query({
@@ -182,8 +180,8 @@
                 // Create a DataSet using the cues from the database
                 var dataSet = [];
                 for (var i = 0; i < vm.cues.length; ++i) {
-                    var startTime = vm.cues[i].timePoint.startTime;
-                    var endTime = vm.cues[i].timePoint.startTime + vm.cues[i].timePoint.duration;
+                    var startTime = vm.cues[i].bar;
+                    var endTime = vm.cues[i].bar + vm.cues[i].duration;
 
                     var startYear = parseIntAsYear(startTime);
                     var endYear = parseIntAsYear(endTime);

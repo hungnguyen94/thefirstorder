@@ -3,7 +3,6 @@ package nl.tudelft.thefirstorder.domain;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Objects;
@@ -42,16 +40,18 @@ public class Cue implements Serializable {
     @JoinColumn
     private Script script;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(unique = true)
-    private TimePoint timePoint;
-
     @ManyToOne
     @JoinColumn
     private Project project;
 
     @Column(name = "action")
     private String action;
+
+    @Column(name = "bar")
+    private Integer bar;
+
+    @Column(name = "duration")
+    private Integer duration;
 
     /**
      * Get the id of the cue.
@@ -94,35 +94,67 @@ public class Cue implements Serializable {
     }
 
     /**
-     * Getter for TimePoint.
-     * @return the TimePoint
+     * Getter for the project.
+     * @return the project
      */
-    public TimePoint getTimePoint() {
-        return timePoint;
-    }
-
-    /**
-     * Setter for TimePoint.
-     * @param timePoint TimePoint to be set
-     */
-    public void setTimePoint(TimePoint timePoint) {
-        this.timePoint = timePoint;
-    }
-
     public Project getProject() {
         return project;
     }
 
+    /**
+     * Setter for the project.
+     * @param project the project
+     */
     public void setProject(Project project) {
         this.project = project;
     }
 
+    /**
+     * Getter for the action.
+     * @return the action
+     */
     public String getAction() {
         return action;
     }
 
+    /**
+     * Setter for the action.
+     * @param action the action
+     */
     public void setAction(String action) {
         this.action = action;
+    }
+
+    /**
+     * Getter for the bar.
+     * @return the bar number
+     */
+    public Integer getBar() {
+        return bar;
+    }
+
+    /**
+     * Setter for the bar.
+     * @param bar the bar number to set
+     */
+    public void setBar(Integer bar) {
+        this.bar = bar;
+    }
+
+    /**
+     * Getter for the duration of the cue.
+     * @return the duration
+     */
+    public Integer getDuration() {
+        return duration;
+    }
+
+    /**
+     * Setter for the duration of the cue.
+     * @param duration the duration to set
+     */
+    public void setDuration(Integer duration) {
+        this.duration = duration;
     }
 
     /**
