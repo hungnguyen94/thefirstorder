@@ -3,7 +3,9 @@ package nl.tudelft.thefirstorder.service.impl;
 import nl.tudelft.thefirstorder.domain.Map;
 import nl.tudelft.thefirstorder.domain.Project;
 import nl.tudelft.thefirstorder.domain.Script;
+import nl.tudelft.thefirstorder.domain.User;
 import nl.tudelft.thefirstorder.repository.ProjectRepository;
+import nl.tudelft.thefirstorder.repository.UserRepository;
 import nl.tudelft.thefirstorder.service.ProjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * Service Implementation for managing Project.
@@ -26,6 +29,9 @@ class ProjectServiceImpl implements ProjectService {
     @Inject
     private ProjectRepository projectRepository;
 
+    @Inject
+    private UserRepository userRepository;
+
     /**
      * Save a project.
      *
@@ -38,10 +44,10 @@ class ProjectServiceImpl implements ProjectService {
     }
 
     /**
-     *  Get all the projects.
+     * Get all the projects.
      *
-     *  @param pageable the pagination information
-     *  @return the list of entities
+     * @param pageable the pagination information
+     * @return the list of entities
      */
     @Transactional(readOnly = true)
     public Page<Project> findAll(Pageable pageable) {
@@ -50,10 +56,10 @@ class ProjectServiceImpl implements ProjectService {
     }
 
     /**
-     *  Get one project by id.
+     * Get one project by id.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     @Transactional(readOnly = true)
     public Project findOne(Long id) {
@@ -62,12 +68,19 @@ class ProjectServiceImpl implements ProjectService {
     }
 
     /**
-     *  Delete the  project by id.
+     * Delete the  project by id.
+     * Also sets the current project id of all users
+     * which have this project as their current project to null.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     public void delete(Long id) {
         log.debug("Request to delete Project : {}", id);
         projectRepository.delete(id);
+
+        List<User> users = userRepository.findAllByCurrentProjectId(id);
+        for (User user : users) {
+            user.setCurrentProjectId(null);
+        }
     }
 }

@@ -11,12 +11,12 @@
         var vm = this;
         vm.account = null;
         vm.isAuthenticated = null;
-        vm.hasProject = false;
+        vm.hasCurrentProject = false;
         vm.login = LoginService.open;
         vm.register = register;
 
         loadProject();
-        
+
         $scope.$on('authenticationSuccess', function () {
             getAccount();
         });

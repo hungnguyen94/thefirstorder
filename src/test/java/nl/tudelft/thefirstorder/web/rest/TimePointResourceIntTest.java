@@ -1,26 +1,24 @@
 package nl.tudelft.thefirstorder.web.rest;
 
 import nl.tudelft.thefirstorder.ThefirstorderApp;
+import nl.tudelft.thefirstorder.domain.Cue;
 import nl.tudelft.thefirstorder.domain.TimePoint;
 import nl.tudelft.thefirstorder.repository.TimePointRepository;
+import nl.tudelft.thefirstorder.service.CueService;
 import nl.tudelft.thefirstorder.service.TimePointService;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.hamcrest.Matchers.hasItem;
-
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -33,6 +31,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -60,6 +59,9 @@ public class TimePointResourceIntTest {
 
     @Inject
     private TimePointService timePointService;
+
+    @Inject
+    private CueService cueService;
 
     @Inject
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -106,9 +108,9 @@ public class TimePointResourceIntTest {
         // Create the TimePoint
 
         restTimePointMockMvc.perform(post("/api/time-points")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(timePoint)))
-                .andExpect(status().isCreated());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(timePoint)))
+            .andExpect(status().isCreated());
 
         // Validate the TimePoint in the database
         List<TimePoint> timePoints = timePointRepository.findAll();
@@ -162,11 +164,11 @@ public class TimePointResourceIntTest {
 
         // Get all the timePoints
         restTimePointMockMvc.perform(get("/api/time-points?sort=id,desc"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(timePoint.getId().intValue())))
-                .andExpect(jsonPath("$.[*].startTime").value(hasItem(DEFAULT_START_TIME)))
-                .andExpect(jsonPath("$.[*].duration").value(hasItem(DEFAULT_DURATION)));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(timePoint.getId().intValue())))
+            .andExpect(jsonPath("$.[*].startTime").value(hasItem(DEFAULT_START_TIME)))
+            .andExpect(jsonPath("$.[*].duration").value(hasItem(DEFAULT_DURATION)));
     }
 
     @Test
@@ -189,7 +191,7 @@ public class TimePointResourceIntTest {
     public void getNonExistingTimePoint() throws Exception {
         // Get the timePoint
         restTimePointMockMvc.perform(get("/api/time-points/{id}", Long.MAX_VALUE))
-                .andExpect(status().isNotFound());
+            .andExpect(status().isNotFound());
     }
 
     @Test
@@ -207,9 +209,9 @@ public class TimePointResourceIntTest {
         updatedTimePoint.setDuration(UPDATED_DURATION);
 
         restTimePointMockMvc.perform(put("/api/time-points")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(updatedTimePoint)))
-                .andExpect(status().isOk());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedTimePoint)))
+            .andExpect(status().isOk());
 
         // Validate the TimePoint in the database
         List<TimePoint> timePoints = timePointRepository.findAll();
@@ -229,11 +231,35 @@ public class TimePointResourceIntTest {
 
         // Get the timePoint
         restTimePointMockMvc.perform(delete("/api/time-points/{id}", timePoint.getId())
-                .accept(TestUtil.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
+            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .andExpect(status().isOk());
 
         // Validate the database is empty
         List<TimePoint> timePoints = timePointRepository.findAll();
         assertThat(timePoints).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void findAllWhereCueIsNullTest() throws Exception {
+        int databaseSizeBeforeCreate = timePointRepository.findAll().size();
+
+        Cue cue = new Cue();
+        TimePoint timePoint2 = new TimePoint();
+
+        timePoint.setId(123L);
+        timePoint2.setId(456L);
+        timePoint.setCue(cue);
+
+        cueService.save(cue);
+        timePointService.save(timePoint);
+        timePointService.save(timePoint2);
+
+        List<TimePoint> timepoints = timePointService.findAllWhereCueIsNull();
+        assertThat(timepoints.get(0).getId() == timePoint2.getId());
+
+        // Validate the TimePoint is not in the database
+        List<TimePoint> timePoints = timePointRepository.findAll();
+        assertThat(timePoints).hasSize(databaseSizeBeforeCreate + 2);
     }
 }
