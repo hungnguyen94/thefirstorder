@@ -18,7 +18,16 @@
                     return data;
                 }
             },
-            'update': { method:'PUT' }
+            'update': { method:'PUT' }, 
+            'getDTO': {
+                method: 'GET', 
+                url: resourceUrl + '/dto', 
+                isArray: false,
+                transformResponse: function (data) {
+                    data = angular.fromJson(data);
+                    return data;
+                }
+            }
         });
     }
 })();

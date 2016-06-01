@@ -1,0 +1,56 @@
+<!--<button type="button" class="btn btn-raised" ng-click="vm.isCamerasCollapsed = !vm.isCamerasCollapsed">Toggle cameras collapse</button>-->
+<!--<button type="button" class="btn btn-raised" ng-click="vm.isPlayersCollapsed = !vm.isPlayersCollapsed">Toggle players collapse</button>-->
+
+
+<!--<div class="row">-->
+<!--<div class="col-md-8">-->
+<!--<canvas id="fabricCanvas"></canvas>-->
+<!--</div>-->
+<!--<div class="col-md-4">-->
+<table class="table table-hover">
+    <tbody>
+    <tr class="info"><td colspan="3"><b>Cameras</b></td></tr>
+    <tr ng-repeat-start="camera in vm.map.cameras"
+        ng-click="vm.setSelected(camera)"
+        ng-class="{ 'success': vm.selected == camera }">
+        <td colspan="3">{{camera.name}}</td>
+    </tr>
+
+    <tr ng-repeat-end uib-collapse="vm.selected != camera">
+        <td>id: {{camera.id}}</td>
+        <td>x: {{camera.x}}</td>
+        <td>y: {{camera.y}}</td>
+    </tr>
+
+    <tr class="btn btn-raised btn-xs" ng-click="vm.addCamera()">
+        <td></td>
+        <td>Add camera</td>
+        <td></td>
+        <!--<button class="btn btn-raised" ng-click="vm.addPlayer()">Add player</button>-->
+    </tr>
+
+
+    <tr class="info"><td colspan="3"><b>Players</b></td></tr>
+    <tr ng-repeat-start="player in vm.map.players"
+        ng-click="vm.setSelected(player)"
+        ng-class="{ 'success': vm.selected == player }">
+        <!--<td>{{player.id}}</td>-->
+        <td colspan="3">{{player.name}}</td>
+    </tr>
+
+    <tr ng-repeat-end uib-collapse="vm.selected != player">
+        <td>id: {{player.id}}</td>
+        <td>x: {{player.x}}</td>
+        <td>y: {{player.y}}</td>
+    </tr>
+
+    <tr class="btn btn-raised btn-xs" ng-click="vm.addPlayer()">
+        <td></td>
+        <td>Add player</td>
+        <td></td>
+        <!--<button class="btn btn-raised" ng-click="vm.addPlayer()">Add player</button>-->
+    </tr>
+    </tbody>
+</table>
+<!--</div>-->
+<!--</div>-->
