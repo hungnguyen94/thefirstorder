@@ -5,16 +5,16 @@
         .module('thefirstorderApp')
         .controller('NoProjectController', NoProjectController);
 
-    NoProjectController.$inject = ['$scope', 'Principal', 'LoginService', '$state', 'Project', 'AlertService', 'currentProject'];
+    NoProjectController.$inject = ['currentProjectId'];
 
-    function NoProjectController($scope, Principal, LoginService, $state, Project, AlertService, currentProject) {
+    function NoProjectController(currentProjectId) {
         var vm = this;
         vm.projectIsNull = true;
 
         loadProject();
 
         function loadProject() {
-            if(currentProject != null) {
+            if(currentProjectId != null) {
                 vm.projectIsNull = false;
             }
         }

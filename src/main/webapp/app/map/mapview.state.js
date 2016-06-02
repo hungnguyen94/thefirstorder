@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -20,6 +20,29 @@
                     controller: 'MapviewController',
                     controllerAs: 'vm'
                 }
+            },
+            resolve: {
+                currentProject: ['$state', 'Project', 'currentProjectId',
+                    function ($state, Project, currentProjectId) {
+                        if (currentProjectId == null) {
+                            $state.go("noproject");
+                        }
+
+                        var res = Project.get({id: currentProjectId}, onSuccess, onError);
+
+                        function onSuccess(project) {
+                            if (project.map == null) {
+                                $state.go("map-setup");
+                            }
+                        }
+
+                        function onError(error) {
+                            $state.go("noproject");
+                        }
+
+                        return res;
+                    }
+                ]
             }
         });
     }

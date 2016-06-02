@@ -7,9 +7,9 @@
         .module('thefirstorderApp')
         .factory('ProjectManager', ProjectManager);
 
-    ProjectManager.$inject = ['$http'];
+    ProjectManager.$inject = ['$http', '$state', 'Project'];
 
-    function ProjectManager ($http) {
+    function ProjectManager ($http, $state, Project) {
         var resourceUrl =  'api/account/';
         var service = {
             get: get,
@@ -43,5 +43,36 @@
                 return null;
             };
         }
+
+        // function validateProject() {
+        //     this.get().then(function(currentProject) {
+        //         if (currentProject == null) {
+        //             failProject();
+        //             return null;
+        //         }
+        //
+        //         return Project.get({id: currentProject.data}, onLoadSuccess, onLoadError);
+        //
+        //         function onLoadSuccess(project) {
+        //             var map = project.map;
+        //             if(map == null){
+        //                 failMap();
+        //             }
+        //         };
+        //
+        //         function onLoadError(error) {
+        //             failProject();
+        //             return null;
+        //         }
+        //     });
+        // }
+        //
+        // function failProject(){
+        //     $state.go("noproject");
+        // }
+        //
+        // function failMap(){
+        //     $state.go("map-setup");
+        // }
     }
 })();

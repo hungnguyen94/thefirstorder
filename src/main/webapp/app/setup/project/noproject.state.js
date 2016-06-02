@@ -16,7 +16,7 @@
             },
             views: {
                 'content@': {
-                    templateUrl: 'app/setup/noproject.html',
+                    templateUrl: 'app/setup/project/noproject.html',
                     controller: 'NoProjectController',
                     controllerAs: 'vm'
                 }

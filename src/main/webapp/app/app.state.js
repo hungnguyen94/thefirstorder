@@ -23,7 +23,7 @@
                         return Auth.authorize();
                     }
                 ],
-                currentProject: ['ProjectManager',
+                currentProjectId: ['ProjectManager',
                     function (ProjectManager) {
                         return ProjectManager.loadProject();
                     }
