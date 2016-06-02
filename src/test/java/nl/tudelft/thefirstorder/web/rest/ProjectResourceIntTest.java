@@ -98,7 +98,7 @@ public class ProjectResourceIntTest {
     @PostConstruct
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        ProjectResource projectResource = new ProjectResource();
+        projectResource = new ProjectResource();
         ReflectionTestUtils.setField(projectResource, "projectService", projectService);
         this.restProjectMockMvc = MockMvcBuilders.standaloneSetup(projectResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
@@ -280,6 +280,9 @@ public class ProjectResourceIntTest {
     @Transactional
     public void downloadXMLProjectTest() throws Exception {
         Project project = new Project();
+        Script script = new Script();
+        script.setName("AAA");
+        project.setScript(script);
         projectRepository.save(project);
         Optional<Project> projectop = Optional.ofNullable(projectService.findOne(project.getId()));
         HttpHeaders headers = new HttpHeaders();
