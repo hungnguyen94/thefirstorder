@@ -40,12 +40,10 @@ public class Map implements Serializable {
 
     @OneToMany(mappedBy = "map")
     @JsonIgnore
-//    @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
     private Set<Camera> cameras = new HashSet<>();
 
     @OneToMany(mappedBy = "map")
     @JsonIgnore
-//    @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
     private Set<Player> players = new HashSet<>();
 
     /**

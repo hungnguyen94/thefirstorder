@@ -42,22 +42,6 @@ public interface MapService {
      */
     void delete(Long id);
 
-//    /**
-//     * Adds a camera to the Map.
-//     * @param mapId Id of the Map
-//     * @param cameraId Id of the Camera
-//     * @return The updated map
-//     */
-//    Optional<Map> addCamera(Long mapId, Long cameraId);
-//
-//    /**
-//     * Adds a player to the Map.
-//     * @param mapId Id of the Map
-//     * @param playerId Id of the Player
-//     * @return The updated map
-//     */
-//    Optional<Map> addPlayer(Long mapId, Long playerId);
-
     /**
      * Get all maps where project is null.
      * @return List of maps.
