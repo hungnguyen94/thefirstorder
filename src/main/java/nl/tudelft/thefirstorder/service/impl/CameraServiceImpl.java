@@ -11,10 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 /**
  * Service Implementation for managing Camera.
@@ -61,14 +57,6 @@ class CameraServiceImpl implements CameraService {
     public Camera findOne(Long id) {
         log.debug("Request to get Camera : {}", id);
         return cameraRepository.findOne(id);
-    }
-
-    @Override
-    public List<Camera> findCamerasByProject(Long projectId) {
-        return StreamSupport
-            .stream(cameraRepository.findAll().spliterator(), false)
-            .filter(camera -> Objects.equals(camera.getProject().getId(), projectId))
-            .collect(Collectors.toList());
     }
 
     /**

@@ -4,7 +4,7 @@ describe('Controller Tests', function() {
 
     describe('Project Management Detail Controller', function() {
         var $scope, $rootScope;
-        var MockEntity, MockProject, MockScript, MockMap, MockPlayer, MockCamera, MockCue;
+        var MockEntity, MockProject, MockScript, MockMap, MockCue;
         var createController;
 
         beforeEach(inject(function($injector) {
@@ -14,8 +14,6 @@ describe('Controller Tests', function() {
             MockProject = jasmine.createSpy('MockProject');
             MockScript = jasmine.createSpy('MockScript');
             MockMap = jasmine.createSpy('MockMap');
-            MockPlayer = jasmine.createSpy('MockPlayer');
-            MockCamera = jasmine.createSpy('MockCamera');
             MockCue = jasmine.createSpy('MockCue');
             
 
@@ -26,8 +24,6 @@ describe('Controller Tests', function() {
                 'Project': MockProject,
                 'Script': MockScript,
                 'Map': MockMap,
-                'Player': MockPlayer,
-                'Camera': MockCamera,
                 'Cue': MockCue
             };
             createController = function() {

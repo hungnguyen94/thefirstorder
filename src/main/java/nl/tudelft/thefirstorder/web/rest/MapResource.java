@@ -3,6 +3,7 @@ package nl.tudelft.thefirstorder.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import nl.tudelft.thefirstorder.domain.Map;
 import nl.tudelft.thefirstorder.service.MapService;
+import nl.tudelft.thefirstorder.web.rest.dto.MapDTO;
 import nl.tudelft.thefirstorder.web.rest.util.HeaderUtil;
 import nl.tudelft.thefirstorder.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
@@ -151,39 +152,21 @@ public class MapResource {
     }
 
     /**
-     * PUT  /maps/{mapId}/addCamera?cameraId={cameraId}
-     * Adds a (existing) camera to the map.
-     * @param mapId Map id
-     * @param cameraId Camera id
-     * @return ResponseEntity with status OK if succeeded, or status 404 if an error occurred.
+     * Return a data transfer object for the Map,
+     * which includes all the cameras and players
+     * contained in the map.
+     * @param mapId Id of the Map
+     * @return MapDTO
      */
-    @RequestMapping(value = "/maps/{mapId}/addCamera",
-        method = RequestMethod.PUT,
+    @RequestMapping(value = "/maps/{mapId}/dto",
+        method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    @Transactional
-    public ResponseEntity<Map> addCameraToMap(@PathVariable Long mapId, @RequestParam Long cameraId) {
-        return mapService.addCamera(mapId, cameraId)
-                .map(map -> new ResponseEntity<>(map, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-    /**
-     * PUT  /maps/{mapId}/addPlayer?playerId={playerId}
-     * Adds a (existing) player to the map.
-     * @param mapId Map id
-     * @param playerId Player id
-     * @return ResponseEntity with status OK if succeeded, or status 404 if an error occurred.
-     */
-    @RequestMapping(value = "/maps/{mapId}/addPlayer",
-            method = RequestMethod.PUT,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    @Transactional
-    public ResponseEntity<Map> addPlayerToMap(@PathVariable Long mapId, @RequestParam Long playerId) {
-        return mapService.addPlayer(mapId, playerId)
-                .map(map -> new ResponseEntity<>(map, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    @Transactional(readOnly = true)
+    public ResponseEntity<MapDTO> getMapDTO(@PathVariable Long mapId) {
+        return Optional.ofNullable(mapService.findOne(mapId))
+                .map(map -> new ResponseEntity<MapDTO>(new MapDTO(map), HttpStatus.OK))
+                .orElse(new ResponseEntity<MapDTO>(HttpStatus.NOT_FOUND));
     }
 
 }

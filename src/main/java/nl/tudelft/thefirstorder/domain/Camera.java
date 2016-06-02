@@ -1,6 +1,5 @@
 package nl.tudelft.thefirstorder.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -29,8 +28,7 @@ public class Camera implements Serializable {
     private Long id;
 
     @ManyToOne
-    @JsonIgnore
-    private Project project;
+    private Map map;
 
     @Column(name = "name")
     private String name;
@@ -105,12 +103,12 @@ public class Camera implements Serializable {
         this.y = y;
     }
 
-    public Project getProject() {
-        return project;
+    public Map getMap() {
+        return map;
     }
 
-    public void setProject(Project project) {
-        this.project = project;
+    public void setMap(Map map) {
+        this.map = map;
     }
 
     /**

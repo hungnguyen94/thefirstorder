@@ -17,6 +17,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -159,6 +160,7 @@ public class ProjectResource {
         method = RequestMethod.GET,
         produces = "application/pdf")
     @Timed
+    @Transactional(readOnly = true)
     public ResponseEntity<Resource> downloadPDF(@PathVariable Long id) throws IOException {
         log.debug("Request to get PDF download Project : {}", id);
         Optional<Project> project = Optional.ofNullable(projectService.findOne(id));

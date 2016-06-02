@@ -9,8 +9,12 @@
 
     ProjectManager.$inject = ['$http', '$state', 'Project'];
 
+<<<<<<< HEAD
     function ProjectManager($http, $state, Project) {
         var resourceUrl = 'api/account/';
+=======
+    function ProjectManager ($http) {
+>>>>>>> dev
         var service = {
             get: get,
             update: update,

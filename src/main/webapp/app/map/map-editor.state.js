@@ -7,22 +7,16 @@
 
     stateConfig.$inject = ['$stateProvider'];
 
-    /**
-     * Configures the state of this document.
-     * @param $stateProvider the stateProvider
-     */
     function stateConfig($stateProvider) {
-        $stateProvider.state('timeline', {
+        $stateProvider.state('map-editor', {
             parent: 'app',
-            url: '/timeline',
+            url: '/map-editor',
             data: {
                 authorities: ['ROLE_USER']
             },
             views: {
                 'content@': {
-                    templateUrl: 'app/timeline/timeline.html',
-                    controller: 'TimelineController',
-                    controllerAs: 'vm'
+                    templateUrl: 'app/map/map-editor.html'
                 }
             },
             resolve: {

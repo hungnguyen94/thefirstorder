@@ -280,6 +280,9 @@ public class ProjectResourceIntTest {
     @Transactional
     public void downloadXMLProjectTest() throws Exception {
         Project project = new Project();
+        Script script = new Script();
+        script.setName("AAA");
+        project.setScript(script);
         projectRepository.save(project);
         Optional<Project> projectop = Optional.ofNullable(projectService.findOne(project.getId()));
         HttpHeaders headers = new HttpHeaders();

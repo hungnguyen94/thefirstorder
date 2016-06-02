@@ -13,7 +13,7 @@ public class PlayerTest {
     private Player entity;
 
     @Mock
-    private Project project;
+    private Map map;
 
     private static long DEFAULT_ID = 1L;
     private static String DEFAULT_NAME = "AAAAA";
@@ -48,9 +48,9 @@ public class PlayerTest {
     }
 
     @Test
-    public void getProject() throws Exception {
-        entity.setProject(project);
-        assertThat(entity.getProject()).isEqualTo(project);
+    public void getMap() throws Exception {
+        entity.setMap(map);
+        assertThat(entity.getMap()).isEqualTo(map);
     }
 
     @Test
