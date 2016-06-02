@@ -58,6 +58,30 @@
                     $state.go('map-setup');
                 });
             }]
+        }).state('map.load', {
+            parent: 'map-setup',
+            url: '/{id}/edit',
+            data: {
+                authorities: ['ROLE_USER']
+            },
+            onEnter: ['$stateParams', '$state', '$uibModal', 'currentProject', function($stateParams, $state, $uibModal, currentProject) {
+                $uibModal.open({
+                    templateUrl: 'app/setup/map/loadmap-dialog.html',
+                    controller: 'LoadMapController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    size: 'lg',
+                    resolve: {
+                        currentProject: function(){
+                            return currentProject;
+                        }
+                    }
+                }).result.then(function() {
+                    $state.go('mapview', null, { reload: true });
+                }, function() {
+                    $state.go('map-setup');
+                });
+            }]
         })
     }
 })();

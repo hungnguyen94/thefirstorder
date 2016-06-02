@@ -58,6 +58,30 @@
                     $state.go('script-setup');
                 });
             }]
+        }).state('script.load', {
+            parent: 'script-setup',
+            url: '/{id}/edit',
+            data: {
+                authorities: ['ROLE_USER']
+            },
+            onEnter: ['$stateParams', '$state', '$uibModal', 'currentProject', function($stateParams, $state, $uibModal, currentProject) {
+                $uibModal.open({
+                    templateUrl: 'app/setup/script/loadscript-dialog.html',
+                    controller: 'LoadScriptController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    size: 'lg',
+                    resolve: {
+                        currentProject: function(){
+                            return currentProject;
+                        }
+                    }
+                }).result.then(function() {
+                    $state.go('timeline', null, { reload: true });
+                }, function() {
+                    $state.go('script-setup');
+                });
+            }]
         })
     }
 })();
