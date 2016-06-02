@@ -13,7 +13,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.inject.Inject;
 import java.net.URI;
@@ -29,10 +33,10 @@ import java.util.Optional;
 public class CameraResource {
 
     private final Logger log = LoggerFactory.getLogger(CameraResource.class);
-        
+
     @Inject
     private CameraService cameraService;
-    
+
     /**
      * POST  /cameras : Create a new camera.
      *
@@ -93,7 +97,7 @@ public class CameraResource {
     public ResponseEntity<List<Camera>> getAllCameras(Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of Cameras");
-        Page<Camera> page = cameraService.findAll(pageable); 
+        Page<Camera> page = cameraService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/cameras");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
