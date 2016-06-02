@@ -104,55 +104,9 @@ public class PDFExportUtil {
      * @throws DocumentException if something wrong is added to the document
      */
     private static void addContent(Document document, Project project) throws DocumentException {
-        PdfPTable table = new PdfPTable(4);
-
-        PdfPCell c1 = new PdfPCell(new Phrase("No."));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase("Camera"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase("Camera Action"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase("Player"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(c1);
-
-        PdfPTable cameratable = new PdfPTable(3);
-
-        c1 = new PdfPCell(new Phrase("Camera"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cameratable.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase("X Position"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cameratable.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase("Y Position"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cameratable.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase("Camera Type"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cameratable.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase("Lens Type"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cameratable.addCell(c1);
-
-        PdfPTable actiontable = new PdfPTable(2);
-
-        c1 = new PdfPCell(new Phrase("Action"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        actiontable.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase("Duration"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        actiontable.addCell(c1);
+        PdfPTable table = makeCueTable();
+        PdfPTable cameratable = makeCameraTable();
+        PdfPTable actiontable = makeActionTable();
 
         table.setHeaderRows(1);
         cameratable.setHeaderRows(1);
@@ -190,6 +144,68 @@ public class PDFExportUtil {
         addEmptyLine(par, 2);
         par.add(cameratable);
         document.add(par);
+    }
+
+    private static PdfPTable makeCueTable() {
+        PdfPTable table = new PdfPTable(4);
+
+        PdfPCell c1 = new PdfPCell(new Phrase("No."));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(c1);
+
+        c1 = new PdfPCell(new Phrase("Camera"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(c1);
+
+        c1 = new PdfPCell(new Phrase("Camera Action"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(c1);
+
+        c1 = new PdfPCell(new Phrase("Player"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(c1);
+
+        return table;
+    }
+
+    private static PdfPTable makeActionTable() {
+        PdfPTable actiontable = new PdfPTable(2);
+
+        PdfPCell c1 = new PdfPCell(new Phrase("Action"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        actiontable.addCell(c1);
+
+        c1 = new PdfPCell(new Phrase("Duration"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        actiontable.addCell(c1);
+
+        return actiontable;
+    }
+
+    private static PdfPTable makeCameraTable() {
+        PdfPTable cameratable = new PdfPTable(5);
+
+        PdfPCell c1 = new PdfPCell(new Phrase("Camera"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cameratable.addCell(c1);
+
+        c1 = new PdfPCell(new Phrase("X Position"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cameratable.addCell(c1);
+
+        c1 = new PdfPCell(new Phrase("Y Position"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cameratable.addCell(c1);
+
+        c1 = new PdfPCell(new Phrase("Camera Type"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cameratable.addCell(c1);
+
+        c1 = new PdfPCell(new Phrase("Lens Type"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cameratable.addCell(c1);
+
+        return cameratable;
     }
 
     private static void addEmptyLine(Paragraph paragraph, int number) {
