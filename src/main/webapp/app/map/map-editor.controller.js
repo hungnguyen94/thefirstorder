@@ -20,7 +20,6 @@
         function getMapEntities() {
             Map.getDTO({id: 1}, function (result) {
                 console.log('result is: ', result);
-                // vm.eenwillekeurigemap = result;
                 vm.map = result;
             });
         }
