@@ -1,32 +1,70 @@
 <div ng-cloak>
-    <div class="row">
-        <div class="col-md-12">
-            <h2 class="text-center">Timeline</h2><br /><br />
-            <div id="visualization"></div>
-            <fieldset class="form-group">
-                <label for="selectPlayer">Which player should we use for the cue?</label>
-                <select class="form-control" id="selectPlayer">
-                    <option ng-repeat="player in vm.players" value="{{player.id}}">{{player.name}}</option>
-                </select>
-                <br />
-                <label for="selectCamera">Which camera should we use for the cue?</label>
-                <select class="form-control" id="selectCamera">
-                    <option ng-repeat="camera in vm.cameras" value="{{camera.id}}">{{camera.name}}</option>
-                </select>
-                <br />
-                <label for="selectCameraAction">Which camera action should we use for the cue?</label>
-                <select class="form-control" id="selectCameraAction">
-                    <option ng-repeat="cameraAction in vm.cameraActions" value="{{cameraAction.id}}">{{cameraAction.name}}</option>
-                </select>
-                <br />
-                <label for="selectScript">Which script should we use for the cue?</label>
-                <select class="form-control" id="selectScript">
-                    <option ng-repeat="script in vm.scripts" value="{{script.id}}">{{script.name}}</option>
-                </select>
-                <br />
-                <label for="durationCue">How long should this cue be?</label>
-                <input type="number" class="form-control" id="durationCue" placeholder="1">
-            </fieldset>
+    <div ng-switch="vm.scriptAvailable">
+        <div class="row" ng-switch-when="true">
+            <div class="col-md-12">
+                <h2 class="text-center">Timeline</h2><br/><br/>
+                <div id="visualization"></div>
+                <fieldset class="form-group">
+                    <label for="selectPlayer">Which player should we use for the cue?</label>
+                    <select class="form-control" id="selectPlayer">
+                        <option ng-repeat="player in vm.players" value="{{player.id}}">{{player.name}}</option>
+                    </select>
+                    <br/>
+                    <label for="selectCamera">Which camera should we use for the cue?</label>
+                    <select class="form-control" id="selectCamera">
+                        <option ng-repeat="camera in vm.cameras" value="{{camera.id}}">{{camera.name}}</option>
+                    </select>
+                    <br/>
+                    <label for="selectCameraAction">Which camera action should we use for the cue?</label>
+                    <select class="form-control" id="selectCameraAction">
+                        <option ng-repeat="cameraAction in vm.cameraActions" value="{{cameraAction.id}}">
+                            {{cameraAction.name}}
+                        </option>
+                    </select>
+                    <br/>
+                    <label for="selectScript">Which script should we use for the cue?</label>
+                    <select class="form-control" id="selectScript">
+                        <option ng-repeat="script in vm.scripts" value="{{script.id}}">{{script.name}}</option>
+                    </select>
+                    <br/>
+                    <label for="durationCue">How long should this cue be?</label>
+                    <input type="number" class="form-control" id="durationCue" placeholder="1">
+                </fieldset>
+            </div>
+        </div>
+        <div class="row" ng-switch-when="false">
+            <CENTER>
+                <h1>Setup script</h1>
+                <hr/>
+                <p class="lead">This project does not have a script yet, please select an option:</p>
+                <br/><br/><br/>
+                <div class="row">
+                    <div class="col-md-6"><span class="glyphicon glyphicon-list" style="font-size: 60pt;"></span>
+                        <hr/>
+                        <p class="lead">
+                            <button class="btn btn-primary"
+                                    has-any-authority="ROLE_ADMIN,ROLE_DIRECTOR"
+                                    ui-sref="script.create">
+                    <span>
+                        Create a new script
+                    </span>
+                            </button>
+                        </p>
+                    </div>
+                    <div class="col-md-6"><span class="glyphicon glyphicon-folder-open" style="font-size: 60pt;"></span>
+                        <hr/>
+                        <p class="lead">
+                            <button class="btn btn-primary"
+                                    has-any-authority="ROLE_ADMIN,ROLE_DIRECTOR"
+                                    ui-sref="script.load">
+                    <span>
+                        Load an existing script
+                    </span>
+                            </button>
+                        </p>
+                    </div>
+                </div>
+            </CENTER>
         </div>
     </div>
 </div>

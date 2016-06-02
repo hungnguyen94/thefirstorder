@@ -5,7 +5,7 @@
         .module('thefirstorderApp')
         .controller('MapviewController', MapviewController);
 
-    MapviewController.$inject = ['$scope', '$state', 'Camera', 'Player', 'Cue', 'AlertService', 'currentProject'];
+    MapviewController.$inject = ['$scope', '$state', 'Camera', 'Player', 'Cue', 'AlertService', 'currentProject', 'Project'];
 
     /**
      * The controller for the map view.
@@ -15,23 +15,41 @@
      * @param AlertService the alertservice
      * @constructor
      */
-    function MapviewController ($scope, $state, Camera, Player, Cue, AlertService, currentProject) {
+    function MapviewController ($scope, $state, Camera, Player, Cue, AlertService, currentProject, Project) {
         var vm = this;
-        var grid = 15;
 
+        vm.mapAvailable = false;
+        vm.loadProject = loadProject;
+        vm.loadProject();
+
+        var grid = 15;
         vm.loadCameras = loadCameras;
         vm.loadCameras();
         vm.loadPlayers = loadPlayers;
         vm.loadCues = loadCues;
         vm.loadCues();
 
-        vm.loadProject = loadProject;
-        vm.loadProject();
-
         function loadProject() {
-            if(currentProject == null){
-                $state.go("noproject");
+            if (currentProject == null) {
+                fail();
             }
+
+            vm.project = Project.get({id: currentProject}, onLoadSuccess, onLoadError);
+
+            function onLoadSuccess(project) {
+                vm.map = project.map;
+                if(vm.map != null){
+                    vm.mapAvailable = true;
+                }
+            };
+
+            function onLoadError(error) {
+                fail();
+            }
+        }
+
+        function fail(){
+            $state.go("noproject");
         }
 
         function loadCameras () {
