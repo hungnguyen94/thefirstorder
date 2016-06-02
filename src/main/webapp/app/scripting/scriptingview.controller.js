@@ -3,19 +3,19 @@
 
     angular
         .module('thefirstorderApp')
-        .controller('MapviewController', MapviewController);
+        .controller('ScriptingviewController', ScriptingviewController);
 
-    MapviewController.$inject = ['$scope', '$state', 'Camera', 'Player', 'Cue', 'AlertService'];
+    ScriptingviewController.$inject = ['$scope', '$state', 'Camera', 'Player', 'CameraAction', 'Script', 'TimePoint', 'Cue', 'AlertService'];
 
     /**
-     * The controller for the map view.
+     * The controller for the script view.
      * @param $scope the scope of the map
      * @param $state the state of the map
      * @param Camera the camera entity
      * @param AlertService the alertservice
      * @constructor
      */
-    function MapviewController ($scope, $state, Camera, Player, Cue, AlertService) {
+    function ScriptingviewController ($scope, $state, Camera, Player, CameraAction, Script, TimePoint, Cue, AlertService) {
         var vm = this;
         var grid = 15;
 
@@ -24,6 +24,27 @@
         vm.loadPlayers = loadPlayers;
         vm.loadCues = loadCues;
         vm.loadCues();
+        vm.loadCameraActions = loadCameraActions;
+        vm.loadCameraActions();
+        vm.loadScripts = loadScripts;
+        vm.loadScripts();
+        vm.loadTimePoints = loadTimePoints;
+        // vm.loadTimePoints();
+
+        function loadTimePoints () {
+            TimePoint.query({
+
+            }, onSuccess, onError);
+
+            function onSuccess(data, headers) {
+                vm.timePoints = data;
+                vm.queryCount = vm.totalItems;
+                vm.loadPlayers(data);
+            }
+            function onError(error) {
+                AlertService.error(error.data.message);
+            }
+        }
 
         function loadCameras () {
             Camera.query({
@@ -56,6 +77,36 @@
             }
         }
 
+        function loadCameraActions() {
+            CameraAction.query({
+
+            }, onSuccess, onError);
+
+            function onSuccess(data, headers) {
+                vm.cameraActions = data;
+                vm.queryCount = vm.totalItems;
+            }
+
+            function onError(error) {
+                AlertService.error(error.data.message);
+            }
+        }
+
+        function loadScripts() {
+            Script.query({
+
+            }, onSuccess, onError);
+
+            function onSuccess(data, headers) {
+                vm.scripts = data;
+                vm.queryCount = vm.totalItems;
+            }
+
+            function onError(error) {
+                AlertService.error(error.data.message);
+            }
+        }
+
         /**
          * Draws the cameras to the map.
          * @param cameraData the data of the cameras to draw
@@ -64,6 +115,8 @@
             var canvas = new fabric.Canvas('concertMap');
 
             var grid = 15;
+
+            draw_grid(grid, canvas);
 
             canvas.on('object:moving', function (options) {
                 options.target.set({
@@ -93,64 +146,21 @@
                 }
             });
 
-            // This function definition will generate a new Camera at the clicked position
-            canvas.on('mouse:down', function (options) {
-                canvas.on('mouse:up', function(options2) {
-                    var firstPointer = canvas.getPointer(options.e);
-                    var secondPointer = canvas.getPointer(options2.e);
-
-                    // Check if coordinates are still the same at the beginning and the end of the click
-                    if (firstPointer.x == secondPointer.x && firstPointer.y == secondPointer.y) {
-                        var pointer = canvas.getPointer(options.e);
-
-                        var actualPosX = pointer.x;
-                        var actualPosY = pointer.y;
-
-                        var gridPosX = Math.floor(actualPosX / grid);
-                        var gridPosY = Math.floor(actualPosY / grid);
-
-                        var newObject;
-
-                        // Determine wether to initialize a Camera or a Player
-                        switch(document.getElementById('selectObjectType').value) {
-                            case 'Camera':
-                                newObject = new Camera();
-                                break;
-                            case 'Player':
-                                newObject = new Player();
-                                break;
-                        }
-
-                        // Set the coordinates of the object to the coordinates where the mouse has been clicked
-                        newObject.x = gridPosX;
-                        newObject.y = gridPosY;
-
-                        // Get the name for the object from the form
-                        var name = document.getElementById('nameNewObject').value;;
-
-                        // Set name to Undefined when no name has been filled in
-                        if (name == '')
-                            name = 'Undefined';
-
-                        // Set the name of the new object to the name fetched from the form
-                        newObject.name = name;
-
-                        switch(document.getElementById('selectObjectType').value) {
-                            case 'Camera':
-                                Camera.save(newObject);
-                                break;
-                            case 'Player':
-                                Player.save(newObject);
-                                break;
-                        }
-
-                        $state.reload();
-                    }
-                });
-            });
-
+            // When selecting a square in the gridview, update the select boxes
             canvas.on('object:selected', function (options) {
-                console.log("Selected: " + options.target.left + " - " + options.target.id);
+                var id = options.target.id;
+                var type = options.target.type;
+
+                switch(type) {
+                    case 'Camera':
+                        var selectBox = document.getElementById('selectCamera');
+                        selectBox.value = id + 1;
+                        break;
+                    case 'Player':
+                        var selectBox = document.getElementById('selectPlayer');
+                        selectBox.value = id + 1;
+                        break;
+                }
             });
 
             for (var i = 0; i < cameraData.length; ++i) {
@@ -159,7 +169,7 @@
 
             for (var i = 0; i < playerData.length; ++i) {
                 console.log(playerData[i])
-                drawObject(canvas, playerData[i], i, 'white', 'Player');
+                drawObject(canvas, playerData[i], i, 'green', 'Player');
             }
         }
 
@@ -214,6 +224,52 @@
 
                 // Create a Timeline
                 var timeline = new vis.Timeline(container, items, options);
+
+                timeline.on('click', function (properties) {
+                    var startTime = parseIntAsYear(properties.time.getFullYear());
+                    var duration = document.getElementById('durationCue').value;
+
+                    // Initialize new time point
+                    var timePoint = new Object();
+                    timePoint.startTime = startTime;
+                    timePoint.duration = duration;
+
+                    // Retrieve the rest of the objects
+                    var player = Player.get({id: document.getElementById('selectPlayer').value});
+                    var camera = Camera.get({id: document.getElementById('selectCamera').value});
+                    var cameraAction = CameraAction.get({id: document.getElementById('selectCameraAction').value});
+                    var script = Script.get({id: document.getElementById('selectScript').value});
+
+                    player.id = document.getElementById('selectPlayer').value;
+                    camera.id = document.getElementById('selectCamera').value;
+                    cameraAction.id = document.getElementById('selectCameraAction').value;
+                    script.id = document.getElementById('selectScript').value;
+
+                    // Save the time point to the database
+                    var temp = TimePoint.save(timePoint);
+
+                    // Reload all timepoints, so the newly added one is in the memory
+                    vm.loadTimePoints();
+
+                    timeline.on('click', function (properties) {
+
+                        vm.loadTimePoints();
+                        // Initialize new cue
+                        var cue = new Object();
+
+                        cue.player = player;
+                        cue.camera = camera;
+                        cue.cameraAction = cameraAction;
+                        cue.script = script;
+                        cue.timePoint = vm.timePoints.pop();
+
+                        console.log("Test: ", vm.timePoints.length);
+
+                        // Add the Cue to the database
+                        Cue.save(cue);
+                        $state.reload();
+                    });
+                });
             }
             function onError(error) {
                 AlertService.error(error.data.message);
@@ -236,6 +292,8 @@
                 lockRotation: true,
                 lockScalingX: true,
                 lockScalingY: true,
+                lockMovementX: true,
+                lockMovementY: true,
                 hasControls: false,
                 id: index,
                 type: type
@@ -244,5 +302,29 @@
             canvas.add(rect);
         }
 
+        /**
+         * Draws a grid on the canvas
+         * @param gridsize Size of the blocks in the grid
+         * @param canvas The canvas to draw the grid on
+         */
+        function draw_grid(gridsize, canvas) {
+            for(var x = 0; x < (canvas.width / gridsize); x++)
+            {
+                canvas.add(new fabric.Line([
+                        gridsize * x,
+                        0,
+                        gridsize * x,
+                        Math.floor(canvas.height / gridsize) * gridsize],
+                    { stroke: "#000000", strokeWidth: 1, selectable:false, strokeDashArray: [1, 1]}
+                ));
+                canvas.add(new fabric.Line([
+                        0,
+                        gridsize * x,
+                        Math.floor(canvas.width / gridsize) * gridsize - gridsize,
+                        gridsize * x],
+                    { stroke: "#000000", strokeWidth: 1, selectable:false, strokeDashArray: [1, 1]}
+                ));
+            }
+        }
     }
 })();

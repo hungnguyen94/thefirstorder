@@ -5,9 +5,9 @@
         .module('thefirstorderApp')
         .controller('MapDetailController', MapDetailController);
 
-    MapDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'entity', 'Map', 'Project'];
+    MapDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'entity', 'Map', 'Project', 'Player', 'Camera'];
 
-    function MapDetailController($scope, $rootScope, $stateParams, entity, Map, Project) {
+    function MapDetailController($scope, $rootScope, $stateParams, entity, Map, Project, Player, Camera) {
         var vm = this;
         vm.map = entity;
         

@@ -1,12 +1,8 @@
 package nl.tudelft.thefirstorder.service;
 
-import nl.tudelft.thefirstorder.domain.Map;
 import nl.tudelft.thefirstorder.domain.Project;
-import nl.tudelft.thefirstorder.domain.Script;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
-import java.util.List;
 
 /**
  * Service Interface for managing Project.

@@ -9,8 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -40,20 +38,12 @@ public class Map implements Serializable {
     @JsonIgnore
     private Project project;
 
-    @OneToMany
+    @OneToMany(mappedBy = "map")
     @JsonIgnore
-    @JoinTable(name = "map_cameras",
-            joinColumns = @JoinColumn(name = "map_id"),
-            inverseJoinColumns = @JoinColumn(name = "camera_id"))
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Camera> cameras = new HashSet<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "map")
     @JsonIgnore
-    @JoinTable(name = "map_players",
-            joinColumns = @JoinColumn(name = "map_id"),
-            inverseJoinColumns = @JoinColumn(name = "player_id"))
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Player> players = new HashSet<>();
 
     /**

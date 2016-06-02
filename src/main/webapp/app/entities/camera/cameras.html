@@ -4,7 +4,9 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-4 no-padding-left">
-                <button class="btn btn-primary" ui-sref="camera.new" >
+                <button class="btn btn-primary"
+                        has-any-authority="ROLE_ADMIN,ROLE_CAMERA_OPERATOR"
+                        ui-sref="camera.new" >
                     <span class="glyphicon glyphicon-plus"></span>
                     <span >
                         Create new Camera
@@ -24,7 +26,7 @@
                     <th jh-sort-by="y"><span>Y</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="cameraType"><span>Camera Type</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="lensType"><span>Lens Type</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="project.name"><span>Project</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="map.name"><span>Map</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
                 </tr>
             </thead>
@@ -37,7 +39,7 @@
                     <td>{{camera.cameraType}}</td>
                     <td>{{camera.lensType}}</td>
                     <td>
-                        <a ui-sref="project-detail({id:camera.project.id})">{{camera.project.name}}</a>
+                        <a ui-sref="map-detail({id:camera.map.id})">{{camera.map.name}}</a>
                     </td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
@@ -48,12 +50,14 @@
                                 <span class="hidden-xs hidden-sm"></span>
                             </button>
                             <button type="submit"
+                                    has-any-authority="ROLE_ADMIN,ROLE_CAMERA_OPERATOR"
                                     ui-sref="camera.edit({id:camera.id})"
                                     class="btn btn-primary btn-sm">
                                 <span class="glyphicon glyphicon-pencil"></span>
                                 <span class="hidden-xs hidden-sm"></span>
                             </button>
                             <button type="submit"
+                                    has-any-authority="ROLE_ADMIN,ROLE_CAMERA_OPERATOR"
                                     ui-sref="camera.delete({id:camera.id})"
                                     class="btn btn-danger btn-sm">
                                 <span class="glyphicon glyphicon-remove-circle"></span>
