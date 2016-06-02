@@ -3,11 +3,11 @@
 
     angular
         .module('thefirstorderApp')
-        .controller('MapViewController', MapViewController);
+        .controller('MapEditorController', MapEditorController);
 
-    MapViewController.$inject = ['$scope', '$state', 'Map', 'Project', 'Camera', 'Player'];
+    MapEditorController.$inject = ['$scope', '$state', 'Map', 'Project', 'Camera', 'Player'];
 
-    function MapViewController ($scope, $state, Map, Project, Camera, Player) {
+    function MapEditorController ($scope, $state, Map, Project, Camera, Player) {
         console.log('MapViewController scope: ', $scope);
         console.log('MapViewController this: ', this);
         var vm = this;

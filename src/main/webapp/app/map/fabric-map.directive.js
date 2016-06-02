@@ -19,7 +19,7 @@
             //     // onClick: '&'
             // }, 
             // controller: 'FabricMapController',
-            controller: 'MapViewController',
+            controller: 'MapEditorController',
             controllerAs: 'vm',
             bindToController: true
         };

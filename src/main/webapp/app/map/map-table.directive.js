@@ -12,11 +12,7 @@
             restrict: 'EA', 
             templateUrl: 'app/map/map-table-view-template.html',
             link: link,
-            // scope: {
-            //     map: '='
-            // }, 
-            // controller: mapTableViewController,
-            controller: 'MapViewController', 
+            controller: 'MapEditorController', 
             controllerAs: 'vm', 
             bindToController: true
         };
