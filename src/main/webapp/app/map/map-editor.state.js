@@ -10,7 +10,7 @@
     function stateConfig($stateProvider) {
         $stateProvider.state('map-editor', {
             parent: 'app',
-            url: '/mapeditor',
+            url: '/map-editor',
             data: {
                 authorities: ['ROLE_USER']
             },
