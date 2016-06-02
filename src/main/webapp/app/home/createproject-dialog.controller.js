@@ -47,11 +47,7 @@
 
         vm.save = function () {
             vm.isSaving = true;
-            if (vm.project.id !== null) {
-                Project.update(vm.project, onSaveSuccess, onSaveError);
-            } else {
-                Project.save(vm.project, onSaveSuccess, onSaveError);
-            }
+            Project.save(vm.project, onSaveSuccess, onSaveError);
         };
 
         var onLoadSuccess = function (result) {

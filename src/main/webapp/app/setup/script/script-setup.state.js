@@ -20,6 +20,13 @@
                     controller: 'ScriptSetupController',
                     controllerAs: 'vm'
                 }
+            },
+            resolve: {
+                currentProject: ['ProjectManager', 'currentProjectId',
+                    function (ProjectManager, currentProjectId) {
+                        return ProjectManager.validateScript(currentProjectId);
+                    }
+                ]
             }
         })
     }

@@ -20,6 +20,13 @@
                     controller: 'MapSetupController',
                     controllerAs: 'vm'
                 }
+            },
+            resolve: {
+                currentProject: ['ProjectManager', 'currentProjectId',
+                    function (ProjectManager, currentProjectId) {
+                        return ProjectManager.validateMap(currentProjectId);
+                    }
+                ]
             }
         }).state('map.create', {
             parent: 'map-setup',

@@ -1,7 +1,7 @@
 /**
  * Created by Hung.
  */
-(function() {
+(function () {
     'use strict';
     angular
         .module('thefirstorderApp')
@@ -9,12 +9,15 @@
 
     ProjectManager.$inject = ['$http', '$state', 'Project'];
 
-    function ProjectManager ($http, $state, Project) {
-        var resourceUrl =  'api/account/';
+    function ProjectManager($http, $state, Project) {
+        var resourceUrl = 'api/account/';
         var service = {
             get: get,
             update: update,
-            loadProject: loadProject
+            loadProject: loadProject,
+            validateProject: validateProject,
+            validateMap: validateMap,
+            validateScript: validateScript
         };
         return service;
 
@@ -26,7 +29,7 @@
             return $http.put(
                 'api/account/update_currentproject',
                 {},
-                { params: {projectId: id} }
+                {params: {projectId: id}}
             );
         }
 
@@ -39,40 +42,49 @@
                 return result.data;
             };
 
-            function onLoadError (error) {
+            function onLoadError(error) {
                 return null;
             };
         }
 
-        // function validateProject() {
-        //     this.get().then(function(currentProject) {
-        //         if (currentProject == null) {
-        //             failProject();
-        //             return null;
-        //         }
-        //
-        //         return Project.get({id: currentProject.data}, onLoadSuccess, onLoadError);
-        //
-        //         function onLoadSuccess(project) {
-        //             var map = project.map;
-        //             if(map == null){
-        //                 failMap();
-        //             }
-        //         };
-        //
-        //         function onLoadError(error) {
-        //             failProject();
-        //             return null;
-        //         }
-        //     });
-        // }
-        //
-        // function failProject(){
-        //     $state.go("noproject");
-        // }
-        //
-        // function failMap(){
-        //     $state.go("map-setup");
-        // }
+        function validateProject(currentProjectId) {
+            var res = validate(currentProjectId, function (project) {});
+
+            return res;
+        }
+
+        function validateMap(currentProjectId) {
+            var res = validate(currentProjectId, function (project) {
+                if (project.map == null) {
+                    $state.go("map-setup");
+                }
+            });
+
+            return res;
+        }
+
+        function validateScript(currentProjectId) {
+            var res = validate(currentProjectId, function (project) {
+                if (project.script == null) {
+                    $state.go("script-setup");
+                }
+            });
+
+            return res;
+        }
+
+        function validate(currentProjectId, onSuccess) {
+            if (currentProjectId == null) {
+                $state.go("noproject");
+            }
+
+            var res = Project.get({id: currentProjectId}, onSuccess, onError);
+
+            function onError() {
+                $state.go("noproject");
+            }
+
+            return res;
+        }
     }
 })();

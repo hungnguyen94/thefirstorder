@@ -10,10 +10,6 @@
     function TimelineController ($scope, $state, Cue, Player, Camera, CameraAction, Script, TimePoint, AlertService, currentProject, Project) {
         var vm = this;
 
-        vm.scriptAvailable = false;
-        vm.loadProject = loadProject;
-        vm.loadProject();
-
         var width = 120;
         var height = 60;
 
@@ -27,29 +23,6 @@
         vm.loadCameraActions();
         vm.loadScripts = loadScripts;
         vm.loadScripts();
-
-        function loadProject() {
-            if (currentProject == null) {
-                fail();
-            }
-
-            vm.project = Project.get({id: currentProject}, onLoadSuccess, onLoadError);
-
-            function onLoadSuccess(project) {
-                vm.script = project.script;
-                if(vm.script != null){
-                    vm.scriptAvailable = true;
-                }
-            };
-
-            function onLoadError(error) {
-                fail();
-            }
-        }
-
-        function fail(){
-            $state.go("noproject");
-        }
 
         function loadPlayers() {
             Player.query({

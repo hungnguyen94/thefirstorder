@@ -5,9 +5,9 @@
         .module('thefirstorderApp')
         .controller('CreateMapController', CreateMapController);
 
-    CreateMapController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Map', 'Project'];
+    CreateMapController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Map', 'Project', 'ProjectManager'];
 
-    function CreateMapController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Map, Project) {
+    function CreateMapController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Map, Project, ProjectManager) {
         var vm = this;
         vm.map = entity;
         vm.projects = Project.query();
@@ -29,7 +29,6 @@
         vm.save = function () {
             vm.isSaving = true;
             Map.save(vm.map, onSaveSuccess, onSaveError);
-            // TODO Set map of project
         };
 
         vm.clear = function() {

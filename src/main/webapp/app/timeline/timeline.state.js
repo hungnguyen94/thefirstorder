@@ -24,6 +24,13 @@
                     controller: 'TimelineController',
                     controllerAs: 'vm'
                 }
+            },
+            resolve: {
+                currentProject: ['ProjectManager', 'currentProjectId',
+                    function (ProjectManager, currentProjectId) {
+                        return ProjectManager.validateScript(currentProjectId);
+                    }
+                ]
             }
         });
     }
