@@ -30,7 +30,27 @@
             scope.vm.addPlayer = addPlayer;
             scope.vm.deleteCamera = deleteCamera;
             scope.vm.deletePlayer = deletePlayer;
-               
+           
+           
+            function deletePlayer(playerId) {
+                $uibModal.open({
+                    templateUrl: 'app/entities/player/player-delete-dialog.html',
+                    controller: 'PlayerDeleteController',
+                    controllerAs: 'vm',
+                    size: 'md',
+                    resolve: {
+                        entity: ['Player', function(Player) {
+                            return Player.get({id : playerId});
+                        }]
+                    }
+                }).result.then(function(result) {
+                    console.log('Deleted player result: ', result);
+                    scope.vm.update();
+                }, function() {
+                    console.log('Cancelled delete player');
+                });
+            }
+            
             function deleteCamera(cameraId) {
                 $uibModal.open({
                     templateUrl: 'app/entities/camera/camera-delete-dialog.html',

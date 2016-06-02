@@ -59,7 +59,18 @@
         ng-click="vm.setSelected(player)"
         ng-class="{ 'success': vm.selected == player }">
         <!--<td>{{player.id}}</td>-->
-        <td colspan="3">{{player.name}}</td>
+        <td colspan="2">{{player.name}}</td>
+        <td class="text-right">
+            <div class="btn-group flex-btn-group-container">
+                <button type="submit"
+                        ng-click="vm.deletePlayer(player.id)"
+                        has-any-authority="ROLE_ADMIN, ROLE_DIRECTOR"
+                        class="btn btn-primary btn-xs">
+                    <span class="glyphicon glyphicon-remove-circle"></span>
+                    <span class="hidden-xs hidden-sm"></span>
+                </button>
+            </div>
+        </td>
     </tr>
     <tr class="info" ng-repeat-end>
         <!--<tr ng-repeat-end uib-collapse="false">-->
