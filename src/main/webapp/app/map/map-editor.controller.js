@@ -17,9 +17,6 @@
         vm.update = getMapEntities;
         getMapEntities();
 
-
-        // $scope.$watch('vm.modified', onModify);
-        
         function getMapEntities() {
             Map.getDTO({id: 1}, function (result) {
                 console.log('result is: ', result);

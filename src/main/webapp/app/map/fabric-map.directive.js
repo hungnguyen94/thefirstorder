@@ -11,14 +11,6 @@
         var directive = {
             restrict: 'EA',
             link: link,
-            // templateUrl: 'app/map/fabric-map-view-template.html',
-            // scope: {
-            //     map: '='
-            //     // selected: '='
-            //     // onSelect: '&', 
-            //     // onClick: '&'
-            // }, 
-            // controller: 'FabricMapController',
             controller: 'MapEditorController',
             controllerAs: 'vm',
             bindToController: true

@@ -22,6 +22,7 @@
             console.log('Link from directive map-table-view called');
             console.log('Element is: ', element);
             console.log('Scope is: ', scope);
+            
             scope.vm.addCamera = addCamera;
             scope.vm.addPlayer = addPlayer;
             scope.vm.deleteCamera = deleteCamera;
@@ -84,9 +85,7 @@
                     }
                 }).result.then(function(result) {
                     console.log('result add player: ', result);
-                    // scope.vm.map.cameras.push(result);
                     scope.vm.update();
-                    console.log('vm.map is: ', scope.vm.map);
                 }, function() {
                     console.log('Pressed cancel');
                 });
@@ -111,37 +110,12 @@
                     }
                 }).result.then(function(result) {
                     console.log('result add camera: ', result);
-                    // scope.vm.map.cameras.push(result);
                     scope.vm.update();
-                    console.log('vm.map is: ', scope.vm.map);
                 }, function() {
                     console.log('Pressed cancel');
                 });
             }
         }
     }
-
-    // mapTableViewController.$inject = ['$scope'];
-    //
-    // function mapTableViewController ($scope) {
-    //     console.log('This is the map-table controller: ', $scope);
-    //     var vm = this;
-    //     vm.setSelected = setSelected;
-    //    
-    //     vm.isCamerasCollapsed = true;
-    //     vm.isPlayersCollapsed = true;
-    //    
-    //     console.log('Scope is: ', $scope);
-    //
-    //     function setSelected(entity) {
-    //         if(vm.selected == entity) {
-    //             vm.selected = null;
-    //         } else {
-    //             vm.selected = entity;
-    //         }
-    //         console.log('Selected entity: ', vm.selected);
-    //         return vm.selected;
-    //     }
-    // }
 })();
 
