@@ -4,8 +4,10 @@
     angular
         .module('thefirstorderApp')
         .directive('mapTableView', mapTableView);
+    
+    mapTableView.$inject = ['$uibModal'];
 
-    function mapTableView() {
+    function mapTableView($uibModal) {
         var directive = {
             restrict: 'EA', 
             templateUrl: 'app/map/map-table-view-template.html',
@@ -24,6 +26,30 @@
             console.log('Link from directive map-table-view called');
             console.log('Element is: ', element);
             console.log('Scope is: ', scope);
+            scope.vm.addCamera = function () {
+                $uibModal.open({
+                    templateUrl: 'app/entities/camera/camera-dialog.html',
+                    controller: 'CameraDialogController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    size: 'lg',
+                    resolve: {
+                        entity: function () {
+                            return {
+                                name: null,
+                                x: null,
+                                y: null,
+                                id: null
+                            };
+                        }
+                    }
+                }).result.then(function(something) {
+                    // $state.go('camera', null, { reload: true });
+                    console.log('result then something: ', something);
+                }, function() {
+                    // $state.go('camera');
+                });
+            }
         }
     }
 

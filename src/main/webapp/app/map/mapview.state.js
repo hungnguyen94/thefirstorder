@@ -16,9 +16,9 @@
             },
             views: {
                 'content@': {
-                    templateUrl: 'app/map/mapview.html',
-                    controller: 'MapviewController',
-                    controllerAs: 'vm'
+                    templateUrl: 'app/map/mapview.html'
+                    // controller: 'MapViewController',
+                    // controllerAs: 'vm'
                 }
             }
         });

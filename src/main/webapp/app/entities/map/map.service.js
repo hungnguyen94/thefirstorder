@@ -18,7 +18,7 @@
                     return data;
                 }
             },
-            'update': { method:'PUT' }, 
+            'update': { method: 'PUT' }, 
             'getDTO': {
                 method: 'GET', 
                 url: resourceUrl + '/dto', 
@@ -26,6 +26,16 @@
                 transformResponse: function (data) {
                     data = angular.fromJson(data);
                     return data;
+                }
+            }, 
+            'addCamera': {
+                method: 'PUT', 
+                // url: resourceUrl + '/addCamera',
+                url: resourceUrl + '/addCamera?cameraId=:cameraId', 
+                isArray: false,
+                params: {
+                    id: '@id',
+                    cameraId: '@cameraId'
                 }
             }
         });
