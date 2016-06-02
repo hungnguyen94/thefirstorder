@@ -5,10 +5,20 @@
         .module('thefirstorderApp')
         .controller('TimelineController', TimelineController);
 
-    TimelineController.$inject = ['$scope', '$state', 'Cue', 'Player', 'Camera', 'CameraAction', 'Script', 'TimePoint', 'AlertService'];
+    TimelineController.$inject = ['$scope', '$state', 'Cue', 'Player', 'Camera', 'CameraAction', 'Script', 'TimePoint', 'AlertService', 'currentProject'];
 
-    function TimelineController ($scope, $state, Cue, Player, Camera, CameraAction, Script, TimePoint, AlertService) {
+    function TimelineController ($scope, $state, Cue, Player, Camera, CameraAction, Script, TimePoint, AlertService, currentProject) {
         var vm = this;
+
+        vm.loadProject = loadProject;
+        vm.loadProject();
+
+        function loadProject() {
+            if(currentProject == null){
+                $state.go("noproject");
+            }
+        }
+
 
         var width = 120;
         var height = 60;

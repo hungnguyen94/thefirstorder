@@ -5,7 +5,7 @@
         .module('thefirstorderApp')
         .controller('MapviewController', MapviewController);
 
-    MapviewController.$inject = ['$scope', '$state', 'Camera', 'Player', 'Cue', 'AlertService'];
+    MapviewController.$inject = ['$scope', '$state', 'Camera', 'Player', 'Cue', 'AlertService', 'currentProject'];
 
     /**
      * The controller for the map view.
@@ -15,7 +15,7 @@
      * @param AlertService the alertservice
      * @constructor
      */
-    function MapviewController ($scope, $state, Camera, Player, Cue, AlertService) {
+    function MapviewController ($scope, $state, Camera, Player, Cue, AlertService, currentProject) {
         var vm = this;
         var grid = 15;
 
@@ -24,6 +24,15 @@
         vm.loadPlayers = loadPlayers;
         vm.loadCues = loadCues;
         vm.loadCues();
+
+        vm.loadProject = loadProject;
+        vm.loadProject();
+
+        function loadProject() {
+            if(currentProject == null){
+                $state.go("noproject");
+            }
+        }
 
         function loadCameras () {
             Camera.query({

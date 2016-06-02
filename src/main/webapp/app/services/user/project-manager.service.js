@@ -13,7 +13,8 @@
         var resourceUrl =  'api/account/';
         var service = {
             get: get,
-            update: update
+            update: update,
+            loadProject: loadProject
         };
         return service;
 
@@ -27,6 +28,20 @@
                 {},
                 { params: {projectId: id} }
             );
+        }
+
+        function loadProject() {
+            var currentProject = this.get().then(onLoadSuccess, onLoadError);
+
+            return currentProject;
+
+            function onLoadSuccess(result) {
+                return result.data;
+            };
+
+            function onLoadError (error) {
+                return null;
+            };
         }
     }
 })();
