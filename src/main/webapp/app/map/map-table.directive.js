@@ -39,14 +39,17 @@
                                 name: null,
                                 x: null,
                                 y: null,
-                                id: null
+                                id: null 
                             };
                         }
                     }
-                }).result.then(function(something) {
-                    // $state.go('camera', null, { reload: true });
-                    console.log('result then something: ', something);
+                }).result.then(function(result) {
+                    console.log('result then something: ', result);
+                    // scope.vm.map.cameras.push(result);
+                    scope.vm.update();
+                    console.log('vm.map is: ', scope.vm.map);
                 }, function() {
+                    console.log('Pressed cancel');
                     // $state.go('camera');
                 });
             }

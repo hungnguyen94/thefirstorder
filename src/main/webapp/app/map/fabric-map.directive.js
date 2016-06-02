@@ -5,9 +5,9 @@
         .module('thefirstorderApp')
         .directive('fabricMap', fabricMap);
 
-    fabricMap.$inject = ['$window'];
+    fabricMap.$inject = ['$window', 'Player', 'Camera'];
     
-    function fabricMap($window) {
+    function fabricMap($window, Player, Camera) {
         var directive = {
             restrict: 'EA',
             link: link,
@@ -31,7 +31,7 @@
             console.log('Scope is: ', scope);
             
             scope.canvas = {};
-            scope.selected = {};
+            scope.vm.selected = {};
 
             init();
             
@@ -45,7 +45,7 @@
             });
             
             scope.canvas.on('object:selected', onSelect);
-
+            
             scope.canvas.on('object:modified', updateEntity);
 
             /////////////////////////
@@ -85,14 +85,15 @@
                     height: scope.canvas.width / scope.aspectRatio
                 });
                 scope.canvas.forEachObject(setDrawableProperties);
-                scope.canvas.calcOffset();
                 scope.canvas.renderAll();
+                scope.canvas.calcOffset();
                 console.log('parent is ', parent);
             }
             
             function draw(cameras, players) {
                 var drawableCameras = cameras.map(transformCamera);
                 var drawablePlayers = players.map(transformPlayer);
+                scope.canvas.clear();
                 drawEntities(drawableCameras.concat(drawablePlayers));
             }
             
@@ -110,7 +111,7 @@
                 drawable.height = 15;
                 drawable.lockScalingX = true;
                 drawable.lockScalingY = true;
-                drawable.hasControls = false;
+                // drawable.hasControls = false;
                 var position = getAbsolutePosition(drawable.x, drawable.y);
                 drawable.left = position.x;
                 drawable.top = position.y;
@@ -118,14 +119,30 @@
             }
 
             function transformCamera(camera) {
-                var rect = new fabric.Circle({
-                    radius: 10, 
+                var cam = new fabric.Path('m96.6,26.8h-86.1c-2.2,0-4.1,1.8-4.1,4.1v67.2c0,2.2 1.8,4.1 4.1,4.1h86.1c2.2,0 4.1-1.8 4.1-4.1v-19.4l14.9,14.9c0.8,0.8 1.8,1.2 2.9,1.2 0.5,0 1.1-0.1 1.6-0.3 1.5-0.6 2.5-2.1 2.5-3.8v-52.5c0-1.6-1-3.1-2.5-3.8-1.5-0.6-3.3-0.3-4.4,0.9l-14.9,14.9v-19.3c-0.1-2.3-1.9-4.1-4.2-4.1zm-4.1,33.3v8.8 25.2h-78v-59.2h78v25.2zm21.9-12v32.9l-13.7-13.7v-5.4l13.7-13.8z');
+                cam.set({
                     x: camera.x,
                     y: camera.y,
-                    fill: 'red',
-                    entity: camera
+                    scaleX: 0.3,
+                    scaleY: 0.3,
+                    padding: 10, 
+                    fill: 'green',
+                    entity: camera,
+                    camera: true, 
+                    hasControls: true
                 });
-                return rect;
+                cam.setControlsVisibility({
+                    bl: false, 
+                    br: false, 
+                    mb: false, 
+                    ml: false, 
+                    mr: false, 
+                    mt: false, 
+                    tl: false, 
+                    tr: false, 
+                    mtr: true 
+                });
+                return cam;
             }
 
             function transformPlayer(player) {
@@ -133,7 +150,9 @@
                     x: player.x,
                     y: player.y,
                     fill: 'blue',
-                    entity: player
+                    entity: player, 
+                    player: true, 
+                    hasControls: false
                 });
                 return rect;
             }
@@ -166,85 +185,26 @@
                     var position = getRelativePosition(target.left, target.top);
                     entity.x = position.x;
                     entity.y = position.y;
+                    onModify(target);
                 }
             }
 
             function onSelect (options) {
                 console.log('Selected object: ', options);
                 var target = options.target;
-                if(target) {
-                    scope.vm.selected = target.entity;
+                scope.vm.selected = target.entity;
+                console.log('vm.selected: ', scope.vm.selected);
+            }
+
+            function onModify(target) {
+                console.log('updated target: ', target);
+                if(target.camera) {
+                    Camera.update(target.entity);
+                } else if(target.player) {
+                    Player.update(target.entity);
                 }
             }
-            
-            
-            // /**
-            //  * Draws a grid on the canvas
-            //  * @param gridsize Size of the blocks in the grid
-            //  */
-            // function drawGrid(gridsize) {
-            //     var canvas = scope.canvas;
-            //     for(var x = 0; x < (canvas.width / gridsize); x++) {
-            //         canvas.add(new fabric.Line([
-            //                 gridsize * x,
-            //                 0,
-            //                 gridsize * x,
-            //                 Math.floor(canvas.height / gridsize) * gridsize],
-            //             { stroke: "#000000", strokeWidth: 1, selectable:false, strokeDashArray: [1, 1]}
-            //         ));
-            //         canvas.add(new fabric.Line([
-            //                 0,
-            //                 gridsize * x,
-            //                 Math.floor(canvas.width / gridsize) * gridsize - gridsize,
-            //                 gridsize * x],
-            //             { stroke: "#000000", strokeWidth: 1, selectable:false, strokeDashArray: [1, 1]}
-            //         ));
-            //     }
-            // }
-            
         }
     }
-
-    // FabricMapController.$inject = ['$scope', 'MapService'];
-    //
-    // function FabricMapController ($scope, MapService) {
-    //     console.log('This is the fabric-map-view controller');
-    //     var vm = this;
-    //     vm.canvas = $scope.canvas;
-    //     vm.draw = $scope.draw;
-    //     console.log('Scope is: ', $scope);
-    //
-    //     vm.transformCamera = transformCamera;
-    //     vm.transformPlayer = transformPlayer;
-    //
-    //     // MapService.get({mapId: vm.mapId}, function (result) {
-    //     //     console.log('result is: ', result);
-    //     //     vm.cameras = result.cameras;
-    //     //     vm.players = result.players;
-    //     //     var drawableCameras = vm.cameras.map(transformCamera);
-    //     //     var drawablePlayers = vm.players.map(transformPlayer);
-    //     //     vm.drawables = drawableCameras.concat(drawablePlayers);
-    //     //     console.log('Drawables: ', vm.drawables);
-    //     //     $scope.draw(vm.drawables);
-    //     // });
-    //
-    //     function transformCamera(camera) {
-    //         var rect = new fabric.Rect({
-    //             left: camera.x,
-    //             top: camera.y,
-    //             fill: 'red'
-    //         });
-    //         return rect;
-    //     }
-    //
-    //     function transformPlayer(player) {
-    //         var rect = new fabric.Rect({
-    //             left: player.x,
-    //             top: player.y,
-    //             fill: 'blue'
-    //         });
-    //         return rect;
-    //     }
-    // };
 })();
 

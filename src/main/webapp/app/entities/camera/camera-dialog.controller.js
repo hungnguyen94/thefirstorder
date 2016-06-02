@@ -18,12 +18,6 @@
         });
 
         var onSaveSuccess = function (result) {
-            if(vm.map !== null) {
-                var response = Map.addCamera({
-                    id: vm.map.id, 
-                    cameraId: result.id
-                }); 
-            }
             $scope.$emit('thefirstorderApp:cameraUpdate', result);
             $uibModalInstance.close(result);
             vm.isSaving = false;
@@ -32,13 +26,24 @@
         var onSaveError = function () {
             vm.isSaving = false;
         };
+        
+        var saveMap = function (result) {
+            if(vm.map !== null) {
+                Map.addCamera({
+                    id: vm.map.id,
+                    cameraId: result.id
+                }, onSaveSuccess(result), onSaveError);
+            } else {
+                onSaveSuccess(result);
+            }
+        };
 
         vm.save = function () {
             vm.isSaving = true;
             if (vm.camera.id !== null) {
-                Camera.update(vm.camera, onSaveSuccess, onSaveError);
+                Camera.update(vm.camera, saveMap, onSaveError);
             } else {
-                Camera.save(vm.camera, onSaveSuccess, onSaveError);
+                Camera.save(vm.camera, saveMap, onSaveError);
             }
         };
 
