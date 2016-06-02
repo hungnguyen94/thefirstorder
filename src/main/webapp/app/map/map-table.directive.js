@@ -28,7 +28,27 @@
             console.log('Scope is: ', scope);
             scope.vm.addCamera = addCamera;
             scope.vm.addPlayer = addPlayer;
+            scope.vm.deleteCamera = deleteCamera;
+            scope.vm.deletePlayer = deletePlayer;
                
+            function deleteCamera(cameraId) {
+                $uibModal.open({
+                    templateUrl: 'app/entities/camera/camera-delete-dialog.html',
+                    controller: 'CameraDeleteController',
+                    controllerAs: 'vm',
+                    size: 'md',
+                    resolve: {
+                        entity: ['Camera', function(Camera) {
+                            return Camera.get({id : cameraId});
+                        }]
+                    }
+                }).result.then(function(result) {
+                    console.log('Deleted camera result: ', result);
+                    scope.vm.update();
+                }, function() {
+                    console.log('Cancelled delete camera');
+                });
+            }
             function addPlayer() {
                 $uibModal.open({
                     templateUrl: 'app/entities/player/player-dialog.html',
