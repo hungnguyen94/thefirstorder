@@ -136,6 +136,14 @@ public class PDFExportUtil {
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         cameratable.addCell(c1);
 
+        c1 = new PdfPCell(new Phrase("Camera Type"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cameratable.addCell(c1);
+
+        c1 = new PdfPCell(new Phrase("Lens Type"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cameratable.addCell(c1);
+
         PdfPTable actiontable = new PdfPTable(2);
 
         c1 = new PdfPCell(new Phrase("Action"));
@@ -163,6 +171,8 @@ public class PDFExportUtil {
             cameratable.addCell(camera.getName());
             cameratable.addCell(camera.getX() + "");
             cameratable.addCell(camera.getY() + "");
+            cameratable.addCell(camera.getCameraType());
+            cameratable.addCell(camera.getLensType());
             CameraAction action = cue.getCameraAction();
             actiontable.addCell(action.getName());
             index++;
