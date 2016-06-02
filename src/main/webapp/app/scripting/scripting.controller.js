@@ -79,7 +79,7 @@
 
                     dataSet.push({
                         id: vm.cues[i].id,
-                        content: vm.cues[i].action;
+                        content: vm.cues[i].action,
                         start: startYear + "-01-01",
                         end: endYear + '-01-01',
                         group: vm.cues[i].camera.name
