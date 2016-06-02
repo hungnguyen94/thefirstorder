@@ -61,7 +61,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findOneById(Long userId);
 
     /**
-     * Find all users which have the project with given project id as their current project
+     * Find all users which have the project with given project id as their current project.
      *
      * @param currentProjectId the user ID
      * @return a list of users

@@ -17,6 +17,10 @@ public class MapDTO {
 
     private Set<Player> players;
 
+    /**
+     * Data transfer object for transfering Map entities.
+     * @param map The map.
+     */
     public MapDTO(Map map) {
         this.name = map.getName();
         this.cameras = map.getCameras();
