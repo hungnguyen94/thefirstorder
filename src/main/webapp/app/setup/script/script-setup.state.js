@@ -28,6 +28,36 @@
                     }
                 ]
             }
+        }).state('script.create', {
+            parent: 'script-setup',
+            url: '/new',
+            data: {
+                authorities: ['ROLE_USER']
+            },
+            onEnter: ['$stateParams', '$state', '$uibModal', 'currentProject', function ($stateParams, $state, $uibModal, currentProject) {
+                $uibModal.open({
+                    templateUrl: 'app/setup/script/createscript-dialog.html',
+                    controller: 'CreateScriptController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    size: 'lg',
+                    resolve: {
+                        entity: function () {
+                            return {
+                                name: null,
+                                id: null
+                            };
+                        },
+                        currentProject: function(){
+                            return currentProject;
+                        }
+                    }
+                }).result.then(function () {
+                    $state.go('timeline', null, {reload: true});
+                }, function () {
+                    $state.go('script-setup');
+                });
+            }]
         })
     }
 })();

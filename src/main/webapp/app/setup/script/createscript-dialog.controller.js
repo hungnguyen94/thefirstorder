@@ -3,20 +3,20 @@
 
     angular
         .module('thefirstorderApp')
-        .controller('CreateMapController', CreateMapController);
+        .controller('CreateScriptController', CreateScriptController);
 
-    CreateMapController.$inject = ['$timeout', '$scope', 'entity', '$uibModalInstance', 'Map', 'Project', 'currentProject'];
+    CreateScriptController.$inject = ['$timeout', '$scope', 'entity', '$uibModalInstance', 'Script', 'Project', 'currentProject'];
 
-    function CreateMapController ($timeout, $scope, entity, $uibModalInstance, Map, Project, currentProject) {
+    function CreateScriptController ($timeout, $scope, entity, $uibModalInstance, Script, Project, currentProject) {
         var vm = this;
-        vm.map = entity;
+        vm.script = entity;
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();
         });
 
         var onSaveSuccess = function (result) {
-            currentProject.map = result;
+            currentProject.script = result;
             Project.update(currentProject);
 
             $scope.$emit('thefirstorderApp:mapUpdate', result);
@@ -30,7 +30,7 @@
 
         vm.save = function () {
             vm.isSaving = true;
-            Map.save(vm.map, onSaveSuccess, onSaveError);
+            Script.save(vm.script, onSaveSuccess, onSaveError);
         };
 
         vm.clear = function() {

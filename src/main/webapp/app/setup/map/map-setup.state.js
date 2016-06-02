@@ -34,7 +34,7 @@
             data: {
                 authorities: ['ROLE_USER']
             },
-            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+            onEnter: ['$stateParams', '$state', '$uibModal', 'currentProject', function ($stateParams, $state, $uibModal, currentProject) {
                 $uibModal.open({
                     templateUrl: 'app/setup/map/createmap-dialog.html',
                     controller: 'CreateMapController',
@@ -47,11 +47,14 @@
                                 name: null,
                                 id: null
                             };
+                        },
+                        currentProject: function(){
+                            return currentProject;
                         }
                     }
-                }).result.then(function() {
-                    $state.go('mapview', null, { reload: true });
-                }, function() {
+                }).result.then(function () {
+                    $state.go('mapview', null, {reload: true});
+                }, function () {
                     $state.go('map-setup');
                 });
             }]
