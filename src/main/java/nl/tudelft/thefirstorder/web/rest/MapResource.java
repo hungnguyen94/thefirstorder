@@ -151,6 +151,13 @@ public class MapResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("map", id.toString())).build();
     }
 
+    /**
+     * Return a data transfer object for the Map,
+     * which includes all the cameras and players
+     * contained in the map.
+     * @param mapId Id of the Map
+     * @return MapDTO
+     */
     @RequestMapping(value = "/maps/{mapId}/dto",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
