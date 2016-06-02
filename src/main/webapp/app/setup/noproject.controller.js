@@ -9,16 +9,13 @@
 
     function NoProjectController($scope, Principal, LoginService, $state, Project, AlertService, currentProject) {
         var vm = this;
-        vm.hasCurrentProject = false;
+        vm.projectIsNull = true;
 
         loadProject();
 
         function loadProject() {
             if(currentProject != null) {
-                vm.currentProject = Project.get({id: currentProject});
-                if (vm.currentProject != null) {
-                    vm.hasCurrentProject = true;
-                }
+                vm.projectIsNull = false;
             }
         }
     }
