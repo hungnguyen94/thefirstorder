@@ -1,7 +1,6 @@
 package nl.tudelft.thefirstorder.service;
 import nl.tudelft.thefirstorder.domain.*;
 import nl.tudelft.thefirstorder.service.util.XMLExportUtil;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -17,7 +16,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 /**

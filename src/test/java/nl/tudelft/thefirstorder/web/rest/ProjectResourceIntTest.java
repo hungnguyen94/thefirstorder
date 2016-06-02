@@ -1,10 +1,8 @@
 package nl.tudelft.thefirstorder.web.rest;
 
 import nl.tudelft.thefirstorder.ThefirstorderApp;
-import nl.tudelft.thefirstorder.domain.Cue;
 import nl.tudelft.thefirstorder.domain.Map;
 import nl.tudelft.thefirstorder.domain.Project;
-import nl.tudelft.thefirstorder.domain.Script;
 import nl.tudelft.thefirstorder.repository.ProjectRepository;
 import nl.tudelft.thefirstorder.service.CueService;
 import nl.tudelft.thefirstorder.service.MapService;
@@ -32,9 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;

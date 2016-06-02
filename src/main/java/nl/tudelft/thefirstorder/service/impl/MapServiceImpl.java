@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Service Implementation for managing Map.
@@ -77,46 +76,48 @@ public class MapServiceImpl implements MapService {
      *  
      *  @param id the id of the entity
      */
+    @Transactional
     public void delete(Long id) {
         log.debug("Request to delete Map : {}", id);
         mapRepository.delete(id);
     }
 
-    /**
-     * Adds a camera to the Map.
-     *
-     * @param mapId    Id of the Map
-     * @param cameraId Id of the Camera
-     * @return The updated map
-     */
-    public Optional<Map> addCamera(Long mapId, Long cameraId) {
-        Map map = findOne(mapId);
-        return Optional.ofNullable(cameraService.findOne(cameraId))
-                .map(camera -> {
-                    log.debug("Request to add camera {} to map {}", mapId, cameraId);
-                    map.addCamera(camera);
-                    mapRepository.save(map);
-                    return map;
-                });
-    }
-
-    /**
-     * Adds a player to the Map.
-     *
-     * @param mapId    Id of the Map
-     * @param playerId Id of the Player
-     * @return The updated map
-     */
-    @Override
-    public Optional<Map> addPlayer(Long mapId, Long playerId) {
-        Map map = findOne(mapId);
-        return Optional.ofNullable(playerService.findOne(playerId))
-                .map(player -> {
-                    log.debug("Request to add player {} to map {}", mapId, playerId);
-                    map.addPlayer(player);
-                    return mapRepository.save(map);
-                });
-    }
+//    /**
+//     * Adds a camera to the Map.
+//     *
+//     * @param mapId    Id of the Map
+//     * @param cameraId Id of the Camera
+//     * @return The updated map
+//     */
+//    @Transactional
+//    public Optional<Map> addCamera(Long mapId, Long cameraId) {
+//        Map map = findOne(mapId);
+//        return Optional.ofNullable(cameraService.findOne(cameraId))
+//                .map(camera -> {
+//                    log.debug("Request to add camera {} to map {}", mapId, cameraId);
+//                    map.addCamera(camera);
+//                    mapRepository.save(map);
+//                    return map;
+//                });
+//    }
+//
+//    /**
+//     * Adds a player to the Map.
+//     *
+//     * @param mapId    Id of the Map
+//     * @param playerId Id of the Player
+//     * @return The updated map
+//     */
+//    @Transactional
+//    public Optional<Map> addPlayer(Long mapId, Long playerId) {
+//        Map map = findOne(mapId);
+//        return Optional.ofNullable(playerService.findOne(playerId))
+//                .map(player -> {
+//                    log.debug("Request to add player {} to map {}", mapId, playerId);
+//                    map.addPlayer(player);
+//                    return mapRepository.save(map);
+//                });
+//    }
 
     /**
      * Get all maps where project is null.

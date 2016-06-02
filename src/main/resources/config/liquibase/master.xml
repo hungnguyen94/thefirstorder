@@ -15,8 +15,8 @@
     <include file="classpath:config/liquibase/changelog/20160518111537_added_entity_TimePoint.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20160504134055_added_entity_CameraAction.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20160520223310_added_entity_column_User.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20160524154401_added_jointable_map_cameras.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20160524163221_added_jointable_map_players.xml" relativeToChangelogFile="false"/>
+    <!--<include file="classpath:config/liquibase/changelog/20160524154401_added_jointable_map_cameras.xml" relativeToChangelogFile="false"/>-->
+    <!--<include file="classpath:config/liquibase/changelog/20160524163221_added_jointable_map_players.xml" relativeToChangelogFile="false"/>-->
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="classpath:config/liquibase/changelog/20160504105827_added_entity_constraints_Project.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20160504113134_added_entity_constraints_Cue.xml" relativeToChangelogFile="false"/>

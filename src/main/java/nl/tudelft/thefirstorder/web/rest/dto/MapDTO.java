@@ -49,9 +49,13 @@ public class MapDTO {
 
     @Override
     public String toString() {
+        StringBuilder sbCamera = new StringBuilder();
+        cameras.forEach(camera -> sbCamera.append(camera).append("\n"));
+        StringBuilder sbPlayer = new StringBuilder();
+        players.forEach(player -> sbPlayer.append(player).append("\n"));
         return "MapDTO{"
-                + "cameras=" + cameras
-                + ", players=" + players
+                + "cameras=" + "\n" + sbCamera.toString()
+                + ", players=" + "\n" + sbPlayer.toString()
                 + '}';
     }
 }

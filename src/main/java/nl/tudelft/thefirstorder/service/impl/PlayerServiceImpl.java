@@ -11,10 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 /**
  * Service Implementation for managing Player.
@@ -49,14 +45,6 @@ class PlayerServiceImpl implements PlayerService {
     public Page<Player> findAll(Pageable pageable) {
         log.debug("Request to get all Players");
         return playerRepository.findAll(pageable);
-    }
-
-    @Override
-    public List<Player> findPlayersByProject(Long projectId) {
-        return StreamSupport
-            .stream(playerRepository.findAll().spliterator(), false)
-            .filter(player -> Objects.equals(player.getProject().getId(), projectId))
-            .collect(Collectors.toList());
     }
 
     /**

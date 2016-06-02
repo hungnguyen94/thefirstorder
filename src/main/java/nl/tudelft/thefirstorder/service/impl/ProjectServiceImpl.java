@@ -1,8 +1,6 @@
 package nl.tudelft.thefirstorder.service.impl;
 
-import nl.tudelft.thefirstorder.domain.Map;
 import nl.tudelft.thefirstorder.domain.Project;
-import nl.tudelft.thefirstorder.domain.Script;
 import nl.tudelft.thefirstorder.repository.ProjectRepository;
 import nl.tudelft.thefirstorder.service.ProjectService;
 import org.slf4j.Logger;

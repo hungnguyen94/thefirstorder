@@ -10,7 +10,6 @@
     function CameraDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Camera, Project, Map) {
         var vm = this;
         vm.camera = entity;
-        vm.projects = Project.query();
         vm.maps = Map.query();
 
         $timeout(function (){
@@ -27,23 +26,12 @@
             vm.isSaving = false;
         };
         
-        var saveMap = function (result) {
-            if(vm.map !== null) {
-                Map.addCamera({
-                    id: vm.map.id,
-                    cameraId: result.id
-                }, onSaveSuccess(result), onSaveError);
-            } else {
-                onSaveSuccess(result);
-            }
-        };
-
         vm.save = function () {
             vm.isSaving = true;
             if (vm.camera.id !== null) {
-                Camera.update(vm.camera, saveMap, onSaveError);
+                Camera.update(vm.camera, onSaveSuccess, onSaveError);
             } else {
-                Camera.save(vm.camera, saveMap, onSaveError);
+                Camera.save(vm.camera, onSaveSuccess, onSaveError);
             }
         };
 
