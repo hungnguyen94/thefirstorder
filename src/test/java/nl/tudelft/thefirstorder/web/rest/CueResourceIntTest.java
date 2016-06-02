@@ -10,11 +10,17 @@ import nl.tudelft.thefirstorder.service.ScriptService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import static org.hamcrest.Matchers.any;
 import static org.hamcrest.Matchers.hasItem;
+
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -65,10 +71,14 @@ public class CueResourceIntTest {
 
     private Cue cue;
 
+    private CueResource cueResource;
+
+    @Mock private Pageable pageable;
+
     @PostConstruct
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        CueResource cueResource = new CueResource();
+        cueResource = new CueResource();
         ReflectionTestUtils.setField(cueResource, "cueService", cueService);
         this.restCueMockMvc = MockMvcBuilders.standaloneSetup(cueResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
@@ -127,6 +137,11 @@ public class CueResourceIntTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(cue.getId().intValue())));
+    }
+
+    @Test
+    public void getAllCuesNotNullId() throws Exception {
+        assertThat(cueResource.getAllCues(pageable,new Long(1))).isEqualTo(ResponseEntity.ok(cueService.findCuesByScript(new Long(1))));
     }
 
     @Test

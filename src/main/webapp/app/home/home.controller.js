@@ -11,11 +11,11 @@
         var vm = this;
         vm.account = null;
         vm.isAuthenticated = null;
-        vm.hasProject = false;
+        vm.hasCurrentProject = false;
         vm.login = LoginService.open;
         vm.register = register;
-        vm.loadProject = loadProject;
-        vm.loadProject();
+
+        loadProject();
 
         $scope.$on('authenticationSuccess', function () {
             getAccount();
@@ -36,7 +36,9 @@
 
         function loadProject() {
             vm.currentProject = Project.get({id: currentProject});
-            vm.hasProject = true;
+            if(vm.currentProject != null) {
+                vm.hasProject = true;
+            }
         }
     }
 })();
