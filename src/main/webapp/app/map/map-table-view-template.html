@@ -50,11 +50,15 @@
         <!--<td>{{player.id}}</td>-->
         <td colspan="3">{{player.name}}</td>
     </tr>
-    <tr class="info" ng-repeat-end uib-collapse="vm.selected != player">
-    <!--<tr ng-repeat-end uib-collapse="false">-->
-        <td>id: {{player.id}}</td>
-        <td>x: {{player.x}}</td>
-        <td>y: {{player.y}}</td>
+    <tr class="info" ng-repeat-end>
+        <!--<tr ng-repeat-end uib-collapse="false">-->
+        <td colspan="3" style="padding-top: 0; padding-bottom: 0">
+            <div uib-collapse="vm.selected != player">
+                <p>id: {{player.id}}</p>
+                <p>x: {{player.x}}</p>
+                <p>y: {{player.y}}</p>
+            </div>
+        </td>
     </tr>
 
     <tr class="btn btn-raised btn-xs" ng-click="vm.addPlayer()">

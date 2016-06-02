@@ -1,6 +1,5 @@
 package nl.tudelft.thefirstorder.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -32,13 +31,12 @@ public class Player implements Serializable {
     private String name;
 
     @ManyToOne
-    @JsonIgnore
     private Map map;
 
-    @Column(name = "X")
+    @Column(name = "x")
     private int x;
 
-    @Column(name = "Y")
+    @Column(name = "y")
     private int y;
 
     /**
