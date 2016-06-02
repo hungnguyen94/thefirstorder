@@ -10,7 +10,6 @@
     ProjectManager.$inject = ['$http'];
 
     function ProjectManager ($http) {
-        var resourceUrl =  'api/account/';
         var service = {
             get: get,
             update: update

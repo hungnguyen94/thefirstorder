@@ -4,8 +4,6 @@ import nl.tudelft.thefirstorder.domain.Camera;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-
 /**
  * Service Interface for managing Camera.
  */
@@ -34,14 +32,6 @@ public interface CameraService {
      *  @return the entity
      */
     Camera findOne(Long id);
-
-    /**
-     * Get the cameras, associated with the map with the given id.
-     *
-     * @param projectId the id of the map.
-     * @return the list of camera entities
-     */
-    List<Camera> findCamerasByProject(Long projectId);
 
     /**
      *  Delete the "id" camera.

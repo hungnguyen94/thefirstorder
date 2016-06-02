@@ -1,8 +1,15 @@
 <div ng-cloak>
     <div class="row">
-        <div class="col-md-12">
-            <h2 class="text-center">Timeline</h2><br /><br />
-            <div id="visualization"></div>
+        <div class="col-md-7">
+            <div id="map">
+                <CENTER>
+                    <br />
+                    <canvas id="concertMap" width="600" height="500"></canvas>
+                </CENTER>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <h3 class="text-center">Add new Cue</h3>
             <fieldset class="form-group">
                 <label for="selectPlayer">Which player should we use for the cue?</label>
                 <select class="form-control" id="selectPlayer">
@@ -27,6 +34,12 @@
                 <label for="durationCue">How long should this cue be?</label>
                 <input type="number" class="form-control" id="durationCue" placeholder="1">
             </fieldset>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <br />
+                <div id="visualization"></div>
+            </div>
         </div>
     </div>
 </div>

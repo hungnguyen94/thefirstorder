@@ -33,7 +33,7 @@
                 <constraints nullable="true" />
             </column>
             
-            <column name="project_id" type="bigint"/>
+            <column name="map_id" type="bigint"/>
             <!-- jhipster-needle-liquibase-add-column - Jhipster will add columns here, do not remove-->
         </createTable>
         

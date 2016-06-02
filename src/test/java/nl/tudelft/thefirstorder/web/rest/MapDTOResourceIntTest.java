@@ -7,9 +7,7 @@ import nl.tudelft.thefirstorder.domain.Player;
 import nl.tudelft.thefirstorder.repository.CameraRepository;
 import nl.tudelft.thefirstorder.repository.MapRepository;
 import nl.tudelft.thefirstorder.repository.PlayerRepository;
-import nl.tudelft.thefirstorder.service.CameraService;
 import nl.tudelft.thefirstorder.service.MapService;
-import nl.tudelft.thefirstorder.service.PlayerService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,6 +28,8 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -45,7 +45,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringApplicationConfiguration(classes = ThefirstorderApp.class)
 @WebAppConfiguration
 @IntegrationTest
-public class MapJoinTableResourceIntTest {
+public class MapDTOResourceIntTest {
 
     private static final String DEFAULT_MAP_NAME = "AAAAA";
     private static final String UPDATED_MAP_NAME = "BBBBB";
@@ -101,13 +101,16 @@ public class MapJoinTableResourceIntTest {
         mapRepository.saveAndFlush(map);
         assertThat(map.getCameras()).doesNotContain(camera);
 
+        map.addCamera(camera);
+        cameraRepository.saveAndFlush(camera);
+        assertThat(map.getCameras()).contains(camera);
+
         // Get the map
-        restMapMockMvc.perform(put("/api/maps/{id}/addCamera", map.getId())
-                .param("cameraId", camera.getId().toString()))
+        restMapMockMvc.perform(get("/api/maps/{id}/dto", map.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value(map.getId().intValue()))
-                .andExpect(jsonPath("$.name").value(DEFAULT_MAP_NAME));
+                .andExpect(jsonPath("$.name").value(DEFAULT_MAP_NAME))
+                .andExpect(jsonPath("$.cameras.[*].name").value(hasItem(DEFAULT_CAMERA_NAME)));
         assertThat(map.getCameras()).contains(camera);
     }
 
@@ -122,38 +125,27 @@ public class MapJoinTableResourceIntTest {
         mapRepository.saveAndFlush(map);
         assertThat(map.getPlayers()).doesNotContain(player);
 
+        map.addPlayer(player);
+        mapRepository.saveAndFlush(map);
+        assertThat(map.getPlayers()).contains(player);
+
         // Get the map
-        restMapMockMvc.perform(put("/api/maps/{id}/addPlayer", map.getId())
-                .param("playerId", player.getId().toString()))
+        restMapMockMvc.perform(get("/api/maps/{id}/dto", map.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value(map.getId().intValue()))
-                .andExpect(jsonPath("$.name").value(DEFAULT_MAP_NAME));
+                .andExpect(jsonPath("$.name").value(DEFAULT_MAP_NAME))
+                .andExpect(jsonPath("$.players.[*].name").value(hasItem(DEFAULT_PLAYER_NAME)));
         assertThat(map.getPlayers()).contains(player);
     }
 
     @Test
     @Transactional
-    public void addInvalidCamera() throws Exception {
+    public void getMapDTOWithInvalidMap() throws Exception {
         // Initialize the database
         mapRepository.saveAndFlush(map);
 
         // Get the map
-        restMapMockMvc.perform(put("/api/maps/{id}/addCamera", map.getId())
-                .param("cameraId", "0"))
-                .andExpect(status().isNotFound());
-    }
-
-
-    @Test
-    @Transactional
-    public void addInvalidPlayer() throws Exception {
-        // Initialize the database
-        mapRepository.saveAndFlush(map);
-
-        // Get the map
-        restMapMockMvc.perform(put("/api/maps/{id}/addPlayer", map.getId())
-                .param("playerId", "0"))
+        restMapMockMvc.perform(get("/api/maps/{id}/dto", map.getId() + 1L))
                 .andExpect(status().isNotFound());
     }
 }

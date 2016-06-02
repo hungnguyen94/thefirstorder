@@ -8,17 +8,15 @@
     stateConfig.$inject = ['$stateProvider'];
 
     function stateConfig($stateProvider) {
-        $stateProvider.state('mapview', {
+        $stateProvider.state('map-editor', {
             parent: 'app',
-            url: '/maps',
+            url: '/mapeditor',
             data: {
                 authorities: ['ROLE_USER']
             },
             views: {
                 'content@': {
-                    templateUrl: 'app/map/mapview.html',
-                    controller: 'MapviewController',
-                    controllerAs: 'vm'
+                    templateUrl: 'app/map/map-editor.html'
                 }
             }
         });
