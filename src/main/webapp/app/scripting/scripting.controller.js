@@ -5,7 +5,7 @@
         .module('thefirstorderApp')
         .controller('ScriptingController', ScriptingController);
 
-    ScriptingController.$inject = ['$rootScope', '$scope', '$state', 'Camera', 'Player', 'Script', 'Cue', 'AlertService'];
+    ScriptingController.$inject = ['$rootScope', '$scope', '$state', 'Camera', 'Script', 'Cue', 'AlertService'];
 
     /**
      * The controller for the script view.
@@ -15,18 +15,16 @@
      * @param AlertService the alertservice
      * @constructor
      */
-    function ScriptingController ($rootScope, $scope, $state, Camera, Player, Script, Cue, AlertService) {
+    function ScriptingController ($rootScope, $scope, $state, Camera, Script, Cue, AlertService) {
         var vm = this;
 
-        $scope.saved = true;
-
+        vm.saved = true;
         vm.save = function() {
-            $scope.saved = true;
+            vm.saved = false;
         }
 
         vm.loadCameras = loadCameras;
         vm.loadCues = loadCues;
-        vm.loadPlayers = loadPlayers;
         vm.loadCameras();
         vm.loadScripts = Script.query();
 
@@ -38,117 +36,10 @@
             function onSuccess(data, headers) {
                 vm.cameras = data;
                 vm.queryCount = vm.totalItems;
-                vm.loadPlayers(data);
                 vm.loadCues(data);
             }
             function onError(error) {
                 AlertService.error(error.data.message);
-            }
-        }
-
-        function loadPlayers(cameraData) {
-            Player.query({
-
-            }, onSuccess, onError);
-
-            function onSuccess(data, headers) {
-                vm.players = data;
-                vm.queryCount = vm.totalItems;
-                drawCameras(cameraData, data);
-            }
-
-            function onError(error) {
-                AlertService.error(error.data.message);
-            }
-        }
-
-        /**
-         * Draws the cameras to the map.
-         * @param cameraData the data of the cameras to draw
-         */
-        function drawCameras(cameraData, playerData) {
-            var canvas = new fabric.Canvas('concertMap');
-
-            var grid = 15;
-
-            canvas.on('object:moving', function (options) {
-                options.target.set({
-                    left: Math.round(options.target.left / grid) * grid,
-                    top: Math.round(options.target.top / grid) * grid
-                });
-
-                var objectType = options.target.type;
-                var objectId = options.target.id;
-
-                var currentObject;
-
-                // Determine whether to update a Camera or a Player object
-                switch(objectType) {
-                    case 'Camera':
-                        currentObject = cameraData[objectId];
-                        currentObject.x = options.target.left / grid;
-                        currentObject.y = options.target.top / grid;
-                        Camera.update(currentObject);
-                        break;
-                    case 'Player':
-                        currentObject = playerData[objectId];
-                        currentObject.x = options.target.left / grid;
-                        currentObject.y = options.target.top / grid;
-                        Player.update(currentObject);
-                        break;
-                }
-            });
-
-            // When selecting a square in the gridview, update the select boxes
-            canvas.on('object:selected', function (options) {
-                var id = options.target.id;
-                var type = options.target.type;
-
-                switch(type) {
-                    case 'Camera':
-                        var selectBox = document.getElementById('selectCamera');
-                        selectBox.value = id + 1;
-                        break;
-                    case 'Player':
-                        var selectBox = document.getElementById('selectPlayer');
-                        selectBox.value = id + 1;
-                        break;
-                }
-            });
-
-            for (var i = 0; i < cameraData.length; ++i) {
-                drawObject(canvas, cameraData[i], i, 'blue', 'Camera');
-            }
-
-            for (var i = 0; i < playerData.length; ++i) {
-                console.log(playerData[i])
-                drawObject(canvas, playerData[i], i, 'white', 'Player');
-            }
-
-            /**
-             * Draws a single camera.
-             * @param canvas the canvas to draw to
-             * @param camera the camera to draw
-             * @param index the index of the camera
-             */
-            function drawObject(canvas, object, index, color, type) {
-                var rect = new fabric.Rect({
-                    left: object.x * grid,
-                    top: object.y * grid,
-                    fill: color,
-                    width: grid,
-                    height: grid,
-                    lockRotation: true,
-                    lockScalingX: true,
-                    lockScalingY: true,
-                    lockMovementX: true,
-                    lockMovementY: true,
-                    hasControls: false,
-                    id: index,
-                    type: type
-                });
-
-                canvas.add(rect);
             }
         }
 
@@ -229,7 +120,7 @@
             }
 
             function onAdd(item, callback) {
-                $scope.saved = false;
+                vm.saved = false;
                 $state.go('scripting.new');
                 var endyear = item.start.getFullYear() + 5;
                 item.end = endyear + '-01-01';
@@ -240,7 +131,7 @@
             }
 
             function onUpdate(item, callback) {
-                $scope.saved = false;
+                vm.saved = false;
                 $state.go('scripting.update', {name: item.content});
                 $rootScope.$on('cueupdated', function (event, args) {
                     item.content = args.cuename;
@@ -250,7 +141,7 @@
             }
 
             function unSaved(item, callback) {
-                $scope.saved = false;
+                vm.saved = false;
                 callback(item);
             }
         }
