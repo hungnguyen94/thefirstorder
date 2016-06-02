@@ -38,12 +38,6 @@
             />
         </div>
         <div class="form-group">
-            <label for="field_action">Action</label>
-            <input type="text" class="form-control" name="action" id="field_action"
-                    ng-model="vm.cue.action"
-                     />
-        </div>
-        <div class="form-group">
             <label for="field_player">Player</label>
             <select class="form-control" id="field_player" name="player" ng-model="vm.cue.player" ng-options="player as player.name for player in vm.players track by player.id">
                 <option value=""></option>

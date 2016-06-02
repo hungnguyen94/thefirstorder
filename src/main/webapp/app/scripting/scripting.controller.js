@@ -212,7 +212,9 @@
                     stack: false,
                     itemsAlwaysDraggable: true,
                     onAdd: onAdd,
-                    onUpdate: onUpdate
+                    onUpdate: onUpdate,
+                    onMove: unSaved,
+                    onRemove: unSaved
                 };
 
                 // Create a Timeline
@@ -239,13 +241,17 @@
 
             function onUpdate(item, callback) {
                 $scope.saved = false;
-                console.log($scope.saved);
                 $state.go('scripting.update', {name: item.content});
                 $rootScope.$on('cueupdated', function (event, args) {
                     item.content = args.cuename;
                     callback(item);
                     item = null;
                 });
+            }
+
+            function unSaved(item, callback) {
+                $scope.saved = false;
+                callback(item);
             }
         }
 
