@@ -1,0 +1,27 @@
+<div ng-cloak>
+    <div class="row">
+        <button value="Save" class="btn btn-default" ng-disabled="saved" ng-click="vm.save()">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;Save
+        </button>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <canvas fabric-map></canvas>
+        </div>
+        <div class="col-md-4">
+            <h3 class="text-center">Add new Cue</h3>
+            <div class="form-group">
+                <label for="selectPlayer">Which player should we use for the cue?</label>
+                <select class="form-control" id="selectPlayer">
+                    <option ng-repeat="player in vm.players" value="{{player.id}}">{{player.name}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <br />
+            <div id="visualization"></div>
+        </div>
+    </div>
+</div>

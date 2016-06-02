@@ -13,7 +13,6 @@
             <input type="text" class="form-control" id="id" name="id"
                     ng-model="vm.cue.id" readonly />
         </div>
-
         <div class="form-group">
             <label for="field_script">Script</label>
             <select class="form-control" id="field_script" name="script" ng-model="vm.cue.script" ng-options="script as script.name for script in vm.scripts track by script.id">
@@ -21,16 +20,28 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="field_cameraAction">Camera Action</label>
-            <select class="form-control" id="field_cameraAction" name="cameraAction" ng-model="vm.cue.cameraAction" ng-options="cameraAction as cameraAction.name for cameraAction in vm.cameraactions | orderBy:'id' track by cameraAction.id">
-                <option value=""></option>
-            </select>
+            <label for="field_bar">Bar</label>
+            <input type="text" class="form-control" name="bar" id="field_bar"
+                   ng-model="vm.cue.bar"
+            />
         </div>
         <div class="form-group">
-            <label for="field_timePoint">Time Point</label>
-            <select class="form-control" id="field_timePoint" name="timePoint" ng-model="vm.cue.timePoint" ng-options="timePoint as timePoint.startTime for timePoint in vm.timepoints | orderBy:'id' track by timePoint.id">
-                <option value=""></option>
-            </select>
+            <label for="field_duration">Duration</label>
+            <input type="text" class="form-control" name="duration" id="field_duration"
+                   ng-model="vm.cue.duration"
+            />
+        </div>
+        <div class="form-group">
+            <label for="field_action">Action</label>
+            <input type="text" class="form-control" name="action" id="field_action"
+                   ng-model="vm.cue.action"
+            />
+        </div>
+        <div class="form-group">
+            <label for="field_action">Action</label>
+            <input type="text" class="form-control" name="action" id="field_action"
+                    ng-model="vm.cue.action"
+                     />
         </div>
         <div class="form-group">
             <label for="field_player">Player</label>

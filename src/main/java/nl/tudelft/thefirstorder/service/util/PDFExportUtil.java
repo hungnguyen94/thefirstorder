@@ -11,7 +11,6 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import nl.tudelft.thefirstorder.domain.Camera;
-import nl.tudelft.thefirstorder.domain.CameraAction;
 import nl.tudelft.thefirstorder.domain.Cue;
 import nl.tudelft.thefirstorder.domain.Project;
 import nl.tudelft.thefirstorder.domain.Script;
@@ -114,10 +113,6 @@ public class PDFExportUtil {
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
 
-        c1 = new PdfPCell(new Phrase("Camera Action"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(c1);
-
         c1 = new PdfPCell(new Phrase("Player"));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
@@ -136,19 +131,14 @@ public class PDFExportUtil {
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         cameratable.addCell(c1);
 
-        PdfPTable actiontable = new PdfPTable(2);
-
         c1 = new PdfPCell(new Phrase("Action"));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        actiontable.addCell(c1);
 
         c1 = new PdfPCell(new Phrase("Duration"));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        actiontable.addCell(c1);
 
         table.setHeaderRows(1);
         cameratable.setHeaderRows(1);
-        actiontable.setHeaderRows(1);
         Script script = project.getScript();
         Set<Cue> cues = script.getCues();
         int index = 1;
@@ -157,14 +147,12 @@ public class PDFExportUtil {
             Cue cue = iterator.next();
             table.addCell(index + ".");
             table.addCell(cue.getCamera().getName());
-            table.addCell(cue.getCameraAction().getName());
+            table.addCell(cue.getAction());
             table.addCell(cue.getPlayer().getName());
             Camera camera = cue.getCamera();
             cameratable.addCell(camera.getName());
             cameratable.addCell(camera.getX() + "");
             cameratable.addCell(camera.getY() + "");
-            CameraAction action = cue.getCameraAction();
-            actiontable.addCell(action.getName());
             index++;
         }
         Paragraph par = new Paragraph();
