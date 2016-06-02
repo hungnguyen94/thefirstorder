@@ -13,7 +13,7 @@ public interface CameraService {
 
     /**
      * Save a camera.
-     *
+     * 
      * @param camera the entity to save
      * @return the persisted entity
      */
@@ -21,7 +21,7 @@ public interface CameraService {
 
     /**
      *  Get all the cameras.
-     *
+     *  
      *  @param pageable the pagination information
      *  @return the list of entities
      */
@@ -29,23 +29,15 @@ public interface CameraService {
 
     /**
      *  Get the "id" camera.
-     *
+     *  
      *  @param id the id of the entity
      *  @return the entity
      */
     Camera findOne(Long id);
 
     /**
-     * Get the cameras, associated with the map with the given id.
-     *
-     * @param projectId the id of the map.
-     * @return the list of camera entities
-     */
-    List<Camera> findCamerasByProject(Long projectId);
-
-    /**
      *  Delete the "id" camera.
-     *
+     *  
      *  @param id the id of the entity
      */
     void delete(Long id);
