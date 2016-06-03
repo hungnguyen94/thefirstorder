@@ -22,6 +22,9 @@ public class CueTest {
     @Mock
     private Camera camera;
 
+    @Mock
+    private Project project;
+
     @Before
     public void setUp() throws Exception {
         cue = new Cue();
@@ -59,6 +62,18 @@ public class CueTest {
     }
 
     @Test
+    public void scriptTest() throws Exception {
+        cue.setScript(script);
+        assertThat(cue.getScript()).isEqualTo(script);
+    }
+
+    @Test
+    public void projectTest() throws Exception {
+        cue.setProject(project);
+        assertThat(cue.getProject()).isEqualTo(project);
+    }
+
+    @Test
     public void getDurationTest() throws Exception {
         cue.setDuration(1);
         assertThat(cue.getDuration()).isEqualTo(1);
@@ -84,5 +99,13 @@ public class CueTest {
         Cue cue2 = new Cue();
         cue2.setId(cue.getId());
         assertThat(cue.equals(cue2)).isTrue();
+    }
+
+    @Test
+    public void hashCodeTest() throws Exception {
+        Cue cue2 = new Cue();
+        cue.setId(1L);
+        cue2.setId(1L);
+        assertThat(cue.hashCode() == cue2.hashCode());
     }
 }
