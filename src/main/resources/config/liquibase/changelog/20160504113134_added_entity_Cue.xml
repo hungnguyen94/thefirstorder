@@ -24,16 +24,13 @@
             <column name="script_id" type="bigint">
                 <constraints nullable="true"/>
             </column>
-            <column name="bar" type="bigint">
+            <column name="bar" type="integer">
                 <constraints nullable="true"/>
             </column>
-            <column name="duration" type="bigint">
+            <column name="duration" type="integer">
                 <constraints nullable="true"/>
             </column>
             <column name="action" type="varchar(255)">
-                <constraints nullable="true"/>
-            </column>
-            <column name="time_point_id" type="bigint">
                 <constraints nullable="true"/>
             </column>
             <column name="player_id" type="bigint">
