@@ -1,28 +1,26 @@
 package nl.tudelft.thefirstorder.web.rest;
 
 import nl.tudelft.thefirstorder.ThefirstorderApp;
+import nl.tudelft.thefirstorder.domain.Camera;
 import nl.tudelft.thefirstorder.domain.Cue;
-import nl.tudelft.thefirstorder.domain.Script;
+import nl.tudelft.thefirstorder.domain.Player;
 import nl.tudelft.thefirstorder.repository.CueRepository;
+import nl.tudelft.thefirstorder.repository.PlayerRepository;
 import nl.tudelft.thefirstorder.service.CueService;
-
+import nl.tudelft.thefirstorder.service.PlayerService;
 import nl.tudelft.thefirstorder.service.ScriptService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import static org.hamcrest.Matchers.any;
-import static org.hamcrest.Matchers.hasItem;
-
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -32,13 +30,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 /**
@@ -60,8 +62,6 @@ public class CueResourceIntTest {
     private CueService cueService;
 
     @Inject
-    private ScriptService scriptService;
-    @Inject
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Inject
@@ -70,6 +70,12 @@ public class CueResourceIntTest {
     private MockMvc restCueMockMvc;
 
     private Cue cue;
+
+    @Mock
+    private Player player;
+
+    @Mock
+    private Camera camera;
 
     private CueResource cueResource;
 
@@ -142,6 +148,30 @@ public class CueResourceIntTest {
     @Test
     public void getAllCuesNotNullId() throws Exception {
         assertThat(cueResource.getAllCues(pageable,new Long(1))).isEqualTo(ResponseEntity.ok(cueService.findCuesByScript(new Long(1))));
+    }
+
+    @Test
+    @Transactional
+    public void getCameraFromCue() throws Exception {
+        // Initialize the database
+        cueRepository.saveAndFlush(cue);
+
+        cue.setCamera(camera);
+        assertThat(cue.getCamera()).isEqualTo(camera);
+
+        assertThat(cueService.getCamera(cue.getId())).isEqualTo(camera);
+    }
+
+    @Test
+    @Transactional
+    public void getPlayerFromCue() throws Exception {
+        // Initialize the database
+        cueRepository.saveAndFlush(cue);
+
+        cue.setPlayer(player);
+        assertThat(cue.getPlayer()).isEqualTo(player);
+
+        assertThat(cueService.getPlayer(cue.getId())).isEqualTo(player);
     }
 
     @Test
