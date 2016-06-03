@@ -153,8 +153,9 @@
             function parseIntAsYear(year) {
                 var current = "";
 
-                for (var j = 0; j < 4 - year.toString().length; ++j)
+                for (var j = 0; j < 4 - year.toString().length; ++j) {
                     current += '0';
+                }
 
                 current += year.toString();
 
