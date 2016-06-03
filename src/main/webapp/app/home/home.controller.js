@@ -5,15 +5,17 @@
         .module('thefirstorderApp')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', 'Project', 'AlertService', 'currentProjectId'];
+    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', 'Project', 'AlertService', 'currentProjectId', 'currentProject'];
 
-    function HomeController($scope, Principal, LoginService, $state, Project, AlertService, currentProjectId) {
+    function HomeController($scope, Principal, LoginService, $state, Project, AlertService, currentProjectId, currentProject) {
         var vm = this;
         vm.account = null;
         vm.isAuthenticated = null;
         vm.hasCurrentProject = false;
         vm.login = LoginService.open;
         vm.register = register;
+
+        console.log(currentProject);
 
         loadProject();
 

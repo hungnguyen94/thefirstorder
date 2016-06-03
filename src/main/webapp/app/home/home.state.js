@@ -44,7 +44,7 @@
                             }
                         }
                     }).result.then(function () {
-                        $state.go('mapview', null, {reload: true});
+                        $state.go('map-editor', null, {reload: true});
                     }, function () {
                         $state.go('home');
                     });
@@ -72,7 +72,7 @@
                             }
                         }
                     }).result.then(function () {
-                        $state.go('mapview', null, {reload: true});
+                        $state.go('map-editor', null, {reload: true});
                     }, function (message) {
                         if(message == 'create'){
                             $state.go('home.create');

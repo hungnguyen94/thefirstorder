@@ -1,31 +1,33 @@
-(function() {
+(function () {
     'use strict';
 
     angular
         .module('thefirstorderApp')
         .controller('MapEditorController', MapEditorController);
 
-    MapEditorController.$inject = ['$scope', '$state', 'Map', 'Project', 'Camera', 'Player'];
+    MapEditorController.$inject = ['Map', 'Project', 'ProjectManager'];
 
-    function MapEditorController ($scope, $state, Map, Project, Camera, Player) {
-        console.log('MapViewController scope: ', $scope);
-        console.log('MapViewController this: ', this);
+    function MapEditorController(Map, Project, ProjectManager) {
         var vm = this;
         vm.selected = null;
-        
+
         vm.setSelected = setSelected;
         vm.update = getMapEntities;
         getMapEntities();
 
         function getMapEntities() {
-            Map.getDTO({id: 1}, function (result) {
-                console.log('result is: ', result);
-                vm.map = result;
+            ProjectManager.get().then(function (projectId) {
+                Project.get({id: projectId.data}, function (project) {
+
+                    Map.getDTO({id: project.id}, function (result) {
+                        vm.map = result;
+                    });
+                });
             });
         }
 
         function setSelected(entity) {
-            if(vm.selected == entity) {
+            if (vm.selected == entity) {
                 vm.selected = null;
             } else {
                 vm.selected = entity;

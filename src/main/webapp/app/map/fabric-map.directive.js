@@ -6,7 +6,7 @@
         .directive('fabricMap', fabricMap);
 
     fabricMap.$inject = ['$window', 'Player', 'Camera'];
-    
+
     function fabricMap($window, Player, Camera) {
         var directive = {
             restrict: 'EA',
@@ -21,23 +21,23 @@
             console.log('fabric map directive called');
             console.log('Element is: ', element);
             console.log('Scope is: ', scope);
-            
+
             scope.canvas = {};
             scope.vm.selected = {};
 
             init();
-            
+
             ///////////////////////////////////////
-            
+
             angular.element($window).bind('resize', resize);
 
             scope.$watch('vm.map', function (newMap) {
                 console.log('Changed map :', newMap);
                 draw(scope.vm.map.cameras, scope.vm.map.players);
             });
-            
+
             scope.canvas.on('object:selected', onSelect);
-            
+
             scope.canvas.on('object:modified', updateEntity);
 
             /////////////////////////
@@ -50,9 +50,9 @@
                 fabric.Image.fromURL('content/images/concertzaal.jpg', function(img) {
                     scope.aspectRatio = img.width / img.height;
                     img.set({
-                        width: canvas.width, 
-                        height: canvas.width / scope.aspectRatio, 
-                        originX: 'left', 
+                        width: canvas.width,
+                        height: canvas.width / scope.aspectRatio,
+                        originX: 'left',
                         originY: 'top'
                     });
                     canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
@@ -70,7 +70,7 @@
                 var width = parent[0].clientWidth - (parent[0].offsetLeft);
                 scope.canvas.setWidth(width);
                 scope.canvas.setHeight(width / scope.aspectRatio);
-                
+
                 console.log('background image: ', scope.canvas.backgroundImage);
                 scope.canvas.backgroundImage.set({
                     width: scope.canvas.width,
@@ -81,14 +81,14 @@
                 scope.canvas.calcOffset();
                 console.log('parent is ', parent);
             }
-            
+
             function draw(cameras, players) {
                 var drawableCameras = cameras.map(transformCamera);
                 var drawablePlayers = players.map(transformPlayer);
                 scope.canvas.clear();
                 drawEntities(drawableCameras.concat(drawablePlayers));
             }
-            
+
             function drawEntities(entities) {
                 var drawables = entities.map(setDrawableProperties);
                 console.log('drawing ', drawables);
@@ -117,22 +117,22 @@
                     y: camera.y,
                     scaleX: 0.3,
                     scaleY: 0.3,
-                    padding: 10, 
+                    padding: 10,
                     fill: 'green',
                     entity: camera,
-                    camera: true, 
+                    camera: true,
                     hasControls: true
                 });
                 cam.setControlsVisibility({
-                    bl: false, 
-                    br: false, 
-                    mb: false, 
-                    ml: false, 
-                    mr: false, 
-                    mt: false, 
-                    tl: false, 
-                    tr: false, 
-                    mtr: true 
+                    bl: false,
+                    br: false,
+                    mb: false,
+                    ml: false,
+                    mr: false,
+                    mt: false,
+                    tl: false,
+                    tr: false,
+                    mtr: true
                 });
                 return cam;
             }
@@ -142,8 +142,8 @@
                     x: player.x,
                     y: player.y,
                     fill: 'blue',
-                    entity: player, 
-                    player: true, 
+                    entity: player,
+                    player: true,
                     hasControls: false
                 });
                 return rect;
@@ -158,7 +158,7 @@
                 console.log('Calculated absolute positions: ', position);
                 return position;
             }
-            
+
             function getRelativePosition(x, y) {
                 var currentWidth = scope.canvas.getWidth();
                 var currentHeight = scope.canvas.getHeight();

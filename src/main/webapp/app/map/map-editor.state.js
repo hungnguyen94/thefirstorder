@@ -18,13 +18,6 @@
                 'content@': {
                     templateUrl: 'app/map/map-editor.html'
                 }
-            },
-            resolve: {
-                currentProject: ['ProjectManager', 'currentProjectId',
-                    function (ProjectManager, currentProjectId) {
-                        return ProjectManager.validateScript(currentProjectId);
-                    }
-                ]
             }
         });
     }

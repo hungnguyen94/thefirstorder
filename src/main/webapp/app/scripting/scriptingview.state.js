@@ -22,9 +22,9 @@
                 }
             },
             resolve: {
-                currentProject: ['ProjectManager', 'currentProjectId',
+                validate: ['ProjectManager', 'currentProjectId',
                     function (ProjectManager, currentProjectId) {
-                        return ProjectManager.validateMap(currentProjectId);
+                        ProjectManager.validateScript(currentProjectId);
                     }
                 ]
             }

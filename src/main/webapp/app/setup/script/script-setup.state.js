@@ -20,13 +20,6 @@
                     controller: 'ScriptSetupController',
                     controllerAs: 'vm'
                 }
-            },
-            resolve: {
-                currentProject: ['ProjectManager', 'currentProjectId',
-                    function (ProjectManager, currentProjectId) {
-                        return ProjectManager.validateScript(currentProjectId);
-                    }
-                ]
             }
         }).state('script.create', {
             parent: 'script-setup',
@@ -53,7 +46,7 @@
                         }
                     }
                 }).result.then(function () {
-                    $state.go('timeline', null, {reload: true});
+                    $state.go('scriptingview', null, {reload: true});
                 }, function () {
                     $state.go('script-setup');
                 });
@@ -77,7 +70,7 @@
                         }
                     }
                 }).result.then(function() {
-                    $state.go('timeline', null, { reload: true });
+                    $state.go('scriptingview', null, { reload: true });
                 }, function() {
                     $state.go('script-setup');
                 });

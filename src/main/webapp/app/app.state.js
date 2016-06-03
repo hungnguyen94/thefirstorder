@@ -27,6 +27,11 @@
                     function (ProjectManager) {
                         return ProjectManager.loadProject();
                     }
+                ],
+                currentProject: ['currentProjectId','Project',
+                    function (currentProjectId, Project) {
+                        return Project.get({id: currentProjectId});
+                    }
                 ]
             }
         });

@@ -20,13 +20,6 @@
                     controller: 'MapSetupController',
                     controllerAs: 'vm'
                 }
-            },
-            resolve: {
-                currentProject: ['ProjectManager', 'currentProjectId',
-                    function (ProjectManager, currentProjectId) {
-                        return ProjectManager.validateMap(currentProjectId);
-                    }
-                ]
             }
         }).state('map.create', {
             parent: 'map-setup',
@@ -53,7 +46,7 @@
                         }
                     }
                 }).result.then(function () {
-                    $state.go('mapview', null, {reload: true});
+                    $state.go('map-editor', null, {reload: true});
                 }, function () {
                     $state.go('map-setup');
                 });
@@ -77,7 +70,7 @@
                         }
                     }
                 }).result.then(function() {
-                    $state.go('mapview', null, { reload: true });
+                    $state.go('map-editor', null, { reload: true });
                 }, function() {
                     $state.go('map-setup');
                 });
