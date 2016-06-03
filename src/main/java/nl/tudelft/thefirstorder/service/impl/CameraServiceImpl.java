@@ -1,5 +1,6 @@
 package nl.tudelft.thefirstorder.service.impl;
 
+import nl.tudelft.thefirstorder.service.CameraService;
 import nl.tudelft.thefirstorder.domain.Camera;
 import nl.tudelft.thefirstorder.repository.CameraRepository;
 import nl.tudelft.thefirstorder.service.CameraService;
@@ -9,8 +10,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * Service Implementation for managing Camera.
@@ -56,7 +62,8 @@ class CameraServiceImpl implements CameraService {
     @Transactional(readOnly = true)
     public Camera findOne(Long id) {
         log.debug("Request to get Camera : {}", id);
-        return cameraRepository.findOne(id);
+        Camera camera = cameraRepository.findOne(id);
+        return camera;
     }
 
     /**
