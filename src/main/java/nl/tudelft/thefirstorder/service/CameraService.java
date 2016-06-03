@@ -11,7 +11,7 @@ public interface CameraService {
 
     /**
      * Save a camera.
-     *
+     * 
      * @param camera the entity to save
      * @return the persisted entity
      */
@@ -19,7 +19,7 @@ public interface CameraService {
 
     /**
      *  Get all the cameras.
-     *
+     *  
      *  @param pageable the pagination information
      *  @return the list of entities
      */
@@ -27,7 +27,7 @@ public interface CameraService {
 
     /**
      *  Get the "id" camera.
-     *
+     *  
      *  @param id the id of the entity
      *  @return the entity
      */
@@ -35,7 +35,7 @@ public interface CameraService {
 
     /**
      *  Delete the "id" camera.
-     *
+     *  
      *  @param id the id of the entity
      */
     void delete(Long id);
