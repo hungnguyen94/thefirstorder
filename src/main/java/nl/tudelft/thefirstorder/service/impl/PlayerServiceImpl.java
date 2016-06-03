@@ -30,6 +30,7 @@ class PlayerServiceImpl implements PlayerService {
      * @param player the entity to save
      * @return the persisted entity
      */
+    @Transactional
     public Player save(Player player) {
         log.debug("Request to save Player : {}", player);
         return playerRepository.save(player);
@@ -64,6 +65,7 @@ class PlayerServiceImpl implements PlayerService {
      *
      *  @param id the id of the entity
      */
+    @Transactional
     public void delete(Long id) {
         log.debug("Request to delete Player : {}", id);
         playerRepository.delete(id);

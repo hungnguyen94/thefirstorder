@@ -31,6 +31,7 @@ public class ScriptServiceImpl implements ScriptService {
      * @param script the entity to save
      * @return the persisted entity
      */
+    @Transactional
     public Script save(Script script) {
         log.debug("Request to save Script : {}", script);
         Script result = scriptRepository.save(script);
@@ -80,6 +81,7 @@ public class ScriptServiceImpl implements ScriptService {
      *  
      *  @param id the id of the entity
      */
+    @Transactional
     public void delete(Long id) {
         log.debug("Request to delete Script : {}", id);
         scriptRepository.delete(id);
