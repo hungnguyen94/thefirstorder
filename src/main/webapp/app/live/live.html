@@ -2,6 +2,28 @@
     <div class="row">
         <h1 class="text-center">Live Preview</h1>
 
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>User</th>
+                    <th>IP Address</th>
+                    <th>Current page</th>
+                    <th>Time</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="activity in vm.activities">
+                    <td>{{activity.userLogin}}</td>
+                    <td>{{activity.ipAddress}}</td>
+                    <td>{{activity.page}}</td>
+                    <td>{{activity.time}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
         <div class="col-lg-offset-2 col-lg-8">
             <ul class="timeline">
                 <li ng-class-even="'timeline-inverted'" ng-repeat="cue in vm.cues | orderBy:'timePoint.startTime'">

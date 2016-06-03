@@ -20,6 +20,12 @@
                     controller: 'LiveController',
                     controllerAs: 'vm'
                 }
+            },
+            onEnter: function(JhiTrackerService) {
+                JhiTrackerService.subscribe();
+            },
+            onExit: function(JhiTrackerService) {
+                JhiTrackerService.unsubscribe();
             }
         });
     }

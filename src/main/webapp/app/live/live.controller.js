@@ -5,7 +5,7 @@
         .module('thefirstorderApp')
         .controller('LiveController', LiveController);
 
-    LiveController.$inject = ['$scope', '$state', 'Cue', 'AlertService'];
+    LiveController.$inject = ['$scope', '$state', 'Cue', 'JhiTrackerService','AlertService'];
 
     /**
      * The controller for the script view.
@@ -15,8 +15,32 @@
      * @param AlertService the alertservice
      * @constructor
      */
-    function LiveController ($scope, $state, Cue, AlertService) {
+    function LiveController ($scope, $state, Cue, JhiTrackerService, AlertService) {
         var vm = this;
         vm.cues = Cue.query();
+
+        vm.activities = [];
+
+        JhiTrackerService.receive().then(null, null, function(activity) {
+            showActivity(activity);
+            console.log("Activity: ", activity);
+        });
+
+        function showActivity(activity) {
+            var existingActivity = false;
+            for (var index = 0; index < vm.activities.length; index++) {
+                if(vm.activities[index].sessionId === activity.sessionId) {
+                    existingActivity = true;
+                    if (activity.page === 'logout') {
+                        vm.activities.splice(index, 1);
+                    } else {
+                        vm.activities[index] = activity;
+                    }
+                }
+            }
+            if (!existingActivity && (activity.page !== 'logout')) {
+                vm.activities.push(activity);
+            }
+        }
     }
 })();
