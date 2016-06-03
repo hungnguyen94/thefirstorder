@@ -101,9 +101,9 @@ public class XMLExportUtil {
         Element cameraY = doc.createElement("Y-Position");
         cameraY.appendChild(doc.createTextNode(cue.getCamera().getY() + ""));
         Element cameraCameraType = doc.createElement("Camera-Type");
-        cameraX.appendChild(doc.createTextNode(cue.getCamera().getCameraType() + ""));
+        cameraCameraType.appendChild(doc.createTextNode(cue.getCamera().getCameraType() + ""));
         Element cameraLensType = doc.createElement("Lens-Type");
-        cameraY.appendChild(doc.createTextNode(cue.getCamera().getLensType() + ""));
+        cameraLensType.appendChild(doc.createTextNode(cue.getCamera().getLensType() + ""));
         Element cameraNode = doc.createElement("Camera");
         cameraNode.appendChild(cameraId);
         cameraNode.appendChild(cameraName);

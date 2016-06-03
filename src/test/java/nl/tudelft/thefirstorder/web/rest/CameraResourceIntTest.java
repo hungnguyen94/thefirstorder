@@ -54,6 +54,7 @@ public class CameraResourceIntTest {
     private static final String UPDATED_CAMERA_TYPE = "BBBBB";
     private static final String DEFAULT_LENS_TYPE = "AAAAA";
     private static final String UPDATED_LENS_TYPE = "BBBBB";
+    private static final Long SET_ID = 123L;
 
     @Inject
     private CameraRepository cameraRepository;
@@ -89,6 +90,36 @@ public class CameraResourceIntTest {
         camera.setY(DEFAULT_Y);
         camera.setCameraType(DEFAULT_CAMERA_TYPE);
         camera.setLensType(DEFAULT_LENS_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void createCameraWithId() throws Exception {
+        int databaseSizeBeforeCreate = cameraRepository.findAll().size();
+        camera.setId(SET_ID);
+        // Create the Camera
+        restCameraMockMvc.perform(post("/api/cameras")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(camera)))
+        .andExpect(status().isBadRequest());
+        // Validate the Camera is not in the database
+        List<Camera> cameras = cameraRepository.findAll();
+        assertThat(cameras).hasSize(databaseSizeBeforeCreate);
+    }
+
+    @Test
+    @Transactional
+    public void updateCameraNoId() throws Exception {
+        int databaseSizeBeforeUpdate = cameraRepository.findAll().size();
+        // Update the Camera
+        Camera updatedCamera = new Camera();
+        restCameraMockMvc.perform(put("/api/cameras")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedCamera)))
+            .andExpect(status().isCreated());
+        // Validate the Camera in the database
+        List<Camera> cameras = cameraRepository.findAll();
+        assertThat(cameras).hasSize(databaseSizeBeforeUpdate + 1);
     }
 
     @Test
