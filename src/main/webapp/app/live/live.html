@@ -2,28 +2,35 @@
     <div class="row">
         <h1 class="text-center">Live Preview</h1>
 
-        <div class="col-lg-offset-2 col-lg-8 table-responsive">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>User</th>
-                    <th>IP Address</th>
-                    <th>Current page</th>
-                    <th>Time</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="activity in vm.activities">
-                    <td class="vert-align">{{activity.userLogin}}</td>
-                    <td class="vert-align">{{activity.ipAddress}}</td>
-                    <td class="vert-align">{{activity.page}}</td>
-                    <td class="vert-align">{{activity.time}}</td>
-                    <td class="vert-align"><button type="button" class="btn btn-raised btn-info">Authorize</button></td>
-                </tr>
-                </tbody>
-            </table>
-        </div><br />
+        <div class="row">
+            <div class="col-lg-10 table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>IP Address</th>
+                        <th>Current page</th>
+                        <th>Time</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="activity in vm.activities">
+                        <td class="vert-align">{{activity.userLogin}}</td>
+                        <td class="vert-align">{{activity.ipAddress}}</td>
+                        <td class="vert-align">{{activity.page}}</td>
+                        <td class="vert-align">{{activity.time}}</td>
+                        <td class="vert-align"><button type="button" class="btn btn-raised btn-info">Authorize</button></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-lg-2">
+                <button type="button" class="btn btn-raised btn-danger" ng-click="vm.previous()">Previous</button>
+                <button type="button" class="btn btn-raised btn-success" ng-click="vm.next()">Next</button>
+            </div>
+        </div>
+        <br />
 
         <div class="col-lg-offset-2 col-lg-8">
             <ul class="timeline">

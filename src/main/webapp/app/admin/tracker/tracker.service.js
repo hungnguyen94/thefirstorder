@@ -20,6 +20,8 @@
             disconnect: disconnect,
             receive: receive,
             sendActivity: sendActivity,
+            sendPrevious: sendPrevious,
+            sendNext: sendNext,
             subscribe: subscribe,
             unsubscribe: unsubscribe
         };
@@ -70,7 +72,25 @@
                 stompClient
                     .send('/topic/activity',
                     {},
-                    angular.toJson({'page': $rootScope.toState.name}));
+                    angular.toJson({'page': 'none'}));
+            }
+        }
+
+        function sendPrevious() {
+            if (stompClient !== null && stompClient.connected) {
+                stompClient
+                    .send('/topic/activity',
+                        {},
+                        angular.toJson({'page': 'previous'}));
+            }
+        }
+
+        function sendNext() {
+            if (stompClient !== null && stompClient.connected) {
+                stompClient
+                    .send('/topic/activity',
+                        {},
+                        angular.toJson({'page': 'next'}));
             }
         }
 

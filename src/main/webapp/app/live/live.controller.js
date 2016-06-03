@@ -17,6 +17,8 @@
      */
     function LiveController ($scope, $state, Cue, JhiTrackerService, AlertService) {
         var vm = this;
+        vm.previous = previous;
+        vm.next = next;
         vm.cues = Cue.query();
 
         vm.activities = [];
@@ -41,6 +43,14 @@
             if (!existingActivity && (activity.page !== 'logout')) {
                 vm.activities.push(activity);
             }
+        }
+
+        function previous() {
+            JhiTrackerService.sendPrevious();
+        }
+
+        function next() {
+            JhiTrackerService.sendNext();
         }
     }
 })();
