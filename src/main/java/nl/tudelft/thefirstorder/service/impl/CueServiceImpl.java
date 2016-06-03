@@ -4,7 +4,6 @@ import nl.tudelft.thefirstorder.domain.Camera;
 import nl.tudelft.thefirstorder.domain.Cue;
 import nl.tudelft.thefirstorder.domain.Player;
 import nl.tudelft.thefirstorder.repository.CueRepository;
-import nl.tudelft.thefirstorder.repository.ScriptRepository;
 import nl.tudelft.thefirstorder.service.CueService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +36,7 @@ class CueServiceImpl implements CueService {
      * @param cue the entity to save
      * @return the persisted entity
      */
+    @Transactional
     public Cue save(Cue cue) {
         log.debug("Request to save Cue : {}", cue);
         return cueRepository.save(cue);
@@ -55,6 +55,7 @@ class CueServiceImpl implements CueService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Cue> findCuesByScript(Long scriptId) {
         return StreamSupport
             .stream(cueRepository.findAll().spliterator(), false)
@@ -63,12 +64,14 @@ class CueServiceImpl implements CueService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Player getPlayer(Long cueId) {
         Cue cue = findOne(cueId);
         return cue.getPlayer();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Camera getCamera(Long cueId) {
         Cue cue = findOne(cueId);
         return cue.getCamera();
@@ -91,6 +94,7 @@ class CueServiceImpl implements CueService {
      *
      * @param id the id of the entity
      */
+    @Transactional
     public void delete(Long id) {
         log.debug("Request to delete Cue : {}", id);
         cueRepository.delete(id);

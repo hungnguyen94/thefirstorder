@@ -1,7 +1,6 @@
 package nl.tudelft.thefirstorder.service.impl;
 
 import nl.tudelft.thefirstorder.domain.Project;
-import nl.tudelft.thefirstorder.domain.Script;
 import nl.tudelft.thefirstorder.domain.User;
 import nl.tudelft.thefirstorder.repository.ProjectRepository;
 import nl.tudelft.thefirstorder.repository.UserRepository;
@@ -37,6 +36,7 @@ class ProjectServiceImpl implements ProjectService {
      * @param project the entity to save
      * @return the persisted entity
      */
+    @Transactional
     public Project save(Project project) {
         log.debug("Request to save Project : {}", project);
         return projectRepository.save(project);
@@ -73,6 +73,7 @@ class ProjectServiceImpl implements ProjectService {
      *
      * @param id the id of the entity
      */
+    @Transactional
     public void delete(Long id) {
         log.debug("Request to delete Project : {}", id);
         projectRepository.delete(id);

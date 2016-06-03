@@ -65,6 +65,7 @@ class CameraServiceImpl implements CameraService {
      *
      *  @param id the id of the entity
      */
+    @Transactional
     public void delete(Long id) {
         log.debug("Request to delete Camera : {}", id);
         cameraRepository.delete(id);

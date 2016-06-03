@@ -39,6 +39,7 @@ public class MapServiceImpl implements MapService {
      * @param map the entity to save
      * @return the persisted entity
      */
+    @Transactional
     public Map save(Map map) {
         log.debug("Request to save Map : {}", map);
         Map result = mapRepository.save(map);
@@ -88,6 +89,7 @@ public class MapServiceImpl implements MapService {
      * @return List of maps.
      */
     @Override
+    @Transactional(readOnly = true)
     public List<Map> findAllWhereProjectIsNull() {
         return mapRepository.findByProjectIsNull();
     }
