@@ -95,6 +95,9 @@ public class CueResourceIntTest {
     @Before
     public void initTest() {
         cue = new Cue();
+        cue.setAction(DEFAULT_ACTION);
+        cue.setBar(DEFAULT_BAR);
+        cue.setDuration(DEFAULT_DURATION);
     }
 
     @Test
@@ -192,9 +195,9 @@ public class CueResourceIntTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").value(cue.getId().intValue()))
-                .andExpect(jsonPath("$.action").value(DEFAULT_ACTION.toString()))
-                .andExpect(jsonPath("$.bar").value(DEFAULT_BAR.intValue()))
-                .andExpect(jsonPath("$.duration").value(DEFAULT_DURATION.intValue()));
+                .andExpect(jsonPath("$.action").value(DEFAULT_ACTION))
+                .andExpect(jsonPath("$.bar").value(DEFAULT_BAR))
+                .andExpect(jsonPath("$.duration").value(DEFAULT_DURATION));
     }
 
     @Test
@@ -216,6 +219,9 @@ public class CueResourceIntTest {
         // Update the cue
         Cue updatedCue = new Cue();
         updatedCue.setId(cue.getId());
+        updatedCue.setAction(UPDATED_ACTION);
+        updatedCue.setBar(UPDATED_BAR);
+        updatedCue.setDuration(UPDATED_DURATION);
 
         restCueMockMvc.perform(put("/api/cues")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
