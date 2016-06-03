@@ -22,15 +22,21 @@
                     </a>
                 </li>
                 <li ui-sref-active="active">
-                    <a ui-sref="mapview" ng-click="vm.collapseNavbar()" ng-switch-when="true">
-                        <span class="glyphicon glyphicon-globe"></span>
-                        <span class="hidden-sm">Map</span>
+                    <a ui-sref="scripting" ng-click="vm.collapseNavbar()" ng-switch-when="true">
+                        <span class="glyphicon glyphicon-book"></span>
+                        <span class="hidden-sm">Scripting</span>
                     </a>
                 </li>
                 <li ui-sref-active="active">
-                    <a ui-sref="timeline" ng-click="vm.collapseNavbar()" ng-switch-when="true">
-                        <span class="glyphicon glyphicon-time"></span>
-                        <span class="hidden-sm">Timeline</span>
+                    <a ui-sref="live" ng-click="vm.collapseNavbar()" ng-switch-when="true">
+                        <span class="glyphicon glyphicon-record"></span>
+                        <span class="hidden-sm">Live</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active">
+                    <a ui-sref="map-editor" ng-click="vm.collapseNavbar()" ng-switch-when="true">
+                        <span class="glyphicon glyphicon-globe"></span>
+                        <span class="hidden-sm">Map</span>
                     </a>
                 </li>
                 <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
@@ -45,12 +51,6 @@
                         </span>
                     </a>
                     <ul class="dropdown-menu" uib-dropdown-menu>
-                        <li ui-sref-active="active" >
-                            <a ui-sref="camera-action" ng-click="vm.collapseNavbar()">
-                                <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                <span >Camera Action</span>
-                            </a>
-                        </li>
                         <li ui-sref-active="active" >
                             <a ui-sref="camera" ng-click="vm.collapseNavbar()">
                                 <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
@@ -85,12 +85,6 @@
                             <a ui-sref="player" ng-click="vm.collapseNavbar()">
                                 <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
                                 <span >Player</span>
-                            </a>
-                        </li>
-                        <li ui-sref-active="active" >
-                            <a ui-sref="time-point" ng-click="vm.collapseNavbar()">
-                                <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                <span >Time Point</span>
                             </a>
                         </li>
                         <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->

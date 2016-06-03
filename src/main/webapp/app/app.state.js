@@ -22,6 +22,15 @@
                     function (Auth) {
                         return Auth.authorize();
                     }
+                ],
+                currentProject: ['ProjectManager',
+                    function (ProjectManager) {
+                        return ProjectManager.get().then(function (result) {
+                            return result.data;
+                        }, function (error) {
+                            return null;
+                        });
+                    }
                 ]
             }
         });

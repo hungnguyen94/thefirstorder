@@ -1,6 +1,5 @@
 package nl.tudelft.thefirstorder.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -32,13 +31,12 @@ public class Player implements Serializable {
     private String name;
 
     @ManyToOne
-    @JsonIgnore
-    private Project project;
+    private Map map;
 
-    @Column(name = "X")
+    @Column(name = "x")
     private int x;
 
-    @Column(name = "Y")
+    @Column(name = "y")
     private int y;
 
     /**
@@ -73,14 +71,6 @@ public class Player implements Serializable {
         this.name = name;
     }
 
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
-    }
-
     public Integer getX() {
         return x;
     }
@@ -97,6 +87,13 @@ public class Player implements Serializable {
         this.y = y;
     }
 
+    public Map getMap() {
+        return map;
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
+    }
 
     /**
      * Checks if two players are the same.

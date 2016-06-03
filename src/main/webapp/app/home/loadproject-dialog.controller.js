@@ -5,13 +5,15 @@
         .module('thefirstorderApp')
         .controller('LoadProjectDialogController', LoadProjectDialogController);
 
-    LoadProjectDialogController.$inject = ['$timeout', '$scope', '$state', '$stateParams', '$uibModalInstance', '$q', 'entity', 'Project', 'ProjectManager'];
+    LoadProjectDialogController.$inject = ['$timeout', '$scope', '$state', '$stateParams', '$uibModalInstance', '$q', 'entity', 'Project', 'ProjectManager', 'AlertService'];
 
-    function LoadProjectDialogController($timeout, $scope, $state, $stateParams, $uibModalInstance, $q, entity, Project, ProjectManager) {
+    function LoadProjectDialogController($timeout, $scope, $state, $stateParams, $uibModalInstance, $q, entity, Project, ProjectManager, AlertService) {
         var vm = this;
         vm.project = entity;
+        vm.hasProjects = false;
 
-        vm.projects = Project.query();
+        vm.getProjects = getProjects;
+        vm.getProjects();
 
         $timeout(function () {
             angular.element('.form-group:eq(1)>input').focus();
@@ -19,6 +21,10 @@
 
         vm.clear = function () {
             $uibModalInstance.dismiss('cancel');
+        };
+
+        vm.create = function () {
+            $uibModalInstance.dismiss('create');
         };
 
         vm.load = function (projectId) {
@@ -29,6 +35,18 @@
                 vm.clear();
             }
         };
+
+        function getProjects() {
+            vm.projects = Project.query({}, onSuccess, onError);
+
+            function onSuccess(data, headers) {
+                vm.hasProjects = data.length > 0;
+            }
+
+            function onError(error) {
+                AlertService.error(error.data.message);
+            }
+        }
 
         var onLoadSuccess = function (result) {
             $scope.$emit('thefirstorderApp:projectLoad', result);

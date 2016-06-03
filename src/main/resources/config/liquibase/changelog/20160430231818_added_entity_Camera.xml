@@ -24,18 +24,26 @@
             <column name="name" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            
+
             <column name="x" type="integer">
                 <constraints nullable="true" />
             </column>
-            
+
             <column name="y" type="integer">
                 <constraints nullable="true" />
             </column>
-            
-            <column name="project_id" type="bigint"/>
+
+            <column name="camera_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="lens_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="map_id" type="bigint"/>
             <!-- jhipster-needle-liquibase-add-column - Jhipster will add columns here, do not remove-->
         </createTable>
-        
+
     </changeSet>
 </databaseChangeLog>

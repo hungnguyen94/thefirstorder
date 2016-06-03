@@ -5,12 +5,12 @@
         .module('thefirstorderApp')
         .controller('CameraDialogController', CameraDialogController);
 
-    CameraDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Camera', 'Project'];
+    CameraDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Camera', 'Project', 'Map'];
 
-    function CameraDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Camera, Project) {
+    function CameraDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Camera, Project, Map) {
         var vm = this;
         vm.camera = entity;
-        vm.projects = Project.query();
+        vm.maps = Map.query();
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();
@@ -25,7 +25,7 @@
         var onSaveError = function () {
             vm.isSaving = false;
         };
-
+        
         vm.save = function () {
             vm.isSaving = true;
             if (vm.camera.id !== null) {
