@@ -54,6 +54,7 @@ public class CameraResourceIntTest {
     private static final String UPDATED_CAMERA_TYPE = "BBBBB";
     private static final String DEFAULT_LENS_TYPE = "AAAAA";
     private static final String UPDATED_LENS_TYPE = "BBBBB";
+    private static final Long SET_ID = 123L;
 
     @Inject
     private CameraRepository cameraRepository;
@@ -95,7 +96,7 @@ public class CameraResourceIntTest {
     @Transactional
     public void createCameraWithId() throws Exception {
         int databaseSizeBeforeCreate = cameraRepository.findAll().size();
-        camera.setId(123L);
+        camera.setId(SET_ID);
         // Create the Camera
         restCameraMockMvc.perform(post("/api/cameras")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
