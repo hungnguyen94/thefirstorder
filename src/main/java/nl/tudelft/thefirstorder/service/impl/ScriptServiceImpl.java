@@ -34,7 +34,8 @@ public class ScriptServiceImpl implements ScriptService {
     @Transactional
     public Script save(Script script) {
         log.debug("Request to save Script : {}", script);
-        return scriptRepository.save(script);
+        Script result = scriptRepository.save(script);
+        return result;
     }
 
     /**
@@ -59,7 +60,8 @@ public class ScriptServiceImpl implements ScriptService {
     @Transactional(readOnly = true)
     public List<Script> findAllWhereProjectIsNull() {
         log.debug("Request to get all scripts where Project is null");
-        return scriptRepository.findByProjectIsNull();
+        List<Script> result = scriptRepository.findByProjectIsNull();
+        return result;
     }
 
     /**
@@ -71,7 +73,8 @@ public class ScriptServiceImpl implements ScriptService {
     @Transactional(readOnly = true) 
     public Script findOne(Long id) {
         log.debug("Request to get Script : {}", id);
-        return scriptRepository.findOne(id);
+        Script result = scriptRepository.findOne(id);
+        return result;
     }
 
     /**
