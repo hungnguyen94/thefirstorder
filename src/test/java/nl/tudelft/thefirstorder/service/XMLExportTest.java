@@ -35,8 +35,6 @@ public class XMLExportTest {
     @Mock private Element special;
     @Mock private Text text;
     @Mock private Camera camera;
-    @Mock private CameraAction action;
-    @Mock private TimePoint time;
     @Mock private Player player;
     @Mock private Script script;
 
@@ -50,13 +48,6 @@ public class XMLExportTest {
         when(camera.getY()).thenReturn(1);
         when(document.createElement(any(String.class))).thenReturn(special);
         when(document.createTextNode(any(String.class))).thenReturn(text);
-        when(cue.getCameraAction()).thenReturn(action);
-        when(action.getId()).thenReturn(new Long(1));
-        when(action.getName()).thenReturn("Camera");
-        when(cue.getTimePoint()).thenReturn(time);
-        when(time.getId()).thenReturn(new Long(1));
-        when(time.getStartTime()).thenReturn(1);
-        when(time.getDuration()).thenReturn(1);
         when(cue.getPlayer()).thenReturn(player);
         when(player.getId()).thenReturn(new Long(1));
         when(player.getName()).thenReturn("Player");

@@ -12,7 +12,7 @@
         console.log('MapViewController this: ', this);
         var vm = this;
         vm.selected = null;
-        
+
         vm.setSelected = setSelected;
         vm.update = getMapEntities;
         getMapEntities();
