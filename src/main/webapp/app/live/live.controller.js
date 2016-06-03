@@ -17,21 +17,6 @@
      */
     function LiveController ($scope, $state, Cue, AlertService) {
         var vm = this;
-        vm.loadCues = loadCues;
-        vm.loadCues();
-
-        function loadCues () {
-            Cue.query({}, onSuccess, onError);
-
-            function onSuccess(data, headers) {
-                vm.cues = data;
-                vm.queryCount = vm.totalItems;
-                console.log(vm.cues[0]);
-            }
-
-            function onError(error) {
-                AlertService.error(error.data.message);
-            }
-        }
+        vm.cues = Cue.query();
     }
 })();
