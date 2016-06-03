@@ -28,6 +28,12 @@
                     </a>
                 </li>
                 <li ui-sref-active="active">
+                    <a ui-sref="live" ng-click="vm.collapseNavbar()" ng-switch-when="true">
+                        <span class="glyphicon glyphicon-record"></span>
+                        <span class="hidden-sm">Live</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active">
                     <a ui-sref="map-editor" ng-click="vm.collapseNavbar()" ng-switch-when="true">
                         <span class="glyphicon glyphicon-globe"></span>
                         <span class="hidden-sm">Map</span>
