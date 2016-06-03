@@ -3,22 +3,22 @@
 
     angular
         .module('thefirstorderApp')
-        .directive('fabricMap', fabricMap);
+        .directive('fabricMapStatic', fabricMapStatic);
 
-    fabricMap.$inject = ['$window', 'Player', 'Camera'];
+    fabricMapStatic.$inject = ['$window', 'Player', 'Camera'];
 
-    function fabricMap($window, Player, Camera) {
+    function fabricMapStatic($window, Player, Camera) {
         var directive = {
             restrict: 'EA',
             link: link,
-            controller: 'MapEditorController',
+            controller: 'ScriptingController',
             controllerAs: 'vm',
             bindToController: true
         };
         return directive;
 
         function link(scope, element, attrs) {
-            console.log('fabric map directive called');
+            console.log('fabric map static directive called');
             console.log('Element is: ', element);
             console.log('Scope is: ', scope);
 
@@ -37,8 +37,6 @@
             });
 
             scope.canvas.on('object:selected', onSelect);
-
-            scope.canvas.on('object:modified', updateEntity);
 
             /////////////////////////
 
@@ -59,7 +57,6 @@
                     resize();
                 });
                 scope.canvas = canvas;
-                // drawGrid(grid);
             }
 
             /**
@@ -103,7 +100,6 @@
                 drawable.height = 15;
                 drawable.lockScalingX = true;
                 drawable.lockScalingY = true;
-                // drawable.hasControls = false;
                 var position = getAbsolutePosition(drawable.x, drawable.y);
                 drawable.left = position.x;
                 drawable.top = position.y;
@@ -121,7 +117,7 @@
                     fill: 'white',
                     entity: camera,
                     camera: true,
-                    hasControls: true
+                    hasControls: false
                 });
                 cam.setControlsVisibility({
                     bl: false,
@@ -175,32 +171,11 @@
                 return position;
             }
 
-            function updateEntity(options) {
-                console.log('Modified object: ', options);
-                var target = options.target;
-                if(target) {
-                    var entity = target.entity;
-                    var position = getRelativePosition(target.left, target.top);
-                    entity.x = position.x;
-                    entity.y = position.y;
-                    onModify(target);
-                }
-            }
-
             function onSelect (options) {
                 console.log('Selected object: ', options);
                 var target = options.target;
                 scope.vm.selected = target.entity;
                 console.log('vm.selected: ', scope.vm.selected);
-            }
-
-            function onModify(target) {
-                console.log('updated target: ', target);
-                if(target.camera) {
-                    Camera.update(target.entity);
-                } else if(target.player) {
-                    Player.update(target.entity);
-                }
             }
         }
     }
