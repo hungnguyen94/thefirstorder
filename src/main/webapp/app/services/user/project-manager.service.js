@@ -8,7 +8,7 @@
         .factory('ProjectManager', ProjectManager);
 
     ProjectManager.$inject = ['$http', '$state', 'Project'];
-    
+
     function ProjectManager($http, $state, Project) {
         var resourceUrl = 'api/account/';
         var service = {
@@ -53,24 +53,16 @@
             return res;
         }
 
-        function validateMap(currentProjectId) {
-            var res = validate(currentProjectId, function (project) {
-                if (project.map == null) {
-                    $state.go("map-setup");
-                }
-            });
-
-            return res;
+        function validateMap(project) {
+            if (project.map == null) {
+                $state.go("map-setup");
+            }
         }
 
-        function validateScript(currentProjectId) {
-            var res = validate(currentProjectId, function (project) {
-                if (project.script == null) {
-                    $state.go("script-setup");
-                }
-            });
-
-            return res;
+        function validateScript(project) {
+            if (project.script == null) {
+                $state.go("script-setup");
+            }
         }
 
         function validate(currentProjectId, onSuccess) {

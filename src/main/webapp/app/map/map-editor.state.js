@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -18,6 +18,18 @@
                 'content@': {
                     templateUrl: 'app/map/map-editor.html'
                 }
+            },
+            resolve: {
+                validateProject: ['ProjectManager', 'currentProjectId',
+                    function (ProjectManager, currentProjectId) {
+                        return ProjectManager.validateProject(currentProjectId);
+                    }
+                ],
+                validateMap: ['ProjectManager', 'validateProject',
+                    function (ProjectManager, validateProject) {
+                        ProjectManager.validateMap(validateProject);
+                    }
+                ]
             }
         });
     }
