@@ -33,6 +33,7 @@ public class TimePointServiceImpl implements TimePointService {
      * @param timePoint the entity to save
      * @return the persisted entity
      */
+    @Transactional
     public TimePoint save(TimePoint timePoint) {
         log.debug("Request to save TimePoint : {}", timePoint);
         TimePoint result = timePointRepository.save(timePoint);
@@ -84,6 +85,7 @@ public class TimePointServiceImpl implements TimePointService {
      *  
      *  @param id the id of the entity
      */
+    @Transactional(readOnly = true)
     public void delete(Long id) {
         log.debug("Request to delete TimePoint : {}", id);
         timePointRepository.delete(id);
