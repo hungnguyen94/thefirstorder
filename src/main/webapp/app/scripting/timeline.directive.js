@@ -113,7 +113,6 @@
              * @param callback the callback to the vis.js draw function
              */
             function onAdd(item, callback) {
-                scope.vm.saved = false;
                 $state.go('scripting.new');
                 var endyear = item.start.getFullYear() + 5;
                 item.end = endyear + '-01-01';
@@ -129,7 +128,6 @@
              * @param callback the callback to the vis.js draw function
              */
             function onUpdate(item, callback) {
-                scope.vm.saved = false;
                 $state.go('scripting.update', {name: item.content});
                 $rootScope.$on('cueupdated', function (event, args) {
                     item.content = args.cuename;
@@ -144,7 +142,6 @@
              * @param callback the callback to the vis.js draw function
              */
             function unSaved(item, callback) {
-                scope.vm.saved = false;
                 callback(item);
             }
 

@@ -18,10 +18,6 @@
     function ScriptingController ($rootScope, $scope, $state, Map, Cue, AlertService) {
         var vm = this;
 
-        vm.saved = true;
-        vm.save = function() {
-            vm.saved = false;
-        }
         vm.cues = Cue.query();
         getMapEntities();
 

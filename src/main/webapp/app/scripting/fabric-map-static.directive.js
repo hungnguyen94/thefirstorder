@@ -27,8 +27,6 @@
 
             init();
 
-            ///////////////////////////////////////
-
             angular.element($window).bind('resize', resize);
 
             scope.$watch('vm.map', function (newMap) {
@@ -37,9 +35,6 @@
             });
 
             scope.canvas.on('object:selected', onSelect);
-
-            /////////////////////////
-
 
             function init() {
                 console.log('init directive');
