@@ -2,7 +2,7 @@
     <div class="row">
         <h1 class="text-center">Live Preview</h1>
 
-        <div class="table-responsive">
+        <div class="col-lg-offset-2 col-lg-8 table-responsive">
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -15,14 +15,15 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="activity in vm.activities">
-                    <td>{{activity.userLogin}}</td>
-                    <td>{{activity.ipAddress}}</td>
-                    <td>{{activity.page}}</td>
-                    <td>{{activity.time}}</td>
+                    <td class="vert-align">{{activity.userLogin}}</td>
+                    <td class="vert-align">{{activity.ipAddress}}</td>
+                    <td class="vert-align">{{activity.page}}</td>
+                    <td class="vert-align">{{activity.time}}</td>
+                    <td class="vert-align"><button type="button" class="btn btn-raised btn-info">Authorize</button></td>
                 </tr>
                 </tbody>
             </table>
-        </div>
+        </div><br />
 
         <div class="col-lg-offset-2 col-lg-8">
             <ul class="timeline">

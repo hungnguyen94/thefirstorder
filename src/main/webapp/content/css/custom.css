@@ -16,3 +16,7 @@ canvas#concertMap {
 .modal-footer form {
     display: inline-block;
 }
+
+.table tbody>tr>td.vert-align{
+    vertical-align: middle;
+}
