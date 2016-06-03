@@ -68,8 +68,8 @@ public class MapServiceImpl implements MapService {
     @Transactional(readOnly = true)
     public Map findOne(Long id) {
         log.debug("Request to get Map : {}", id);
-        Map map = mapRepository.findOne(id);
-        return map;
+        Map result = mapRepository.findOne(id);
+        return result;
     }
 
     /**

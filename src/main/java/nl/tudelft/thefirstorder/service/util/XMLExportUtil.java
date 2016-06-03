@@ -121,12 +121,9 @@ public class XMLExportUtil {
      * @return An element with the information
      */
     private static Element getCameraAction(Document doc, Cue cue) {
-        Element cameraId = doc.createElement("Id");
-        cameraId.appendChild(doc.createTextNode(cue.getCameraAction().getId() + ""));
         Element cameraName = doc.createElement("Name");
-        cameraName.appendChild(doc.createTextNode(cue.getCameraAction().getName()));
+        cameraName.appendChild(doc.createTextNode(cue.getAction()));
         Element cameraNode = doc.createElement("Camera-Action");
-        cameraNode.appendChild(cameraId);
         cameraNode.appendChild(cameraName);
         return cameraNode;
     }
@@ -138,14 +135,11 @@ public class XMLExportUtil {
      * @return An element with the information
      */
     private static Element getTimePoint(Document doc, Cue cue) {
-        Element timeId = doc.createElement("Id");
-        timeId.appendChild(doc.createTextNode(cue.getTimePoint().getId() + ""));
-        Element timeStart = doc.createElement("Start-Time");
-        timeStart.appendChild(doc.createTextNode(cue.getTimePoint().getStartTime() + ""));
+        Element timeStart = doc.createElement("Bar");
+        timeStart.appendChild(doc.createTextNode(cue.getBar() + ""));
         Element timeDuration = doc.createElement("Duration");
-        timeDuration.appendChild(doc.createTextNode(cue.getTimePoint().getDuration() + ""));
+        timeDuration.appendChild(doc.createTextNode(cue.getDuration() + ""));
         Element timeNode = doc.createElement("Time-Point");
-        timeNode.appendChild(timeId);
         timeNode.appendChild(timeStart);
         timeNode.appendChild(timeDuration);
         return timeNode;

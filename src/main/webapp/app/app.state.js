@@ -23,7 +23,7 @@
                         return Auth.authorize();
                     }
                 ],
-                currentProject: ['ProjectManager', 
+                currentProject: ['ProjectManager',
                     function (ProjectManager) {
                         return ProjectManager.get().then(function (result) {
                             return result.data;

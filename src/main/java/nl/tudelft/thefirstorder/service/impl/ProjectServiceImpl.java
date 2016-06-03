@@ -1,7 +1,6 @@
 package nl.tudelft.thefirstorder.service.impl;
 
 import nl.tudelft.thefirstorder.domain.Project;
-import nl.tudelft.thefirstorder.domain.User;
 import nl.tudelft.thefirstorder.repository.ProjectRepository;
 import nl.tudelft.thefirstorder.repository.UserRepository;
 import nl.tudelft.thefirstorder.service.ProjectService;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.List;
 
 /**
  * Service Implementation for managing Project.
@@ -78,9 +76,9 @@ class ProjectServiceImpl implements ProjectService {
         log.debug("Request to delete Project : {}", id);
         projectRepository.delete(id);
 
-        List<User> users = userRepository.findAllByCurrentProjectId(id);
-        for (User user : users) {
-            user.setCurrentProjectId(null);
-        }
+//        List<User> users = userRepository.findAllByCurrentProjectId(id);
+//        for (User user : users) {
+//            user.setCurrentProjectId(null);
+//        }
     }
 }

@@ -39,7 +39,6 @@ public class PDFExportTest {
     @Mock private Paragraph paragraph;
     @Mock private Player player;
     @Mock private Camera camera;
-    @Mock private CameraAction action;
 
     @Test
     public void exportProjectToPDFTest() {
@@ -47,12 +46,10 @@ public class PDFExportTest {
         when(project.getScript()).thenReturn(script);
         when(script.getName()).thenReturn("script");
         when(cue.getCamera()).thenReturn(camera);
-        when(cue.getCameraAction()).thenReturn(action);
         when(cue.getPlayer()).thenReturn(player);
         when(camera.getX()).thenReturn(1);
         when(camera.getX()).thenReturn(1);
         when(camera.getName()).thenReturn("Camera");
-        when(action.getName()).thenReturn("action");
         when(player.getName()).thenReturn("player");
         Set<Cue> cues = new HashSet<Cue>();
         cues.add(cue);
