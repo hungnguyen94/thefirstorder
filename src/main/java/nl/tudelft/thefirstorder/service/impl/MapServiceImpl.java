@@ -42,8 +42,7 @@ public class MapServiceImpl implements MapService {
     @Transactional
     public Map save(Map map) {
         log.debug("Request to save Map : {}", map);
-        Map result = mapRepository.save(map);
-        return result;
+        return mapRepository.save(map);
     }
 
     /**
@@ -68,8 +67,7 @@ public class MapServiceImpl implements MapService {
     @Transactional(readOnly = true)
     public Map findOne(Long id) {
         log.debug("Request to get Map : {}", id);
-        Map map = mapRepository.findOne(id);
-        return map;
+        return mapRepository.findOne(id);
     }
 
     /**
