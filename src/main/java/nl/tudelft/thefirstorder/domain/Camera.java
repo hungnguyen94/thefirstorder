@@ -39,10 +39,12 @@ public class Camera implements Serializable {
     @Column(name = "y")
     private Integer y;
 
-    /**
-     * Get the id of the camera.
-     * @return the id
-     */
+    @Column(name = "camera_type")
+    private String cameraType;
+
+    @Column(name = "lens_type")
+    private String lensType;
+
     public Long getId() {
         return id;
     }
@@ -103,6 +105,22 @@ public class Camera implements Serializable {
         this.y = y;
     }
 
+    public String getCameraType() {
+        return cameraType;
+    }
+
+    public void setCameraType(String cameraType) {
+        this.cameraType = cameraType;
+    }
+
+    public String getLensType() {
+        return lensType;
+    }
+
+    public void setLensType(String lensType) {
+        this.lensType = lensType;
+    }
+
     public Map getMap() {
         return map;
     }
@@ -147,9 +165,9 @@ public class Camera implements Serializable {
     @Override
     public String toString() {
         return "Camera{"
-                + "id=" + id + ", name='" + name + "'"
-                + ", x='" + x + "'"
-                + ", y='" + y + "'"
-                + '}';
+            + "id=" + id + ", name='" + name + "'"
+            + ", x='" + x + "'" + ", y='" + y + "'"
+            + ", cameraType='" + cameraType + "'"
+            + ", lensType='" + lensType + "'" + '}';
     }
 }

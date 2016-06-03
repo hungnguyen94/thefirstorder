@@ -19,6 +19,14 @@
         {
             "fieldName": "y",
             "fieldType": "Integer"
+        },
+        {
+            "fieldName": "cameraType",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "lensType",
+            "fieldType": "String"
         }
     ],
     "changelogDate": "20160430231818",

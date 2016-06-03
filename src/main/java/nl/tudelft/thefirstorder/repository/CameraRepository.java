@@ -1,6 +1,7 @@
 package nl.tudelft.thefirstorder.repository;
 
 import nl.tudelft.thefirstorder.domain.Camera;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
