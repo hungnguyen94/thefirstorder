@@ -18,7 +18,6 @@
     function ScriptingController ($rootScope, $scope, $state, Map, Cue, AlertService) {
         var vm = this;
 
-        vm.cues = Cue.query();
         getMapEntities();
 
         function getMapEntities() {
@@ -26,6 +25,7 @@
                 console.log('result is: ', result);
                 vm.map = result;
             });
+            vm.cues = Cue.query();
         }
     }
 })();
