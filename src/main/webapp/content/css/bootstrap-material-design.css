@@ -39,7 +39,7 @@ Then, run this script to get the list.
 /* SHADOWS */
 /* Shadows (from mdl http://www.getmdl.io/) */
 body {
-  background-color: #EEEEEE;
+  background-color: #333333;
 }
 body.inverse {
   background: #333333;
@@ -2314,7 +2314,7 @@ fieldset[disabled] .navbar .btn-link:focus {
 .navbar,
 .navbar.navbar-default {
   /*background-color: #009688;*/
-  background-color: #0d47a1;
+  background-color: #3c6666;
   color: rgba(255,255,255, 0.84);
 }
 .navbar .navbar-form .form-group input.form-control::-moz-placeholder,
