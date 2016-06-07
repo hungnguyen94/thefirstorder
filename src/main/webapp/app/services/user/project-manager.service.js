@@ -1,6 +1,3 @@
-/**
- * Created by Hung.
- */
 (function () {
     'use strict';
     angular

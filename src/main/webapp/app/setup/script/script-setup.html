@@ -1,36 +1,31 @@
 <div ng-cloak>
-    <div class="row">
-        <CENTER>
-            <h1>Setup script</h1>
-            <hr/>
-            <p class="lead">This project does not have a script yet, please select an option:</p>
-            <br/><br/><br/>
-            <div class="row">
-                <div class="col-md-6"><span class="glyphicon glyphicon-list" style="font-size: 60pt;"></span>
-                    <hr/>
-                    <p class="lead">
-                        <button class="btn btn-primary"
-                                has-any-authority="ROLE_ADMIN,ROLE_DIRECTOR"
-                                ui-sref="script.create">
-                    <span>
+    <div class="row centered">
+        <h1>Setup script</h1>
+        <hr/>
+        <p class="lead">This project does not have a script yet, please select an option:</p>
+        <br/><br/><br/>
+        <div class="row">
+            <div class="col-md-6"><span class="glyphicon glyphicon-list" style="font-size: 60pt;"></span>
+                <hr/>
+                <p class="lead">
+                    <button class="btn btn-primary"
+                            has-any-authority="ROLE_ADMIN,ROLE_DIRECTOR"
+                            ui-sref="script.create">
                         Create a new script
-                    </span>
-                        </button>
-                    </p>
-                </div>
-                <div class="col-md-6"><span class="glyphicon glyphicon-folder-open" style="font-size: 60pt;"></span>
-                    <hr/>
-                    <p class="lead">
-                        <button class="btn btn-primary"
-                                has-any-authority="ROLE_ADMIN,ROLE_DIRECTOR"
-                                ui-sref="script.load">
-                    <span>
-                        Load an existing script
-                    </span>
-                        </button>
-                    </p>
-                </div>
+                    </button>
+                </p>
             </div>
-        </CENTER>
+            <div class="col-md-6"><span class="glyphicon glyphicon-folder-open" style="font-size: 60pt;"></span>
+                <hr/>
+                <p class="lead">
+                    <button class="btn btn-primary"
+                            has-any-authority="ROLE_ADMIN,ROLE_DIRECTOR"
+                            ui-sref="script.load">
+                        Load an existing script
+                    </button>
+                </p>
+            </div>
+        </div>
+
     </div>
 </div>

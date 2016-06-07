@@ -33,7 +33,7 @@
          * Sets the entity selected by the user.
          */
         function setSelected(entity) {
-            if (vm.selected == entity) {
+            if (vm.selected === entity) {
                 vm.selected = null;
             } else {
                 vm.selected = entity;

@@ -46,9 +46,9 @@
          * Sets hasCurrentProject to true if the active user has a project.
          */
         function loadProject() {
-            if (currentProjectId != null) {
+            if (currentProjectId !== null) {
                 vm.currentProject = Project.get({id: currentProjectId});
-                if (vm.currentProject != null) {
+                if (vm.currentProject !== null) {
                     vm.hasCurrentProject = true;
                 }
             }
