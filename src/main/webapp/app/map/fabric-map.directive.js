@@ -9,7 +9,11 @@
 
     function fabricMap($window, Player, Camera) {
         var directive = {
-            restrict: 'EA',
+            restrict: 'EA', 
+            scope: {
+                'map': '=', 
+                'selected': '='
+            }, 
             link: link,
             controller: 'MapEditorController',
             controllerAs: 'vm',
@@ -23,7 +27,7 @@
             console.log('Scope is: ', scope);
 
             scope.canvas = {};
-            scope.vm.selected = {};
+            
 
             init();
 
@@ -188,7 +192,7 @@
             function onSelect (options) {
                 console.log('Selected object: ', options);
                 var target = options.target;
-                scope.vm.selected = target.entity;
+                scope.vm.setSelected(target.entity);// = target.entity;
                 console.log('vm.selected: ', scope.vm.selected);
             }
 

@@ -9,7 +9,11 @@
 
     function mapTableView($uibModal) {
         var directive = {
-            restrict: 'EA', 
+            restrict: 'EA',
+            scope: {
+                'map': '=',
+                'selected': '='
+            }, 
             templateUrl: 'app/map/map-table-view-template.html',
             link: link,
             controller: 'MapEditorController', 

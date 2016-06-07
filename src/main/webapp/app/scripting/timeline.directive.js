@@ -164,19 +164,6 @@
                 }, function() {
                     console.log('cancelled');
                 });
-                
-                var startYear = item.start;
-                var endYear = parseIntAsYear(startYear.getFullYear() + 5);
-                item.end = endYear;
-
-                console.log('StartYear is: ', startYear);
-                console.log('EndYear is: ', endYear);
-                console.log('item.end is', item.end);
-                
-                // $rootScope.$on('cueadded', function (event, args) {
-                //     item.content = args.cuename;
-                //     callback(item);
-                // });
             }
 
             /**
