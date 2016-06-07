@@ -13,11 +13,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.inject.Inject;
 import java.net.URI;
@@ -33,16 +33,15 @@ import java.util.Optional;
 public class CameraResource {
 
     private final Logger log = LoggerFactory.getLogger(CameraResource.class);
-        
+
     @Inject
     private CameraService cameraService;
-    
+
     /**
      * POST  /cameras : Create a new camera.
      *
      * @param camera the camera to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new camera,
-     *      or with status 400 (Bad Request) if the camera has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the new camera, or with status 400 (Bad Request) if the camera has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/cameras",
@@ -52,12 +51,7 @@ public class CameraResource {
     public ResponseEntity<Camera> createCamera(@RequestBody Camera camera) throws URISyntaxException {
         log.debug("REST request to save Camera : {}", camera);
         if (camera.getId() != null) {
-            return ResponseEntity.badRequest().headers(
-                    HeaderUtil.createFailureAlert(
-                            "camera",
-                            "idexists",
-                            "A new camera cannot already have an ID")
-            ).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("camera", "idexists", "A new camera cannot already have an ID")).body(null);
         }
         Camera result = cameraService.save(camera);
         return ResponseEntity.created(new URI("/api/cameras/" + result.getId()))
@@ -70,8 +64,8 @@ public class CameraResource {
      *
      * @param camera the camera to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated camera,
-     *      or with status 400 (Bad Request) if the camera is not valid,
-     *      or with status 500 (Internal Server Error) if the camera couldnt be updated
+     * or with status 400 (Bad Request) if the camera is not valid,
+     * or with status 500 (Internal Server Error) if the camera couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/cameras",
@@ -103,7 +97,7 @@ public class CameraResource {
     public ResponseEntity<List<Camera>> getAllCameras(Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of Cameras");
-        Page<Camera> page = cameraService.findAll(pageable); 
+        Page<Camera> page = cameraService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/cameras");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
