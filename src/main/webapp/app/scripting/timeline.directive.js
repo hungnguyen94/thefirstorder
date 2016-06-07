@@ -5,9 +5,9 @@
         .module('thefirstorderApp')
         .directive('timeline', timeline);
 
-    timeline.$inject = ['$window', '$rootScope', '$state', 'Cue'];
+    timeline.$inject = ['$window', '$rootScope', '$state', 'Cue', '$uibModal'];
 
-    function timeline($window, $rootScope, $state, Cue) {
+    function timeline($window, $rootScope, $state, Cue, $uibModal) {
         var directive = {
             template: '<div id="visualization"></div>',
             restrict: 'EA',
@@ -22,21 +22,37 @@
             console.log('timeline directive called');
             console.log('Element is: ', element);
             console.log('Scope is: ', scope);
+            
+            scope.timeline = {};
+            scope.vm.timelineSelected = {};
+            
+            init();
 
             scope.$watch('vm.map', function (newMap) {
                 console.log('Changed map:', newMap);
                 drawTimeline(scope.vm.map.cameras, scope.vm.cues);
             });
 
+
+            scope.timeline.on('select', function (properties) {
+                console.log('selected timeline items: ', properties);
+            });
+            
+            ///////////////////////////////////////////
             /**
              * Draws the timeline with all the cues.
              */
             function drawTimeline(cameras, cues) {
-                var container = document.getElementById('visualization');
-
                 var groups = createGroups(cameras);
                 var items = createItems(cues);
+                scope.timeline.setGroups(groups);
+                scope.timeline.setItems(items);
+            }
 
+            /**
+             * Initializes the timeline.
+             */
+            function init() {
                 var options = {
                     groupOrder: function (a, b) {
                         return a.value - b.value;
@@ -57,13 +73,13 @@
                 };
 
                 // Create a Timeline
-                var timeline = new vis.Timeline(container);
+                var timeline = new vis.Timeline(element[0]);
                 timeline.setOptions(options);
-                timeline.setGroups(groups);
-                timeline.setItems(items);
                 timeline.addCustomTime('0000-01-01', 'scroller');
+                scope.timeline = timeline;
+                console.log('init called, timeline is', scope.timeline);
             }
-
+            
             /**
              * Creates a vis.DataSet with all the groups for the timeline.
              * @returns vis.DataSet with timeline groups
@@ -71,12 +87,13 @@
             function createGroups(cameras) {
                 var groupsArray = [];
                 cameras.forEach(function (camera) {
-                    var classNumber = camera.id % 3 + 1;
+                    var classNumber = camera.id;// % 3 + 1;
                     groupsArray.push({
                         content: camera.name,
                         id: camera.name,
                         value: camera.id,
-                        className: "camera" + classNumber
+                        className: "camera" + classNumber, 
+                        camera: camera
                     });
                 });
                 return new vis.DataSet(groupsArray);
@@ -94,14 +111,19 @@
 
                     var startYear = parseIntAsYear(startTime);
                     var endYear = parseIntAsYear(endTime);
-
-                    dataSet.push({
+                    
+                    var item = {
                         id: cue.id,
                         content: cue.action,
-                        start: startYear + "-01-01",
-                        end: endYear + '-01-01',
-                        group: cue.camera.name
-                    })
+                        start: startYear, 
+                        end: endYear, 
+                        group: cue.camera.name, 
+                        cue: cue
+                    };
+                    
+                    console.log('Add item', item);
+                    
+                    dataSet.push(item);
                 });
 
                 return new vis.DataSet(dataSet);
@@ -113,13 +135,48 @@
              * @param callback the callback to the vis.js draw function
              */
             function onAdd(item, callback) {
-                $state.go('scripting.new');
-                var endyear = item.start.getFullYear() + 5;
-                item.end = endyear + '-01-01';
-                $rootScope.$on('cueadded', function (event, args) {
-                    item.content = args.cuename;
+                $uibModal.open({
+                    templateUrl: 'app/entities/cue/cue-dialog.html',
+                    controller: 'CueDialogController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    size: 'lg',
+                    resolve: {
+                        entity: function () {
+                            return {
+                                action: null,
+                                bar: null,
+                                duration: null,
+                                id: null
+                            };
+                        }
+                    }
+                }).result.then(function(result) {
+                    item.content = result.action;
+                    item.start = parseIntAsYear(result.bar);
+                    var end = result.bar + result.duration;
+                    item.end = parseIntAsYear(end);
+                    
+                    console.log('StartYear is: ', item.start);
+                    console.log('End is: ', end);
+                    console.log('item.end is', item.end);
                     callback(item);
+                }, function() {
+                    console.log('cancelled');
                 });
+                
+                var startYear = item.start;
+                var endYear = parseIntAsYear(startYear.getFullYear() + 5);
+                item.end = endYear;
+
+                console.log('StartYear is: ', startYear);
+                console.log('EndYear is: ', endYear);
+                console.log('item.end is', item.end);
+                
+                // $rootScope.$on('cueadded', function (event, args) {
+                //     item.content = args.cuename;
+                //     callback(item);
+                // });
             }
 
             /**
@@ -128,11 +185,22 @@
              * @param callback the callback to the vis.js draw function
              */
             function onUpdate(item, callback) {
-                $state.go('scripting.update', {name: item.content});
-                $rootScope.$on('cueupdated', function (event, args) {
-                    item.content = args.cuename;
+                console.log('item is', item);
+                $uibModal.open({
+                    templateUrl: 'app/entities/cue/cue-dialog.html',
+                    controller: 'CueDialogController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    size: 'md',
+                    resolve: {
+                        entity: item.cue
+                    }
+                }).result.then(function(result) {
+                    console.log('result is: ', result);
+                    item.content = result.action;
                     callback(item);
-                    item = null;
+                }, function() {
+                    console.log('cancelled');
                 });
             }
 
@@ -151,15 +219,19 @@
              * @returns a string with a year
              */
             function parseIntAsYear(year) {
-                var current = "";
+                var str = "" + year; 
+                var padding = "0000"; 
+                var result = padding.substring(0, padding.length - str.length) + str; 
+                
+                // var current = "";
+                //
+                // for (var j = 0; j < 4 - year.toString().length; ++j) {
+                //     current += '0';
+                // }
+                //
+                // current += year.toString();
 
-                for (var j = 0; j < 4 - year.toString().length; ++j) {
-                    current += '0';
-                }
-
-                current += year.toString();
-
-                return current;
+                return result;
             }
         }
     }
