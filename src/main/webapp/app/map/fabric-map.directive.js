@@ -198,7 +198,7 @@
             function onSelect (options) {
                 console.log('Selected object: ', options);
                 var target = options.target;
-                scope.vm.setSelected(target.entity);// = target.entity;
+                scope.vm.selected = target.entity;
                 console.log('vm.selected: ', scope.vm.selected);
             }
 

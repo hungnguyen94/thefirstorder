@@ -17,9 +17,7 @@
             },
             views: {
                 'content@': {
-                    templateUrl: 'app/scripting/scripting.html',
-                    controller: 'ScriptingController',
-                    controllerAs: 'vm'
+                    templateUrl: 'app/scripting/scripting.html'
                 }
             }
         })

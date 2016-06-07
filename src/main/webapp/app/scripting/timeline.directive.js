@@ -5,9 +5,9 @@
         .module('thefirstorderApp')
         .directive('timeline', timeline);
 
-    timeline.$inject = ['$window', '$rootScope', '$state', 'Cue', '$uibModal'];
+    timeline.$inject = ['Cue', 'Camera', '$uibModal'];
 
-    function timeline($window, $rootScope, $state, Cue, $uibModal) {
+    function timeline(Cue, Camera, $uibModal) {
         var directive = {
             template: '<div id="visualization"></div>',
             scope: {
@@ -41,8 +41,6 @@
             scope.$watch('vm.cues', function (newCues) {
                 console.log('Cues changed: ', newCues);
                 createItems(scope.vm.cues);
-                console.log('scope.dataset is: ', scope.dataset);
-                console.log('timeline items: ', scope.timeline);
             });
 
             scope.timeline.on('select', function (properties) {
@@ -67,9 +65,9 @@
                         return a.value - b.value;
                     },
                     timeAxis : {scale: 'year', step: 1},
-                    min: '0000-01-01',
-                    start: '0000-01-01',
-                    end: '0010-01-01',
+                    min: '0000-12-31',
+                    start: '0000-12-31',
+                    end: '0010-12-31',
                     zoomMin: 63072000000,
                     zoomMax: 700000000000,
                     editable: true,
@@ -84,7 +82,7 @@
                 // Create a Timeline
                 var timeline = new vis.Timeline(element[0]);
                 timeline.setOptions(options);
-                timeline.addCustomTime('0000-01-01', 'scroller');
+                timeline.addCustomTime('0000-12-31', 'scroller');
                 timeline.setItems(scope.dataset);
                 scope.timeline = timeline;
                 console.log('init called, timeline is', scope.timeline);
@@ -100,7 +98,7 @@
                     var classNumber = camera.id % 3 + 1;
                     groupsArray.push({
                         content: camera.name,
-                        id: camera.name,
+                        id: camera.id,
                         value: camera.id,
                         className: "camera" + classNumber, 
                         camera: camera
@@ -126,15 +124,15 @@
                 var startTime = cue.bar;
                 var endTime = cue.bar + cue.duration;
 
-                var startYear = parseIntAsYear(startTime);
-                var endYear = parseIntAsYear(endTime);
+                var startYear = parseIntAsDate(startTime);
+                var endYear = parseIntAsDate(endTime);
 
                 var item = {
                     id: cue.id,
                     content: cue.action,
                     start: startYear,
                     end: endYear,
-                    group: cue.camera.name,
+                    group: cue.camera.id,
                     cue: cue
                 };
                 return item;
@@ -163,10 +161,11 @@
                         }
                     }
                 }).result.then(function(result) {
-                    item.content = result.action;
-                    item.start = parseIntAsYear(result.bar);
                     var end = result.bar + result.duration;
-                    item.end = parseIntAsYear(end);
+                    
+                    item.content = result.action;
+                    item.start = parseIntAsDate(result.bar);
+                    item.end = parseIntAsDate(end);
 
                     console.log('StartYear is: ', item.start);
                     console.log('End is: ', end);
@@ -208,12 +207,20 @@
              * @param callback the callback to the vis.js draw function
              */
             function onMove(item, callback) {
-                var bar = item.start.getFullYear() + 1;
-                var duration = item.end.getFullYear() + 1 - bar;
+                console.log('on move: ', item);
+                var bar = item.start.getFullYear();
+                var duration = item.end.getFullYear() - bar;
+                console.log('bar and duration: ', bar, duration);
                 item.cue.bar = bar;
                 item.cue.duration = duration;
-                Cue.update(item.cue, onSaveSuccess, onSaveError);
-                callback(item);
+                // Nested callbacks
+                Camera.get({id: item.group}, function (camera) {
+                    item.cue.camera = camera;
+                    Cue.update(item.cue, function () {
+                        callback(item);
+                    });
+                });
+                
             }
 
             /**
@@ -238,18 +245,17 @@
                     console.log('cancelled');
                 });
             }
-
+            
             /**
              * Parses an int and returns the correct string for date parsing.
              * @param year the year to parse
              * @returns a string with a year
              */
-            function parseIntAsYear(year) {
+            function parseIntAsDate(year) {
                 var str = "" + year; 
                 var padding = "0000"; 
                 var result = padding.substring(0, padding.length - str.length) + str; 
-
-                return result;
+                return result + '-12-31';
             }
         }
     }
