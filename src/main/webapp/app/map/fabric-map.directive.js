@@ -11,8 +11,9 @@
         var directive = {
             restrict: 'EA', 
             scope: {
-                'map': '=', 
-                'selected': '='
+                map: '=map', 
+                selected: '=selected', 
+                editable: '=editable'
             }, 
             link: link,
             controller: 'MapEditorController',
@@ -50,7 +51,7 @@
             function init() {
                 console.log('init directive');
                 var canvas = new fabric.Canvas(element[0]);
-
+                canvas.selection = false;
                 fabric.Image.fromURL('content/images/concertzaal.jpg', function(img) {
                     scope.aspectRatio = img.width / img.height;
                     img.set({
@@ -107,7 +108,6 @@
                 drawable.height = 15;
                 drawable.lockScalingX = true;
                 drawable.lockScalingY = true;
-                // drawable.hasControls = false;
                 var position = getAbsolutePosition(drawable.x, drawable.y);
                 drawable.left = position.x;
                 drawable.top = position.y;
