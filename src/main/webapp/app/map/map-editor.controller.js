@@ -17,9 +17,9 @@
 
         function getMapEntities() {
             ProjectManager.get().then(function (projectId) {
-                Project.get({id: projectId.data}, function (project) {
 
-                    Map.getDTO({id: project.id}, function (result) {
+                Project.get({id: projectId.data}, function (project) {
+                    Map.getDTO({id: project.map.id}, function (result) {
                         vm.map = result;
                     });
                 });

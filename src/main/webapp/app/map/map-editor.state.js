@@ -20,14 +20,14 @@
                 }
             },
             resolve: {
-                validateProject: ['ProjectManager', 'currentProjectId',
+                validateMap: ['ProjectManager', 'currentProjectId',
                     function (ProjectManager, currentProjectId) {
-                        return ProjectManager.validateProject(currentProjectId);
+                        ProjectManager.validateMap(currentProjectId);
                     }
                 ],
-                validateMap: ['ProjectManager', 'validateProject',
-                    function (ProjectManager, validateProject) {
-                        ProjectManager.validateMap(validateProject);
+                currentProject: ['ProjectManager',
+                    function (ProjectManager) {
+                        return ProjectManager.getProject();
                     }
                 ]
             }

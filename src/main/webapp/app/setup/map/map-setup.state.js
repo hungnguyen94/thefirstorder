@@ -27,7 +27,7 @@
             data: {
                 authorities: ['ROLE_USER']
             },
-            onEnter: ['$stateParams', '$state', '$uibModal', 'currentProject', function ($stateParams, $state, $uibModal, currentProject) {
+            onEnter: ['$stateParams', '$state', '$uibModal', 'ProjectManager', function ($stateParams, $state, $uibModal, currentProject) {
                 $uibModal.open({
                     templateUrl: 'app/setup/map/createmap-dialog.html',
                     controller: 'CreateMapController',
@@ -41,8 +41,8 @@
                                 id: null
                             };
                         },
-                        currentProject: function(){
-                            return currentProject;
+                        currentProject: function(ProjectManager){
+                            return ProjectManager.getProject();
                         }
                     }
                 }).result.then(function () {
@@ -57,7 +57,7 @@
             data: {
                 authorities: ['ROLE_USER']
             },
-            onEnter: ['$stateParams', '$state', '$uibModal', 'currentProject', function($stateParams, $state, $uibModal, currentProject) {
+            onEnter: ['$stateParams', '$state', '$uibModal', 'ProjectManager', function($stateParams, $state, $uibModal, currentProject) {
                 $uibModal.open({
                     templateUrl: 'app/setup/map/loadmap-dialog.html',
                     controller: 'LoadMapController',
@@ -65,8 +65,8 @@
                     backdrop: 'static',
                     size: 'lg',
                     resolve: {
-                        currentProject: function(){
-                            return currentProject;
+                        currentProject: function(ProjectManager){
+                            return ProjectManager.getProject();
                         }
                     }
                 }).result.then(function() {

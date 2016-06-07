@@ -5,7 +5,7 @@
         .module('thefirstorderApp')
         .controller('ScriptingviewController', ScriptingviewController);
 
-    ScriptingviewController.$inject = ['$scope', '$state', 'Camera', 'Player', 'CameraAction', 'Script', 'TimePoint', 'Cue', 'AlertService', 'currentProject'];
+    ScriptingviewController.$inject = ['$scope', '$state', 'Camera', 'Player', 'CameraAction', 'Script', 'TimePoint', 'Cue', 'AlertService'];
 
     /**
      * The controller for the script view.
@@ -15,9 +15,8 @@
      * @param AlertService the alertservice
      * @constructor
      */
-    function ScriptingviewController ($scope, $state, Camera, Player, CameraAction, Script, TimePoint, Cue, AlertService, currentProject) {
+    function ScriptingviewController ($scope, $state, Camera, Player, CameraAction, Script, TimePoint, Cue, AlertService) {
         var vm = this;
-        console.log(currentProject.map);
 
         var grid = 15;
         vm.loadCameras = loadCameras;

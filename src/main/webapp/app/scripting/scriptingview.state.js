@@ -22,14 +22,14 @@
                 }
             },
             resolve: {
-                validateProject: ['ProjectManager', 'currentProjectId',
+                validateScript: ['ProjectManager', 'currentProjectId',
                     function (ProjectManager, currentProjectId) {
-                        return ProjectManager.validateProject(currentProjectId);
+                        ProjectManager.validateScript(currentProjectId);
                     }
                 ],
-                validateScript: ['ProjectManager', 'validateProject',
-                    function (ProjectManager, validateProject) {
-                        ProjectManager.validateScript(validateProject);
+                currentProject: ['ProjectManager',
+                    function (ProjectManager) {
+                        return ProjectManager.getProject();
                     }
                 ]
             }
