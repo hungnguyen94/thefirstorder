@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
@@ -19,15 +18,21 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Test class for the AuditResource REST controller.
@@ -79,6 +84,22 @@ public class AuditResourceIntTest {
         auditEvent.setAuditEventType(SAMPLE_TYPE);
         auditEvent.setPrincipal(SAMPLE_PRINCIPAL);
         auditEvent.setAuditEventDate(SAMPLE_TIMESTAMP);
+    }
+
+    @Test
+    public void getIdTest() throws Exception {
+        PersistentAuditEvent auditEvent2 = new PersistentAuditEvent();
+        auditEvent2.setId(auditEvent.getId());
+        assertThat(auditEvent).isNotEqualTo(auditEvent2);
+    }
+
+    @Test
+    public void getDataTest() throws Exception {
+        Map<String, String> data = new HashMap<>();
+        PersistentAuditEvent auditEvent2 = new PersistentAuditEvent();
+        auditEvent.setData(data);
+        auditEvent2.setData(data);
+        assertThat(auditEvent.getData()).isEqualTo(auditEvent2.getData());
     }
 
     @Test

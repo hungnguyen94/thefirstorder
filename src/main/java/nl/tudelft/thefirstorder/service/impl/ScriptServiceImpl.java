@@ -60,7 +60,8 @@ public class ScriptServiceImpl implements ScriptService {
     @Transactional(readOnly = true)
     public List<Script> findAllWhereProjectIsNull() {
         log.debug("Request to get all scripts where Project is null");
-        return scriptRepository.findByProjectIsNull();
+        List<Script> result = scriptRepository.findByProjectIsNull();
+        return result;
     }
 
     /**
@@ -72,8 +73,8 @@ public class ScriptServiceImpl implements ScriptService {
     @Transactional(readOnly = true) 
     public Script findOne(Long id) {
         log.debug("Request to get Script : {}", id);
-        Script script = scriptRepository.findOne(id);
-        return script;
+        Script result = scriptRepository.findOne(id);
+        return result;
     }
 
     /**

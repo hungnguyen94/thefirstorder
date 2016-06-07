@@ -56,8 +56,7 @@ class CameraServiceImpl implements CameraService {
     @Transactional(readOnly = true)
     public Camera findOne(Long id) {
         log.debug("Request to get Camera : {}", id);
-        Camera camera = cameraRepository.findOne(id);
-        return camera;
+        return cameraRepository.findOne(id);
     }
 
     /**

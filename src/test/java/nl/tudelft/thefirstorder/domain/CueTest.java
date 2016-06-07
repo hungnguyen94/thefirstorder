@@ -23,10 +23,7 @@ public class CueTest {
     private Camera camera;
 
     @Mock
-    private CameraAction cameraAction;
-
-    @Mock
-    private TimePoint timePoint;
+    private Project project;
 
     @Before
     public void setUp() throws Exception {
@@ -53,15 +50,33 @@ public class CueTest {
     }
 
     @Test
-    public void getCameraAction() throws Exception {
-        cue.setCameraAction(cameraAction);
-        assertThat(cue.getCameraAction()).isEqualTo(cameraAction);
+    public void getActionTest() throws Exception {
+        cue.setAction("Zoom");
+        assertThat(cue.getAction()).isEqualTo("Zoom");
     }
 
     @Test
-    public void getTimePoint() throws Exception {
-        cue.setTimePoint(timePoint);
-        assertThat(cue.getTimePoint()).isEqualTo(timePoint);
+    public void getBarTest() throws Exception {
+        cue.setBar(1);
+        assertThat(cue.getBar()).isEqualTo(1);
+    }
+
+    @Test
+    public void scriptTest() throws Exception {
+        cue.setScript(script);
+        assertThat(cue.getScript()).isEqualTo(script);
+    }
+
+    @Test
+    public void projectTest() throws Exception {
+        cue.setProject(project);
+        assertThat(cue.getProject()).isEqualTo(project);
+    }
+
+    @Test
+    public void getDurationTest() throws Exception {
+        cue.setDuration(1);
+        assertThat(cue.getDuration()).isEqualTo(1);
     }
 
     @Test
@@ -84,5 +99,13 @@ public class CueTest {
         Cue cue2 = new Cue();
         cue2.setId(cue.getId());
         assertThat(cue.equals(cue2)).isTrue();
+    }
+
+    @Test
+    public void hashCodeTest() throws Exception {
+        Cue cue2 = new Cue();
+        cue.setId(1L);
+        cue2.setId(1L);
+        assertThat(cue.hashCode() == cue2.hashCode());
     }
 }
