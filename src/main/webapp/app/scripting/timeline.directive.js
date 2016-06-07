@@ -9,11 +9,11 @@
 
     function timeline($window, $rootScope, $state, Cue, $uibModal) {
         var directive = {
-            template: '<div id="visualization"></div>', 
+            template: '<div id="visualization"></div>',
             scope: {
-                'map': '=', 
-                'selected': '=' 
-            }, 
+                'map': '=',
+                'selected': '='
+            },
             restrict: 'EA',
             link: link,
             controller: 'ScriptingController',
@@ -30,7 +30,7 @@
             scope.timeline = {};
             scope.vm.timelineSelected = {};
             scope.dataset = new vis.DataSet();
-            
+
             init();
 
             scope.$watch('vm.map', function (newMap) {
@@ -48,7 +48,7 @@
             scope.timeline.on('select', function (properties) {
                 console.log('selected timeline items: ', properties);
             });
-            
+
             ///////////////////////////////////////////
             /**
              * Draws the timeline with all the cues.
@@ -77,8 +77,8 @@
                     itemsAlwaysDraggable: true,
                     onAdd: onAdd,
                     onUpdate: onUpdate,
-                    onMove: unSaved,
-                    onRemove: unSaved
+                    onMove: onMove,
+                    onRemove: onRemove
                 };
 
                 // Create a Timeline
@@ -118,7 +118,7 @@
             }
 
             /**
-             * Transforms a Cue to a Vis timeline item. 
+             * Transforms a Cue to a Vis timeline item.
              * @param cue The cue to be transformed
              * @returns Vis item
              */
@@ -139,7 +139,7 @@
                 };
                 return item;
             }
-            
+
             /**
              * Moves to the scripting.new state and updates item on input from that state.
              * @param item the item that is updated
@@ -151,7 +151,7 @@
                     controller: 'CueDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
-                    size: 'xs',
+                    size: 'lg',
                     resolve: {
                         entity: function () {
                             return {
@@ -167,7 +167,7 @@
                     item.start = parseIntAsYear(result.bar);
                     var end = result.bar + result.duration;
                     item.end = parseIntAsYear(end);
-                    
+
                     console.log('StartYear is: ', item.start);
                     console.log('End is: ', end);
                     console.log('item.end is', item.end);
@@ -203,12 +203,40 @@
             }
 
             /**
-             * Sets the save state to unsaved.
-             * @param item the item that was updated
+             * Updates the cue in the backend when moving a cue in the timeline.
+             * @param item the item that is updated
              * @param callback the callback to the vis.js draw function
              */
-            function unSaved(item, callback) {
+            function onMove(item, callback) {
+                var bar = item.start.getFullYear() + 1;
+                var duration = item.end.getFullYear() + 1 - bar;
+                item.cue.bar = bar;
+                item.cue.duration = duration;
+                Cue.update(item.cue, onSaveSuccess, onSaveError);
                 callback(item);
+            }
+
+            /**
+             * Moves to the cue.delete state and deletes the item if the user accepts deletion.
+             * @param item
+             * @param callback
+             */
+            function onRemove(item, callback) {
+                $uibModal.open({
+                    templateUrl: 'app/entities/cue/cue-delete-dialog.html',
+                    controller: 'CueDeleteController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    size: 'md',
+                    resolve: {
+                        entity: item.cue
+                    }
+                }).result.then(function(result) {
+                    console.log('result is: ', result);
+                    callback(item);
+                }, function() {
+                    console.log('cancelled');
+                });
             }
 
             /**
@@ -220,7 +248,7 @@
                 var str = "" + year; 
                 var padding = "0000"; 
                 var result = padding.substring(0, padding.length - str.length) + str; 
-                
+
                 return result;
             }
         }
