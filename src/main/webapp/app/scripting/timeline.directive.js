@@ -9,7 +9,7 @@
 
     function timeline(Cue, Camera, $uibModal) {
         var directive = {
-            template: '<div>Player: {{vm.selectedPlayer.name}}<br/>Camera: {{vm.selectedCamera.name}}</div>',
+            // template: '<div>Player: {{vm.selectedPlayer.name}}<br/>Camera: {{vm.selectedCamera.name}}</div>',
             scope: {
                 'map': '=',
                 'selected': '='
@@ -71,7 +71,7 @@
                     zoomMin: 63072000000,
                     zoomMax: 700000000000,
                     editable: true,
-                    stack: false,
+                    stack: true,
                     itemsAlwaysDraggable: true,
                     onAdd: onAdd,
                     onUpdate: onUpdate,
