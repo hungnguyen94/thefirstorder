@@ -19,8 +19,21 @@
         var vm = this;
         console.log('Scripting controller scope: ', $scope);
         console.log('Scripting controller this: ', vm);
-        
+        vm.selectedCamera = null;
+        vm.selectedPlayer = null;
+
         update();
+        
+        $scope.$watch('vm.selected', function (selected) {
+            // Hacky way to determine if selected entity is a camera or player.
+            if(selected.hasOwnProperty('cameraType')) {
+                vm.selectedCamera = selected;
+                console.log('camera selected');
+            } else {
+                vm.selectedPlayer = selected;
+                console.log('player selected');
+            }
+        });
 
         function update() {
             Cue.query({}, function (result) {

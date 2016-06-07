@@ -9,7 +9,7 @@
 
     function timeline(Cue, Camera, $uibModal) {
         var directive = {
-            template: '<div id="visualization"></div>',
+            template: '<div>Player: {{vm.selectedPlayer.name}}<br/>Camera: {{vm.selectedCamera.name}}</div>',
             scope: {
                 'map': '=',
                 'selected': '='
@@ -154,9 +154,11 @@
                         entity: function () {
                             return {
                                 action: null,
-                                bar: null,
+                                bar: item.start.getFullYear(),
                                 duration: null,
-                                id: null
+                                id: null, 
+                                camera: scope.vm.selectedCamera,
+                                player: scope.vm.selectedPlayer 
                             };
                         }
                     }
