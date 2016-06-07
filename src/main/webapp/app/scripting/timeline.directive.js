@@ -22,10 +22,10 @@
             console.log('timeline directive called');
             console.log('Element is: ', element);
             console.log('Scope is: ', scope);
-            
+
             scope.timeline = {};
             scope.vm.timelineSelected = {};
-            
+
             init();
 
             scope.$watch('vm.map', function (newMap) {
@@ -37,7 +37,7 @@
             scope.timeline.on('select', function (properties) {
                 console.log('selected timeline items: ', properties);
             });
-            
+
             ///////////////////////////////////////////
             /**
              * Draws the timeline with all the cues.
@@ -68,8 +68,8 @@
                     itemsAlwaysDraggable: true,
                     onAdd: onAdd,
                     onUpdate: onUpdate,
-                    onMove: unSaved,
-                    onRemove: unSaved
+                    onMove: onMove,
+                    onRemove: onRemove
                 };
 
                 // Create a Timeline
@@ -79,7 +79,7 @@
                 scope.timeline = timeline;
                 console.log('init called, timeline is', scope.timeline);
             }
-            
+
             /**
              * Creates a vis.DataSet with all the groups for the timeline.
              * @returns vis.DataSet with timeline groups
@@ -92,7 +92,7 @@
                         content: camera.name,
                         id: camera.name,
                         value: camera.id,
-                        className: "camera" + classNumber, 
+                        className: "camera" + classNumber,
                         camera: camera
                     });
                 });
@@ -111,18 +111,18 @@
 
                     var startYear = parseIntAsYear(startTime);
                     var endYear = parseIntAsYear(endTime);
-                    
+
                     var item = {
                         id: cue.id,
                         content: cue.action,
-                        start: startYear, 
-                        end: endYear, 
-                        group: cue.camera.name, 
+                        start: startYear,
+                        end: endYear,
+                        group: cue.camera.name,
                         cue: cue
                     };
-                    
+
                     console.log('Add item', item);
-                    
+
                     dataSet.push(item);
                 });
 
@@ -156,7 +156,7 @@
                     item.start = parseIntAsYear(result.bar);
                     var end = result.bar + result.duration;
                     item.end = parseIntAsYear(end);
-                    
+
                     console.log('StartYear is: ', item.start);
                     console.log('End is: ', end);
                     console.log('item.end is', item.end);
@@ -192,13 +192,50 @@
             }
 
             /**
-             * Sets the save state to unsaved.
-             * @param item the item that was updated
+             * Updates the cue in the backend when moving a cue in the timeline.
+             * @param item the item that is updated
              * @param callback the callback to the vis.js draw function
              */
-            function unSaved(item, callback) {
+            function onMove(item, callback) {
+                var bar = item.start.getFullYear() + 1;
+                var duration = item.end.getFullYear() + 1 - bar;
+                item.cue.bar = bar;
+                item.cue.duration = duration;
+                Cue.update(item.cue, onSaveSuccess, onSaveError);
                 callback(item);
             }
+
+            /**
+             * Moves to the cue.delete state and deletes the item if the user accepts deletion.
+             * @param item
+             * @param callback
+             */
+            function onRemove(item, callback) {
+                $uibModal.open({
+                    templateUrl: 'app/entities/cue/cue-delete-dialog.html',
+                    controller: 'CueDeleteController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    size: 'md',
+                    resolve: {
+                        entity: item.cue
+                    }
+                }).result.then(function(result) {
+                    console.log('result is: ', result);
+                    callback(item);
+                }, function() {
+                    console.log('cancelled');
+                });
+            }
+
+            var onSaveSuccess = function (result) {
+                $scope.$emit('thefirstorderApp:cueUpdate', result);
+                vm.isSaving = false;
+            };
+
+            var onSaveError = function () {
+                vm.isSaving = false;
+            };
 
             /**
              * Parses an int and returns the correct string for date parsing.
@@ -206,17 +243,9 @@
              * @returns a string with a year
              */
             function parseIntAsYear(year) {
-                var str = "" + year; 
-                var padding = "0000"; 
-                var result = padding.substring(0, padding.length - str.length) + str; 
-                
-                // var current = "";
-                //
-                // for (var j = 0; j < 4 - year.toString().length; ++j) {
-                //     current += '0';
-                // }
-                //
-                // current += year.toString();
+                var str = "" + year;
+                var padding = "0000";
+                var result = padding.substring(0, padding.length - str.length) + str;
 
                 return result;
             }
