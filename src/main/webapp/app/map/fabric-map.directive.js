@@ -130,7 +130,7 @@
                     padding: 10,
                     fill: 'white',
                     entity: camera,
-                    camera: true,
+                    isCamera: true,
                     hasControls: true
                 });
                 cam.setControlsVisibility({
@@ -157,7 +157,7 @@
                     scaleY: 0.5,
                     fill: 'blue',
                     entity: player,
-                    player: true,
+                    isPlayer: true,
                     hasControls: false
                 });
                 return p;
@@ -198,15 +198,17 @@
             function onSelect (options) {
                 console.log('Selected object: ', options);
                 var target = options.target;
-                scope.vm.selected = target.entity;
+                scope.$apply(function () {
+                    scope.vm.selected = target.entity;
+                });
                 console.log('vm.selected: ', scope.vm.selected);
             }
 
             function onModify(target) {
                 console.log('updated target: ', target);
-                if(target.camera) {
+                if(target.isCamera) {
                     Camera.update(target.entity);
-                } else if(target.player) {
+                } else if(target.isPlayer) {
                     Player.update(target.entity);
                 }
             }
