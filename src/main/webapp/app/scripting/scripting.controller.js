@@ -17,15 +17,15 @@
      */
     function ScriptingController ($rootScope, $scope, $state, Map, Cue, AlertService) {
         var vm = this;
+        console.log('Scripting controller scope: ', $scope);
+        console.log('Scripting controller this: ', vm);
+        
+        update();
 
-        getMapEntities();
-
-        function getMapEntities() {
-            Map.getDTO({id: 1}, function (result) {
-                console.log('result is: ', result);
-                vm.map = result;
+        function update() {
+            Cue.query({}, function (result) {
+                vm.cues = result;
             });
-            vm.cues = Cue.query();
         }
     }
 })();

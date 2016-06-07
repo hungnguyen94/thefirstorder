@@ -64,7 +64,6 @@
                     resize();
                 });
                 scope.canvas = canvas;
-                // drawGrid(grid);
             }
 
             /**
@@ -111,6 +110,12 @@
                 var position = getAbsolutePosition(drawable.x, drawable.y);
                 drawable.left = position.x;
                 drawable.top = position.y;
+                
+                if(scope.vm.editable == false) {
+                    drawable.lockMovementX = true;
+                    drawable.lockMovementY = true;
+                    drawable.hasControls = false;
+                }
                 return drawable;
             }
 

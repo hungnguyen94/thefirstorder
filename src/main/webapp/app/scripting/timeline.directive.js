@@ -9,7 +9,11 @@
 
     function timeline($window, $rootScope, $state, Cue, $uibModal) {
         var directive = {
-            template: '<div id="visualization"></div>',
+            template: '<div id="visualization"></div>', 
+            scope: {
+                'map': '=', 
+                'selected': '=' 
+            }, 
             restrict: 'EA',
             link: link,
             controller: 'ScriptingController',
