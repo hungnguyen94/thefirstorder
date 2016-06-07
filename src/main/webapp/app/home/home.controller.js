@@ -5,9 +5,9 @@
         .module('thefirstorderApp')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', 'Project', 'AlertService', 'currentProjectId'];
+    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', 'Project', 'currentProjectId'];
 
-    function HomeController($scope, Principal, LoginService, $state, Project, AlertService, currentProjectId) {
+    function HomeController($scope, Principal, LoginService, $state, Project, currentProjectId) {
         var vm = this;
         vm.account = null;
         vm.isAuthenticated = null;
@@ -42,10 +42,11 @@
         }
 
         /**
-         * Loads the current project of the active user. 
+         * Loads the current project of the active user.
+         * Sets hasCurrentProject to true if the active user has a project.
          */
         function loadProject() {
-            if(currentProjectId != null) {
+            if (currentProjectId != null) {
                 vm.currentProject = Project.get({id: currentProjectId});
                 if (vm.currentProject != null) {
                     vm.hasCurrentProject = true;

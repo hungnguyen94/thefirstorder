@@ -15,6 +15,9 @@
         vm.update = getMapEntities;
         getMapEntities();
 
+        /**
+         * Gets the entities within the map by getting the map of the current project of the active user.
+         */
         function getMapEntities() {
             ProjectManager.get().then(function (projectId) {
 
@@ -26,6 +29,9 @@
             });
         }
 
+        /**
+         * Sets the entity selected by the user.
+         */
         function setSelected(entity) {
             if (vm.selected == entity) {
                 vm.selected = null;

@@ -13,8 +13,11 @@
 
         loadProject();
 
+        /**
+         * Sets projectIsNull to false if the active user has no current project.
+         */
         function loadProject() {
-            if(currentProjectId != null) {
+            if (currentProjectId != null) {
                 vm.projectIsNull = false;
             }
         }
