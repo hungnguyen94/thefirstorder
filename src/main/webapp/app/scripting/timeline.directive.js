@@ -29,14 +29,21 @@
             
             scope.timeline = {};
             scope.vm.timelineSelected = {};
+            scope.dataset = new vis.DataSet();
             
             init();
 
             scope.$watch('vm.map', function (newMap) {
                 console.log('Changed map:', newMap);
-                drawTimeline(scope.vm.map.cameras, scope.vm.cues);
+                drawTimelineCameras(scope.vm.map.cameras);
             });
 
+            scope.$watch('vm.cues', function (newCues) {
+                console.log('Cues changed: ', newCues);
+                createItems(scope.vm.cues);
+                console.log('scope.dataset is: ', scope.dataset);
+                console.log('timeline items: ', scope.timeline);
+            });
 
             scope.timeline.on('select', function (properties) {
                 console.log('selected timeline items: ', properties);
@@ -46,11 +53,9 @@
             /**
              * Draws the timeline with all the cues.
              */
-            function drawTimeline(cameras, cues) {
+            function drawTimelineCameras(cameras) {
                 var groups = createGroups(cameras);
-                var items = createItems(cues);
                 scope.timeline.setGroups(groups);
-                scope.timeline.setItems(items);
             }
 
             /**
@@ -80,6 +85,7 @@
                 var timeline = new vis.Timeline(element[0]);
                 timeline.setOptions(options);
                 timeline.addCustomTime('0000-01-01', 'scroller');
+                timeline.setItems(scope.dataset);
                 scope.timeline = timeline;
                 console.log('init called, timeline is', scope.timeline);
             }
@@ -91,7 +97,7 @@
             function createGroups(cameras) {
                 var groupsArray = [];
                 cameras.forEach(function (camera) {
-                    var classNumber = camera.id;// % 3 + 1;
+                    var classNumber = camera.id % 3 + 1;
                     groupsArray.push({
                         content: camera.name,
                         id: camera.name,
@@ -104,35 +110,36 @@
             }
 
             /**
-             * Creates a vis.DataSet with all the cues to draw to the timeline.
-             * @returns vis.DataSet with cues
+             * Adds all cues to the dataset by transforming them into
+             * items first.
              */
             function createItems(cues) {
-                var dataSet = [];
-                cues.forEach(function (cue) {
-                    var startTime = cue.bar;
-                    var endTime = cue.bar + cue.duration;
-
-                    var startYear = parseIntAsYear(startTime);
-                    var endYear = parseIntAsYear(endTime);
-                    
-                    var item = {
-                        id: cue.id,
-                        content: cue.action,
-                        start: startYear, 
-                        end: endYear, 
-                        group: cue.camera.name, 
-                        cue: cue
-                    };
-                    
-                    console.log('Add item', item);
-                    
-                    dataSet.push(item);
-                });
-
-                return new vis.DataSet(dataSet);
+                scope.dataset.add(cues.map(transformCueToItem))
             }
 
+            /**
+             * Transforms a Cue to a Vis timeline item. 
+             * @param cue The cue to be transformed
+             * @returns Vis item
+             */
+            function transformCueToItem(cue) {
+                var startTime = cue.bar;
+                var endTime = cue.bar + cue.duration;
+
+                var startYear = parseIntAsYear(startTime);
+                var endYear = parseIntAsYear(endTime);
+
+                var item = {
+                    id: cue.id,
+                    content: cue.action,
+                    start: startYear,
+                    end: endYear,
+                    group: cue.camera.name,
+                    cue: cue
+                };
+                return item;
+            }
+            
             /**
              * Moves to the scripting.new state and updates item on input from that state.
              * @param item the item that is updated
@@ -144,7 +151,7 @@
                     controller: 'CueDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
-                    size: 'lg',
+                    size: 'xs',
                     resolve: {
                         entity: function () {
                             return {
@@ -214,14 +221,6 @@
                 var padding = "0000"; 
                 var result = padding.substring(0, padding.length - str.length) + str; 
                 
-                // var current = "";
-                //
-                // for (var j = 0; j < 4 - year.toString().length; ++j) {
-                //     current += '0';
-                // }
-                //
-                // current += year.toString();
-
                 return result;
             }
         }

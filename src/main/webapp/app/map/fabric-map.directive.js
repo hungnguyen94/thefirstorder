@@ -84,6 +84,7 @@
                 scope.canvas.renderAll();
                 scope.canvas.calcOffset();
                 console.log('parent is ', parent);
+                draw(scope.vm.map.cameras, scope.vm.map.players);
             }
 
             function draw(cameras, players) {
