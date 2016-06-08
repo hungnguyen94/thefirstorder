@@ -26,7 +26,7 @@
             console.log('timeline directive called');
             console.log('Element is: ', element);
             console.log('Scope is: ', scope);
-            
+
             scope.timeline = {};
             scope.vm.timelineSelected = {};
             scope.dataset = new vis.DataSet();
@@ -71,7 +71,7 @@
                     zoomMin: 63072000000,
                     zoomMax: 700000000000,
                     editable: true,
-                    stack: true,
+                    stack: false,
                     itemsAlwaysDraggable: true,
                     onAdd: onAdd,
                     onUpdate: onUpdate,
@@ -87,7 +87,7 @@
                 scope.timeline = timeline;
                 console.log('init called, timeline is', scope.timeline);
             }
-            
+
             /**
              * Creates a vis.DataSet with all the groups for the timeline.
              * @returns vis.DataSet with timeline groups
@@ -100,7 +100,7 @@
                         content: camera.name,
                         id: camera.id,
                         value: camera.id,
-                        className: "camera" + classNumber, 
+                        className: "camera" + classNumber,
                         camera: camera
                     });
                 });
@@ -144,37 +144,40 @@
              * @param callback the callback to the vis.js draw function
              */
             function onAdd(item, callback) {
-                $uibModal.open({
-                    templateUrl: 'app/entities/cue/cue-dialog.html',
-                    controller: 'CueDialogController',
-                    controllerAs: 'vm',
-                    backdrop: 'static',
-                    size: 'lg',
-                    resolve: {
-                        entity: function () {
-                            return {
-                                action: null,
-                                bar: item.start.getFullYear(),
-                                duration: null,
-                                id: null, 
-                                camera: scope.vm.selectedCamera,
-                                player: scope.vm.selectedPlayer 
-                            };
+                Camera.get({id: item.group}, function (camera) {
+                    scope.vm.selectedCamera = camera;
+                    $uibModal.open({
+                        templateUrl: 'app/entities/cue/cue-dialog.html',
+                        controller: 'CueDialogController',
+                        controllerAs: 'vm',
+                        backdrop: 'static',
+                        size: 'lg',
+                        resolve: {
+                            entity: function () {
+                                return {
+                                    action: null,
+                                    bar: item.start.getFullYear(),
+                                    duration: 1,
+                                    id: null,
+                                    camera: scope.vm.selectedCamera,
+                                    player: scope.vm.selectedPlayer
+                                };
+                            }
                         }
-                    }
-                }).result.then(function(result) {
-                    var end = result.bar + result.duration;
-                    
-                    item.content = result.action;
-                    item.start = parseIntAsDate(result.bar);
-                    item.end = parseIntAsDate(end);
+                    }).result.then(function(result) {
+                        var end = result.bar + result.duration;
 
-                    console.log('StartYear is: ', item.start);
-                    console.log('End is: ', end);
-                    console.log('item.end is', item.end);
-                    callback(item);
-                }, function() {
-                    console.log('cancelled');
+                        item.content = result.action;
+                        item.start = parseIntAsDate(result.bar);
+                        item.end = parseIntAsDate(end);
+
+                        console.log('StartYear is: ', item.start);
+                        console.log('End is: ', end);
+                        console.log('item.end is', item.end);
+                        callback(item);
+                    }, function() {
+                        console.log('cancelled');
+                    });
                 });
             }
 
@@ -222,7 +225,7 @@
                         callback(item);
                     });
                 });
-                
+
             }
 
             /**
@@ -247,16 +250,16 @@
                     console.log('cancelled');
                 });
             }
-            
+
             /**
              * Parses an int and returns the correct string for date parsing.
              * @param year the year to parse
              * @returns a string with a year
              */
             function parseIntAsDate(year) {
-                var str = "" + year; 
-                var padding = "0000"; 
-                var result = padding.substring(0, padding.length - str.length) + str; 
+                var str = "" + year;
+                var padding = "0000";
+                var result = padding.substring(0, padding.length - str.length) + str;
                 return result + '-12-31';
             }
         }
