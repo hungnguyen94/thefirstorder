@@ -44,7 +44,6 @@ public class PDFExportUtil {
             PdfWriter.getInstance(document, baos);
             document.open();
             addMetaData(document, project);
-            //addTitlePage(document, project);
             addContent(document, project);
             document.close();
         } catch (DocumentException e) {
@@ -66,38 +65,6 @@ public class PDFExportUtil {
         document.addKeywords("Script");
         document.addAuthor("The First Order");
         document.addCreator("The First Order");
-    }
-
-    /**
-     * Add a front page to the pdf.
-     * @param document the documents to which the data has to be added
-     * @param project the project from which the data is exported
-     * @throws DocumentException if something wrong is added to the document
-     */
-    private static void addTitlePage(Document document, Project project)
-            throws DocumentException {
-        Paragraph preface = new Paragraph();
-        Script script = project.getScript();
-
-        try {
-            Image image = Image.getInstance("src/main/java/nl/tudelft/thefirstorder/service/util/lightsaber.jpg");
-            preface.add(image);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        addEmptyLine(preface, 1);
-        Paragraph par = new Paragraph(script.getName(), catFont);
-        preface.add(par);
-        par.setAlignment(Element.ALIGN_CENTER);
-        addEmptyLine(preface, 1);
-        addEmptyLine(preface, 3);
-        preface.add(new Paragraph("",
-                smallBold));
-        addEmptyLine(preface, 8);
-        preface.add(new Paragraph("",
-                redFont));
-        document.add(preface);
-        document.newPage();
     }
 
     /**
