@@ -1,12 +1,6 @@
 package nl.tudelft.thefirstorder.service.util;
 
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -18,6 +12,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 
 import java.io.ByteArrayOutputStream;
+import java.net.URL;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -81,10 +76,19 @@ public class PDFExportUtil {
      */
     private static void addTitlePage(Document document, Project project)
             throws DocumentException {
-        Script script = project.getScript();
         Paragraph preface = new Paragraph();
+        Script script = project.getScript();
+
+        try {
+            Image image = Image.getInstance("src/main/java/nl/tudelft/thefirstorder/service/util/lightsaber.jpg");
+            preface.add(image);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         addEmptyLine(preface, 1);
-        preface.add(new Paragraph(script.getName(), catFont));
+        Paragraph par = new Paragraph(script.getName(), catFont);
+        preface.add(par);
+        par.setAlignment(Element.ALIGN_CENTER);
         addEmptyLine(preface, 1);
         addEmptyLine(preface, 3);
         preface.add(new Paragraph("",
@@ -104,12 +108,12 @@ public class PDFExportUtil {
      */
     private static void addContent(Document document, Project project) throws DocumentException {
         PdfPTable table = makeCueTable();
+        table.getDefaultCell().setBorder(0);
         PdfPTable cameratable = makeCameraTable();
-        PdfPTable actiontable = makeActionTable();
+        cameratable.getDefaultCell().setBorder(0);
 
         table.setHeaderRows(1);
         cameratable.setHeaderRows(1);
-        actiontable.setHeaderRows(1);
         Script script = project.getScript();
         Set<Cue> cues = script.getCues();
         int index = 1;
@@ -118,8 +122,8 @@ public class PDFExportUtil {
             Cue cue = iterator.next();
             table.addCell(index + ".");
             table.addCell(cue.getCamera().getName());
-            table.addCell(cue.getAction());
             table.addCell(cue.getPlayer().getName());
+            table.addCell(cue.getAction());
             Camera camera = cue.getCamera();
             cameratable.addCell(camera.getName());
             cameratable.addCell(camera.getX() + "");
@@ -136,70 +140,61 @@ public class PDFExportUtil {
         par.add(new Paragraph("Cameras"));
         addEmptyLine(par, 2);
         par.add(cameratable);
-        addEmptyLine(par, 3);
-        par.add(new Paragraph("Camera Actions"));
-        addEmptyLine(par, 2);
-        par.add(cameratable);
         document.add(par);
     }
 
     private static PdfPTable makeCueTable() {
         PdfPTable table = new PdfPTable(4);
 
-        PdfPCell c1 = new PdfPCell(new Phrase("No."));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        PdfPCell c1 = new PdfPCell(new Phrase("Shot"));
+        c1.setBackgroundColor(BaseColor.GRAY);
+        c1.setBorder(0);
         table.addCell(c1);
 
         c1 = new PdfPCell(new Phrase("Camera"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase("Camera Action"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c1.setBackgroundColor(BaseColor.GRAY);
+        c1.setBorder(0);
         table.addCell(c1);
 
         c1 = new PdfPCell(new Phrase("Player"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c1.setBackgroundColor(BaseColor.GRAY);
+        c1.setBorder(0);
+        table.addCell(c1);
+
+        c1 = new PdfPCell(new Phrase("Camera Action"));
+        c1.setBackgroundColor(BaseColor.GRAY);
+        c1.setBorder(0);
         table.addCell(c1);
 
         return table;
-    }
-
-    private static PdfPTable makeActionTable() {
-        PdfPTable actiontable = new PdfPTable(2);
-
-        PdfPCell c1 = new PdfPCell(new Phrase("Action"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        actiontable.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase("Duration"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        actiontable.addCell(c1);
-
-        return actiontable;
     }
 
     private static PdfPTable makeCameraTable() {
         PdfPTable cameratable = new PdfPTable(5);
 
         PdfPCell c1 = new PdfPCell(new Phrase("Camera"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c1.setBackgroundColor(BaseColor.GRAY);
+        c1.setBorder(0);
         cameratable.addCell(c1);
 
         c1 = new PdfPCell(new Phrase("X Position"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c1.setBackgroundColor(BaseColor.GRAY);
+        c1.setBorder(0);
         cameratable.addCell(c1);
 
         c1 = new PdfPCell(new Phrase("Y Position"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c1.setBackgroundColor(BaseColor.GRAY);
+        c1.setBorder(0);
         cameratable.addCell(c1);
 
         c1 = new PdfPCell(new Phrase("Camera Type"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c1.setBackgroundColor(BaseColor.GRAY);
+        c1.setBorder(0);
         cameratable.addCell(c1);
 
         c1 = new PdfPCell(new Phrase("Lens Type"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c1.setBackgroundColor(BaseColor.GRAY);
+        c1.setBorder(0);;
         cameratable.addCell(c1);
 
         return cameratable;
