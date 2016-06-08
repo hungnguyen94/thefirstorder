@@ -31,11 +31,15 @@
             console.log("Activity: ", activity);
             if (activity.page == 'next') {
                 vm.current++;
-                alert("At bar: " + vm.current);
+                $('html, body').animate({
+                    scrollTop: $("#" + vm.current).offset().top
+                }, 500);
             }
             if (activity.page == 'previous') {
                 vm.current--;
-                alert("At bar: " + vm.current);
+                $('html, body').animate({
+                    scrollTop: $("#" + vm.current).offset().top
+                }, 500);
             }
         });
 
