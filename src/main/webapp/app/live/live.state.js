@@ -7,6 +7,10 @@
 
     stateConfig.$inject = ['$stateProvider'];
 
+    /**
+     * Configures the states for the live views.
+     * @param $stateProvider
+     */
     function stateConfig($stateProvider) {
         $stateProvider.state('live', {
             parent: 'app',

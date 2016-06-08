@@ -23,9 +23,8 @@
         vm.selectedPlayer = null;
 
         update();
-        
+
         $scope.$watch('vm.selected', function (selected) {
-            // Hacky way to determine if selected entity is a camera or player.
             if(selected.hasOwnProperty('cameraType')) {
                 vm.selectedCamera = selected;
                 console.log('camera selected');

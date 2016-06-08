@@ -7,6 +7,13 @@
 
     timeline.$inject = ['Cue', 'Camera', '$uibModal'];
 
+    /**
+     * The controller for the timeline directive.
+     * @param Cue
+     * @param Camera
+     * @param $uibModal
+     * @returns {{scope: {map: string, selected: string}, restrict: string, link: link, controller: string, controllerAs: string, bindToController: boolean}}
+     */
     function timeline(Cue, Camera, $uibModal) {
         var directive = {
             // template: '<div>Player: {{vm.selectedPlayer.name}}<br/>Camera: {{vm.selectedCamera.name}}</div>',

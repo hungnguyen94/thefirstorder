@@ -7,6 +7,15 @@
 
     ScriptingUpdateDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity'];
 
+    /**
+     * The controller for the state that updates a cue.
+     * @param $timeout
+     * @param $scope
+     * @param $stateParams
+     * @param $uibModalInstance
+     * @param entity the cue that is updated
+     * @constructor
+     */
     function ScriptingUpdateDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity) {
         var vm = this;
         vm.cue = entity;
