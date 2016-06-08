@@ -5,7 +5,7 @@
         .module('thefirstorderApp')
         .controller('ScriptingController', ScriptingController);
 
-    ScriptingController.$inject = ['$rootScope', '$scope', '$state', 'Map', 'Cue', 'AlertService'];
+    ScriptingController.$inject = ['$rootScope', '$scope', '$state', 'Map', 'Cue', 'AlertService', 'ProjectManager', 'Project'];
 
     /**
      * The controller for the script view.
@@ -15,7 +15,7 @@
      * @param AlertService the alertservice
      * @constructor
      */
-    function ScriptingController ($rootScope, $scope, $state, Map, Cue, AlertService) {
+    function ScriptingController ($rootScope, $scope, $state, Map, Cue, AlertService, ProjectManager, Project) {
         var vm = this;
         console.log('Scripting controller scope: ', $scope);
         console.log('Scripting controller this: ', vm);
@@ -35,9 +35,16 @@
         });
 
         function update() {
-            Cue.query({}, function (result) {
-                vm.cues = result;
+            ProjectManager.get().then(function (projectId) {
+                Project.get({id: projectId.data}, function (project) {
+                    vm.project = project;
+                    vm.script = project.script;
+                    Cue.query({scriptId: project.script.id}, function (result) {
+                        vm.cues = result;
+                    });
+                });
             });
+
         }
     }
 })();

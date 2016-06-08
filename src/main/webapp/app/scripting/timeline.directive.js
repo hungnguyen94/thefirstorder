@@ -154,7 +154,7 @@
                 Camera.get({id: item.group}, function (camera) {
                     scope.vm.selectedCamera = camera;
                     $uibModal.open({
-                        templateUrl: 'app/entities/cue/cue-dialog.html',
+                        templateUrl: 'app/scripting/scripting-new-dialog.html',
                         controller: 'CueDialogController',
                         controllerAs: 'vm',
                         backdrop: 'static',
@@ -167,7 +167,9 @@
                                     duration: 1,
                                     id: null,
                                     camera: scope.vm.selectedCamera,
-                                    player: scope.vm.selectedPlayer
+                                    player: scope.vm.selectedPlayer, 
+                                    script: scope.vm.script, 
+                                    project: scope.vm.project
                                 };
                             }
                         }
@@ -197,7 +199,7 @@
             function onUpdate(item, callback) {
                 console.log('item is', item);
                 $uibModal.open({
-                    templateUrl: 'app/entities/cue/cue-dialog.html',
+                    templateUrl: 'app/scripting/scripting-new-dialog.html',
                     controller: 'CueDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
@@ -208,6 +210,9 @@
                 }).result.then(function(result) {
                     console.log('result is: ', result);
                     item.content = result.action;
+                    item.start = parseIntAsDate(result.bar);
+                    item.end = parseIntAsDate(end);
+                    item.cue = result;
                     callback(item);
                 }, function() {
                     console.log('cancelled');
