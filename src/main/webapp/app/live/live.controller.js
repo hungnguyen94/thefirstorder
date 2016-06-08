@@ -18,30 +18,54 @@
     function LiveController ($scope, $state, Cue, JhiTrackerService, AlertService) {
         var vm = this;
 
+        // Initialize the current timeline element to the first one
         vm.current = 0;
 
+        // Initialize the functions
         vm.previous = previous;
         vm.next = next;
+
+        // Query all cues
         vm.cues = Cue.query();
 
+        // Initialize the activities to an empty array
         vm.activities = [];
 
+        /**
+         * This callback recognizes an incoming websocket message and handles it
+         */
         JhiTrackerService.receive().then(null, null, function(activity) {
             showActivity(activity);
             console.log("Activity: ", activity);
             if (activity.page == 'next') {
-                vm.current++;
-                $('html, body').animate({
-                    scrollTop: $("#" + vm.current).offset().top
-                }, 500);
+                if (vm.current != vm.cues.length - 1)
+                    vm.current++;
+                scrollToTimelineElement(true);
             }
             if (activity.page == 'previous') {
-                vm.current--;
-                $('html, body').animate({
-                    scrollTop: $("#" + vm.current).offset().top
-                }, 500);
+                if (vm.current > 0)
+                    vm.current--;
+                scrollToTimelineElement(false);
             }
         });
+
+        /**
+         * This function lets the webbrowser focus on the current timeline element
+         */
+        function scrollToTimelineElement(isNext) {
+            var currentElement = $("#" + vm.current);
+
+            $('html, body').animate({
+                scrollTop: currentElement.offset().top
+            }, 500);
+
+            if (isNext)
+                $("#" + (vm.current - 1)).removeClass("timeline-focus");
+            else
+                $("#" + (vm.current + 1)).removeClass("timeline-focus");
+
+            currentElement.addClass("timeline-focus");
+        }
 
         function showActivity(activity) {
             var existingActivity = false;

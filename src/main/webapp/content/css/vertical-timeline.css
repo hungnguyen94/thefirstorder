@@ -359,3 +359,7 @@
         transform: scale(1);
     }
 }
+
+.timeline-focus {
+    color: green;
+}

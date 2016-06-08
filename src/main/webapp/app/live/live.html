@@ -30,9 +30,9 @@
 
         <div id="vertical-timeline" class="col-lg-offset-2 col-lg-8">
             <ul id="timeline-ul" class="timeline">
-                <li id="{{$index}}" ng-class-even="'timeline-inverted'" ng-repeat="cue in vm.cues | orderBy:'timePoint.startTime'">
+                <li ng-class-even="'timeline-inverted'" ng-repeat="cue in vm.cues | orderBy:'timePoint.startTime'">
                     <div class="timeline-badge" ng-class="'timeline-badge' + ($index % 3 + 1)"><i class="glyphicon glyphicon-map-marker text-center"></i></div>
-                    <div class="timeline-panel">
+                    <div id="{{$index}}" class="timeline-panel">
                         <div class="timeline-heading">
                             <h4 class="timeline-title">{{cue.cameraAction.name}}</h4>
                             <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> From bar {{cue.timePoint.startTime}} to bar {{cue.timePoint.startTime + cue.timePoint.duration}}</small></p>
