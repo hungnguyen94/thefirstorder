@@ -3,11 +3,11 @@
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
                 ng-click="vm.clear()">&times;</button>
-        <h4 class="modal-title" id="myProjectLabel">Load an existing project</h4>
+        <h4 class="modal-title" id="myScriptLabel">Load an existing script</h4>
     </div>
     <div class="modal-body">
         <div class="table-responsive">
-            <div ng-switch="vm.hasProjects">
+            <div ng-switch="vm.hasScripts">
                 <table ng-switch-when="true" class="jh-table table table-striped">
                     <thead>
                     <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
@@ -17,18 +17,12 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="project in vm.projects track by project.id">
-                        <td><a ui-sref="project-detail({id:project.id})">{{project.id}}</a></td>
-                        <td>{{project.name}}</td>
-                        <td>
-                            <a ui-sref="script-detail({id:project.script.id})">{{project.script.name}}</a>
-                        </td>
-                        <td>
-                            <a ui-sref="map-detail({id:project.map.id})">{{project.map.name}}</a>
-                        </td>
+                    <tr ng-repeat="script in vm.scripts track by script.id">
+                        <td><a ui-sref="script-detail({id:script.id})">{{script.id}}</a></td>
+                        <td>{{script.name}}</td>
                         <td class="text-right">
                             <div class="btn-group flex-btn-group-container">
-                                <button type="submit" ng-click="vm.load(project.id)" class="btn btn-primary">
+                                <button type="submit" ng-click="vm.load(script.id)" class="btn btn-primary">
                                     <span class="glyphicon glyphicon-chevron-right"></span>&nbsp;<span>Open</span>
                                 </button>
                             </div>
@@ -37,12 +31,12 @@
                     </tbody>
                 </table>
                 <div ng-switch-when="false">
-                    No projects available.</br>
+                    No scripts available.</br>
                     <button class="btn btn-primary"
                             has-any-authority="ROLE_ADMIN,ROLE_DIRECTOR"
                             ng-click="vm.create()">
                         <span class="glyphicon glyphicon-plus"></span>
-                        Create new Project
+                        Create new script
                     </button>
                 </div>
             </div>
