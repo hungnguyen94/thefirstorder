@@ -44,7 +44,7 @@ public class PDFExportUtil {
             PdfWriter.getInstance(document, baos);
             document.open();
             addMetaData(document, project);
-            addTitlePage(document, project);
+            //addTitlePage(document, project);
             addContent(document, project);
             document.close();
         } catch (DocumentException e) {
@@ -107,10 +107,20 @@ public class PDFExportUtil {
      * @throws DocumentException if something wrong is added to the document
      */
     private static void addContent(Document document, Project project) throws DocumentException {
+        Paragraph paragraph = new Paragraph(project.getScript().getName());
+        Font font = paragraph.getFont();
+        font.setStyle(Font.BOLD);
+        paragraph.setFont(font);
+        paragraph.setAlignment(Element.ALIGN_CENTER);
+        document.add(paragraph);
         PdfPTable table = makeCueTable();
+        table.getDefaultCell().setPaddingBottom(15);
+        table.getDefaultCell().setPaddingTop(15);
         table.getDefaultCell().setBorder(0);
         PdfPTable cameratable = makeCameraTable();
         cameratable.getDefaultCell().setBorder(0);
+        cameratable.getDefaultCell().setPaddingBottom(15);
+        cameratable.getDefaultCell().setPaddingTop(15);
 
         table.setHeaderRows(1);
         cameratable.setHeaderRows(1);
@@ -126,8 +136,6 @@ public class PDFExportUtil {
             table.addCell(cue.getAction());
             Camera camera = cue.getCamera();
             cameratable.addCell(camera.getName());
-            cameratable.addCell(camera.getX() + "");
-            cameratable.addCell(camera.getY() + "");
             cameratable.addCell(camera.getCameraType());
             cameratable.addCell(camera.getLensType());
             index++;
@@ -149,52 +157,56 @@ public class PDFExportUtil {
         PdfPCell c1 = new PdfPCell(new Phrase("Shot"));
         c1.setBackgroundColor(BaseColor.GRAY);
         c1.setBorder(0);
+        c1.setPaddingTop(15);
+        c1.setPaddingBottom(15);
         table.addCell(c1);
 
         c1 = new PdfPCell(new Phrase("Camera"));
         c1.setBackgroundColor(BaseColor.GRAY);
         c1.setBorder(0);
+        c1.setPaddingTop(15);
+        c1.setPaddingBottom(15);
         table.addCell(c1);
 
         c1 = new PdfPCell(new Phrase("Player"));
         c1.setBackgroundColor(BaseColor.GRAY);
         c1.setBorder(0);
+        c1.setPaddingTop(15);
+        c1.setPaddingBottom(15);
         table.addCell(c1);
 
         c1 = new PdfPCell(new Phrase("Camera Action"));
         c1.setBackgroundColor(BaseColor.GRAY);
         c1.setBorder(0);
+        c1.setPaddingTop(15);
+        c1.setPaddingBottom(15);
         table.addCell(c1);
 
         return table;
     }
 
     private static PdfPTable makeCameraTable() {
-        PdfPTable cameratable = new PdfPTable(5);
+        PdfPTable cameratable = new PdfPTable(3);
 
         PdfPCell c1 = new PdfPCell(new Phrase("Camera"));
         c1.setBackgroundColor(BaseColor.GRAY);
         c1.setBorder(0);
-        cameratable.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase("X Position"));
-        c1.setBackgroundColor(BaseColor.GRAY);
-        c1.setBorder(0);
-        cameratable.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase("Y Position"));
-        c1.setBackgroundColor(BaseColor.GRAY);
-        c1.setBorder(0);
+        c1.setPaddingTop(15);
+        c1.setPaddingBottom(15);
         cameratable.addCell(c1);
 
         c1 = new PdfPCell(new Phrase("Camera Type"));
         c1.setBackgroundColor(BaseColor.GRAY);
         c1.setBorder(0);
+        c1.setPaddingTop(15);
+        c1.setPaddingBottom(15);
         cameratable.addCell(c1);
 
         c1 = new PdfPCell(new Phrase("Lens Type"));
         c1.setBackgroundColor(BaseColor.GRAY);
-        c1.setBorder(0);;
+        c1.setBorder(0);
+        c1.setPaddingTop(15);
+        c1.setPaddingBottom(15);
         cameratable.addCell(c1);
 
         return cameratable;
