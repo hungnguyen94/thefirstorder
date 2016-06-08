@@ -94,7 +94,7 @@
              */
             function addPlayer() {
                 $uibModal.open({
-                    templateUrl: 'app/entities/player/player-dialog.html',
+                    templateUrl: 'app/map/player-map-dialog.html',
                     controller: 'PlayerDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
@@ -123,7 +123,7 @@
              */
             function addCamera () {
                 $uibModal.open({
-                    templateUrl: 'app/entities/camera/camera-dialog.html',
+                    templateUrl: 'app/map/camera-map-dialog.html',
                     controller: 'CameraDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
