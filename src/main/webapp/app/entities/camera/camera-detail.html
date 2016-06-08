@@ -18,9 +18,19 @@
             <span>{{vm.camera.y}}</span>
         </dd>
         <hr>
-        <dt><span>Project</span></dt>
+        <dt><span>Camera Type</span></dt>
         <dd>
-            <a ui-sref="project-detail({id:vm.camera.project.id})">{{vm.camera.project.name}}</a>
+            <span>{{vm.camera.cameraType}}</span>
+        </dd>
+        <hr>
+        <dt><span>Lens Type</span></dt>
+        <dd>
+            <span>{{vm.camera.lensType}}</span>
+        </dd>
+        <hr>
+        <dt><span>Map</span></dt>
+        <dd>
+            <a ui-sref="map-detail({id:vm.camera.map.id})">{{vm.camera.map.name}}</a>
         </dd>
         <hr>
     </dl>

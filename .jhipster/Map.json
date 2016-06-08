@@ -6,6 +6,18 @@
             "relationshipType": "one-to-one",
             "ownerSide": false,
             "otherEntityRelationshipName": "map"
+        },
+        {
+            "relationshipName": "player",
+            "otherEntityName": "player",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "map"
+        },
+        {
+            "relationshipName": "camera",
+            "otherEntityName": "camera",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "map"
         }
     ],
     "fields": [

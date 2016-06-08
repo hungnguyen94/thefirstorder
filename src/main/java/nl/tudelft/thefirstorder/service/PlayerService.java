@@ -4,8 +4,6 @@ import nl.tudelft.thefirstorder.domain.Player;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-
 /**
  * Service Interface for managing Player.
  */
@@ -26,14 +24,6 @@ public interface PlayerService {
      *  @return the list of entities
      */
     Page<Player> findAll(Pageable pageable);
-
-    /**
-     * Get the players, associated with the map with the given id.
-     *
-     * @param projectId the id of the map.
-     * @return the list of player entities
-     */
-    List<Player> findPlayersByProject(Long projectId);
 
     /**
      *  Get the "id" player.

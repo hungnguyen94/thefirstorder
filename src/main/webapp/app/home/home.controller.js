@@ -5,18 +5,17 @@
         .module('thefirstorderApp')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', 'ProjectManager', 'Project', 'AlertService'];
+    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', 'Project', 'currentProjectId'];
 
-    function HomeController($scope, Principal, LoginService, $state, ProjectManager, Project, AlertService) {
+    function HomeController($scope, Principal, LoginService, $state, Project, currentProjectId) {
         var vm = this;
-
         vm.account = null;
         vm.isAuthenticated = null;
-        vm.hasProject = false;
+        vm.hasCurrentProject = false;
         vm.login = LoginService.open;
         vm.register = register;
-        vm.loadProject = loadProject;
-        vm.loadProject();
+
+        loadProject();
 
         $scope.$on('authenticationSuccess', function () {
             getAccount();
@@ -24,6 +23,10 @@
 
         getAccount();
 
+        /**
+         * Checks whether the user is authorised to use the app,
+         *  gets the name of the user to show on the home page.
+         */
         function getAccount() {
             Principal.identity().then(function (account) {
                 vm.account = account;
@@ -31,17 +34,24 @@
             });
         }
 
+        /**
+         * Go to the register state to register a new account.
+         */
         function register() {
             $state.go('register');
         }
 
+        /**
+         * Loads the current project of the active user.
+         * Sets hasCurrentProject to true if the active user has a project.
+         */
         function loadProject() {
-            ProjectManager.get()
-                .then(function (object) {
-                    var projectId = object.data;
-                    vm.currentProject = Project.get({id: projectId});
-                    vm.hasProject = true;
-                });
+            if (currentProjectId !== null) {
+                vm.currentProject = Project.get({id: currentProjectId});
+                if (vm.currentProject !== null) {
+                    vm.hasCurrentProject = true;
+                }
+            }
         }
     }
 })();

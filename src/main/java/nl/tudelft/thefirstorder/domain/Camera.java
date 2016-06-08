@@ -1,6 +1,5 @@
 package nl.tudelft.thefirstorder.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -29,8 +28,7 @@ public class Camera implements Serializable {
     private Long id;
 
     @ManyToOne
-    @JsonIgnore
-    private Project project;
+    private Map map;
 
     @Column(name = "name")
     private String name;
@@ -41,10 +39,12 @@ public class Camera implements Serializable {
     @Column(name = "y")
     private Integer y;
 
-    /**
-     * Get the id of the camera.
-     * @return the id
-     */
+    @Column(name = "camera_type")
+    private String cameraType;
+
+    @Column(name = "lens_type")
+    private String lensType;
+
     public Long getId() {
         return id;
     }
@@ -105,12 +105,28 @@ public class Camera implements Serializable {
         this.y = y;
     }
 
-    public Project getProject() {
-        return project;
+    public String getCameraType() {
+        return cameraType;
     }
 
-    public void setProject(Project project) {
-        this.project = project;
+    public void setCameraType(String cameraType) {
+        this.cameraType = cameraType;
+    }
+
+    public String getLensType() {
+        return lensType;
+    }
+
+    public void setLensType(String lensType) {
+        this.lensType = lensType;
+    }
+
+    public Map getMap() {
+        return map;
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
     }
 
     /**
@@ -149,9 +165,9 @@ public class Camera implements Serializable {
     @Override
     public String toString() {
         return "Camera{"
-                + "id=" + id + ", name='" + name + "'"
-                + ", x='" + x + "'"
-                + ", y='" + y + "'"
-                + '}';
+            + "id=" + id + ", name='" + name + "'"
+            + ", x='" + x + "'" + ", y='" + y + "'"
+            + ", cameraType='" + cameraType + "'"
+            + ", lensType='" + lensType + "'" + '}';
     }
 }

@@ -11,7 +11,6 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import nl.tudelft.thefirstorder.domain.Camera;
-import nl.tudelft.thefirstorder.domain.CameraAction;
 import nl.tudelft.thefirstorder.domain.Cue;
 import nl.tudelft.thefirstorder.domain.Project;
 import nl.tudelft.thefirstorder.domain.Script;
@@ -104,6 +103,47 @@ public class PDFExportUtil {
      * @throws DocumentException if something wrong is added to the document
      */
     private static void addContent(Document document, Project project) throws DocumentException {
+        PdfPTable table = makeCueTable();
+        PdfPTable cameratable = makeCameraTable();
+        PdfPTable actiontable = makeActionTable();
+
+        table.setHeaderRows(1);
+        cameratable.setHeaderRows(1);
+        actiontable.setHeaderRows(1);
+        Script script = project.getScript();
+        Set<Cue> cues = script.getCues();
+        int index = 1;
+        Iterator<Cue> iterator = cues.iterator();
+        while (iterator.hasNext()) {
+            Cue cue = iterator.next();
+            table.addCell(index + ".");
+            table.addCell(cue.getCamera().getName());
+            table.addCell(cue.getAction());
+            table.addCell(cue.getPlayer().getName());
+            Camera camera = cue.getCamera();
+            cameratable.addCell(camera.getName());
+            cameratable.addCell(camera.getX() + "");
+            cameratable.addCell(camera.getY() + "");
+            cameratable.addCell(camera.getCameraType());
+            cameratable.addCell(camera.getLensType());
+            index++;
+        }
+        Paragraph par = new Paragraph();
+        par.add(new Paragraph("Cues"));
+        addEmptyLine(par, 2);
+        par.add(table);
+        addEmptyLine(par, 3);
+        par.add(new Paragraph("Cameras"));
+        addEmptyLine(par, 2);
+        par.add(cameratable);
+        addEmptyLine(par, 3);
+        par.add(new Paragraph("Camera Actions"));
+        addEmptyLine(par, 2);
+        par.add(cameratable);
+        document.add(par);
+    }
+
+    private static PdfPTable makeCueTable() {
         PdfPTable table = new PdfPTable(4);
 
         PdfPCell c1 = new PdfPCell(new Phrase("No."));
@@ -122,9 +162,27 @@ public class PDFExportUtil {
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
 
-        PdfPTable cameratable = new PdfPTable(3);
+        return table;
+    }
 
-        c1 = new PdfPCell(new Phrase("Camera"));
+    private static PdfPTable makeActionTable() {
+        PdfPTable actiontable = new PdfPTable(2);
+
+        PdfPCell c1 = new PdfPCell(new Phrase("Action"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        actiontable.addCell(c1);
+
+        c1 = new PdfPCell(new Phrase("Duration"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        actiontable.addCell(c1);
+
+        return actiontable;
+    }
+
+    private static PdfPTable makeCameraTable() {
+        PdfPTable cameratable = new PdfPTable(5);
+
+        PdfPCell c1 = new PdfPCell(new Phrase("Camera"));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         cameratable.addCell(c1);
 
@@ -136,50 +194,15 @@ public class PDFExportUtil {
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         cameratable.addCell(c1);
 
-        PdfPTable actiontable = new PdfPTable(2);
-
-        c1 = new PdfPCell(new Phrase("Action"));
+        c1 = new PdfPCell(new Phrase("Camera Type"));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        actiontable.addCell(c1);
+        cameratable.addCell(c1);
 
-        c1 = new PdfPCell(new Phrase("Duration"));
+        c1 = new PdfPCell(new Phrase("Lens Type"));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        actiontable.addCell(c1);
+        cameratable.addCell(c1);
 
-        table.setHeaderRows(1);
-        cameratable.setHeaderRows(1);
-        actiontable.setHeaderRows(1);
-        Script script = project.getScript();
-        Set<Cue> cues = script.getCues();
-        int index = 1;
-        Iterator<Cue> iterator = cues.iterator();
-        while (iterator.hasNext()) {
-            Cue cue = iterator.next();
-            table.addCell(index + ".");
-            table.addCell(cue.getCamera().getName());
-            table.addCell(cue.getCameraAction().getName());
-            table.addCell(cue.getPlayer().getName());
-            Camera camera = cue.getCamera();
-            cameratable.addCell(camera.getName());
-            cameratable.addCell(camera.getX() + "");
-            cameratable.addCell(camera.getY() + "");
-            CameraAction action = cue.getCameraAction();
-            actiontable.addCell(action.getName());
-            index++;
-        }
-        Paragraph par = new Paragraph();
-        par.add(new Paragraph("Cues"));
-        addEmptyLine(par, 2);
-        par.add(table);
-        addEmptyLine(par, 3);
-        par.add(new Paragraph("Cameras"));
-        addEmptyLine(par, 2);
-        par.add(cameratable);
-        addEmptyLine(par, 3);
-        par.add(new Paragraph("Camera Actions"));
-        addEmptyLine(par, 2);
-        par.add(cameratable);
-        document.add(par);
+        return cameratable;
     }
 
     private static void addEmptyLine(Paragraph paragraph, int number) {

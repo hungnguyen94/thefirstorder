@@ -11,10 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 /**
  * Service Implementation for managing Player.
@@ -34,9 +30,11 @@ class PlayerServiceImpl implements PlayerService {
      * @param player the entity to save
      * @return the persisted entity
      */
+    @Transactional
     public Player save(Player player) {
         log.debug("Request to save Player : {}", player);
-        return playerRepository.save(player);
+        Player result = playerRepository.save(player);
+        return result;
     }
 
     /**
@@ -48,15 +46,8 @@ class PlayerServiceImpl implements PlayerService {
     @Transactional(readOnly = true)
     public Page<Player> findAll(Pageable pageable) {
         log.debug("Request to get all Players");
-        return playerRepository.findAll(pageable);
-    }
-
-    @Override
-    public List<Player> findPlayersByProject(Long projectId) {
-        return StreamSupport
-            .stream(playerRepository.findAll().spliterator(), false)
-            .filter(player -> Objects.equals(player.getProject().getId(), projectId))
-            .collect(Collectors.toList());
+        Page<Player> result = playerRepository.findAll(pageable);
+        return result;
     }
 
     /**
@@ -68,7 +59,8 @@ class PlayerServiceImpl implements PlayerService {
     @Transactional(readOnly = true)
     public Player findOne(Long id) {
         log.debug("Request to get Player : {}", id);
-        return playerRepository.findOne(id);
+        Player result = playerRepository.findOne(id);
+        return result;
     }
 
     /**
@@ -76,6 +68,7 @@ class PlayerServiceImpl implements PlayerService {
      *
      *  @param id the id of the entity
      */
+    @Transactional
     public void delete(Long id) {
         log.debug("Request to delete Player : {}", id);
         playerRepository.delete(id);
