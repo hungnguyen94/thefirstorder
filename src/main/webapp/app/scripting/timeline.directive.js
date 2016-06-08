@@ -177,6 +177,7 @@
                         item.content = result.action;
                         item.start = parseIntAsDate(result.bar);
                         item.end = parseIntAsDate(end);
+                        item.cue = result;
 
                         console.log('StartYear is: ', item.start);
                         console.log('End is: ', end);
