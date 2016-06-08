@@ -75,10 +75,5 @@ class ProjectServiceImpl implements ProjectService {
     public void delete(Long id) {
         log.debug("Request to delete Project : {}", id);
         projectRepository.delete(id);
-
-//        List<User> users = userRepository.findAllByCurrentProjectId(id);
-//        for (User user : users) {
-//            user.setCurrentProjectId(null);
-//        }
     }
 }
