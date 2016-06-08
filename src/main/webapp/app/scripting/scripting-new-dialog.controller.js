@@ -8,7 +8,7 @@
     ScriptingNewDialogController.$inject = ['$timeout', '$scope', '$uibModalInstance', 'entity'];
 
     /**
-     * The controller for for the state that adds a new cue.
+     * The controller for the state that adds a new cue.
      * @param $timeout
      * @param $scope
      * @param $uibModalInstance

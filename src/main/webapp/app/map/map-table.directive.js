@@ -34,10 +34,6 @@
          * @param attrs the attributes of the element that the directive is called in
          */
         function link(scope, element, attrs) {
-            console.log('Link from directive map-table-view called');
-            console.log('Element is: ', element);
-            console.log('Scope is: ', scope);
-
             scope.vm.addCamera = addCamera;
             scope.vm.addPlayer = addPlayer;
             scope.vm.deleteCamera = deleteCamera;
@@ -59,10 +55,9 @@
                         }]
                     }
                 }).result.then(function(result) {
-                    console.log('Deleted player result: ', result);
                     scope.vm.update();
                 }, function() {
-                    console.log('Cancelled delete player');
+                    callback(null);
                 });
             }
 
@@ -82,10 +77,9 @@
                         }]
                     }
                 }).result.then(function(result) {
-                    console.log('Deleted camera result: ', result);
                     scope.vm.update();
                 }, function() {
-                    console.log('Cancelled delete camera');
+                    callback(null);
                 });
             }
 
@@ -110,10 +104,9 @@
                         }
                     }
                 }).result.then(function(result) {
-                    console.log('result add player: ', result);
                     scope.vm.update();
                 }, function() {
-                    console.log('Pressed cancel');
+                    callback(null);
                 });
             }
 
@@ -138,10 +131,9 @@
                         }
                     }
                 }).result.then(function(result) {
-                    console.log('result add camera: ', result);
                     scope.vm.update();
                 }, function() {
-                    console.log('Pressed cancel');
+                    callback(null);
                 });
             }
         }
