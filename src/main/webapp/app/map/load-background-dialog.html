@@ -8,11 +8,13 @@
     <div class="modal-body">
         <div class="row">
             <div class="col-md-12">
-                <input type='file' id='getval' name="background-image" on-bg-upload="vm.upload"/><br/><br/>
+                <input class="ng-hide" type='file' id='getval' name="background-image" on-bg-upload="vm.upload"/>
+                <label for="getval" class="btn btn-raised"><span class="glyphicon glyphicon-folder-open"
+                                                                 aria-hidden="true"></span> Select a background</label>
             </div>
         </div>
         <div class="row centered">
-            <h2>Preview</h2>
+            <h3>Preview</h3>
             <div class="col-md-12">
                 <div id="concertMap" style="background-color: darkslateblue; height: 600px; width: 800px">
                 </div>
