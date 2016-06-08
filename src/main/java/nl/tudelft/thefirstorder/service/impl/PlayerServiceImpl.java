@@ -30,9 +30,11 @@ class PlayerServiceImpl implements PlayerService {
      * @param player the entity to save
      * @return the persisted entity
      */
+    @Transactional
     public Player save(Player player) {
         log.debug("Request to save Player : {}", player);
-        return playerRepository.save(player);
+        Player result = playerRepository.save(player);
+        return result;
     }
 
     /**
@@ -44,7 +46,8 @@ class PlayerServiceImpl implements PlayerService {
     @Transactional(readOnly = true)
     public Page<Player> findAll(Pageable pageable) {
         log.debug("Request to get all Players");
-        return playerRepository.findAll(pageable);
+        Page<Player> result = playerRepository.findAll(pageable);
+        return result;
     }
 
     /**
@@ -56,7 +59,8 @@ class PlayerServiceImpl implements PlayerService {
     @Transactional(readOnly = true)
     public Player findOne(Long id) {
         log.debug("Request to get Player : {}", id);
-        return playerRepository.findOne(id);
+        Player result = playerRepository.findOne(id);
+        return result;
     }
 
     /**
@@ -64,6 +68,7 @@ class PlayerServiceImpl implements PlayerService {
      *
      *  @param id the id of the entity
      */
+    @Transactional
     public void delete(Long id) {
         log.debug("Request to delete Player : {}", id);
         playerRepository.delete(id);

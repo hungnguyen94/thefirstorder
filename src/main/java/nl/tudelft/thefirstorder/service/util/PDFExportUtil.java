@@ -11,7 +11,6 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import nl.tudelft.thefirstorder.domain.Camera;
-import nl.tudelft.thefirstorder.domain.CameraAction;
 import nl.tudelft.thefirstorder.domain.Cue;
 import nl.tudelft.thefirstorder.domain.Project;
 import nl.tudelft.thefirstorder.domain.Script;
@@ -119,7 +118,7 @@ public class PDFExportUtil {
             Cue cue = iterator.next();
             table.addCell(index + ".");
             table.addCell(cue.getCamera().getName());
-            table.addCell(cue.getCameraAction().getName());
+            table.addCell(cue.getAction());
             table.addCell(cue.getPlayer().getName());
             Camera camera = cue.getCamera();
             cameratable.addCell(camera.getName());
@@ -127,8 +126,6 @@ public class PDFExportUtil {
             cameratable.addCell(camera.getY() + "");
             cameratable.addCell(camera.getCameraType());
             cameratable.addCell(camera.getLensType());
-            CameraAction action = cue.getCameraAction();
-            actiontable.addCell(action.getName());
             index++;
         }
         Paragraph par = new Paragraph();

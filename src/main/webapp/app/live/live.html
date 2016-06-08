@@ -1,0 +1,39 @@
+<div ng-cloak>
+    <div class="row">
+        <h1 class="text-center">Live Preview</h1>
+
+        <div class="col-lg-offset-2 col-lg-8">
+            <ul class="timeline">
+                <li ng-class-even="'timeline-inverted'" ng-repeat="cue in vm.cues | orderBy:'timePoint.startTime'">
+                    <div class="timeline-badge" ng-class="'timeline-badge' + ($index % 3 + 1)"><i class="glyphicon glyphicon-map-marker text-center"></i></div>
+                    <div class="timeline-panel">
+                        <div class="timeline-heading">
+                            <h4 class="timeline-title">{{cue.cameraAction.name}}</h4>
+                            <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> From bar {{cue.timePoint.startTime}} to bar {{cue.timePoint.startTime + cue.timePoint.duration}}</small></p>
+                        </div>
+                        <hr />
+                        <div class="timeline-body">
+                            <table>
+                                <tr>
+                                    <td class="col-md-1"><i class="glyphicon glyphicon-facetime-video text-muted"></i></td>
+                                    <td class="col-md-4"> {{cue.camera.name}} </td>
+                                    <td class="col-md-7 text-right"> <small class="text-muted text-right">X: {{cue.camera.x}} Y: {{cue.camera.y}}</small></td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-1"><i class="glyphicon glyphicon-user text-muted"></i></td>
+                                    <td class="col-md-4"> {{cue.player.name}} </td>
+                                    <td class="col-md-7 text-right"> <small class="text-muted text-right">X: {{cue.player.x}} Y: {{cue.player.y}}</small></td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-1"><i class="glyphicon glyphicon-globe text-muted"></i></td>
+                                    <td class="col-md-4"> {{cue.project.map.name}} </td>
+                                    <td class="col-md-7 text-right"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
