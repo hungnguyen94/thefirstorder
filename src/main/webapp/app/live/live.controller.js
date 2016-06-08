@@ -24,25 +24,35 @@
         // Initialize the functions
         vm.previous = previous;
         vm.next = next;
+        vm.authorize = authorize;
 
         // Query all cues
         vm.cues = Cue.query();
 
         // Initialize the activities to an empty array
         vm.activities = [];
+        vm.authorized = [];
+
+        /**
+         * This functions authorizes a certain ip address to make changes to the page
+         * @param ip: The IP address that should be authorized
+         */
+        function authorize(ip) {
+            vm.authorized.push(ip);
+        }
 
         /**
          * This callback recognizes an incoming websocket message and handles it
          */
         JhiTrackerService.receive().then(null, null, function(activity) {
             showActivity(activity);
-            console.log("Activity: ", activity);
-            if (activity.page == 'next') {
+
+            if (activity.page == 'next' && vm.authorized.includes(activity.ipAddress)) {
                 if (vm.current != vm.cues.length - 1)
                     vm.current++;
                 scrollToTimelineElement(true);
             }
-            if (activity.page == 'previous') {
+            if (activity.page == 'previous' && vm.authorized.includes(activity.ipAddress)) {
                 if (vm.current > 0)
                     vm.current--;
                 scrollToTimelineElement(false);
@@ -67,6 +77,10 @@
             currentElement.addClass("timeline-focus");
         }
 
+        /**
+         * This function handles all incoming messages and distinguishes them
+         * @param activity: Incoming activity
+         */
         function showActivity(activity) {
             var existingActivity = false;
             for (var index = 0; index < vm.activities.length; index++) {
@@ -85,10 +99,16 @@
             }
         }
 
+        /**
+         * This functions sends a previous websocket message.
+         */
         function previous() {
             JhiTrackerService.sendPrevious();
         }
 
+        /**
+         * This function sends a next websocket message.
+         */
         function next() {
             JhiTrackerService.sendNext();
         }

@@ -372,3 +372,9 @@
 .timeline-focus h4 {
     color: deepskyblue;
 }
+
+.navigation-buttons {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}

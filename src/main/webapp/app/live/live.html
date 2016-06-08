@@ -9,7 +9,7 @@
                     <tr>
                         <th>User</th>
                         <th>IP Address</th>
-                        <th>Current page</th>
+                        <th>Action</th>
                         <th>Time</th>
                         <th></th>
                     </tr>
@@ -20,7 +20,7 @@
                         <td class="vert-align">{{activity.ipAddress}}</td>
                         <td class="vert-align">{{activity.page}}</td>
                         <td class="vert-align">{{activity.time}}</td>
-                        <td class="vert-align"><button type="button" class="btn btn-raised btn-info">Authorize</button></td>
+                        <td class="vert-align"><button type="button" ng-click="vm.authorize(activity.ipAddress)" class="btn btn-raised btn-info">Authorize</button></td>
                     </tr>
                     </tbody>
                 </table>
@@ -64,7 +64,7 @@
     </div>
 </div>
 
-<div style="position: fixed; bottom: 0px; right: 0px;">
+<div class="navigation-buttons">
     <button type="button" class="btn btn-raised btn-danger" ng-click="vm.previous()">Previous</button>
     <button type="button" class="btn btn-raised btn-success" ng-click="vm.next()">Next</button>
 </div>
