@@ -28,6 +28,12 @@
         };
         return directive;
 
+        /**
+         * Links the controller to the correct directive.
+         * @param scope the current scope
+         * @param element the element that the directive was called from
+         * @param attrs the attributes of the element
+         */
         function link(scope, element, attrs) {
             scope.timeline = {};
             scope.vm.timelineSelected = {};

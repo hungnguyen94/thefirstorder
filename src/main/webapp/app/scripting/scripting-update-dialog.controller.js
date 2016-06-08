@@ -26,6 +26,9 @@
             angular.element('.form-group:eq(1)>input').focus();
         });
 
+        /**
+         * Saves the updated cue.
+         */
         vm.save = function () {
             vm.isSaving = true;
             $scope.$emit('cueupdated', {cuename: vm.cue.name});
@@ -33,6 +36,9 @@
             vm.isSaving = false;
         };
 
+        /**
+         * Dismisses the modal window.
+         */
         vm.clear = function() {
             $uibModalInstance.dismiss('cancel');
         };

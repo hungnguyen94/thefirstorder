@@ -28,6 +28,9 @@
             }
         });
 
+        /**
+         * Update cues by cuerying Cue.
+         */
         function update() {
             Cue.query({}, function (result) {
                 vm.cues = result;

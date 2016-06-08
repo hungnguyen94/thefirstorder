@@ -23,6 +23,9 @@
             angular.element('.form-group:eq(1)>input').focus();
         });
 
+        /**
+         * Saves the new cue.
+         */
         vm.save = function () {
             vm.isSaving = true;
             $scope.$emit('cueadded', {cuename: vm.cue.name});
@@ -30,6 +33,9 @@
             vm.isSaving = false;
         };
 
+        /**
+         * Closes the current modal window.
+         */
         vm.clear = function() {
             $uibModalInstance.dismiss('cancel');
         };
