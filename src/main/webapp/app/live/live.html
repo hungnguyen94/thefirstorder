@@ -32,7 +32,7 @@
         </div>
         <br />
 
-        <div class="col-lg-offset-2 col-lg-8">
+        <div id="vertical-timeline" class="col-lg-offset-2 col-lg-8">
             <ul class="timeline">
                 <li ng-class-even="'timeline-inverted'" ng-repeat="cue in vm.cues | orderBy:'timePoint.startTime'">
                     <div class="timeline-badge" ng-class="'timeline-badge' + ($index % 3 + 1)"><i class="glyphicon glyphicon-map-marker text-center"></i></div>

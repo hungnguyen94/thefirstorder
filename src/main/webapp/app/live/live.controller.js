@@ -17,6 +17,9 @@
      */
     function LiveController ($scope, $state, Cue, JhiTrackerService, AlertService) {
         var vm = this;
+
+        vm.current = 0;
+
         vm.previous = previous;
         vm.next = next;
         vm.cues = Cue.query();
@@ -26,6 +29,14 @@
         JhiTrackerService.receive().then(null, null, function(activity) {
             showActivity(activity);
             console.log("Activity: ", activity);
+            if (activity.page == 'next') {
+                vm.current++;
+                alert("At bar: " + vm.current);
+            }
+            if (activity.page == 'previous') {
+                vm.current--;
+                alert("At bar: " + vm.current);
+            }
         });
 
         function showActivity(activity) {
@@ -41,6 +52,7 @@
                 }
             }
             if (!existingActivity && (activity.page !== 'logout')) {
+
                 vm.activities.push(activity);
             }
         }
