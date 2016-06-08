@@ -105,7 +105,8 @@
                                 name: null,
                                 x: null,
                                 y: null,
-                                id: null
+                                id: null, 
+                                map: scope.vm.project.map
                             };
                         }
                     }
@@ -133,7 +134,8 @@
                                 name: null,
                                 x: null,
                                 y: null,
-                                id: null
+                                id: null,
+                                map: scope.vm.project.map
                             };
                         }
                     }
