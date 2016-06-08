@@ -16,7 +16,6 @@
      */
     function timeline(Cue, Camera, $uibModal) {
         var directive = {
-            // template: '<div>Player: {{vm.selectedPlayer.name}}<br/>Camera: {{vm.selectedCamera.name}}</div>',
             scope: {
                 'map': '=',
                 'selected': '='
@@ -30,10 +29,6 @@
         return directive;
 
         function link(scope, element, attrs) {
-            console.log('timeline directive called');
-            console.log('Element is: ', element);
-            console.log('Scope is: ', scope);
-
             scope.timeline = {};
             scope.vm.timelineSelected = {};
             scope.dataset = new vis.DataSet();
@@ -41,12 +36,10 @@
             init();
 
             scope.$watch('vm.map', function (newMap) {
-                console.log('Changed map:', newMap);
                 drawTimelineCameras(scope.vm.map.cameras);
             });
 
             scope.$watch('vm.cues', function (newCues) {
-                console.log('Cues changed: ', newCues);
                 createItems(scope.vm.cues);
             });
 
@@ -54,7 +47,6 @@
                 console.log('selected timeline items: ', properties);
             });
 
-            ///////////////////////////////////////////
             /**
              * Draws the timeline with all the cues.
              */
@@ -92,7 +84,6 @@
                 timeline.addCustomTime('0000-12-31', 'scroller');
                 timeline.setItems(scope.dataset);
                 scope.timeline = timeline;
-                console.log('init called, timeline is', scope.timeline);
             }
 
             /**
@@ -180,13 +171,9 @@
                         item.start = parseIntAsDate(result.bar);
                         item.end = parseIntAsDate(end);
                         item.cue = result;
-
-                        console.log('StartYear is: ', item.start);
-                        console.log('End is: ', end);
-                        console.log('item.end is', item.end);
                         callback(item);
                     }, function() {
-                        console.log('cancelled');
+                        callback(null);
                     });
                 });
             }
@@ -197,7 +184,6 @@
              * @param callback the callback to the vis.js draw function
              */
             function onUpdate(item, callback) {
-                console.log('item is', item);
                 $uibModal.open({
                     templateUrl: 'app/scripting/scripting-new-dialog.html',
                     controller: 'CueDialogController',
@@ -208,14 +194,13 @@
                         entity: item.cue
                     }
                 }).result.then(function(result) {
-                    console.log('result is: ', result);
                     item.content = result.action;
                     item.start = parseIntAsDate(result.bar);
                     item.end = parseIntAsDate(end);
                     item.cue = result;
                     callback(item);
                 }, function() {
-                    console.log('cancelled');
+                    callback(null);
                 });
             }
 
@@ -225,13 +210,10 @@
              * @param callback the callback to the vis.js draw function
              */
             function onMove(item, callback) {
-                console.log('on move: ', item);
                 var bar = item.start.getFullYear();
                 var duration = item.end.getFullYear() - bar;
-                console.log('bar and duration: ', bar, duration);
                 item.cue.bar = bar;
                 item.cue.duration = duration;
-                // Nested callbacks
                 Camera.get({id: item.group}, function (camera) {
                     item.cue.camera = camera;
                     Cue.update(item.cue, function () {
@@ -257,10 +239,9 @@
                         entity: item.cue
                     }
                 }).result.then(function(result) {
-                    console.log('result is: ', result);
                     callback(item);
                 }, function() {
-                    console.log('cancelled');
+                    callback(null);
                 });
             }
 

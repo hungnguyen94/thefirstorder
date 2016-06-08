@@ -47,8 +47,6 @@ public class PDFExportTest {
         when(script.getName()).thenReturn("script");
         when(cue.getCamera()).thenReturn(camera);
         when(cue.getPlayer()).thenReturn(player);
-        when(camera.getX()).thenReturn(1);
-        when(camera.getX()).thenReturn(1);
         when(camera.getName()).thenReturn("Camera");
         when(player.getName()).thenReturn("player");
         Set<Cue> cues = new HashSet<Cue>();

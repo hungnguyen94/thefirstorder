@@ -36,35 +36,21 @@
          * @param attrs the attributes of the element that the directive is called in
          */
         function link(scope, element, attrs) {
-            console.log('fabric map directive called');
-            console.log('Element is: ', element);
-            console.log('Scope is: ', scope);
-
             scope.canvas = {};
-
 
             init();
 
-            ///////////////////////////////////////
-
             angular.element($window).bind('resize', resize);
-
             scope.$watch('vm.map', function (newMap) {
-                console.log('Changed map :', newMap);
                 draw(scope.vm.map.cameras, scope.vm.map.players);
             });
-
             scope.canvas.on('object:selected', onSelect);
-
             scope.canvas.on('object:modified', updateEntity);
-
-            /////////////////////////
 
             /**
              * Initializes the map with a canvas and loads the cameras and players.
              */
             function init() {
-                console.log('init directive');
                 var canvas = new fabric.Canvas(element[0]);
                 canvas.selection = false;
                 fabric.Image.fromURL('content/images/concertzaal.jpg', function(img) {
@@ -87,10 +73,9 @@
             function resize() {
                 var parent = element.parent().parent();
                 var width = parent[0].clientWidth - (parent[0].offsetLeft);
+
                 scope.canvas.setWidth(width);
                 scope.canvas.setHeight(width / scope.aspectRatio);
-
-                console.log('background image: ', scope.canvas.backgroundImage);
                 scope.canvas.backgroundImage.set({
                     width: scope.canvas.width,
                     height: scope.canvas.width / scope.aspectRatio
@@ -98,7 +83,7 @@
                 scope.canvas.forEachObject(setDrawableProperties);
                 scope.canvas.renderAll();
                 scope.canvas.calcOffset();
-                console.log('parent is ', parent);
+
                 draw(scope.vm.map.cameras, scope.vm.map.players);
             }
 
@@ -120,7 +105,6 @@
              */
             function drawEntities(entities) {
                 var drawables = entities.map(setDrawableProperties);
-                console.log('drawing ', drawables);
                 drawables.forEach(function (d) {
                     scope.canvas.add(d);
                 });
@@ -195,7 +179,8 @@
                     scaleX: 0.8,
                     scaleY: 0.8,
                     padding: 5,
-                    fill: 'blue',
+                    fill: 'rgb(0, 96, 88)',
+                    stroke: 'white',
                     entity: player,
                     isPlayer: true,
                     hasControls: false
@@ -215,7 +200,6 @@
                 var position = {};
                 position.x = Math.round((x / 100) * currentWidth);
                 position.y = Math.round((y / 100) * currentHeight);
-                console.log('Calculated absolute positions: ', position);
                 return position;
             }
 
@@ -231,7 +215,6 @@
                 var position = {};
                 position.x = Math.round((x / currentWidth) * 100);
                 position.y = Math.round((y / currentHeight) * 100);
-                console.log('Calculated relative positions: ', position);
                 return position;
             }
 
@@ -240,7 +223,6 @@
              * @param options the options that are changed
              */
             function updateEntity(options) {
-                console.log('Modified object: ', options);
                 var target = options.target;
                 if(target) {
                     var entity = target.entity;
@@ -256,12 +238,10 @@
              * @param options
              */
             function onSelect (options) {
-                console.log('Selected object: ', options);
                 var target = options.target;
                 scope.$apply(function () {
                     scope.vm.selected = target.entity;
                 });
-                console.log('vm.selected: ', scope.vm.selected);
             }
 
             /**
@@ -269,7 +249,6 @@
              * @param target the camera or player that is updated
              */
             function onModify(target) {
-                console.log('updated target: ', target);
                 if(target.isCamera) {
                     Camera.update(target.entity);
                 } else if(target.isPlayer) {
