@@ -7,6 +7,10 @@
 
     stateConfig.$inject = ['$stateProvider'];
 
+    /**
+     * Configures each state for the scripting page.
+     * @param $stateProvider
+     */
     function stateConfig($stateProvider) {
         $stateProvider
         .state('scripting', {

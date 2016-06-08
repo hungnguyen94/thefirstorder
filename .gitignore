@@ -3,6 +3,7 @@
 ######################
 /build/www/**
 /src/main/webapp/index.html
+src/main/webapp/index.html
 
 ######################
 # Node

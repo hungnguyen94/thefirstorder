@@ -7,6 +7,12 @@
 
     MapEditorController.$inject = ['Map', 'Project', 'ProjectManager'];
 
+    /**
+     * The controller for the map editor state.
+     * @param Map
+     * @param Project
+     * @constructor
+     */
     function MapEditorController(Map, Project, ProjectManager) {
         var vm = this;
         vm.selected = null;
@@ -16,7 +22,7 @@
         getMapEntities();
 
         /**
-         * Gets the entities within the map by getting the map of the current project of the active user.
+         * Loads all the map entities (players and cameras).
          */
         function getMapEntities() {
             ProjectManager.get().then(function (projectId) {
@@ -30,7 +36,9 @@
         }
 
         /**
-         * Sets the entity selected by the user.
+         * Sets the selected entity to a given value.
+         * @param entity the entity that is selected
+         * @returns {*|null}
          */
         function setSelected(entity) {
             if (vm.selected === entity) {

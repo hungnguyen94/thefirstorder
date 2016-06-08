@@ -5,26 +5,32 @@
         .module('thefirstorderApp')
         .controller('ScriptingController', ScriptingController);
 
-    ScriptingController.$inject = ['$rootScope', '$scope', '$state', 'Map', 'Cue', 'AlertService'];
+    ScriptingController.$inject = ['$scope', 'Cue'];
 
     /**
      * The controller for the script view.
      * @param $scope the scope of the map
-     * @param $state the state of the map
-     * @param Camera the camera entity
-     * @param AlertService the alertservice
+     * @param Cue the cue class
      * @constructor
      */
-    function ScriptingController ($rootScope, $scope, $state, Map, Cue, AlertService) {
+    function ScriptingController ($scope, Cue) {
         var vm = this;
+        vm.selectedCamera = null;
+        vm.selectedPlayer = null;
 
-        vm.cues = Cue.query();
-        getMapEntities();
+        update();
 
-        function getMapEntities() {
-            Map.getDTO({id: 1}, function (result) {
-                console.log('result is: ', result);
-                vm.map = result;
+        $scope.$watch('vm.selected', function (selected) {
+            if(selected.hasOwnProperty('cameraType')) {
+                vm.selectedCamera = selected;
+            } else {
+                vm.selectedPlayer = selected;
+            }
+        });
+
+        function update() {
+            Cue.query({}, function (result) {
+                vm.cues = result;
             });
         }
     }
