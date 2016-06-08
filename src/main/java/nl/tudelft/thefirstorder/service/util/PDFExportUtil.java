@@ -1,6 +1,12 @@
 package nl.tudelft.thefirstorder.service.util;
 
-import com.itextpdf.text.*;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -27,6 +33,9 @@ public class PDFExportUtil {
             Font.NORMAL, BaseColor.RED);
     private static Font smallBold = new Font(Font.FontFamily.COURIER, 12,
             Font.BOLD);
+
+    private final static int BORDER_CONSTANT = 0;
+    private final static int PADDING_CONSTANT = 15;
 
     public PDFExportUtil() {
     }
@@ -81,13 +90,13 @@ public class PDFExportUtil {
         paragraph.setAlignment(Element.ALIGN_CENTER);
         document.add(paragraph);
         PdfPTable table = makeCueTable();
-        table.getDefaultCell().setPaddingBottom(15);
-        table.getDefaultCell().setPaddingTop(15);
-        table.getDefaultCell().setBorder(0);
+        table.getDefaultCell().setPaddingBottom(PADDING_CONSTANT);
+        table.getDefaultCell().setPaddingTop(PADDING_CONSTANT);
+        table.getDefaultCell().setBorder(BORDER_CONSTANT);
         PdfPTable cameratable = makeCameraTable();
-        cameratable.getDefaultCell().setBorder(0);
-        cameratable.getDefaultCell().setPaddingBottom(15);
-        cameratable.getDefaultCell().setPaddingTop(15);
+        cameratable.getDefaultCell().setBorder(BORDER_CONSTANT);
+        cameratable.getDefaultCell().setPaddingBottom(PADDING_CONSTANT);
+        cameratable.getDefaultCell().setPaddingTop(PADDING_CONSTANT);
 
         table.setHeaderRows(1);
         cameratable.setHeaderRows(1);
@@ -122,31 +131,19 @@ public class PDFExportUtil {
         PdfPTable table = new PdfPTable(4);
 
         PdfPCell c1 = new PdfPCell(new Phrase("Shot"));
-        c1.setBackgroundColor(BaseColor.GRAY);
-        c1.setBorder(0);
-        c1.setPaddingTop(15);
-        c1.setPaddingBottom(15);
+        c1 = setSetting(c1);
         table.addCell(c1);
 
         c1 = new PdfPCell(new Phrase("Camera"));
-        c1.setBackgroundColor(BaseColor.GRAY);
-        c1.setBorder(0);
-        c1.setPaddingTop(15);
-        c1.setPaddingBottom(15);
+        c1 = setSetting(c1);
         table.addCell(c1);
 
         c1 = new PdfPCell(new Phrase("Player"));
-        c1.setBackgroundColor(BaseColor.GRAY);
-        c1.setBorder(0);
-        c1.setPaddingTop(15);
-        c1.setPaddingBottom(15);
+        c1 = setSetting(c1);
         table.addCell(c1);
 
         c1 = new PdfPCell(new Phrase("Camera Action"));
-        c1.setBackgroundColor(BaseColor.GRAY);
-        c1.setBorder(0);
-        c1.setPaddingTop(15);
-        c1.setPaddingBottom(15);
+        c1 = setSetting(c1);
         table.addCell(c1);
 
         return table;
@@ -156,27 +153,26 @@ public class PDFExportUtil {
         PdfPTable cameratable = new PdfPTable(3);
 
         PdfPCell c1 = new PdfPCell(new Phrase("Camera"));
-        c1.setBackgroundColor(BaseColor.GRAY);
-        c1.setBorder(0);
-        c1.setPaddingTop(15);
-        c1.setPaddingBottom(15);
+        c1 = setSetting(c1);
         cameratable.addCell(c1);
 
         c1 = new PdfPCell(new Phrase("Camera Type"));
-        c1.setBackgroundColor(BaseColor.GRAY);
-        c1.setBorder(0);
-        c1.setPaddingTop(15);
-        c1.setPaddingBottom(15);
+        c1 = setSetting(c1);
         cameratable.addCell(c1);
 
         c1 = new PdfPCell(new Phrase("Lens Type"));
-        c1.setBackgroundColor(BaseColor.GRAY);
-        c1.setBorder(0);
-        c1.setPaddingTop(15);
-        c1.setPaddingBottom(15);
+        c1 = setSetting(c1);
         cameratable.addCell(c1);
 
         return cameratable;
+    }
+
+    private static PdfPCell setSetting(PdfPCell c1) {
+        c1.setBackgroundColor(BaseColor.GRAY);
+        c1.setBorder(BORDER_CONSTANT);
+        c1.setPaddingTop(PADDING_CONSTANT);
+        c1.setPaddingBottom(PADDING_CONSTANT);
+        return c1;
     }
 
     private static void addEmptyLine(Paragraph paragraph, int number) {
