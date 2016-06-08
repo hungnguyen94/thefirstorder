@@ -1,0 +1,50 @@
+<form name="editForm" role="form" novalidate ng-submit="vm.save()">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myScriptLabel">Load an existing script</h4>
+    </div>
+    <div class="modal-body">
+        <div class="table-responsive">
+            <div ng-switch="vm.hasScripts">
+                <table ng-switch-when="true" class="jh-table table table-striped">
+                    <thead>
+                    <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                        <th jh-sort-by="id"><span>ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                        <th jh-sort-by="name"><span>Name</span> <span class="glyphicon glyphicon-sort"></span></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="script in vm.scripts track by script.id">
+                        <td><a ui-sref="script-detail({id:script.id})">{{script.id}}</a></td>
+                        <td>{{script.name}}</td>
+                        <td class="text-right">
+                            <div class="btn-group flex-btn-group-container">
+                                <button type="submit" ng-click="vm.load(script.id)" class="btn btn-primary">
+                                    <span class="glyphicon glyphicon-chevron-right"></span>&nbsp;<span>Open</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div ng-switch-when="false">
+                    No scripts available.</br>
+                    <button class="btn btn-primary"
+                            has-any-authority="ROLE_ADMIN,ROLE_DIRECTOR"
+                            ng-click="vm.create()">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        Create new script
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+        </button>
+    </div>
+</form>

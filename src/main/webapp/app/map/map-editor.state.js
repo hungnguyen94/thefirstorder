@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -7,6 +7,10 @@
 
     stateConfig.$inject = ['$stateProvider'];
 
+    /**
+     * Configures the state for all map pages.
+     * @param $stateProvider
+     */
     function stateConfig($stateProvider) {
         $stateProvider.state('map-editor', {
             parent: 'app',
@@ -18,6 +22,18 @@
                 'content@': {
                     templateUrl: 'app/map/map-editor.html'
                 }
+            },
+            resolve: {
+                validateMap: ['ProjectManager', 'currentProjectId',
+                    function (ProjectManager, currentProjectId) {
+                        ProjectManager.validateMap(currentProjectId);
+                    }
+                ],
+                currentProject: ['ProjectManager',
+                    function (ProjectManager) {
+                        return ProjectManager.getProject();
+                    }
+                ]
             }
         });
     }

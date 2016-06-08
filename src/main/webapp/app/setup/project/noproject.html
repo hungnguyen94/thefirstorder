@@ -1,0 +1,23 @@
+<div ng-cloak>
+    <div class="row centered">
+        <div ng-switch="vm.projectIsNull" class="col-md-12">
+            <h1>Oops, unable to get project</h1>
+            <hr/>
+            <p class="lead" ng-switch-when="true">You haven't selected a project yet...</p>
+            <p class="lead" ng-switch-when="false">We were unable to open the project you selected...</p>
+            <br/><br/><br/>
+            <div class="row">
+                <div class="col-md-12"><span class="glyphicon glyphicon-log-in" style="font-size: 60pt;"></span>
+                    <hr/>
+                    <p class="lead">
+                        <button class="btn btn-primary"
+                                has-any-authority="ROLE_ADMIN,ROLE_DIRECTOR"
+                                ui-sref="home">
+                            Open or create a project
+                        </button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

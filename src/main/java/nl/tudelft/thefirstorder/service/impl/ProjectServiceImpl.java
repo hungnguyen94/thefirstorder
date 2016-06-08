@@ -1,8 +1,6 @@
 package nl.tudelft.thefirstorder.service.impl;
 
 import nl.tudelft.thefirstorder.domain.Project;
-import nl.tudelft.thefirstorder.domain.Script;
-import nl.tudelft.thefirstorder.domain.User;
 import nl.tudelft.thefirstorder.repository.ProjectRepository;
 import nl.tudelft.thefirstorder.repository.UserRepository;
 import nl.tudelft.thefirstorder.service.ProjectService;
@@ -14,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.List;
 
 /**
  * Service Implementation for managing Project.
@@ -37,6 +34,7 @@ class ProjectServiceImpl implements ProjectService {
      * @param project the entity to save
      * @return the persisted entity
      */
+    @Transactional
     public Project save(Project project) {
         log.debug("Request to save Project : {}", project);
         return projectRepository.save(project);
@@ -73,13 +71,14 @@ class ProjectServiceImpl implements ProjectService {
      *
      * @param id the id of the entity
      */
+    @Transactional
     public void delete(Long id) {
         log.debug("Request to delete Project : {}", id);
         projectRepository.delete(id);
 
-        List<User> users = userRepository.findAllByCurrentProjectId(id);
-        for (User user : users) {
-            user.setCurrentProjectId(null);
-        }
+//        List<User> users = userRepository.findAllByCurrentProjectId(id);
+//        for (User user : users) {
+//            user.setCurrentProjectId(null);
+//        }
     }
 }

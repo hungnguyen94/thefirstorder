@@ -5,9 +5,9 @@
         .module('thefirstorderApp')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', 'Project', 'AlertService', 'currentProject'];
+    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', 'Project', 'currentProjectId'];
 
-    function HomeController($scope, Principal, LoginService, $state, Project, AlertService, currentProject) {
+    function HomeController($scope, Principal, LoginService, $state, Project, currentProjectId) {
         var vm = this;
         vm.account = null;
         vm.isAuthenticated = null;
@@ -23,6 +23,10 @@
 
         getAccount();
 
+        /**
+         * Checks whether the user is authorised to use the app,
+         *  gets the name of the user to show on the home page.
+         */
         function getAccount() {
             Principal.identity().then(function (account) {
                 vm.account = account;
@@ -30,14 +34,23 @@
             });
         }
 
+        /**
+         * Go to the register state to register a new account.
+         */
         function register() {
             $state.go('register');
         }
 
+        /**
+         * Loads the current project of the active user.
+         * Sets hasCurrentProject to true if the active user has a project.
+         */
         function loadProject() {
-            vm.currentProject = Project.get({id: currentProject});
-            if(vm.currentProject != null) {
-                vm.hasProject = true;
+            if (currentProjectId !== null) {
+                vm.currentProject = Project.get({id: currentProjectId});
+                if (vm.currentProject !== null) {
+                    vm.hasCurrentProject = true;
+                }
             }
         }
     }

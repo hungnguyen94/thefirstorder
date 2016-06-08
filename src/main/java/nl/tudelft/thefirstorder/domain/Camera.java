@@ -164,13 +164,10 @@ public class Camera implements Serializable {
      */
     @Override
     public String toString() {
-        return "Camera{" +
-            "id=" + id +
-            ", name='" + name + "'" +
-            ", x='" + x + "'" +
-            ", y='" + y + "'" +
-            ", cameraType='" + cameraType + "'" +
-            ", lensType='" + lensType + "'" +
-            '}';
+        return "Camera{"
+            + "id=" + id + ", name='" + name + "'"
+            + ", x='" + x + "'" + ", y='" + y + "'"
+            + ", cameraType='" + cameraType + "'"
+            + ", lensType='" + lensType + "'" + '}';
     }
 }

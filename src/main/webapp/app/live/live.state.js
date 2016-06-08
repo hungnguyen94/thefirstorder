@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -7,6 +7,10 @@
 
     stateConfig.$inject = ['$stateProvider'];
 
+    /**
+     * Configures the states for the live views.
+     * @param $stateProvider
+     */
     function stateConfig($stateProvider) {
         $stateProvider.state('live', {
             parent: 'app',
@@ -26,6 +30,18 @@
             },
             onExit: function(JhiTrackerService) {
                 JhiTrackerService.unsubscribe();
+            },
+            resolve: {
+                validateScript: ['ProjectManager', 'currentProjectId',
+                    function (ProjectManager, currentProjectId) {
+                        ProjectManager.validateScript(currentProjectId);
+                    }
+                ],
+                currentProject: ['ProjectManager',
+                    function (ProjectManager) {
+                        return ProjectManager.getProject();
+                    }
+                ]
             }
         });
     }

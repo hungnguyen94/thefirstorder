@@ -1,31 +1,47 @@
-(function() {
+(function () {
     'use strict';
 
     angular
         .module('thefirstorderApp')
         .controller('MapEditorController', MapEditorController);
 
-    MapEditorController.$inject = ['$scope', '$state', 'Map', 'Project', 'Camera', 'Player'];
+    MapEditorController.$inject = ['Map', 'Project', 'ProjectManager'];
 
-    function MapEditorController ($scope, $state, Map, Project, Camera, Player) {
-        console.log('MapViewController scope: ', $scope);
-        console.log('MapViewController this: ', this);
+    /**
+     * The controller for the map editor state.
+     * @param Map
+     * @param Project
+     * @constructor
+     */
+    function MapEditorController(Map, Project, ProjectManager) {
         var vm = this;
         vm.selected = null;
-        
+
         vm.setSelected = setSelected;
         vm.update = getMapEntities;
         getMapEntities();
 
+        /**
+         * Loads all the map entities (players and cameras).
+         */
         function getMapEntities() {
-            Map.getDTO({id: 1}, function (result) {
-                console.log('result is: ', result);
-                vm.map = result;
+            ProjectManager.get().then(function (projectId) {
+
+                Project.get({id: projectId.data}, function (project) {
+                    Map.getDTO({id: project.map.id}, function (result) {
+                        vm.map = result;
+                    });
+                });
             });
         }
 
+        /**
+         * Sets the selected entity to a given value.
+         * @param entity the entity that is selected
+         * @returns {*|null}
+         */
         function setSelected(entity) {
-            if(vm.selected == entity) {
+            if (vm.selected === entity) {
                 vm.selected = null;
             } else {
                 vm.selected = entity;
