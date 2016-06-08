@@ -34,8 +34,8 @@ public class PDFExportUtil {
     private static Font smallBold = new Font(Font.FontFamily.COURIER, 12,
             Font.BOLD);
 
-    private final static int BORDER_CONSTANT = 0;
-    private final static int PADDING_CONSTANT = 15;
+    private static final int BORDER_CONSTANT = 0;
+    private static final int PADDING_CONSTANT = 15;
 
     public PDFExportUtil() {
     }
