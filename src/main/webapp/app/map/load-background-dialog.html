@@ -1,0 +1,27 @@
+<form name="editForm" role="form" novalidate ng-submit="vm.save()">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myMapLabel">Load an image as background</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <input type='file' id='getval' name="background-image" on-bg-upload="vm.upload"/><br/><br/>
+            </div>
+        </div>
+        <div class="row centered">
+            <h2>Preview</h2>
+            <div class="col-md-12">
+                <div id="concertMap" style="background-color: darkslateblue; height: 600px; width: 800px">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+        </button>
+    </div>
+</form>
