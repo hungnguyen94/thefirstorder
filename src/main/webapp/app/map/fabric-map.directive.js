@@ -179,7 +179,8 @@
                     scaleX: 0.8,
                     scaleY: 0.8,
                     padding: 5,
-                    fill: 'blue',
+                    fill: 'rgb(0, 96, 88)',
+                    stroke: 'white',
                     entity: player,
                     isPlayer: true,
                     hasControls: false
