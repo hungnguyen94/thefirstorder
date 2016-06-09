@@ -88,7 +88,7 @@
              */
             function addPlayer() {
                 $uibModal.open({
-                    templateUrl: 'app/entities/player/player-dialog.html',
+                    templateUrl: 'app/map/player-map-dialog.html',
                     controller: 'PlayerDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
@@ -99,7 +99,8 @@
                                 name: null,
                                 x: null,
                                 y: null,
-                                id: null
+                                id: null, 
+                                map: scope.vm.project.map
                             };
                         }
                     }
@@ -115,7 +116,7 @@
              */
             function addCamera () {
                 $uibModal.open({
-                    templateUrl: 'app/entities/camera/camera-dialog.html',
+                    templateUrl: 'app/map/camera-map-dialog.html',
                     controller: 'CameraDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
@@ -126,7 +127,8 @@
                                 name: null,
                                 x: null,
                                 y: null,
-                                id: null
+                                id: null,
+                                map: scope.vm.project.map
                             };
                         }
                     }

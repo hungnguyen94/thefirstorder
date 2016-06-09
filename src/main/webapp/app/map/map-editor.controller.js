@@ -19,6 +19,7 @@
 
         vm.setSelected = setSelected;
         vm.update = getMapEntities;
+        
         getMapEntities();
 
         /**
@@ -26,15 +27,15 @@
          */
         function getMapEntities() {
             ProjectManager.get().then(function (projectId) {
-
                 Project.get({id: projectId.data}, function (project) {
+                    vm.project = project;
                     Map.getDTO({id: project.map.id}, function (result) {
                         vm.map = result;
                     });
                 });
             });
         }
-
+        
         /**
          * Sets the selected entity to a given value.
          * @param entity the entity that is selected

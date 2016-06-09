@@ -1,0 +1,50 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myCameraLabel">Create or edit a Camera</h4>
+    </div>
+    <div class="modal-body">
+        <div class="form-group label-floating">
+            <label class="control-label" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                   ng-model="vm.camera.name"
+            />
+        </div>
+        <div class="form-group label-floating">
+            <label class="control-label" for="field_x">X</label>
+            <input type="number" class="form-control" name="x" id="field_x"
+                   ng-model="vm.camera.x"
+            />
+        </div>
+        <div class="form-group label-floating">
+            <label class="control-label" for="field_y">Y</label>
+            <input type="number" class="form-control" name="y" id="field_y"
+                   ng-model="vm.camera.y"
+            />
+        </div>
+        <div class="form-group label-floating">
+            <label class="control-label" for="field_cameraType">Camera Type</label>
+            <input type="text" class="form-control" name="cameraType" id="field_cameraType"
+                   ng-model="vm.camera.cameraType"
+            />
+        </div>
+        <div class="form-group label-floating">
+            <label class="control-label" for="field_lensType">Lens Type</label>
+            <input type="text" class="form-control" name="lensType" id="field_lensType"
+                   ng-model="vm.camera.lensType"
+            />
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>
+
