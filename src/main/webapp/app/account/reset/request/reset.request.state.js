@@ -7,10 +7,6 @@
 
     stateConfig.$inject = ['$stateProvider'];
 
-    /**
-     * Configuration for the Request Reset state.
-     * @param $stateProvider
-     */
     function stateConfig($stateProvider) {
         $stateProvider.state('requestReset', {
             parent: 'account',

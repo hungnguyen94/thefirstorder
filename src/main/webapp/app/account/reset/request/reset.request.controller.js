@@ -7,13 +7,6 @@
 
     RequestResetController.$inject = ['$timeout', 'Auth'];
 
-    /**
-     * Controller for the Request Reset state.
-     * A user can reset his password here.
-     * @param $timeout
-     * @param Auth
-     * @constructor
-     */
     function RequestResetController ($timeout, Auth) {
         var vm = this;
 
