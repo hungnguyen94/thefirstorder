@@ -16,14 +16,16 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.inject.Inject;
 import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * REST controller for managing Map.
@@ -41,8 +43,7 @@ public class MapResource {
      * POST  /maps : Create a new map.
      *
      * @param map the map to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new map,
-     * or with status 400 (Bad Request) if the map has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the new map, or with status 400 (Bad Request) if the map has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/maps",
@@ -52,9 +53,7 @@ public class MapResource {
     public ResponseEntity<Map> createMap(@RequestBody Map map) throws URISyntaxException {
         log.debug("REST request to save Map : {}", map);
         if (map.getId() != null) {
-            return ResponseEntity.badRequest().headers(
-                HeaderUtil.createFailureAlert("map", "idexists", "A new map cannot already have an ID")
-            ).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("map", "idexists", "A new map cannot already have an ID")).body(null);
         }
         Map result = mapService.save(map);
         return ResponseEntity.created(new URI("/api/maps/" + result.getId()))
@@ -90,7 +89,7 @@ public class MapResource {
      * GET  /maps : get all the maps.
      *
      * @param pageable the pagination information
-     * @param filter   the filter of this request
+     * @param filter   the filter of the request
      * @return the ResponseEntity with status 200 (OK) and the list of maps in body
      * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
@@ -98,8 +97,7 @@ public class MapResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<List<Map>> getAllMaps(Pageable pageable,
-                                                @RequestParam(required = false) String filter)
+    public ResponseEntity<List<Map>> getAllMaps(Pageable pageable, @RequestParam(required = false) String filter)
         throws URISyntaxException {
         if ("project-is-null".equals(filter)) {
             log.debug("REST request to get all Maps where project is null");
@@ -165,44 +163,5 @@ public class MapResource {
         return Optional.ofNullable(mapService.findOne(mapId))
             .map(map -> new ResponseEntity<MapDTO>(new MapDTO(map), HttpStatus.OK))
             .orElse(new ResponseEntity<MapDTO>(HttpStatus.NOT_FOUND));
-    }
-
-    @RequestMapping(value = "/maps/upload/{file}",
-        method = RequestMethod.PUT,
-        produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    @Transactional(readOnly = true)
-    public ResponseEntity<String> uploadFile(@PathVariable String file) {
-        String res = writeToFile(file);
-
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createAlert("Uploaded", "image"))
-            .body(res);
-    }
-
-    private static String writeToFile(String contents) {
-        String root = "src/main/webapp/";
-        String fname = "content/upload/test.txt";
-        String path = root + fname;
-
-        System.out.println("writing \"" + contents + "\"\n\n to: " + path);
-
-        try {
-            int read = 0;
-            byte[] bytes = new byte[1024];
-
-            InputStream in = new ByteArrayInputStream(contents.getBytes(StandardCharsets.UTF_8));
-
-            OutputStream out = new FileOutputStream(new File(path));
-            while ((read = in.read(bytes)) != -1) {
-                out.write(bytes, 0, read);
-            }
-            out.flush();
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return fname;
     }
 }

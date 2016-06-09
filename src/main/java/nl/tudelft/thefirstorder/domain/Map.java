@@ -77,16 +77,16 @@ public class Map implements Serializable {
      * Returns the location of the background image in the form of n url.
      * @return an url pointing to the location of the background image.
      */
-    public String getBackgroundImage() {
+    public String getBackground_image() {
         return background_image;
     }
 
     /**
      * Sets the location of the background image to the given url.
-     * @param url should be a url representing the location of an image
+     * @param background_image should be a url representing the location of an image
      */
-    public void setBackgroundImage(String url) {
-        this.background_image = url;
+    public void setBackground_image(String background_image) {
+        this.background_image = background_image;
     }
 
     /**

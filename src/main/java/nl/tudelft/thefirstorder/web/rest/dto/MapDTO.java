@@ -25,7 +25,7 @@ public class MapDTO {
      */
     public MapDTO(Map map) {
         this.name = map.getName();
-        this.background_image = map.getBackgroundImage();
+        this.background_image = map.getBackground_image();
         this.cameras = map.getCameras();
         this.players = map.getPlayers();
     }

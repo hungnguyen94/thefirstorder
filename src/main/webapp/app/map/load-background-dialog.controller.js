@@ -29,16 +29,24 @@
             }
         }
 
-        function upload() {
-            var Uploader = $resource('api/maps/upload/:file', {}, {
-                uploadBackground: {method: 'PUT', params: {file: '@file'}}
-            });
+        function post() {
+            var fd = new FormData();
+            fd.append('file', vm.uploadedBackground);
 
-            if(vm.uploadedBackground === null){
+            Upload.create({content: fd}).$promise.then(function (res) {
+                vm.upload = res;
+            }).catch(function (err) {
+                vm.uploadError = true;
+                throw err;
+            });
+        };
+
+        function upload() {
+            post();
+            if (vm.uploadedBackground === null) {
                 console.log("No background selected...");
             } else {
                 console.log("Uploading bg");
-                Uploader.uploadBackground({file: vm.uploadedBackground});
             }
         }
 
