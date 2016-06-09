@@ -55,7 +55,7 @@ class CueServiceImpl implements CueService {
     }
 
     /**
-     * Find a cues by their script id.
+     * Find cues by their script id.
      * @param scriptId the id of the script
      * @return a List<Cue> of all the cues
      */

@@ -29,7 +29,7 @@
         });
 
         /**
-         * Update cues by cuerying Cue.
+         * Update cues by querying Cue.
          */
         function update() {
             ProjectManager.get().then(function (projectId) {
