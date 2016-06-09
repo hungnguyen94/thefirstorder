@@ -51,7 +51,7 @@
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
     animation-duration: 0.5s;
     animation-name: cd-bounce-2;
-    transition: all 0.5s ease-in;
+    transition: all 0.1s ease-in;
 }
 
 .timeline > li > .timeline-panel:before {
@@ -95,7 +95,7 @@
     border-top-left-radius: 50%;
     border-bottom-right-radius: 50%;
     border-bottom-left-radius: 50%;
-    animation-duration: 0.5s;
+    animation-duration: 0.1s;
     animation-name: cd-bounce-1;
 }
 

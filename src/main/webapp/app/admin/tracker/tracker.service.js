@@ -6,9 +6,18 @@
         .module('thefirstorderApp')
         .factory('JhiTrackerService', JhiTrackerService);
 
-    JhiTrackerService.$inject = ['$rootScope', '$window', '$cookies', '$http', '$q', '$localStorage'];
+    JhiTrackerService.$inject = ['$rootScope', '$window', '$q', '$localStorage'];
 
-    function JhiTrackerService ($rootScope, $window, $cookies, $http, $q, $localStorage) {
+    /**
+     * Service to support websockets.
+     * @param $rootScope the scope of the root
+     * @param $window this window
+     * @param $q angular functions
+     * @param $localStorage the local storage
+     * @returns {{connect: connect, disconnect: disconnect, receive: receive, sendActivity: sendActivity, sendPrevious: sendPrevious, sendNext: sendNext, subscribe: subscribe, unsubscribe: unsubscribe}}
+     * @constructor
+     */
+    function JhiTrackerService ($rootScope, $window, $q, $localStorage) {
         var stompClient = null;
         var subscriber = null;
         var listener = $q.defer();
@@ -28,6 +37,9 @@
 
         return service;
 
+        /**
+         * Connect to a websocket.
+         */
         function connect () {
             //building absolute path so that websocket doesnt fail when deploying with a context path
             var loc = $window.location;
@@ -56,6 +68,9 @@
             });
         }
 
+        /**
+         * Disconnect from the websocket.
+         */
         function disconnect () {
             if (stompClient !== null) {
                 stompClient.disconnect();
@@ -63,10 +78,17 @@
             }
         }
 
+        /**
+         * Receive a message.
+         * @returns {Promise}
+         */
         function receive () {
             return listener.promise;
         }
 
+        /**
+         * Send an activity to a client.
+         */
         function sendActivity() {
             if (stompClient !== null && stompClient.connected) {
                 stompClient
@@ -76,6 +98,9 @@
             }
         }
 
+        /**
+         * Send the message 'previous cue' to the client.
+         */
         function sendPrevious() {
             if (stompClient !== null && stompClient.connected) {
                 stompClient
@@ -85,6 +110,9 @@
             }
         }
 
+        /**
+         * Send the message 'next cue' to the client.
+         */
         function sendNext() {
             if (stompClient !== null && stompClient.connected) {
                 stompClient
@@ -94,6 +122,9 @@
             }
         }
 
+        /**
+         * Subscribe to a sender to start receiving messages.
+         */
         function subscribe () {
             connected.promise.then(function() {
                 subscriber = stompClient.subscribe('/topic/tracker', function(data) {
@@ -102,6 +133,9 @@
             }, null, null);
         }
 
+        /**
+         * Unsubscribe from a sender.
+         */
         function unsubscribe () {
             if (subscriber !== null) {
                 subscriber.unsubscribe();
