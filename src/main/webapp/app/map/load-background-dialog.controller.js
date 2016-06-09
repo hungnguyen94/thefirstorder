@@ -6,23 +6,35 @@
         .directive('onBgUpload', onBgUpload)
         .controller('LoadBackgroundController', LoadBackgroundController);
 
-    LoadBackgroundController.$inject = ['$timeout', '$scope', '$uibModalInstance', 'currentProject', 'Script', 'Project', 'AlertService'];
+    LoadBackgroundController.$inject = ['$http', '$timeout', '$scope', '$uibModalInstance', 'currentProject', 'Script', 'Project', 'AlertService', 'Map'];
 
-    function LoadBackgroundController($timeout, $scope, $uibModalInstance, currentProject, Script, Project, AlertService) {
+    function LoadBackgroundController($http, $timeout, $scope, $uibModalInstance, currentProject, Script, Project, AlertService, Map) {
         var vm = this;
+        vm.uploadedBackground = null;
 
+        vm.preview = preview;
         vm.upload = upload;
 
-        function upload() {
+        function preview() {
             var file = document.getElementById("getval").files[0];
             var reader = new FileReader();
             reader.onloadend = function () {
                 document.getElementById('concertMap').style.backgroundImage = "url(" + reader.result + ")";
+                vm.uploadedBackground = reader.result;
             }
             if (file) {
                 reader.readAsDataURL(file);
             } else {
 
+            }
+        }
+
+        function upload() {
+            Map.uploadBackground("foobarbaz");
+            if(vm.uploadedBackground === null){
+                console.log("No background selected...");
+            } else {
+                console.log("Uploading bg");
             }
         }
 

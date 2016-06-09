@@ -16,14 +16,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.inject.Inject;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,7 +42,7 @@ public class MapResource {
      *
      * @param map the map to create
      * @return the ResponseEntity with status 201 (Created) and with body the new map,
-     *      or with status 400 (Bad Request) if the map has already an ID
+     * or with status 400 (Bad Request) if the map has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/maps",
@@ -55,7 +53,7 @@ public class MapResource {
         log.debug("REST request to save Map : {}", map);
         if (map.getId() != null) {
             return ResponseEntity.badRequest().headers(
-                    HeaderUtil.createFailureAlert("map", "idexists", "A new map cannot already have an ID")
+                HeaderUtil.createFailureAlert("map", "idexists", "A new map cannot already have an ID")
             ).body(null);
         }
         Map result = mapService.save(map);
@@ -69,8 +67,8 @@ public class MapResource {
      *
      * @param map the map to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated map,
-     *      or with status 400 (Bad Request) if the map is not valid,
-     *      or with status 500 (Internal Server Error) if the map couldnt be updated
+     * or with status 400 (Bad Request) if the map is not valid,
+     * or with status 500 (Internal Server Error) if the map couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/maps",
@@ -92,7 +90,7 @@ public class MapResource {
      * GET  /maps : get all the maps.
      *
      * @param pageable the pagination information
-     * @param filter the filter of this request
+     * @param filter   the filter of this request
      * @return the ResponseEntity with status 200 (OK) and the list of maps in body
      * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
@@ -102,11 +100,11 @@ public class MapResource {
     @Timed
     public ResponseEntity<List<Map>> getAllMaps(Pageable pageable,
                                                 @RequestParam(required = false) String filter)
-            throws URISyntaxException {
+        throws URISyntaxException {
         if ("project-is-null".equals(filter)) {
             log.debug("REST request to get all Maps where project is null");
             return new ResponseEntity<>(mapService.findAllWhereProjectIsNull(),
-                    HttpStatus.OK);
+                HttpStatus.OK);
         }
         log.debug("REST request to get a page of Maps");
         Page<Map> page = mapService.findAll(pageable);
@@ -154,6 +152,7 @@ public class MapResource {
      * Return a data transfer object for the Map,
      * which includes all the cameras and players
      * contained in the map.
+     *
      * @param mapId Id of the Map
      * @return MapDTO
      */
@@ -164,29 +163,46 @@ public class MapResource {
     @Transactional(readOnly = true)
     public ResponseEntity<MapDTO> getMapDTO(@PathVariable Long mapId) {
         return Optional.ofNullable(mapService.findOne(mapId))
-                .map(map -> new ResponseEntity<MapDTO>(new MapDTO(map), HttpStatus.OK))
-                .orElse(new ResponseEntity<MapDTO>(HttpStatus.NOT_FOUND));
+            .map(map -> new ResponseEntity<MapDTO>(new MapDTO(map), HttpStatus.OK))
+            .orElse(new ResponseEntity<MapDTO>(HttpStatus.NOT_FOUND));
     }
 
-    @RequestMapping(value="/upload",
-        method=RequestMethod.POST)
-    public @ResponseBody String handleFileUpload(
-        @RequestParam("file") MultipartFile file){
-        String name = "test11";
-        if (!file.isEmpty()) {
-            try {
-                byte[] bytes = file.getBytes();
-                BufferedOutputStream stream =
-                    new BufferedOutputStream(new FileOutputStream(new File(name + "-uploaded")));
-                stream.write(bytes);
-                stream.close();
-                return "You successfully uploaded " + name + " into " + name + "-uploaded !";
-            } catch (Exception e) {
-                return "You failed to upload " + name + " => " + e.getMessage();
+    @RequestMapping(value = "/maps/upload/{file}",
+        method = RequestMethod.PUT,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @Transactional(readOnly = true)
+    public ResponseEntity<String> uploadFile(@PathVariable String file) {
+        String res = writeToFile(file);
+
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createAlert("Uploaded", "image"))
+            .body(res);
+    }
+
+    private static String writeToFile(String contents) {
+        String root = "src/main/webapp/";
+        String fname = "content/upload/test.txt";
+        String path = root + fname;
+
+        System.out.println("writing \"" + contents + "\"\n\n to: " + path);
+
+        try {
+            int read = 0;
+            byte[] bytes = new byte[1024];
+
+            InputStream in = new ByteArrayInputStream(contents.getBytes(StandardCharsets.UTF_8));
+
+            OutputStream out = new FileOutputStream(new File(path));
+            while ((read = in.read(bytes)) != -1) {
+                out.write(bytes, 0, read);
             }
-        } else {
-            return "You failed to upload " + name + " because the file was empty.";
+            out.flush();
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-    }
 
+        return fname;
+    }
 }

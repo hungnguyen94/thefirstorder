@@ -8,9 +8,10 @@
     <div class="modal-body">
         <div class="row">
             <div class="col-md-12">
-                <input class="ng-hide" type='file' id='getval' name="background-image" on-bg-upload="vm.upload"/>
+                <input class="ng-hide" type='file' id='getval' name="background-image" on-bg-upload="vm.preview"/>
                 <label for="getval" class="btn btn-raised"><span class="glyphicon glyphicon-folder-open"
                                                                  aria-hidden="true"></span> Select a background</label>
+                <button ng-click="vm.upload()">Upload</button>
             </div>
         </div>
         <div class="row centered">
