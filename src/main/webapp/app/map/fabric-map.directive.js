@@ -5,9 +5,9 @@
         .module('thefirstorderApp')
         .directive('fabricMap', fabricMap);
 
-    fabricMap.$inject = ['$window', 'Player', 'Camera'];
+    fabricMap.$inject = ['$window', 'Player', 'Camera', 'Map'];
 
-    function fabricMap($window, Player, Camera) {
+    function fabricMap($window, Player, Camera, Map) {
         var directive = {
             restrict: 'EA',
             link: link,
@@ -44,22 +44,42 @@
 
 
             function init() {
-                console.log('init directive');
-                var canvas = new fabric.Canvas(element[0]);
+                Map.get({id: 1}, onLoadSuccess, onLoadError);
 
-                fabric.Image.fromURL('content/images/concertzaal.jpg', function(img) {
-                    scope.aspectRatio = img.width / img.height;
-                    img.set({
-                        width: canvas.width,
-                        height: canvas.width / scope.aspectRatio,
-                        originX: 'left',
-                        originY: 'top'
+                var default_bg = "content/images/concertzaal.jpg";
+                var error_bg = "content/images/error.jpg";
+
+                function onLoadSuccess(map) {
+                    if(map == ""){
+                        load(default_bg);
+                    } else {
+                        load(map.backgroundImage);
+                    }
+                }
+
+                function onLoadError() {
+                    load(error_bg);
+                }
+
+                function load(bg_image) {
+                    console.log('init directive');
+                    var canvas = new fabric.Canvas(element[0]);
+
+                    fabric.Image.fromURL(bg_image, function(img) {
+                        scope.aspectRatio = img.width / img.height;
+                        img.set({
+                            width: canvas.width,
+                            height: canvas.width / scope.aspectRatio,
+                            originX: 'left',
+                            originY: 'top'
+                        });
+                        canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
+                        resize();
                     });
-                    canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
-                    resize();
-                });
-                scope.canvas = canvas;
-                // drawGrid(grid);
+                    scope.canvas = canvas;
+                    // drawGrid(grid);
+                }
+
             }
 
             /**

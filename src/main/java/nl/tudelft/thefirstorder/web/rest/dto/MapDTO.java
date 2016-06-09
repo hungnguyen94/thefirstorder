@@ -13,6 +13,8 @@ public class MapDTO {
 
     private String name;
 
+    private String background_image;
+
     private Set<Camera> cameras;
 
     private Set<Player> players;
@@ -23,6 +25,7 @@ public class MapDTO {
      */
     public MapDTO(Map map) {
         this.name = map.getName();
+        this.background_image = map.getBackgroundImage();
         this.cameras = map.getCameras();
         this.players = map.getPlayers();
     }
@@ -61,5 +64,21 @@ public class MapDTO {
                 + "cameras=" + "\n" + sbCamera.toString()
                 + ", players=" + "\n" + sbPlayer.toString()
                 + '}';
+    }
+
+    /**
+     * Returns the location of the background image in the form of n url.
+     * @return an url pointing to the location of the background image.
+     */
+    public String getBackgroundImage() {
+        return background_image;
+    }
+
+    /**
+     * Sets the location of the background image to the given url.
+     * @param url should be a url representing the location of an image
+     */
+    public void setBackgroundImage(String url) {
+        this.background_image = url;
     }
 }
