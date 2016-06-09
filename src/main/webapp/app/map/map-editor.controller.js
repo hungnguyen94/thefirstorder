@@ -47,7 +47,6 @@
             } else {
                 vm.selected = entity;
             }
-            console.log('Selected entity: ', vm.selected);
             return vm.selected;
         }
     }
