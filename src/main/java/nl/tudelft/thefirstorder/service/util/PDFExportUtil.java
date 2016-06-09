@@ -127,6 +127,10 @@ public class PDFExportUtil {
         document.add(par);
     }
 
+    /**
+     * Creates a table with all the cues.
+     * @return a PdfPTable representing the table
+     */
     private static PdfPTable makeCueTable() {
         PdfPTable table = new PdfPTable(4);
 
@@ -149,6 +153,10 @@ public class PDFExportUtil {
         return table;
     }
 
+    /**
+     * Creates a table with all the cameras.
+     * @return a PdfPTable representing the table
+     */
     private static PdfPTable makeCameraTable() {
         PdfPTable cameratable = new PdfPTable(3);
 
@@ -167,6 +175,11 @@ public class PDFExportUtil {
         return cameratable;
     }
 
+    /**
+     * Set the constants for PDF creation.
+     * @param c1 the cell that the settings are applied to
+     * @return PdfPCell with all settings applied
+     */
     private static PdfPCell setSetting(PdfPCell c1) {
         c1.setBackgroundColor(BaseColor.GRAY);
         c1.setBorder(BORDER_CONSTANT);
@@ -175,6 +188,11 @@ public class PDFExportUtil {
         return c1;
     }
 
+    /**
+     * Add an empty line in the pdf
+     * @param paragraph the paragraph to add a line to
+     * @param number the number of lines to add
+     */
     private static void addEmptyLine(Paragraph paragraph, int number) {
         for (int i = 0; i < number; i++) {
             paragraph.add(new Paragraph(" "));

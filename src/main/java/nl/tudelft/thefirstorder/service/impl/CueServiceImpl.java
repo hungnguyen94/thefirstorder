@@ -54,6 +54,11 @@ class CueServiceImpl implements CueService {
         return cueRepository.findAll(pageable);
     }
 
+    /**
+     * Find cues by their script id.
+     * @param scriptId the id of the script
+     * @return a List<Cue> of all the cues
+     */
     @Override
     @Transactional(readOnly = true)
     public List<Cue> findCuesByScript(Long scriptId) {
@@ -63,6 +68,11 @@ class CueServiceImpl implements CueService {
             .collect(Collectors.toList());
     }
 
+    /**
+     * Gets a player based on the cue id.
+     * @param cueId the id of the cue
+     * @return Player the player associated with the cue
+     */
     @Override
     @Transactional(readOnly = true)
     public Player getPlayer(Long cueId) {
@@ -70,6 +80,11 @@ class CueServiceImpl implements CueService {
         return cue.getPlayer();
     }
 
+    /**
+     * Gets a camera based on the cue id.
+     * @param cueId the id of the cue
+     * @return Camera the camera associated with the cue
+     */
     @Override
     @Transactional(readOnly = true)
     public Camera getCamera(Long cueId) {

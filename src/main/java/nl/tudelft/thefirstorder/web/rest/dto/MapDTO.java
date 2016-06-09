@@ -51,6 +51,10 @@ public class MapDTO {
         this.name = name;
     }
 
+    /**
+     * Creates a string representation of a map.
+     * @return String of the map
+     */
     @Override
     public String toString() {
         StringBuilder sbCamera = new StringBuilder();

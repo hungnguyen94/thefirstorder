@@ -39,6 +39,10 @@ public class LogsResource {
             .collect(Collectors.toList());
     }
 
+    /**
+     * Change the level of the logger.
+     * @param jsonLogger the logger to change the level for.
+     */
     @RequestMapping(value = "/logs",
         method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
