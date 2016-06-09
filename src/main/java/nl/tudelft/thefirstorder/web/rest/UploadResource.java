@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.util.Random;
 
 /**
  * REST controller for managing uploads.
@@ -23,7 +24,6 @@ public class UploadResource {
     private final Logger log = LoggerFactory.getLogger(UploadResource.class);
 
     @RequestMapping(value = "/upload",
-        consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
@@ -32,15 +32,15 @@ public class UploadResource {
 
         return ResponseEntity.ok()
             .headers(HeaderUtil.createAlert("Uploaded", "image"))
-            .body(res);
+            .body("{\"location\" : \"" + res + "\"}");
     }
 
     private static String writeToFile(InputStream contents) {
+        Random random = new Random();
         String root = "src/main/webapp/";
-        String fname = "content/upload/test.txt";
-        String path = root + fname;
+        String location = "content/upload/" + random.nextInt(1000000000) + ".jpg";
 
-        System.out.println("writing \"" + contents + "\"\n\n to: " + path);
+        String path = root + location;
 
         try {
             int read = 0;
@@ -56,6 +56,6 @@ public class UploadResource {
             e.printStackTrace();
         }
 
-        return fname;
+        return location;
     }
 }
