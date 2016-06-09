@@ -104,7 +104,7 @@
          */
         function validateMap(projectId) {
             validate(projectId, function(project) {
-                if (project.map == null) {
+                if (project.map === null) {
                     $state.go("map-setup");
                 }
             });
@@ -119,7 +119,7 @@
          */
         function validateScript(projectId) {
             validate(projectId, function(project) {
-                if (project.script == null) {
+                if (project.script === null) {
                     $state.go("script-setup");
                 }
             });
@@ -134,7 +134,7 @@
          * @returns {*} The project.
          */
         function validate(currentProjectId, onExistingProject) {
-            if (currentProjectId == null) {
+            if (currentProjectId === null) {
                 $state.go("noproject");
             }
 

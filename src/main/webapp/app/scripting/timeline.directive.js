@@ -43,10 +43,6 @@
                 createItems(scope.vm.cues);
             });
 
-            scope.timeline.on('select', function (properties) {
-                console.log('selected timeline items: ', properties);
-            });
-
             /**
              * Draws the timeline with all the cues.
              */
@@ -110,7 +106,7 @@
              * items first.
              */
             function createItems(cues) {
-                scope.dataset.add(cues.map(transformCueToItem))
+                scope.dataset.add(cues.map(transformCueToItem));
             }
 
             /**
@@ -194,6 +190,7 @@
                         entity: item.cue
                     }
                 }).result.then(function(result) {
+                    var end = result.bar + result.duration;
                     item.content = result.action;
                     item.start = parseIntAsDate(result.bar);
                     item.end = parseIntAsDate(end);

@@ -21,7 +21,7 @@
                 saveAs(file, fileName);
                 $uibModalInstance.close(true);
             });
-        }
+        };
 
         vm.confirmXMLDownload = function (id) {
             ProjectDownload.exportXml(id).then(function (result) {
@@ -30,6 +30,6 @@
                 saveAs(file, fileName);
                 $uibModalInstance.close(true);
             });
-        }
+        };
     }
 })();
