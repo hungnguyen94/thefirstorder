@@ -21,6 +21,9 @@ canvas#concertMap {
     display: inline-block;
 }
 
+.table tbody>tr>td.vert-align {
+    vertical-align: middle;
+}
 .camera1 .vis-item:not(.vis-selected) {
     background-color: #59c5bb;
     border-color: #b2fcf5;
