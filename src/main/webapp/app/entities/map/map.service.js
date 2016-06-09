@@ -37,13 +37,6 @@
                     id: '@id',
                     cameraId: '@cameraId'
                 }
-            },
-            'uploadBackground': {
-                method: 'PUT',
-                url:  'api/maps/upload/?file=:file',
-                params: {
-                    file: '@file'
-                }
             }
         });
     }

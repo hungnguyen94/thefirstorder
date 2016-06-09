@@ -6,9 +6,9 @@
         .directive('onBgUpload', onBgUpload)
         .controller('LoadBackgroundController', LoadBackgroundController);
 
-    LoadBackgroundController.$inject = ['$http', '$timeout', '$scope', '$uibModalInstance', 'currentProject', 'Script', 'Project', 'AlertService', 'Map'];
+    LoadBackgroundController.$inject = ['$resource', '$http', '$timeout', '$scope', '$uibModalInstance', 'currentProject', 'Script', 'Project', 'AlertService', 'Upload'];
 
-    function LoadBackgroundController($http, $timeout, $scope, $uibModalInstance, currentProject, Script, Project, AlertService, Map) {
+    function LoadBackgroundController($resource, $http, $timeout, $scope, $uibModalInstance, currentProject, Script, Project, AlertService, Upload) {
         var vm = this;
         vm.uploadedBackground = null;
 
@@ -30,11 +30,15 @@
         }
 
         function upload() {
-            Map.uploadBackground("foobarbaz");
+            var Uploader = $resource('api/maps/upload/:file', {}, {
+                uploadBackground: {method: 'PUT', params: {file: '@file'}}
+            });
+
             if(vm.uploadedBackground === null){
                 console.log("No background selected...");
             } else {
                 console.log("Uploading bg");
+                Uploader.uploadBackground({file: vm.uploadedBackground});
             }
         }
 
