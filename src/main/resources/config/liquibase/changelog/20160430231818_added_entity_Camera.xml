@@ -33,6 +33,10 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="angle" type="double">
+                <constraints nullable="true" />
+            </column>
+
             <column name="camera_type" type="varchar(255)">
                 <constraints nullable="true" />
             </column>

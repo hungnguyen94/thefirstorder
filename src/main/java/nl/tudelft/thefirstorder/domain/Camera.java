@@ -45,6 +45,11 @@ public class Camera implements Serializable {
     @Column(name = "y")
     private Double y;
 
+    @Min(value = 0)
+    @Max(value = 360)
+    @Column(name = "angle")
+    private Double angle;
+
     @Column(name = "camera_type")
     private String cameraType;
 
@@ -133,6 +138,14 @@ public class Camera implements Serializable {
 
     public void setMap(Map map) {
         this.map = map;
+    }
+
+    public Double getAngle() {
+        return angle;
+    }
+
+    public void setAngle(Double angle) {
+        this.angle = angle;
     }
 
     /**

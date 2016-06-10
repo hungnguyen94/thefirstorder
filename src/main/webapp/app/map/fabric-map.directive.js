@@ -143,6 +143,7 @@
                 cam.set({
                     x: camera.x,
                     y: camera.y,
+                    angle: camera.angle, 
                     scaleX: 0.3,
                     scaleY: 0.3,
                     padding: 10,
@@ -231,6 +232,7 @@
                         position.y > 100 || position.y < 0)) {
                         entity.x = position.x;
                         entity.y = position.y;
+                        entity.angle = target.angle;
                         onModify(target);
                     } else {
                         resize();
@@ -244,6 +246,7 @@
              */
             function onSelect (options) {
                 var target = options.target;
+                console.log('selected: ', options);
                 scope.$apply(function () {
                     scope.vm.selected = target.entity;
                 });
