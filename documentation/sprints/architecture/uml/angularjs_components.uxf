@@ -6,7 +6,7 @@
       <x>190</x>
       <y>200</y>
       <w>240</w>
-      <h>270</h>
+      <h>390</h>
     </coordinates>
     <panel_attributes>AngularJS</panel_attributes>
     <additional_attributes/>
@@ -43,6 +43,28 @@
       <h>60</h>
     </coordinates>
     <panel_attributes>'Map view</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Component</type>
+    <coordinates>
+      <x>210</x>
+      <y>450</y>
+      <w>200</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>'Live view</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Component</type>
+    <coordinates>
+      <x>210</x>
+      <y>520</y>
+      <w>200</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>'Directives</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>
