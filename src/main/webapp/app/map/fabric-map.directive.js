@@ -246,7 +246,6 @@
              */
             function onSelect (options) {
                 var target = options.target;
-                console.log('selected: ', options);
                 scope.$apply(function () {
                     scope.vm.selected = target.entity;
                 });
