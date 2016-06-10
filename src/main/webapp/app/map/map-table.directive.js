@@ -92,7 +92,7 @@
                     controller: 'PlayerDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
-                    size: 'lg',
+                    size: 'xs',
                     resolve: {
                         entity: function () {
                             return {
@@ -120,7 +120,7 @@
                     controller: 'CameraDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
-                    size: 'lg',
+                    size: 'xs',
                     resolve: {
                         entity: function () {
                             return {

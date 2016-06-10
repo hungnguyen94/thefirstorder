@@ -22,14 +22,42 @@
         <div class="form-group">
             <label class="control-label" for="field_x">X</label>
             <input type="number" class="form-control" name="x" id="field_x"
-                    ng-model="vm.camera.x"
-                     />
+                   ng-model="vm.camera.x"
+                   min="0" max="100" />
+            <div ng-show="editForm.x.$invalid">
+                <p class="help-block"
+                   ng-show="editForm.x.$error.min" translate-value-min="0">
+                    This field should be more than 0.
+                </p>
+                <p class="help-block"
+                   ng-show="editForm.x.$error.max">
+                    This field cannot be more than 100.
+                </p>
+                <p class="help-block"
+                   ng-show="editForm.x.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
         </div>
         <div class="form-group">
             <label class="control-label" for="field_y">Y</label>
             <input type="number" class="form-control" name="y" id="field_y"
-                    ng-model="vm.camera.y"
-                     />
+                   ng-model="vm.camera.y"
+                   min="0" max="100" />
+            <div ng-show="editForm.y.$invalid">
+                <p class="help-block"
+                   ng-show="editForm.y.$error.min" translate-value-min="0">
+                    This field should be more than 0.
+                </p>
+                <p class="help-block"
+                   ng-show="editForm.y.$error.max">
+                    This field cannot be more than 100.
+                </p>
+                <p class="help-block"
+                   ng-show="editForm.y.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
         </div>
         <div class="form-group">
             <label class="control-label" for="field_cameraType">Camera Type</label>
@@ -43,6 +71,7 @@
                     ng-model="vm.camera.lensType"
                      />
         </div>
+
 
         <div class="form-group">
             <label for="field_map">Map</label>

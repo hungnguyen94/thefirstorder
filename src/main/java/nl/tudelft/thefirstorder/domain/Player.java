@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -33,11 +35,15 @@ public class Player implements Serializable {
     @ManyToOne
     private Map map;
 
+    @Min(value = 0)
+    @Max(value = 100)
     @Column(name = "x")
-    private int x;
+    private Double x;
 
+    @Min(value = 0)
+    @Max(value = 100)
     @Column(name = "y")
-    private int y;
+    private Double y;
 
     /**
      * Get the id of the player.
@@ -71,19 +77,19 @@ public class Player implements Serializable {
         this.name = name;
     }
 
-    public Integer getX() {
+    public Double getX() {
         return x;
     }
 
-    public void setX(Integer x) {
+    public void setX(Double x) {
         this.x = x;
     }
 
-    public Integer getY() {
+    public Double getY() {
         return y;
     }
 
-    public void setY(Integer y) {
+    public void setY(Double y) {
         this.y = y;
     }
 
