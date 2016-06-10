@@ -185,7 +185,7 @@ public class JHipsterProperties {
 
                 private String secret;
 
-                private int tokenValidityInSeconds = 1800;
+                private int tokenValidityInSeconds = 7200;
 
                 public String getClientid() {
                     return clientid;
