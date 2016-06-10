@@ -15,9 +15,10 @@ public class CameraTest {
     @Mock
     private Map map;
 
-    private static long DEFAULT_ID = 1L;
-    public static Double DEFAULT_VALUE = 1D;
-    private static String DEFAULT_NAME = "AAAAA";
+    private static final long DEFAULT_ID = 1L;
+    private static final Double DEFAULT_VALUE = 1D;
+    private static final Double DEFAULT_ANGLE = 180D;
+    private static final String DEFAULT_NAME = "AAAAA";
 
     @Before
     public void setUp() throws Exception {
@@ -46,6 +47,12 @@ public class CameraTest {
     public void getY() throws Exception {
         entity.setY(DEFAULT_VALUE);
         assertThat(entity.getY()).isEqualTo(DEFAULT_VALUE);
+    }
+
+    @Test
+    public void getAngle() throws Exception {
+        entity.setAngle(DEFAULT_ANGLE);
+        assertThat(entity.getAngle()).isEqualTo(DEFAULT_ANGLE);
     }
 
     @Test
