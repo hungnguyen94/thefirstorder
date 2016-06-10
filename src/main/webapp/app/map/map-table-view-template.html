@@ -26,8 +26,11 @@
         <td colspan="3" style="padding-top: 0; padding-bottom: 0">
             <div uib-collapse="vm.selected != camera">
                 <p>id: {{camera.id}}</p>
-                <p>x: {{camera.x}}</p>
-                <p>y: {{camera.y}}</p>
+                <p>x: {{camera.x | number: 2}}</p>
+                <p>y: {{camera.y | number: 2}}</p>
+                <p>angle: {{camera.angle | number: 2}}</p>
+                <p>type: {{camera.cameraType}}</p>
+                <p>lens: {{camera.lensType}}</p>
             </div>
         </td>
     </tr>
@@ -67,8 +70,8 @@
         <td colspan="3" style="padding-top: 0; padding-bottom: 0">
             <div uib-collapse="vm.selected != player">
                 <p>id: {{player.id}}</p>
-                <p>x: {{player.x}}</p>
-                <p>y: {{player.y}}</p>
+                <p>x: {{player.x | number: 2}}</p>
+                <p>y: {{player.y | number: 2}}</p>
             </div>
         </td>
     </tr>
