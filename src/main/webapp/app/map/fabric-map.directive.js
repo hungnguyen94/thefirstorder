@@ -80,7 +80,7 @@
                     width: scope.canvas.width,
                     height: scope.canvas.width / scope.aspectRatio
                 });
-                scope.canvas.forEachObject(setDrawableProperties);
+                // scope.canvas.forEachObject(setDrawableProperties);
                 scope.canvas.renderAll();
                 scope.canvas.calcOffset();
 
@@ -198,8 +198,8 @@
                 var currentWidth = scope.canvas.getWidth();
                 var currentHeight = scope.canvas.getHeight();
                 var position = {};
-                position.x = Math.round((x / 100) * currentWidth);
-                position.y = Math.round((y / 100) * currentHeight);
+                position.x = (x / 100) * currentWidth;
+                position.y = (y / 100) * currentHeight;
                 return position;
             }
 
@@ -213,8 +213,8 @@
                 var currentWidth = scope.canvas.getWidth();
                 var currentHeight = scope.canvas.getHeight();
                 var position = {};
-                position.x = Math.round((x / currentWidth) * 100);
-                position.y = Math.round((y / currentHeight) * 100);
+                position.x = (x / currentWidth) * 100;
+                position.y = (y / currentHeight) * 100;
                 return position;
             }
 
@@ -227,9 +227,14 @@
                 if(target) {
                     var entity = target.entity;
                     var position = getRelativePosition(target.left, target.top);
-                    entity.x = position.x;
-                    entity.y = position.y;
-                    onModify(target);
+                    if (!(position.x > 100 || position.x < 0 || 
+                        position.y > 100 || position.y < 0)) {
+                        entity.x = position.x;
+                        entity.y = position.y;
+                        onModify(target);
+                    } else {
+                        resize();
+                    }
                 }
             }
 

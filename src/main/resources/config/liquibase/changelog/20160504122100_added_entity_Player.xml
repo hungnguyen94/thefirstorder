@@ -25,11 +25,11 @@
                 <constraints nullable="true" />
             </column>
             
-            <column name="x" type="integer">
+            <column name="x" type="double">
                 <constraints nullable="true" />
             </column>
             
-            <column name="y" type="integer">
+            <column name="y" type="double">
                 <constraints nullable="true" />
             </column>
             
