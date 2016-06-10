@@ -42,10 +42,12 @@ module.exports = function (config) {
             'src/main/webapp/bower_components/sockjs-client/dist/sockjs.js',
             'src/main/webapp/bower_components/stomp-websocket/lib/stomp.min.js',
             'src/main/webapp/bower_components/arrive/src/arrive.js',
-            'src/main/webapp/bower_components/bootstrap-sass/assets/javascripts/bootstrap.js',
-            'src/main/webapp/bower_components/bootstrap-material-design/dist/js/material.js',
-            'src/main/webapp/bower_components/bootstrap-material-design/dist/js/ripples.js',
             'src/main/webapp/bower_components/fabric.js/dist/fabric.min.js',
+            'src/main/webapp/bower_components/blob-polyfill/Blob.js',
+            'src/main/webapp/bower_components/file-saver.js/FileSaver.js',
+            'src/main/webapp/bower_components/angular-file-saver/dist/angular-file-saver.bundle.js',
+            'src/main/webapp/bower_components/vis/dist/vis.js',
+            'src/main/webapp/bower_components/angular-animate/angular-animate.js',
             'src/main/webapp/bower_components/angular-mocks/angular-mocks.js',
             // endbower
             'src/main/webapp/app/app.module.js',
@@ -68,12 +70,12 @@ module.exports = function (config) {
         reporters: ['dots', 'jenkins', 'coverage', 'progress'],
 
         jenkinsReporter: {
-            
+
             outputFile: 'build/test-results/karma/TESTS-results.xml'
         },
 
         coverageReporter: {
-            
+
             dir: 'build/test-results/coverage',
             reporters: [
                 {type: 'lcov', subdir: 'report-lcov'}

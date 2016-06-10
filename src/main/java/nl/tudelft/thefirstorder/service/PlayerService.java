@@ -4,8 +4,6 @@ import nl.tudelft.thefirstorder.domain.Player;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-
 /**
  * Service Interface for managing Player.
  */
@@ -13,7 +11,7 @@ public interface PlayerService {
 
     /**
      * Save a player.
-     * 
+     *
      * @param player the entity to save
      * @return the persisted entity
      */
@@ -21,7 +19,7 @@ public interface PlayerService {
 
     /**
      *  Get all the players.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
@@ -29,7 +27,7 @@ public interface PlayerService {
 
     /**
      *  Get the "id" player.
-     *  
+     *
      *  @param id the id of the entity
      *  @return the entity
      */
@@ -37,7 +35,7 @@ public interface PlayerService {
 
     /**
      *  Delete the "id" player.
-     *  
+     *
      *  @param id the id of the entity
      */
     void delete(Long id);

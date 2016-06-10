@@ -45,11 +45,11 @@ public class PlayerResourceIntTest {
     private static final String DEFAULT_NAME = "AAAAA";
     private static final String UPDATED_NAME = "BBBBB";
 
-    private static final Integer DEFAULT_X = 1;
-    private static final Integer UPDATED_X = 2;
+    private static final Double DEFAULT_X = 1D;
+    private static final Double UPDATED_X = 2D;
 
-    private static final Integer DEFAULT_Y = 1;
-    private static final Integer UPDATED_Y = 2;
+    private static final Double DEFAULT_Y = 1D;
+    private static final Double UPDATED_Y = 2D;
 
     @Inject
     private PlayerRepository playerRepository;
@@ -104,6 +104,42 @@ public class PlayerResourceIntTest {
         assertThat(testPlayer.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testPlayer.getX()).isEqualTo(DEFAULT_X);
         assertThat(testPlayer.getY()).isEqualTo(DEFAULT_Y);
+    }
+
+    @Test
+    @Transactional
+    public void createPlayerWithId() throws Exception {
+        int databaseSizeBeforeCreate = playerRepository.findAll().size();
+
+        player.setId(123L);
+
+        // Create the Player
+        restPlayerMockMvc.perform(post("/api/players")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(player)))
+            .andExpect(status().isBadRequest());
+
+        // Validate the Player is not in the database
+        List<Player> players = playerRepository.findAll();
+        assertThat(players).hasSize(databaseSizeBeforeCreate);
+    }
+
+    @Test
+    @Transactional
+    public void updatePlayerNoId() throws Exception {
+        int databaseSizeBeforeUpdate = playerRepository.findAll().size();
+
+        // Update the Player
+        Player updatedPlayer = new Player();
+
+        restPlayerMockMvc.perform(put("/api/players")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedPlayer)))
+            .andExpect(status().isCreated());
+
+        // Validate the Player in the database
+        List<Player> players = playerRepository.findAll();
+        assertThat(players).hasSize(databaseSizeBeforeUpdate + 1);
     }
 
     @Test

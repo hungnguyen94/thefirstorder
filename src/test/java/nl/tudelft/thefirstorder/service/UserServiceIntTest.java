@@ -4,10 +4,17 @@ import nl.tudelft.thefirstorder.ThefirstorderApp;
 import nl.tudelft.thefirstorder.domain.User;
 import nl.tudelft.thefirstorder.repository.UserRepository;
 import java.time.ZonedDateTime;
+
+import nl.tudelft.thefirstorder.security.SecurityUtils;
 import nl.tudelft.thefirstorder.service.util.RandomUtil;
 import java.time.LocalDate;
+
+import nl.tudelft.thefirstorder.web.rest.dto.ManagedUserDTO;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import static org.mockito.Mockito.when;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +22,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import javax.inject.Inject;
+import javax.swing.text.html.Option;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.List;
 
@@ -37,6 +46,90 @@ public class UserServiceIntTest {
 
     @Inject
     private UserService userService;
+
+    private ManagedUserDTO dto;
+    private ManagedUserDTO dto2;
+
+    @Before
+    public void setUp() {
+        dto = new ManagedUserDTO(new Long(1),
+            "login",
+            "Password",
+            "First",
+            "Last",
+            "Email@email.com",
+            true,
+            "nl",
+            new HashSet<>(),
+            null,
+            null,
+            null);
+
+        dto2 = new ManagedUserDTO(new Long(1),
+            "login",
+            "Password",
+            "First",
+            "Last",
+            "Email@email.com",
+            true,
+            null,
+            null,
+            null,
+            null,
+            null);
+    }
+
+    @Test
+    public void getUserWithAuthoritiesByLogin() {
+        Optional<User> user = userService.getUserWithAuthoritiesByLogin("admin");
+        assertThat(user.isPresent()).isTrue();
+    }
+
+    @Test
+    public void getUserWithAuthoritiesById() {
+        User user = userService.getUserWithAuthorities(new Long(1));
+        assertThat(user.getLogin()).isEqualTo("system");
+    }
+
+    @Test
+    public void changePassword() {
+        userService.changePassword("Testpassword");
+    }
+
+    @Test
+    public void updateUserInformation() {
+        userService.updateUserInformation("TestFirst","TestLast","Testtest@test.nl","nl");
+    }
+
+    @Test
+    public void deleteUserInformation() {
+        userService.deleteUserInformation("admin");
+        Optional<User> user = userRepository.findOneByLogin("admin");
+        assertThat(user.isPresent()).isFalse();
+    }
+
+
+    @Test
+    public void activateRegistration() {
+        Optional<User> user = userService.activateRegistration("Test");
+        assertThat(user.isPresent()).isFalse();
+
+    }
+
+    @Test
+    public void createUserNotNullLangKeyAndAuthorities() {
+        User user = userService.createUser(dto);
+        assertThat(user.getFirstName()).isEqualTo("First");
+        assertThat(user.getLastName()).isEqualTo("Last");
+    }
+
+    @Test
+    public void createUserNullLangKeyAndAuthorities() {
+        User user = userService.createUser(dto2);
+        assertThat(user.getFirstName()).isEqualTo("First");
+        assertThat(user.getLastName()).isEqualTo("Last");
+        assertThat(user.getLangKey()).isEqualTo("en");
+    }
 
     @Test
     public void assertThatUserMustExistToResetPassword() {
@@ -117,5 +210,11 @@ public class UserServiceIntTest {
         ZonedDateTime now = ZonedDateTime.now();
         List<User> users = userRepository.findAllByActivatedIsFalseAndCreatedDateBefore(now.minusDays(3));
         assertThat(users).isEmpty();
+    }
+
+    @Test
+    public void assertThatCurrentProjectIdIsNull() {
+        User user = userService.createUserInformation("johndoe", "johndoe", "John", "Doe", "john.doe@localhost", "en-US");
+        assertThat(user.getCurrentProjectId()).isNull();
     }
 }

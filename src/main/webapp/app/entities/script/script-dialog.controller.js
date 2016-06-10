@@ -5,13 +5,13 @@
         .module('thefirstorderApp')
         .controller('ScriptDialogController', ScriptDialogController);
 
-    ScriptDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Script', 'Project', 'Cue'];
+    ScriptDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Script', 'Cue', 'Project'];
 
-    function ScriptDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Script, Project, Cue) {
+    function ScriptDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Script, Cue, Project) {
         var vm = this;
         vm.script = entity;
-        vm.projects = Project.query();
         vm.cues = Cue.query();
+        vm.projects = Project.query();
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();

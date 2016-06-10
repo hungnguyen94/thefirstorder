@@ -8,7 +8,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -26,19 +29,28 @@ public class Camera implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @ManyToOne
+    private Map map;
+
     @Column(name = "name")
     private String name;
 
+    @Min(value = 0)
+    @Max(value = 100)
     @Column(name = "x")
-    private Integer x;
+    private Double x;
 
+    @Min(value = 0)
+    @Max(value = 100)
     @Column(name = "y")
-    private Integer y;
+    private Double y;
 
-    /**
-     * Get the id of the camera.
-     * @return the id
-     */
+    @Column(name = "camera_type")
+    private String cameraType;
+
+    @Column(name = "lens_type")
+    private String lensType;
+
     public Long getId() {
         return id;
     }
@@ -71,7 +83,7 @@ public class Camera implements Serializable {
      * Get the x position of the camera.
      * @return the x position
      */
-    public Integer getX() {
+    public Double getX() {
         return x;
     }
 
@@ -79,7 +91,7 @@ public class Camera implements Serializable {
      * Set the x position of the camera.
      * @param x the x position
      */
-    public void setX(Integer x) {
+    public void setX(Double x) {
         this.x = x;
     }
 
@@ -87,7 +99,7 @@ public class Camera implements Serializable {
      * Get the y position of the camera.
      * @return the y position
      */
-    public Integer getY() {
+    public Double getY() {
         return y;
     }
 
@@ -95,8 +107,32 @@ public class Camera implements Serializable {
      * Set the y position of the camera.
      * @param y the y position
      */
-    public void setY(Integer y) {
+    public void setY(Double y) {
         this.y = y;
+    }
+
+    public String getCameraType() {
+        return cameraType;
+    }
+
+    public void setCameraType(String cameraType) {
+        this.cameraType = cameraType;
+    }
+
+    public String getLensType() {
+        return lensType;
+    }
+
+    public void setLensType(String lensType) {
+        this.lensType = lensType;
+    }
+
+    public Map getMap() {
+        return map;
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
     }
 
     /**
@@ -135,9 +171,9 @@ public class Camera implements Serializable {
     @Override
     public String toString() {
         return "Camera{"
-                + "id=" + id + ", name='" + name + "'"
-                + ", x='" + x + "'"
-                + ", y='" + y + "'"
-                + '}';
+            + "id=" + id + ", name='" + name + "'"
+            + ", x='" + x + "'" + ", y='" + y + "'"
+            + ", cameraType='" + cameraType + "'"
+            + ", lensType='" + lensType + "'" + '}';
     }
 }

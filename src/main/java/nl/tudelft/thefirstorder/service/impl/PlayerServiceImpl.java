@@ -17,19 +17,20 @@ import javax.inject.Inject;
  */
 @Service
 @Transactional
-public class PlayerServiceImpl implements PlayerService {
+class PlayerServiceImpl implements PlayerService {
 
     private final Logger log = LoggerFactory.getLogger(PlayerServiceImpl.class);
-    
+
     @Inject
     private PlayerRepository playerRepository;
-    
+
     /**
      * Save a player.
-     * 
+     *
      * @param player the entity to save
      * @return the persisted entity
      */
+    @Transactional
     public Player save(Player player) {
         log.debug("Request to save Player : {}", player);
         Player result = playerRepository.save(player);
@@ -38,14 +39,14 @@ public class PlayerServiceImpl implements PlayerService {
 
     /**
      *  Get all the players.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Page<Player> findAll(Pageable pageable) {
         log.debug("Request to get all Players");
-        Page<Player> result = playerRepository.findAll(pageable); 
+        Page<Player> result = playerRepository.findAll(pageable);
         return result;
     }
 
@@ -55,18 +56,19 @@ public class PlayerServiceImpl implements PlayerService {
      *  @param id the id of the entity
      *  @return the entity
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Player findOne(Long id) {
         log.debug("Request to get Player : {}", id);
-        Player player = playerRepository.findOne(id);
-        return player;
+        Player result = playerRepository.findOne(id);
+        return result;
     }
 
     /**
      *  Delete the  player by id.
-     *  
+     *
      *  @param id the id of the entity
      */
+    @Transactional
     public void delete(Long id) {
         log.debug("Request to delete Player : {}", id);
         playerRepository.delete(id);

@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -21,6 +21,11 @@
                 authorize: ['Auth',
                     function (Auth) {
                         return Auth.authorize();
+                    }
+                ],
+                currentProjectId: ['ProjectManager',
+                    function (ProjectManager) {
+                        return ProjectManager.getProjectId();
                     }
                 ]
             }

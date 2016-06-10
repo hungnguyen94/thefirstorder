@@ -5,12 +5,14 @@
         .module('thefirstorderApp')
         .controller('MapDialogController', MapDialogController);
 
-    MapDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Map', 'Project'];
+    MapDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Map', 'Project', 'Player', 'Camera'];
 
-    function MapDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Map, Project) {
+    function MapDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Map, Project, Player, Camera) {
         var vm = this;
         vm.map = entity;
         vm.projects = Project.query();
+        vm.players = Player.query();
+        vm.cameras = Camera.query();
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();

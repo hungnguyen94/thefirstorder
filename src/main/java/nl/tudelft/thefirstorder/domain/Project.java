@@ -1,5 +1,6 @@
 package nl.tudelft.thefirstorder.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -9,10 +10,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A Project.
@@ -32,12 +36,17 @@ public class Project implements Serializable {
     private String name;
 
     @OneToOne
-    @JoinColumn(unique = true)
+    @JoinColumn
     private Script script;
 
     @OneToOne
-    @JoinColumn(unique = true)
+    @JoinColumn
     private Map map;
+
+    @OneToMany(mappedBy = "project")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Cue> cues = new HashSet<>();
 
     /**
      * Get the id of the project.
@@ -101,6 +110,14 @@ public class Project implements Serializable {
      */
     public void setMap(Map map) {
         this.map = map;
+    }
+
+    public Set<Cue> getCues() {
+        return cues;
+    }
+
+    public void setCues(Set<Cue> cues) {
+        this.cues = cues;
     }
 
     /**

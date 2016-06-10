@@ -15,6 +15,12 @@
             "otherEntityField": "id",
             "ownerSide": true,
             "otherEntityRelationshipName": "project"
+        },
+        {
+            "relationshipName": "cue",
+            "otherEntityName": "cue",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "project"
         }
     ],
     "fields": [

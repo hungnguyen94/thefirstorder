@@ -3,13 +3,13 @@ package nl.tudelft.thefirstorder.domain;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Objects;
@@ -29,23 +29,29 @@ public class Cue implements Serializable {
     private Long id;
 
     @ManyToOne
-    private Script script;
-
-    @OneToOne
-    @JoinColumn(unique = true)
+    @JoinColumn
     private Player player;
 
-    @OneToOne
-    @JoinColumn(unique = true)
+    @ManyToOne
+    @JoinColumn
     private Camera camera;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private CameraAction cameraAction;
+    @ManyToOne
+    @JoinColumn
+    private Script script;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private TimePoint timePoint;
+    @ManyToOne
+    @JoinColumn
+    private Project project;
+
+    @Column(name = "action")
+    private String action;
+
+    @Column(name = "bar")
+    private Integer bar;
+
+    @Column(name = "duration")
+    private Integer duration;
 
     /**
      * Get the id of the cue.
@@ -63,20 +69,12 @@ public class Cue implements Serializable {
         this.id = id;
     }
 
-    /**
-     * Get the script to which the cue belongs.
-     * @return the script
-     */
-    public Script getScript() {
-        return script;
+    public Camera getCamera() {
+        return camera;
     }
 
-    /**
-     * Set the script to which the cue belongs.
-     * @param script the script
-     */
-    public void setScript(Script script) {
-        this.script = script;
+    public void setCamera(Camera camera) {
+        this.camera = camera;
     }
 
     /**
@@ -96,53 +94,68 @@ public class Cue implements Serializable {
     }
 
     /**
-     * Get the camera of the cue.
-     * @return the camera
+     * Getter for the project.
+     * @return the project
      */
-    public Camera getCamera() {
-        return camera;
+    public Project getProject() {
+        return project;
     }
 
     /**
-     * Set the camera of the cue.
-     * @param camera the camera
+     * Setter for the project.
+     * @param project the project
      */
-    public void setCamera(Camera camera) {
-        this.camera = camera;
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     /**
-     * Get the camera action of the cue.
-     * @return the camera action
+     * Getter for the action.
+     * @return the action
      */
-    public CameraAction getCameraAction() {
-        return cameraAction;
+    public String getAction() {
+        return action;
     }
 
     /**
-     * Set the camera action of the cue.
-     * @param cameraAction the camera action
+     * Setter for the action.
+     * @param action the action
      */
-    public void setCameraAction(CameraAction cameraAction) {
-        this.cameraAction = cameraAction;
+    public void setAction(String action) {
+        this.action = action;
     }
 
     /**
-     * Getter for TimePoint.
-     * @return the TimePoint
+     * Getter for the bar.
+     * @return the bar number
      */
-    public TimePoint getTimePoint() {
-        return timePoint;
+    public Integer getBar() {
+        return bar;
     }
 
     /**
-     * Setter for TimePoint.
-     * @param timePoint TimePoint to be set
+     * Setter for the bar.
+     * @param bar the bar number to set
      */
-    public void setTimePoint(TimePoint timePoint) {
-        this.timePoint = timePoint;
+    public void setBar(Integer bar) {
+        this.bar = bar;
     }
 
+    /**
+     * Getter for the duration of the cue.
+     * @return the duration
+     */
+    public Integer getDuration() {
+        return duration;
+    }
+
+    /**
+     * Setter for the duration of the cue.
+     * @param duration the duration to set
+     */
+    public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
 
     /**
      * Checks if two cues are the same.
@@ -158,9 +171,6 @@ public class Cue implements Serializable {
             return false;
         }
         Cue cue = (Cue) o;
-        if (cue.id == null || id == null) {
-            return false;
-        }
         return Objects.equals(id, cue.id);
     }
 
@@ -182,5 +192,13 @@ public class Cue implements Serializable {
         return "Cue{"
                 + "id=" + id
                 + '}';
+    }
+
+    public Script getScript() {
+        return script;
+    }
+
+    public void setScript(Script script) {
+        this.script = script;
     }
 }

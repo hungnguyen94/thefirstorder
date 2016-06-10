@@ -1,5 +1,12 @@
 {
-    "relationships": [],
+    "relationships": [
+        {
+            "relationshipName": "map",
+            "otherEntityName": "map",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "name"
+        }
+    ],
     "fields": [
         {
             "fieldName": "name",
@@ -7,11 +14,31 @@
         },
         {
             "fieldName": "x",
-            "fieldType": "Integer"
+            "fieldType": "Double",
+            "fieldValidateRules": [
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": "0",
+            "fieldValidateRulesMax": "100"
         },
         {
             "fieldName": "y",
-            "fieldType": "Integer"
+            "fieldType": "Double",
+            "fieldValidateRules": [
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": "0",
+            "fieldValidateRulesMax": 100
+        },
+        {
+            "fieldName": "cameraType",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "lensType",
+            "fieldType": "String"
         }
     ],
     "changelogDate": "20160430231818",

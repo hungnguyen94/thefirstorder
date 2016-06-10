@@ -41,7 +41,7 @@ public class UserService {
     private AuthorityRepository authorityRepository;
 
     /**
-     * Activate an user by a key, if that key is in the database.
+     * Activate a user by a key, if that key is in the database.
      * @param key Key as a String.
      * @return The corresponding user to that key.
      */
@@ -59,7 +59,7 @@ public class UserService {
     }
 
     /**
-     * Resets the password of an user, given the key.
+     * Resets the password of a user, given the key.
      * @param newPassword The new password for this user
      * @param key Key as a String
      * @return The user.
@@ -98,7 +98,7 @@ public class UserService {
     }
 
     /**
-     * Creates an user.
+     * Creates a user.
      * @param login Login name
      * @param password Password
      * @param firstName First name
@@ -134,7 +134,7 @@ public class UserService {
     }
 
     /**
-     * Creates an user given a user data transfer object.
+     * Creates a user given a user data transfer object.
      * @param managedUserDto Managed user data transfer object.
      * @return The user.
      */
@@ -185,7 +185,7 @@ public class UserService {
     }
 
     /**
-     * Deletes an user by it's login name.
+     * Deletes a user by its login name.
      * @param login Login name.
      */
     public void deleteUserInformation(String login) {
@@ -258,5 +258,26 @@ public class UserService {
             log.debug("Deleting not activated user {}", user.getLogin());
             userRepository.delete(user);
         }
+    }
+
+    /**
+     * Get the current project id this user is working on.
+     * @return Project id
+     */
+    @Transactional(readOnly = true)
+    public Long getUserProjectId() {
+        User user = getUserWithAuthorities();
+        return user.getCurrentProjectId();
+    }
+
+    /**
+     * Update the current project id of the currently logged in User.
+     * @param id Updated project id
+     */
+    public void updateUserProjectId(Long id) {
+        User user = getUserWithAuthorities();
+        user.setCurrentProjectId(id);
+        userRepository.save(user);
+        log.debug("Changed current project ID to {} for User: {}", id, user);
     }
 }

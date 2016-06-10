@@ -2,19 +2,23 @@ package nl.tudelft.thefirstorder.web.rest;
 
 import nl.tudelft.thefirstorder.ThefirstorderApp;
 import nl.tudelft.thefirstorder.domain.Map;
+import nl.tudelft.thefirstorder.domain.Project;
 import nl.tudelft.thefirstorder.repository.MapRepository;
 import nl.tudelft.thefirstorder.service.MapService;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.hamcrest.Matchers.hasItem;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -27,8 +31,14 @@ import javax.inject.Inject;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 /**
@@ -61,10 +71,15 @@ public class MapResourceIntTest {
 
     private Map map;
 
+    private MapResource mapResource;
+
+    @Mock
+    private Pageable pageable;
+
     @PostConstruct
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        MapResource mapResource = new MapResource();
+        mapResource = new MapResource();
         ReflectionTestUtils.setField(mapResource, "mapService", mapService);
         this.restMapMockMvc = MockMvcBuilders.standaloneSetup(mapResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
@@ -94,6 +109,50 @@ public class MapResourceIntTest {
         assertThat(maps).hasSize(databaseSizeBeforeCreate + 1);
         Map testMap = maps.get(maps.size() - 1);
         assertThat(testMap.getName()).isEqualTo(DEFAULT_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void createMapWithId() throws Exception {
+        int databaseSizeBeforeCreate = mapRepository.findAll().size();
+
+        map.setId(123L);
+
+        // Create the Cue
+        restMapMockMvc.perform(post("/api/maps")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(map)))
+            .andExpect(status().isBadRequest());
+
+        // Validate the Cue is not in the database
+        List<Map> maps = mapRepository.findAll();
+        assertThat(maps).hasSize(databaseSizeBeforeCreate);
+    }
+
+    @Test
+    @Transactional
+    public void updateMapNoId() throws Exception {
+        int databaseSizeBeforeUpdate = mapRepository.findAll().size();
+
+        // Update the cue
+        Map updatedMap = new Map();
+
+        restMapMockMvc.perform(put("/api/maps")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedMap)))
+            .andExpect(status().isCreated());
+
+        // Validate the Cue in the database
+        List<Map> maps = mapRepository.findAll();
+        assertThat(maps).hasSize(databaseSizeBeforeUpdate + 1);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMapsWhereProjectIsNull() throws Exception {
+        assertThat(mapResource.getAllMaps(pageable,"project-is-null"))
+            .isEqualTo(new ResponseEntity<>(mapService.findAllWhereProjectIsNull(),
+            HttpStatus.OK));
     }
 
     @Test

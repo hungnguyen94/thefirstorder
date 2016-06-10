@@ -3,6 +3,7 @@ package nl.tudelft.thefirstorder.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import nl.tudelft.thefirstorder.domain.Map;
 import nl.tudelft.thefirstorder.service.MapService;
+import nl.tudelft.thefirstorder.web.rest.dto.MapDTO;
 import nl.tudelft.thefirstorder.web.rest.util.HeaderUtil;
 import nl.tudelft.thefirstorder.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +39,7 @@ public class MapResource {
         
     @Inject
     private MapService mapService;
-    
+
     /**
      * POST  /maps : Create a new map.
      *
@@ -91,7 +93,7 @@ public class MapResource {
      * GET  /maps : get all the maps.
      *
      * @param pageable the pagination information
-     * @param filter the filter of the request
+     * @param filter the filter of this request
      * @return the ResponseEntity with status 200 (OK) and the list of maps in body
      * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
@@ -99,8 +101,9 @@ public class MapResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<List<Map>> getAllMaps(Pageable pageable, @RequestParam(required = false) String filter)
-        throws URISyntaxException {
+    public ResponseEntity<List<Map>> getAllMaps(Pageable pageable,
+                                                @RequestParam(required = false) String filter)
+            throws URISyntaxException {
         if ("project-is-null".equals(filter)) {
             log.debug("REST request to get all Maps where project is null");
             return new ResponseEntity<>(mapService.findAllWhereProjectIsNull(),
@@ -146,6 +149,24 @@ public class MapResource {
         log.debug("REST request to delete Map : {}", id);
         mapService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("map", id.toString())).build();
+    }
+
+    /**
+     * Return a data transfer object for the Map,
+     * which includes all the cameras and players
+     * contained in the map.
+     * @param mapId Id of the Map
+     * @return MapDTO
+     */
+    @RequestMapping(value = "/maps/{mapId}/dto",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @Transactional(readOnly = true)
+    public ResponseEntity<MapDTO> getMapDTO(@PathVariable Long mapId) {
+        return Optional.ofNullable(mapService.findOne(mapId))
+                .map(map -> new ResponseEntity<MapDTO>(new MapDTO(map), HttpStatus.OK))
+                .orElse(new ResponseEntity<MapDTO>(HttpStatus.NOT_FOUND));
     }
 
 }

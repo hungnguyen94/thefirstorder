@@ -6,7 +6,7 @@
         .controller('ResetFinishController', ResetFinishController);
 
     ResetFinishController.$inject = ['$stateParams', '$timeout', 'Auth', 'LoginService'];
-
+    
     function ResetFinishController ($stateParams, $timeout, Auth, LoginService) {
         var vm = this;
 
@@ -21,6 +21,9 @@
 
         $timeout(function (){angular.element('#password').focus();});
 
+        /**
+         * Finishes the reset.
+         */
         function finishReset() {
             if (vm.resetAccount.password !== vm.confirmPassword) {
                 vm.doNotMatch = 'ERROR';

@@ -4,42 +4,50 @@
             "relationshipName": "script",
             "otherEntityName": "script",
             "relationshipType": "many-to-one",
-            "otherEntityField": "id"
+            "otherEntityField": "name"
         },
         {
             "relationshipName": "player",
             "otherEntityName": "player",
-            "relationshipType": "one-to-one",
-            "otherEntityField": "id",
-            "ownerSide": true,
-            "otherEntityRelationshipName": "cue"
+            "relationshipType": "many-to-one",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipName": "script",
+            "otherEntityName": "script",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "name"
         },
         {
             "relationshipName": "camera",
             "otherEntityName": "camera",
-            "relationshipType": "one-to-one",
-            "otherEntityField": "id",
-            "ownerSide": true,
-            "otherEntityRelationshipName": "cue"
+            "relationshipType": "many-to-one",
+            "otherEntityField": "name"
         },
         {
-            "relationshipName": "cameraAction",
-            "otherEntityName": "cameraAction",
-            "relationshipType": "one-to-one",
-            "otherEntityField": "id",
-            "ownerSide": true,
-            "otherEntityRelationshipName": "cue"
-        },
-        {
-            "relationshipName": "timePoint",
-            "otherEntityName": "timePoint",
-            "relationshipType": "one-to-one",
-            "otherEntityField": "startTime",
-            "ownerSide": true,
-            "otherEntityRelationshipName": "cue"
+            "relationshipName": "project",
+            "otherEntityName": "project",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "name"
         }
     ],
-    "fields": [],
+    "fields": [
+        {
+            "fieldName": "action",
+            "fieldType": "String",
+            "fieldValidateRules": []
+        },
+        {
+            "fieldName": "bar",
+            "fieldType": "Integer",
+            "fieldValidateRules": []
+        },
+        {
+            "fieldName": "duration",
+            "fieldType": "Integer",
+            "fieldValidateRules": []
+        }
+    ],
     "changelogDate": "20160504113134",
     "dto": "no",
     "service": "serviceImpl",

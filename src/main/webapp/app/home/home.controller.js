@@ -1,63 +1,56 @@
-(function() {
+(function () {
     'use strict';
 
     angular
         .module('thefirstorderApp')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', 'Camera', 'CameraAction'];
+    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', 'Project', 'currentProjectId'];
 
-    function HomeController ($scope, Principal, LoginService, $state,  Camera, CameraAction) {
+    function HomeController($scope, Principal, LoginService, $state, Project, currentProjectId) {
         var vm = this;
-
         vm.account = null;
         vm.isAuthenticated = null;
+        vm.hasCurrentProject = false;
         vm.login = LoginService.open;
         vm.register = register;
-        vm.loadCamera = loadCamera;
-        vm.loadCamera();
-        vm.loadCameraActions = loadCameraActions;
-        vm.loadCameraActions();
-        $scope.$on('authenticationSuccess', function() {
+
+        loadProject();
+
+        $scope.$on('authenticationSuccess', function () {
             getAccount();
         });
 
         getAccount();
 
+        /**
+         * Checks whether the user is authorised to use the app,
+         *  gets the name of the user to show on the home page.
+         */
         function getAccount() {
-            Principal.identity().then(function(account) {
+            Principal.identity().then(function (account) {
                 vm.account = account;
                 vm.isAuthenticated = Principal.isAuthenticated;
             });
         }
-        function register () {
+
+        /**
+         * Go to the register state to register a new account.
+         */
+        function register() {
             $state.go('register');
         }
 
-        function loadCamera () {
-            Camera.query({
-
-            }, onSuccess, onError);
-
-            function onSuccess(data, headers) {
-                vm.cameras = data;
-                vm.queryCount = vm.totalItems;
-            }
-            function onError(error) {
-                AlertService.error(error.data.message);
-            }
-        }
-
-        function loadCameraActions () {
-            CameraAction.query({
-
-            }, onSuccess, onError);
-            function onSuccess(data, headers) {
-                vm.cameraActions = data;
-                vm.queryCount = vm.totalItems;
-            }
-            function onError(error) {
-                AlertService.error(error.data.message);
+        /**
+         * Loads the current project of the active user.
+         * Sets hasCurrentProject to true if the active user has a project.
+         */
+        function loadProject() {
+            if (currentProjectId !== null) {
+                vm.currentProject = Project.get({id: currentProjectId});
+                if (vm.currentProject !== null) {
+                    vm.hasCurrentProject = true;
+                }
             }
         }
     }

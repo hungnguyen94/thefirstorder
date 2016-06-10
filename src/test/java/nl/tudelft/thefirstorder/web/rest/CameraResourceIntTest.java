@@ -45,11 +45,16 @@ public class CameraResourceIntTest {
     private static final String DEFAULT_NAME = "AAAAA";
     private static final String UPDATED_NAME = "BBBBB";
 
-    private static final Integer DEFAULT_X = 1;
-    private static final Integer UPDATED_X = 2;
+    private static final Double DEFAULT_X = 1D;
+    private static final Double UPDATED_X = 2D;
 
-    private static final Integer DEFAULT_Y = 1;
-    private static final Integer UPDATED_Y = 2;
+    private static final Double DEFAULT_Y = 1D;
+    private static final Double UPDATED_Y = 2D;
+    private static final String DEFAULT_CAMERA_TYPE = "AAAAA";
+    private static final String UPDATED_CAMERA_TYPE = "BBBBB";
+    private static final String DEFAULT_LENS_TYPE = "AAAAA";
+    private static final String UPDATED_LENS_TYPE = "BBBBB";
+    private static final Long SET_ID = 123L;
 
     @Inject
     private CameraRepository cameraRepository;
@@ -83,6 +88,38 @@ public class CameraResourceIntTest {
         camera.setName(DEFAULT_NAME);
         camera.setX(DEFAULT_X);
         camera.setY(DEFAULT_Y);
+        camera.setCameraType(DEFAULT_CAMERA_TYPE);
+        camera.setLensType(DEFAULT_LENS_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void createCameraWithId() throws Exception {
+        int databaseSizeBeforeCreate = cameraRepository.findAll().size();
+        camera.setId(SET_ID);
+        // Create the Camera
+        restCameraMockMvc.perform(post("/api/cameras")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(camera)))
+        .andExpect(status().isBadRequest());
+        // Validate the Camera is not in the database
+        List<Camera> cameras = cameraRepository.findAll();
+        assertThat(cameras).hasSize(databaseSizeBeforeCreate);
+    }
+
+    @Test
+    @Transactional
+    public void updateCameraNoId() throws Exception {
+        int databaseSizeBeforeUpdate = cameraRepository.findAll().size();
+        // Update the Camera
+        Camera updatedCamera = new Camera();
+        restCameraMockMvc.perform(put("/api/cameras")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedCamera)))
+            .andExpect(status().isCreated());
+        // Validate the Camera in the database
+        List<Camera> cameras = cameraRepository.findAll();
+        assertThat(cameras).hasSize(databaseSizeBeforeUpdate + 1);
     }
 
     @Test
@@ -104,6 +141,8 @@ public class CameraResourceIntTest {
         assertThat(testCamera.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testCamera.getX()).isEqualTo(DEFAULT_X);
         assertThat(testCamera.getY()).isEqualTo(DEFAULT_Y);
+        assertThat(testCamera.getCameraType()).isEqualTo(DEFAULT_CAMERA_TYPE);
+        assertThat(testCamera.getLensType()).isEqualTo(DEFAULT_LENS_TYPE);
     }
 
     @Test
@@ -119,7 +158,9 @@ public class CameraResourceIntTest {
                 .andExpect(jsonPath("$.[*].id").value(hasItem(camera.getId().intValue())))
                 .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
                 .andExpect(jsonPath("$.[*].x").value(hasItem(DEFAULT_X)))
-                .andExpect(jsonPath("$.[*].y").value(hasItem(DEFAULT_Y)));
+                .andExpect(jsonPath("$.[*].y").value(hasItem(DEFAULT_Y)))
+                .andExpect(jsonPath("$.[*].cameraType").value(hasItem(DEFAULT_CAMERA_TYPE.toString())))
+                .andExpect(jsonPath("$.[*].lensType").value(hasItem(DEFAULT_LENS_TYPE.toString())));
     }
 
     @Test
@@ -135,7 +176,9 @@ public class CameraResourceIntTest {
             .andExpect(jsonPath("$.id").value(camera.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.x").value(DEFAULT_X))
-            .andExpect(jsonPath("$.y").value(DEFAULT_Y));
+            .andExpect(jsonPath("$.y").value(DEFAULT_Y))
+            .andExpect(jsonPath("$.cameraType").value(DEFAULT_CAMERA_TYPE.toString()))
+            .andExpect(jsonPath("$.lensType").value(DEFAULT_LENS_TYPE.toString()));
     }
 
     @Test
@@ -160,6 +203,8 @@ public class CameraResourceIntTest {
         updatedCamera.setName(UPDATED_NAME);
         updatedCamera.setX(UPDATED_X);
         updatedCamera.setY(UPDATED_Y);
+        updatedCamera.setCameraType(UPDATED_CAMERA_TYPE);
+        updatedCamera.setLensType(UPDATED_LENS_TYPE);
 
         restCameraMockMvc.perform(put("/api/cameras")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -173,6 +218,8 @@ public class CameraResourceIntTest {
         assertThat(testCamera.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testCamera.getX()).isEqualTo(UPDATED_X);
         assertThat(testCamera.getY()).isEqualTo(UPDATED_Y);
+        assertThat(testCamera.getCameraType()).isEqualTo(UPDATED_CAMERA_TYPE);
+        assertThat(testCamera.getLensType()).isEqualTo(UPDATED_LENS_TYPE);
     }
 
     @Test

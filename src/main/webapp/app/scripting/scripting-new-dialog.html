@@ -1,0 +1,45 @@
+<form name="editForm" role="form" novalidate ng-submit="vm.save()">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myCueLabel">Create or edit a Cue</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group">
+            <label class="control-label" for="field_bar">Bar</label>
+            <input type="number" class="form-control" name="bar" id="field_bar" ng-model="vm.cue.bar"/>
+            <p class="help-block">Start of the cue</p>
+        </div>
+        <div class="form-group label-floating">
+            <label class="control-label" for="field_duration">Duration</label>
+            <input type="number" class="form-control" name="duration" id="field_duration" ng-model="vm.cue.duration"/>
+            <p class="help-block">Enter the duration</p>
+        </div>
+        <div class="form-group label-floating">
+            <label class="control-label" for="field_action">Action</label>
+            <input type="text" class="form-control" name="action" id="field_action" ng-model="vm.cue.action"/>
+            <p class="help-block">Enter the action</p>
+        </div>
+        <div class="form-group">
+            <label for="field_player">Player</label>
+            <select class="form-control" id="field_player" name="player" ng-model="vm.cue.player" ng-options="player as player.name for player in vm.players track by player.id">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="field_camera">Camera</label>
+            <select class="form-control" id="field_camera" name="camera" ng-model="vm.cue.camera" ng-options="camera as camera.name for camera in vm.cameras track by camera.id">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

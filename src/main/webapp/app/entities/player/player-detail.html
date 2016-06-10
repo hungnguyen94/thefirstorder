@@ -18,6 +18,11 @@
             <span>{{vm.player.y}}</span>
         </dd>
         <hr>
+        <dt><span>Map</span></dt>
+        <dd>
+            <a ui-sref="map-detail({id:vm.player.map.id})">{{vm.player.map.name}}</a>
+        </dd>
+        <hr>
     </dl>
 
     <button type="submit"
