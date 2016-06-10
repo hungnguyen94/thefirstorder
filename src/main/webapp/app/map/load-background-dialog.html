@@ -11,13 +11,16 @@
                 <input class="ng-hide" type='file' id='getval' name="background-image" on-bg-upload="vm.preview"/>
                 <label for="getval" class="btn btn-raised"><span class="glyphicon glyphicon-folder-open"
                                                                  aria-hidden="true"></span> Select a background</label>
-                <button ng-click="vm.upload()">Upload</button>
+                <button ng-click="vm.upload()" class="btn btn-raised"><span class="glyphicon glyphicon-upload"
+                                                                            aria-hidden="true"></span> Upload</button>
             </div>
         </div>
         <div class="row centered">
             <h3>Preview</h3>
-            <div class="col-md-12">
-                <div id="concertMap" style="background-color: darkslateblue; height: 600px; width: 800px">
+            <div class="col-md-12" ng-switch="vm.hasPreview">
+                <div id="concertMap" class="preview" style="background-color: darkslateblue; height: 600px; width: 100%" ng-switch-when="true">
+                </div>
+                <div class="preview no-preview" style="background-color: darkslateblue; height: 600px; width: 100%" ng-switch-when="false">
                 </div>
             </div>
         </div>

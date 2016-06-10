@@ -11,9 +11,11 @@
     function LoadBackgroundController($resource, $http, $timeout, $scope, $uibModalInstance, currentProject, Script, Project, AlertService, Upload) {
         var vm = this;
         vm.uploadedBackground = null;
+        vm.hasPreview = false;
 
         vm.preview = preview;
         vm.upload = upload;
+        vm.map = "/content/images/no-preview.jpg"
 
         function preview() {
             var file = document.getElementById("getval").files[0];
@@ -21,6 +23,7 @@
             reader.onloadend = function () {
                 document.getElementById('concertMap').style.backgroundImage = "url(" + reader.result + ")";
                 vm.uploadedBackground = reader.result;
+                vm.hasPreview = true;
             }
             if (file) {
                 reader.readAsDataURL(file);
@@ -31,7 +34,9 @@
 
         function post() {
             var fd = new FormData();
-            fd.append('file', vm.uploadedBackground);
+            console.log(document.getElementById("getval").files[0]);
+            fd.append('file', document.getElementById("getval").files[0]);
+            console.log(fd.get('file'));
 
             Upload.create({content: fd}).$promise.then(function (res) {
                 vm.upload = res;
