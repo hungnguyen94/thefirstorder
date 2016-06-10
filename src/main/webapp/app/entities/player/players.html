@@ -32,8 +32,8 @@
                 <tr ng-repeat="player in vm.players track by player.id">
                     <td><a ui-sref="player-detail({id:player.id})">{{player.id}}</a></td>
                     <td>{{player.name}}</td>
-                    <td>{{player.x}}</td>
-                    <td>{{player.y}}</td>
+                    <td>{{player.x | number: 2}}</td>
+                    <td>{{player.y | number: 2}}</td>
                     <td>
                         <a ui-sref="map-detail({id:player.map.id})">{{player.map.name}}</a>
                     </td>
