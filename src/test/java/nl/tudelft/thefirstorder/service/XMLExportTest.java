@@ -1,5 +1,9 @@
 package nl.tudelft.thefirstorder.service;
-import nl.tudelft.thefirstorder.domain.*;
+import nl.tudelft.thefirstorder.domain.Camera;
+import nl.tudelft.thefirstorder.domain.Cue;
+import nl.tudelft.thefirstorder.domain.Player;
+import nl.tudelft.thefirstorder.domain.Project;
+import nl.tudelft.thefirstorder.domain.Script;
 import nl.tudelft.thefirstorder.service.util.XMLExportUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,13 +13,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -44,15 +45,15 @@ public class XMLExportTest {
         when(cue.getCamera()).thenReturn(camera);
         when(camera.getId()).thenReturn(new Long(1));
         when(camera.getName()).thenReturn("Camera");
-        when(camera.getX()).thenReturn(1);
-        when(camera.getY()).thenReturn(1);
+        when(camera.getX()).thenReturn(1D);
+        when(camera.getY()).thenReturn(1D);
         when(document.createElement(any(String.class))).thenReturn(special);
         when(document.createTextNode(any(String.class))).thenReturn(text);
         when(cue.getPlayer()).thenReturn(player);
         when(player.getId()).thenReturn(new Long(1));
         when(player.getName()).thenReturn("Player");
-        when(player.getX()).thenReturn(1);
-        when(player.getY()).thenReturn(1);
+        when(player.getX()).thenReturn(1D);
+        when(player.getY()).thenReturn(1D);
         when(project.getName()).thenReturn("Project");
         when(project.getScript()).thenReturn(script);
         when(script.getName()).thenReturn("Script");

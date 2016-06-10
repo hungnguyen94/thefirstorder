@@ -5,11 +5,21 @@
         .module('thefirstorderApp')
         .directive('timeline', timeline);
 
-    timeline.$inject = ['$window', '$rootScope', '$state', 'Cue'];
+    timeline.$inject = ['Cue', 'Camera', '$uibModal'];
 
-    function timeline($window, $rootScope, $state, Cue) {
+    /**
+     * The controller for the timeline directive.
+     * @param Cue
+     * @param Camera
+     * @param $uibModal
+     * @returns {{scope: {map: string, selected: string}, restrict: string, link: link, controller: string, controllerAs: string, bindToController: boolean}}
+     */
+    function timeline(Cue, Camera, $uibModal) {
         var directive = {
-            template: '<div id="visualization"></div>',
+            scope: {
+                'map': '=',
+                'selected': '='
+            },
             restrict: 'EA',
             link: link,
             controller: 'ScriptingController',
@@ -18,33 +28,47 @@
         };
         return directive;
 
+        /**
+         * Links the controller to the correct directive.
+         * @param scope the current scope
+         * @param element the element that the directive was called from
+         * @param attrs the attributes of the element
+         */
         function link(scope, element, attrs) {
-            console.log('timeline directive called');
-            console.log('Element is: ', element);
-            console.log('Scope is: ', scope);
+            scope.timeline = {};
+            scope.vm.timelineSelected = {};
+            scope.dataset = new vis.DataSet();
+
+            init();
 
             scope.$watch('vm.map', function (newMap) {
-                console.log('Changed map:', newMap);
-                drawTimeline(scope.vm.map.cameras, scope.vm.cues);
+                drawTimelineCameras(scope.vm.map.cameras);
+            });
+
+            scope.$watch('vm.cues', function (newCues) {
+                createItems(scope.vm.cues);
             });
 
             /**
              * Draws the timeline with all the cues.
              */
-            function drawTimeline(cameras, cues) {
-                var container = document.getElementById('visualization');
-
+            function drawTimelineCameras(cameras) {
                 var groups = createGroups(cameras);
-                var items = createItems(cues);
+                scope.timeline.setGroups(groups);
+            }
 
+            /**
+             * Initializes the timeline.
+             */
+            function init() {
                 var options = {
                     groupOrder: function (a, b) {
                         return a.value - b.value;
                     },
                     timeAxis : {scale: 'year', step: 1},
-                    min: '0000-01-01',
-                    start: '0000-01-01',
-                    end: '0010-01-01',
+                    min: '0000-12-31',
+                    start: '0000-12-31',
+                    end: '0010-12-31',
                     zoomMin: 63072000000,
                     zoomMax: 700000000000,
                     editable: true,
@@ -52,16 +76,16 @@
                     itemsAlwaysDraggable: true,
                     onAdd: onAdd,
                     onUpdate: onUpdate,
-                    onMove: unSaved,
-                    onRemove: unSaved
+                    onMove: onMove,
+                    onRemove: onRemove
                 };
 
                 // Create a Timeline
-                var timeline = new vis.Timeline(container);
+                var timeline = new vis.Timeline(element[0]);
                 timeline.setOptions(options);
-                timeline.setGroups(groups);
-                timeline.setItems(items);
-                timeline.addCustomTime('0000-01-01', 'scroller');
+                timeline.addCustomTime('0000-12-31', 'scroller');
+                timeline.setItems(scope.dataset);
+                scope.timeline = timeline;
             }
 
             /**
@@ -74,37 +98,44 @@
                     var classNumber = camera.id % 3 + 1;
                     groupsArray.push({
                         content: camera.name,
-                        id: camera.name,
+                        id: camera.id,
                         value: camera.id,
-                        className: "camera" + classNumber
+                        className: "camera" + classNumber,
+                        camera: camera
                     });
                 });
                 return new vis.DataSet(groupsArray);
             }
 
             /**
-             * Creates a vis.DataSet with all the cues to draw to the timeline.
-             * @returns vis.DataSet with cues
+             * Adds all cues to the dataset by transforming them into
+             * items first.
              */
             function createItems(cues) {
-                var dataSet = [];
-                cues.forEach(function (cue) {
-                    var startTime = cue.bar;
-                    var endTime = cue.bar + cue.duration;
+                scope.dataset.add(cues.map(transformCueToItem));
+            }
 
-                    var startYear = parseIntAsYear(startTime);
-                    var endYear = parseIntAsYear(endTime);
+            /**
+             * Transforms a Cue to a Vis timeline item.
+             * @param cue The cue to be transformed
+             * @returns Vis item
+             */
+            function transformCueToItem(cue) {
+                var startTime = cue.bar;
+                var endTime = cue.bar + cue.duration;
 
-                    dataSet.push({
-                        id: cue.id,
-                        content: cue.action,
-                        start: startYear + "-01-01",
-                        end: endYear + '-01-01',
-                        group: cue.camera.name
-                    })
-                });
+                var startYear = parseIntAsDate(startTime);
+                var endYear = parseIntAsDate(endTime);
 
-                return new vis.DataSet(dataSet);
+                var item = {
+                    id: cue.id,
+                    content: cue.action,
+                    start: startYear,
+                    end: endYear,
+                    group: cue.camera.id,
+                    cue: cue
+                };
+                return item;
             }
 
             /**
@@ -113,12 +144,39 @@
              * @param callback the callback to the vis.js draw function
              */
             function onAdd(item, callback) {
-                $state.go('scripting.new');
-                var endyear = item.start.getFullYear() + 5;
-                item.end = endyear + '-01-01';
-                $rootScope.$on('cueadded', function (event, args) {
-                    item.content = args.cuename;
-                    callback(item);
+                Camera.get({id: item.group}, function (camera) {
+                    scope.vm.selectedCamera = camera;
+                    $uibModal.open({
+                        templateUrl: 'app/scripting/scripting-new-dialog.html',
+                        controller: 'CueDialogController',
+                        controllerAs: 'vm',
+                        backdrop: 'static',
+                        size: 'lg',
+                        resolve: {
+                            entity: function () {
+                                return {
+                                    action: null,
+                                    bar: item.start.getFullYear(),
+                                    duration: 1,
+                                    id: null,
+                                    camera: scope.vm.selectedCamera,
+                                    player: scope.vm.selectedPlayer, 
+                                    script: scope.vm.script, 
+                                    project: scope.vm.project
+                                };
+                            }
+                        }
+                    }).result.then(function(result) {
+                        var end = result.bar + result.duration;
+
+                        item.content = result.action;
+                        item.start = parseIntAsDate(result.bar);
+                        item.end = parseIntAsDate(end);
+                        item.cue = result;
+                        callback(item);
+                    }, function() {
+                        callback(null);
+                    });
                 });
             }
 
@@ -128,21 +186,66 @@
              * @param callback the callback to the vis.js draw function
              */
             function onUpdate(item, callback) {
-                $state.go('scripting.update', {name: item.content});
-                $rootScope.$on('cueupdated', function (event, args) {
-                    item.content = args.cuename;
+                $uibModal.open({
+                    templateUrl: 'app/scripting/scripting-new-dialog.html',
+                    controller: 'CueDialogController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    size: 'md',
+                    resolve: {
+                        entity: item.cue
+                    }
+                }).result.then(function(result) {
+                    var end = result.bar + result.duration;
+                    item.content = result.action;
+                    item.start = parseIntAsDate(result.bar);
+                    item.end = parseIntAsDate(end);
+                    item.cue = result;
                     callback(item);
-                    item = null;
+                }, function() {
+                    callback(null);
                 });
             }
 
             /**
-             * Sets the save state to unsaved.
-             * @param item the item that was updated
+             * Updates the cue in the backend when moving a cue in the timeline.
+             * @param item the item that is updated
              * @param callback the callback to the vis.js draw function
              */
-            function unSaved(item, callback) {
-                callback(item);
+            function onMove(item, callback) {
+                var bar = item.start.getFullYear();
+                var duration = item.end.getFullYear() - bar;
+                item.cue.bar = bar;
+                item.cue.duration = duration;
+                Camera.get({id: item.group}, function (camera) {
+                    item.cue.camera = camera;
+                    Cue.update(item.cue, function () {
+                        callback(item);
+                    });
+                });
+
+            }
+
+            /**
+             * Moves to the cue.delete state and deletes the item if the user accepts deletion.
+             * @param item
+             * @param callback
+             */
+            function onRemove(item, callback) {
+                $uibModal.open({
+                    templateUrl: 'app/entities/cue/cue-delete-dialog.html',
+                    controller: 'CueDeleteController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    size: 'md',
+                    resolve: {
+                        entity: item.cue
+                    }
+                }).result.then(function(result) {
+                    callback(item);
+                }, function() {
+                    callback(null);
+                });
             }
 
             /**
@@ -150,16 +253,11 @@
              * @param year the year to parse
              * @returns a string with a year
              */
-            function parseIntAsYear(year) {
-                var current = "";
-
-                for (var j = 0; j < 4 - year.toString().length; ++j) {
-                    current += '0';
-                }
-
-                current += year.toString();
-
-                return current;
+            function parseIntAsDate(year) {
+                var str = "" + year;
+                var padding = "0000";
+                var result = padding.substring(0, padding.length - str.length) + str;
+                return result + '-12-31';
             }
         }
     }

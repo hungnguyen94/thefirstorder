@@ -1,22 +1,18 @@
 <div ng-cloak>
     <div class="row">
         <div class="col-md-8">
-            <canvas fabric-map-static></canvas>
+            <canvas fabric-map map="vm.map" selected="vm.selected" editable="false"></canvas>
         </div>
         <div class="col-md-4">
-            <h3 class="text-center">Add new Cue</h3>
-            <div class="form-group">
-                <label for="selectPlayer">Which player should we use for the cue?</label>
-                <select class="form-control" id="selectPlayer">
-                    <option ng-repeat="player in vm.players" value="{{player.id}}">{{player.name}}</option>
-                </select>
-            </div>
+            Player: {{vm.selectedPlayer.name}}
+            <br/>
+            Camera: {{vm.selectedCamera.name}}
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
-            <br />
-            <div timeline></div>
+            <br/>
+            <timeline map="vm.map" selected="vm.selected"></timeline>
         </div>
     </div>
 </div>

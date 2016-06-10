@@ -14,11 +14,23 @@
         },
         {
             "fieldName": "x",
-            "fieldType": "Integer"
+            "fieldType": "Double",
+            "fieldValidateRules": [
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": "0",
+            "fieldValidateRulesMax": "100"
         },
         {
             "fieldName": "y",
-            "fieldType": "Integer"
+            "fieldType": "Double",
+            "fieldValidateRules": [
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": "0",
+            "fieldValidateRulesMax": 100
         },
         {
             "fieldName": "cameraType",

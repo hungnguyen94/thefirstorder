@@ -2,10 +2,10 @@
     <div class="row">
         <div class="col-md-8">
             <h2 class="text-center">Map editor</h2>
-            <canvas fabric-map ></canvas>
+            <canvas fabric-map map="vm.map" selected="vm.selected" editable="true"></canvas>
         </div>
         <div class="col-md-4">
-            <map-table-view ></map-table-view>
+            <map-table-view map="vm.map" selected="vm.selected"></map-table-view>
         </div>
     </div>
 </div>

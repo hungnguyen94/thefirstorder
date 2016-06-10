@@ -18,6 +18,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 
 import java.io.ByteArrayOutputStream;
+import java.net.URL;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -32,6 +33,9 @@ public class PDFExportUtil {
             Font.NORMAL, BaseColor.RED);
     private static Font smallBold = new Font(Font.FontFamily.COURIER, 12,
             Font.BOLD);
+
+    private static final int BORDER_CONSTANT = 0;
+    private static final int PADDING_CONSTANT = 15;
 
     public PDFExportUtil() {
     }
@@ -49,7 +53,6 @@ public class PDFExportUtil {
             PdfWriter.getInstance(document, baos);
             document.open();
             addMetaData(document, project);
-            addTitlePage(document, project);
             addContent(document, project);
             document.close();
         } catch (DocumentException e) {
@@ -74,42 +77,29 @@ public class PDFExportUtil {
     }
 
     /**
-     * Add a front page to the pdf.
-     * @param document the documents to which the data has to be added
-     * @param project the project from which the data is exported
-     * @throws DocumentException if something wrong is added to the document
-     */
-    private static void addTitlePage(Document document, Project project)
-            throws DocumentException {
-        Script script = project.getScript();
-        Paragraph preface = new Paragraph();
-        addEmptyLine(preface, 1);
-        preface.add(new Paragraph(script.getName(), catFont));
-        addEmptyLine(preface, 1);
-        addEmptyLine(preface, 3);
-        preface.add(new Paragraph("",
-                smallBold));
-        addEmptyLine(preface, 8);
-        preface.add(new Paragraph("",
-                redFont));
-        document.add(preface);
-        document.newPage();
-    }
-
-    /**
      * Add the content to the pdf (The cues, cameras and actions).
      * @param document the document to which the content has to be added
      * @param project the project from which the content is exported
      * @throws DocumentException if something wrong is added to the document
      */
     private static void addContent(Document document, Project project) throws DocumentException {
+        Paragraph paragraph = new Paragraph(project.getScript().getName());
+        Font font = paragraph.getFont();
+        font.setStyle(Font.BOLD);
+        paragraph.setFont(font);
+        paragraph.setAlignment(Element.ALIGN_CENTER);
+        document.add(paragraph);
         PdfPTable table = makeCueTable();
+        table.getDefaultCell().setPaddingBottom(PADDING_CONSTANT);
+        table.getDefaultCell().setPaddingTop(PADDING_CONSTANT);
+        table.getDefaultCell().setBorder(BORDER_CONSTANT);
         PdfPTable cameratable = makeCameraTable();
-        PdfPTable actiontable = makeActionTable();
+        cameratable.getDefaultCell().setBorder(BORDER_CONSTANT);
+        cameratable.getDefaultCell().setPaddingBottom(PADDING_CONSTANT);
+        cameratable.getDefaultCell().setPaddingTop(PADDING_CONSTANT);
 
         table.setHeaderRows(1);
         cameratable.setHeaderRows(1);
-        actiontable.setHeaderRows(1);
         Script script = project.getScript();
         Set<Cue> cues = script.getCues();
         int index = 1;
@@ -118,12 +108,10 @@ public class PDFExportUtil {
             Cue cue = iterator.next();
             table.addCell(index + ".");
             table.addCell(cue.getCamera().getName());
-            table.addCell(cue.getAction());
             table.addCell(cue.getPlayer().getName());
+            table.addCell(cue.getAction());
             Camera camera = cue.getCamera();
             cameratable.addCell(camera.getName());
-            cameratable.addCell(camera.getX() + "");
-            cameratable.addCell(camera.getY() + "");
             cameratable.addCell(camera.getCameraType());
             cameratable.addCell(camera.getLensType());
             index++;
@@ -136,75 +124,75 @@ public class PDFExportUtil {
         par.add(new Paragraph("Cameras"));
         addEmptyLine(par, 2);
         par.add(cameratable);
-        addEmptyLine(par, 3);
-        par.add(new Paragraph("Camera Actions"));
-        addEmptyLine(par, 2);
-        par.add(cameratable);
         document.add(par);
     }
 
+    /**
+     * Creates a table with all the cues.
+     * @return a PdfPTable representing the table
+     */
     private static PdfPTable makeCueTable() {
         PdfPTable table = new PdfPTable(4);
 
-        PdfPCell c1 = new PdfPCell(new Phrase("No."));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        PdfPCell c1 = new PdfPCell(new Phrase("Shot"));
+        c1 = setSetting(c1);
         table.addCell(c1);
 
         c1 = new PdfPCell(new Phrase("Camera"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase("Camera Action"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c1 = setSetting(c1);
         table.addCell(c1);
 
         c1 = new PdfPCell(new Phrase("Player"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c1 = setSetting(c1);
+        table.addCell(c1);
+
+        c1 = new PdfPCell(new Phrase("Camera Action"));
+        c1 = setSetting(c1);
         table.addCell(c1);
 
         return table;
     }
 
-    private static PdfPTable makeActionTable() {
-        PdfPTable actiontable = new PdfPTable(2);
-
-        PdfPCell c1 = new PdfPCell(new Phrase("Action"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        actiontable.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase("Duration"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        actiontable.addCell(c1);
-
-        return actiontable;
-    }
-
+    /**
+     * Creates a table with all the cameras.
+     * @return a PdfPTable representing the table
+     */
     private static PdfPTable makeCameraTable() {
-        PdfPTable cameratable = new PdfPTable(5);
+        PdfPTable cameratable = new PdfPTable(3);
 
         PdfPCell c1 = new PdfPCell(new Phrase("Camera"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cameratable.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase("X Position"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cameratable.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase("Y Position"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c1 = setSetting(c1);
         cameratable.addCell(c1);
 
         c1 = new PdfPCell(new Phrase("Camera Type"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c1 = setSetting(c1);
         cameratable.addCell(c1);
 
         c1 = new PdfPCell(new Phrase("Lens Type"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c1 = setSetting(c1);
         cameratable.addCell(c1);
 
         return cameratable;
     }
 
+    /**
+     * Set the constants for PDF creation.
+     * @param c1 the cell that the settings are applied to
+     * @return PdfPCell with all settings applied
+     */
+    private static PdfPCell setSetting(PdfPCell c1) {
+        c1.setBackgroundColor(BaseColor.GRAY);
+        c1.setBorder(BORDER_CONSTANT);
+        c1.setPaddingTop(PADDING_CONSTANT);
+        c1.setPaddingBottom(PADDING_CONSTANT);
+        return c1;
+    }
+
+    /**
+     * Add an empty line in the pdf
+     * @param paragraph the paragraph to add a line to
+     * @param number the number of lines to add
+     */
     private static void addEmptyLine(Paragraph paragraph, int number) {
         for (int i = 0; i < number; i++) {
             paragraph.add(new Paragraph(" "));

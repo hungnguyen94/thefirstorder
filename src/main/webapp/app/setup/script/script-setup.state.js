@@ -75,6 +75,6 @@
                     $state.go('script-setup');
                 });
             }]
-        })
+        });
     }
 })();

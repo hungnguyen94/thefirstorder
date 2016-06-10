@@ -19,6 +19,9 @@
             vm.account = account;
         });
 
+        /**
+         * Changes the password.
+         */
         function changePassword () {
             if (vm.password !== vm.confirmPassword) {
                 vm.error = null;

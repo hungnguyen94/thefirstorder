@@ -7,6 +7,10 @@
 
     stateConfig.$inject = ['$stateProvider'];
 
+    /**
+     * Configures the state for all map pages.
+     * @param $stateProvider
+     */
     function stateConfig($stateProvider) {
         $stateProvider.state('map-editor', {
             parent: 'app',

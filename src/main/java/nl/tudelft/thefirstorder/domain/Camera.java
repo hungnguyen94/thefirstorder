@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -33,11 +35,15 @@ public class Camera implements Serializable {
     @Column(name = "name")
     private String name;
 
+    @Min(value = 0)
+    @Max(value = 100)
     @Column(name = "x")
-    private Integer x;
+    private Double x;
 
+    @Min(value = 0)
+    @Max(value = 100)
     @Column(name = "y")
-    private Integer y;
+    private Double y;
 
     @Column(name = "camera_type")
     private String cameraType;
@@ -77,7 +83,7 @@ public class Camera implements Serializable {
      * Get the x position of the camera.
      * @return the x position
      */
-    public Integer getX() {
+    public Double getX() {
         return x;
     }
 
@@ -85,7 +91,7 @@ public class Camera implements Serializable {
      * Set the x position of the camera.
      * @param x the x position
      */
-    public void setX(Integer x) {
+    public void setX(Double x) {
         this.x = x;
     }
 
@@ -93,7 +99,7 @@ public class Camera implements Serializable {
      * Get the y position of the camera.
      * @return the y position
      */
-    public Integer getY() {
+    public Double getY() {
         return y;
     }
 
@@ -101,7 +107,7 @@ public class Camera implements Serializable {
      * Set the y position of the camera.
      * @param y the y position
      */
-    public void setY(Integer y) {
+    public void setY(Double y) {
         this.y = y;
     }
 
