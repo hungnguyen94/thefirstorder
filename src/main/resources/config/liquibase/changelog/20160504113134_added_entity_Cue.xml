@@ -24,10 +24,13 @@
             <column name="script_id" type="bigint">
                 <constraints nullable="true"/>
             </column>
-            <column name="camera_action_id" type="bigint">
+            <column name="bar" type="integer">
                 <constraints nullable="true"/>
             </column>
-            <column name="time_point_id" type="bigint">
+            <column name="duration" type="integer">
+                <constraints nullable="true"/>
+            </column>
+            <column name="action" type="varchar(255)">
                 <constraints nullable="true"/>
             </column>
             <column name="player_id" type="bigint">
@@ -41,6 +44,6 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - Jhipster will add columns here, do not remove-->
         </createTable>
-        
+
     </changeSet>
 </databaseChangeLog>

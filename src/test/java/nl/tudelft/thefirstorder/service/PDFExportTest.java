@@ -5,11 +5,9 @@ package nl.tudelft.thefirstorder.service;
  */
 
 import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import nl.tudelft.thefirstorder.domain.*;
 import nl.tudelft.thefirstorder.service.util.PDFExportUtil;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -24,7 +22,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 /**
@@ -42,7 +39,6 @@ public class PDFExportTest {
     @Mock private Paragraph paragraph;
     @Mock private Player player;
     @Mock private Camera camera;
-    @Mock private CameraAction action;
 
     @Test
     public void exportProjectToPDFTest() {
@@ -50,12 +46,8 @@ public class PDFExportTest {
         when(project.getScript()).thenReturn(script);
         when(script.getName()).thenReturn("script");
         when(cue.getCamera()).thenReturn(camera);
-        when(cue.getCameraAction()).thenReturn(action);
         when(cue.getPlayer()).thenReturn(player);
-        when(camera.getX()).thenReturn(1);
-        when(camera.getX()).thenReturn(1);
         when(camera.getName()).thenReturn("Camera");
-        when(action.getName()).thenReturn("action");
         when(player.getName()).thenReturn("player");
         Set<Cue> cues = new HashSet<Cue>();
         cues.add(cue);

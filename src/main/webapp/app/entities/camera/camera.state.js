@@ -85,6 +85,8 @@
                                 name: null,
                                 x: null,
                                 y: null,
+                                cameraType: null,
+                                lensType: null,
                                 id: null
                             };
                         }

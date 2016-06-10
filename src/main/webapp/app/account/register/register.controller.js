@@ -7,7 +7,7 @@
 
 
     RegisterController.$inject = [ '$timeout', 'Auth', 'LoginService'];
-
+    
     function RegisterController ($timeout, Auth, LoginService) {
         var vm = this;
 
@@ -21,6 +21,9 @@
 
         $timeout(function (){angular.element('#login').focus();});
 
+        /**
+         * Register an account.
+         */
         function register () {
             if (vm.registerAccount.password !== vm.confirmPassword) {
                 vm.doNotMatch = 'ERROR';

@@ -11,10 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 /**
  * Service Implementation for managing Camera.
@@ -63,19 +59,12 @@ class CameraServiceImpl implements CameraService {
         return cameraRepository.findOne(id);
     }
 
-    @Override
-    public List<Camera> findCamerasByProject(Long projectId) {
-        return StreamSupport
-            .stream(cameraRepository.findAll().spliterator(), false)
-            .filter(camera -> Objects.equals(camera.getProject().getId(), projectId))
-            .collect(Collectors.toList());
-    }
-
     /**
      *  Delete the  camera by id.
      *
      *  @param id the id of the entity
      */
+    @Transactional
     public void delete(Long id) {
         log.debug("Request to delete Camera : {}", id);
         cameraRepository.delete(id);

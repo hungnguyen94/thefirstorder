@@ -22,19 +22,55 @@
         <div class="form-group">
             <label class="control-label" for="field_x">X</label>
             <input type="number" class="form-control" name="x" id="field_x"
-                    ng-model="vm.player.x"
-                     />
+                   ng-model="vm.player.x"
+                   required min="0" max="100" />
+            <div ng-show="editForm.x.$invalid">
+                <p class="help-block"
+                   ng-show="editForm.x.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                   ng-show="editForm.x.$error.min" translate-value-min="0">
+                    This field should be more than 0.
+                </p>
+                <p class="help-block"
+                   ng-show="editForm.x.$error.max">
+                    This field cannot be more than 100.
+                </p>
+                <p class="help-block"
+                   ng-show="editForm.x.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
         </div>
         <div class="form-group">
             <label class="control-label" for="field_y">Y</label>
             <input type="number" class="form-control" name="y" id="field_y"
-                    ng-model="vm.player.y"
-                     />
+                   ng-model="vm.player.y"
+                   required min="0" max="100" />
+            <div ng-show="editForm.y.$invalid">
+                <p class="help-block"
+                   ng-show="editForm.y.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                   ng-show="editForm.y.$error.min" translate-value-min="0">
+                    This field should be more than 0.
+                </p>
+                <p class="help-block"
+                   ng-show="editForm.y.$error.max">
+                    This field cannot be more than 100.
+                </p>
+                <p class="help-block"
+                   ng-show="editForm.y.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
         </div>
 
         <div class="form-group">
-            <label for="field_project">Project</label>
-            <select class="form-control" id="field_project" name="project" ng-model="vm.player.project" ng-options="project as project.name for project in vm.projects track by project.id">
+            <label for="field_map">Map</label>
+            <select class="form-control" id="field_map" name="map" ng-model="vm.player.map" ng-options="map as map.name for map in vm.maps track by map.id">
                 <option value=""></option>
             </select>
         </div>

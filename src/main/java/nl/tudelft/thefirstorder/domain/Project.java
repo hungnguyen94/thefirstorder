@@ -46,16 +46,6 @@ public class Project implements Serializable {
     @OneToMany(mappedBy = "project")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Player> players = new HashSet<>();
-
-    @OneToMany(mappedBy = "project")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Camera> cameras = new HashSet<>();
-
-    @OneToMany(mappedBy = "project")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Cue> cues = new HashSet<>();
 
     /**
@@ -120,22 +110,6 @@ public class Project implements Serializable {
      */
     public void setMap(Map map) {
         this.map = map;
-    }
-
-    public Set<Player> getPlayers() {
-        return players;
-    }
-
-    public void setPlayers(Set<Player> players) {
-        this.players = players;
-    }
-
-    public Set<Camera> getCameras() {
-        return cameras;
-    }
-
-    public void setCameras(Set<Camera> cameras) {
-        this.cameras = cameras;
     }
 
     public Set<Cue> getCues() {

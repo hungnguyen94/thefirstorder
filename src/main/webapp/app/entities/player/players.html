@@ -24,7 +24,7 @@
                     <th jh-sort-by="name"><span>Name</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="x"><span>X</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="y"><span>Y</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="project.name"><span>Project</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="map.name"><span>Map</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
                 </tr>
             </thead>
@@ -35,7 +35,7 @@
                     <td>{{player.x}}</td>
                     <td>{{player.y}}</td>
                     <td>
-                        <a ui-sref="project-detail({id:player.project.id})">{{player.project.name}}</a>
+                        <a ui-sref="map-detail({id:player.map.id})">{{player.map.name}}</a>
                     </td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">

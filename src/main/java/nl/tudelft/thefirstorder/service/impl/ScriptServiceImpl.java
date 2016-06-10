@@ -31,6 +31,7 @@ public class ScriptServiceImpl implements ScriptService {
      * @param script the entity to save
      * @return the persisted entity
      */
+    @Transactional
     public Script save(Script script) {
         log.debug("Request to save Script : {}", script);
         Script result = scriptRepository.save(script);
@@ -59,7 +60,8 @@ public class ScriptServiceImpl implements ScriptService {
     @Transactional(readOnly = true)
     public List<Script> findAllWhereProjectIsNull() {
         log.debug("Request to get all scripts where Project is null");
-        return scriptRepository.findByProjectIsNull();
+        List<Script> result = scriptRepository.findByProjectIsNull();
+        return result;
     }
 
     /**
@@ -71,8 +73,8 @@ public class ScriptServiceImpl implements ScriptService {
     @Transactional(readOnly = true) 
     public Script findOne(Long id) {
         log.debug("Request to get Script : {}", id);
-        Script script = scriptRepository.findOne(id);
-        return script;
+        Script result = scriptRepository.findOne(id);
+        return result;
     }
 
     /**
@@ -80,6 +82,7 @@ public class ScriptServiceImpl implements ScriptService {
      *  
      *  @param id the id of the entity
      */
+    @Transactional
     public void delete(Long id) {
         log.debug("Request to delete Script : {}", id);
         scriptRepository.delete(id);

@@ -13,9 +13,10 @@ public class PlayerTest {
     private Player entity;
 
     @Mock
-    private Project project;
+    private Map map;
 
     private static long DEFAULT_ID = 1L;
+    public static double DEFAULT_VALUE = 1D;
     private static String DEFAULT_NAME = "AAAAA";
 
     @Before
@@ -37,20 +38,20 @@ public class PlayerTest {
 
     @Test
     public void getX() throws Exception {
-        entity.setX(1);
-        assertThat(entity.getX()).isEqualTo(1);
+        entity.setX(DEFAULT_VALUE);
+        assertThat(entity.getX()).isEqualTo(DEFAULT_VALUE);
     }
 
     @Test
     public void getY() throws Exception {
-        entity.setY(1);
-        assertThat(entity.getY()).isEqualTo(1);
+        entity.setY(DEFAULT_VALUE);
+        assertThat(entity.getY()).isEqualTo(DEFAULT_VALUE);
     }
 
     @Test
-    public void getProject() throws Exception {
-        entity.setProject(project);
-        assertThat(entity.getProject()).isEqualTo(project);
+    public void getMap() throws Exception {
+        entity.setMap(map);
+        assertThat(entity.getMap()).isEqualTo(map);
     }
 
     @Test

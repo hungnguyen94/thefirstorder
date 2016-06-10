@@ -1,6 +1,5 @@
 package nl.tudelft.thefirstorder.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -11,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -32,14 +33,17 @@ public class Player implements Serializable {
     private String name;
 
     @ManyToOne
-    @JsonIgnore
-    private Project project;
+    private Map map;
 
-    @Column(name = "X")
-    private int x;
+    @Min(value = 0)
+    @Max(value = 100)
+    @Column(name = "x")
+    private Double x;
 
-    @Column(name = "Y")
-    private int y;
+    @Min(value = 0)
+    @Max(value = 100)
+    @Column(name = "y")
+    private Double y;
 
     /**
      * Get the id of the player.
@@ -73,30 +77,29 @@ public class Player implements Serializable {
         this.name = name;
     }
 
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
-    }
-
-    public Integer getX() {
+    public Double getX() {
         return x;
     }
 
-    public void setX(Integer x) {
+    public void setX(Double x) {
         this.x = x;
     }
 
-    public Integer getY() {
+    public Double getY() {
         return y;
     }
 
-    public void setY(Integer y) {
+    public void setY(Double y) {
         this.y = y;
     }
 
+    public Map getMap() {
+        return map;
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
+    }
 
     /**
      * Checks if two players are the same.

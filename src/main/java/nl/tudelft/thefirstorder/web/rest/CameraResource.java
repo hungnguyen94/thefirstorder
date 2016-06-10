@@ -33,10 +33,10 @@ import java.util.Optional;
 public class CameraResource {
 
     private final Logger log = LoggerFactory.getLogger(CameraResource.class);
-        
+
     @Inject
     private CameraService cameraService;
-    
+
     /**
      * POST  /cameras : Create a new camera.
      *
@@ -52,12 +52,8 @@ public class CameraResource {
     public ResponseEntity<Camera> createCamera(@RequestBody Camera camera) throws URISyntaxException {
         log.debug("REST request to save Camera : {}", camera);
         if (camera.getId() != null) {
-            return ResponseEntity.badRequest().headers(
-                    HeaderUtil.createFailureAlert(
-                            "camera",
-                            "idexists",
-                            "A new camera cannot already have an ID")
-            ).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil
+                .createFailureAlert("camera", "idexists", "A new camera cannot already have an ID")).body(null);
         }
         Camera result = cameraService.save(camera);
         return ResponseEntity.created(new URI("/api/cameras/" + result.getId()))
@@ -103,7 +99,7 @@ public class CameraResource {
     public ResponseEntity<List<Camera>> getAllCameras(Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of Cameras");
-        Page<Camera> page = cameraService.findAll(pageable); 
+        Page<Camera> page = cameraService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/cameras");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

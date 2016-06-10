@@ -1,8 +1,8 @@
 {
     "relationships": [
         {
-            "relationshipName": "project",
-            "otherEntityName": "project",
+            "relationshipName": "map",
+            "otherEntityName": "map",
             "relationshipType": "many-to-one",
             "otherEntityField": "name"
         }
@@ -14,11 +14,25 @@
         },
         {
             "fieldName": "x",
-            "fieldType": "Integer"
+            "fieldType": "Double",
+            "fieldValidateRules": [
+                "required",
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": 0,
+            "fieldValidateRulesMax": 100
         },
         {
             "fieldName": "y",
-            "fieldType": "Integer"
+            "fieldType": "Double",
+            "fieldValidateRules": [
+                "required",
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": 0,
+            "fieldValidateRulesMax": 100
         }
     ],
     "changelogDate": "20160504122100",

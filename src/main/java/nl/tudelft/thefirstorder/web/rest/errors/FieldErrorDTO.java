@@ -2,6 +2,9 @@ package nl.tudelft.thefirstorder.web.rest.errors;
 
 import java.io.Serializable;
 
+/**
+ * DTO for sending a Field Error message
+ */
 public class FieldErrorDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;

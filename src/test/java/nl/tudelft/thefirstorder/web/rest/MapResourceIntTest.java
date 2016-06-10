@@ -12,8 +12,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -67,10 +71,15 @@ public class MapResourceIntTest {
 
     private Map map;
 
+    private MapResource mapResource;
+
+    @Mock
+    private Pageable pageable;
+
     @PostConstruct
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        MapResource mapResource = new MapResource();
+        mapResource = new MapResource();
         ReflectionTestUtils.setField(mapResource, "mapService", mapService);
         this.restMapMockMvc = MockMvcBuilders.standaloneSetup(mapResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
@@ -141,16 +150,9 @@ public class MapResourceIntTest {
     @Test
     @Transactional
     public void getAllMapsWhereProjectIsNull() throws Exception {
-        map.setProject(null);
-        // Initialize the database
-        mapRepository.saveAndFlush(map);
-
-        // Get all the maps
-        restMapMockMvc.perform(get("/api/maps?sort=id,desc"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(map.getId().intValue())))
-                .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
+        assertThat(mapResource.getAllMaps(pageable,"project-is-null"))
+            .isEqualTo(new ResponseEntity<>(mapService.findAllWhereProjectIsNull(),
+            HttpStatus.OK));
     }
 
     @Test

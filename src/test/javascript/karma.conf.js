@@ -46,7 +46,8 @@ module.exports = function (config) {
             'src/main/webapp/bower_components/blob-polyfill/Blob.js',
             'src/main/webapp/bower_components/file-saver.js/FileSaver.js',
             'src/main/webapp/bower_components/angular-file-saver/dist/angular-file-saver.bundle.js',
-            'src/main/webapp/bower_components/vis/dist/vis.min.js',
+            'src/main/webapp/bower_components/vis/dist/vis.js',
+            'src/main/webapp/bower_components/angular-animate/angular-animate.js',
             'src/main/webapp/bower_components/angular-mocks/angular-mocks.js',
             // endbower
             'src/main/webapp/app/app.module.js',
@@ -69,12 +70,12 @@ module.exports = function (config) {
         reporters: ['dots', 'jenkins', 'coverage', 'progress'],
 
         jenkinsReporter: {
-            
+
             outputFile: 'build/test-results/karma/TESTS-results.xml'
         },
 
         coverageReporter: {
-            
+
             dir: 'build/test-results/coverage',
             reporters: [
                 {type: 'lcov', subdir: 'report-lcov'}

@@ -1,22 +1,23 @@
 package nl.tudelft.thefirstorder.web.rest;
 
 import nl.tudelft.thefirstorder.ThefirstorderApp;
+import nl.tudelft.thefirstorder.domain.Camera;
 import nl.tudelft.thefirstorder.domain.Cue;
-import nl.tudelft.thefirstorder.domain.Script;
+import nl.tudelft.thefirstorder.domain.Player;
 import nl.tudelft.thefirstorder.repository.CueRepository;
 import nl.tudelft.thefirstorder.service.CueService;
-
-import nl.tudelft.thefirstorder.service.ScriptService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.hamcrest.Matchers.hasItem;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -31,6 +32,7 @@ import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -54,8 +56,6 @@ public class CueResourceIntTest {
     private CueService cueService;
 
     @Inject
-    private ScriptService scriptService;
-    @Inject
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Inject
@@ -65,10 +65,27 @@ public class CueResourceIntTest {
 
     private Cue cue;
 
+    private static final String DEFAULT_ACTION = "AAAAA";
+    private static final String UPDATED_ACTION = "BBBBB";
+    private static final Integer DEFAULT_BAR = 1;
+    private static final Integer UPDATED_BAR = 3;
+    private static final Integer DEFAULT_DURATION = 1;
+    private static final Integer UPDATED_DURATION = 3;
+
+    @Mock
+    private Player player;
+
+    @Mock
+    private Camera camera;
+
+    private CueResource cueResource;
+
+    @Mock private Pageable pageable;
+
     @PostConstruct
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        CueResource cueResource = new CueResource();
+        cueResource = new CueResource();
         ReflectionTestUtils.setField(cueResource, "cueService", cueService);
         this.restCueMockMvc = MockMvcBuilders.standaloneSetup(cueResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
@@ -78,6 +95,9 @@ public class CueResourceIntTest {
     @Before
     public void initTest() {
         cue = new Cue();
+        cue.setAction(DEFAULT_ACTION);
+        cue.setBar(DEFAULT_BAR);
+        cue.setDuration(DEFAULT_DURATION);
     }
 
     @Test
@@ -96,6 +116,9 @@ public class CueResourceIntTest {
         List<Cue> cues = cueRepository.findAll();
         assertThat(cues).hasSize(databaseSizeBeforeCreate + 1);
         Cue testCue = cues.get(cues.size() - 1);
+        assertThat(testCue.getAction()).isEqualTo(DEFAULT_ACTION);
+        assertThat(testCue.getBar()).isEqualTo(DEFAULT_BAR);
+        assertThat(testCue.getDuration()).isEqualTo(DEFAULT_DURATION);
     }
 
     @Test
@@ -126,7 +149,39 @@ public class CueResourceIntTest {
         restCueMockMvc.perform(get("/api/cues?sort=id,desc"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(cue.getId().intValue())));
+                .andExpect(jsonPath("$.[*].id").value(hasItem(cue.getId().intValue())))
+                .andExpect(jsonPath("$.[*].action").value(hasItem(DEFAULT_ACTION.toString())))
+                .andExpect(jsonPath("$.[*].bar").value(hasItem(DEFAULT_BAR.intValue())))
+                .andExpect(jsonPath("$.[*].duration").value(hasItem(DEFAULT_DURATION.intValue())));
+    }
+
+    @Test
+    public void getAllCuesNotNullId() throws Exception {
+        assertThat(cueResource.getAllCues(pageable,new Long(1))).isEqualTo(ResponseEntity.ok(cueService.findCuesByScript(new Long(1))));
+    }
+
+    @Test
+    @Transactional
+    public void getCameraFromCue() throws Exception {
+        // Initialize the database
+        cueRepository.saveAndFlush(cue);
+
+        cue.setCamera(camera);
+        assertThat(cue.getCamera()).isEqualTo(camera);
+
+        assertThat(cueService.getCamera(cue.getId())).isEqualTo(camera);
+    }
+
+    @Test
+    @Transactional
+    public void getPlayerFromCue() throws Exception {
+        // Initialize the database
+        cueRepository.saveAndFlush(cue);
+
+        cue.setPlayer(player);
+        assertThat(cue.getPlayer()).isEqualTo(player);
+
+        assertThat(cueService.getPlayer(cue.getId())).isEqualTo(player);
     }
 
     @Test
@@ -137,9 +192,12 @@ public class CueResourceIntTest {
 
         // Get the cue
         restCueMockMvc.perform(get("/api/cues/{id}", cue.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.id").value(cue.getId().intValue()));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id").value(cue.getId().intValue()))
+                .andExpect(jsonPath("$.action").value(DEFAULT_ACTION))
+                .andExpect(jsonPath("$.bar").value(DEFAULT_BAR))
+                .andExpect(jsonPath("$.duration").value(DEFAULT_DURATION));
     }
 
     @Test
@@ -161,6 +219,9 @@ public class CueResourceIntTest {
         // Update the cue
         Cue updatedCue = new Cue();
         updatedCue.setId(cue.getId());
+        updatedCue.setAction(UPDATED_ACTION);
+        updatedCue.setBar(UPDATED_BAR);
+        updatedCue.setDuration(UPDATED_DURATION);
 
         restCueMockMvc.perform(put("/api/cues")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -171,6 +232,9 @@ public class CueResourceIntTest {
         List<Cue> cues = cueRepository.findAll();
         assertThat(cues).hasSize(databaseSizeBeforeUpdate);
         Cue testCue = cues.get(cues.size() - 1);
+        assertThat(testCue.getAction()).isEqualTo(UPDATED_ACTION);
+        assertThat(testCue.getBar()).isEqualTo(UPDATED_BAR);
+        assertThat(testCue.getDuration()).isEqualTo(UPDATED_DURATION);
     }
 
     @Test

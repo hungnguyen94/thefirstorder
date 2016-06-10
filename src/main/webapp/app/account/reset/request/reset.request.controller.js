@@ -18,6 +18,9 @@
 
         $timeout(function (){angular.element('#email').focus();});
 
+        /**
+         * Requests the reset.
+         */
         function requestReset () {
 
             vm.error = null;

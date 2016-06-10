@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Service Implementation for managing Map.
@@ -40,6 +39,7 @@ public class MapServiceImpl implements MapService {
      * @param map the entity to save
      * @return the persisted entity
      */
+    @Transactional
     public Map save(Map map) {
         log.debug("Request to save Map : {}", map);
         Map result = mapRepository.save(map);
@@ -68,8 +68,8 @@ public class MapServiceImpl implements MapService {
     @Transactional(readOnly = true)
     public Map findOne(Long id) {
         log.debug("Request to get Map : {}", id);
-        Map map = mapRepository.findOne(id);
-        return map;
+        Map result = mapRepository.findOne(id);
+        return result;
     }
 
     /**
@@ -77,45 +77,10 @@ public class MapServiceImpl implements MapService {
      *  
      *  @param id the id of the entity
      */
+    @Transactional
     public void delete(Long id) {
         log.debug("Request to delete Map : {}", id);
         mapRepository.delete(id);
-    }
-
-    /**
-     * Adds a camera to the Map.
-     *
-     * @param mapId    Id of the Map
-     * @param cameraId Id of the Camera
-     * @return The updated map
-     */
-    public Optional<Map> addCamera(Long mapId, Long cameraId) {
-        Map map = findOne(mapId);
-        return Optional.ofNullable(cameraService.findOne(cameraId))
-                .map(camera -> {
-                    log.debug("Request to add camera {} to map {}", mapId, cameraId);
-                    map.addCamera(camera);
-                    mapRepository.save(map);
-                    return map;
-                });
-    }
-
-    /**
-     * Adds a player to the Map.
-     *
-     * @param mapId    Id of the Map
-     * @param playerId Id of the Player
-     * @return The updated map
-     */
-    @Override
-    public Optional<Map> addPlayer(Long mapId, Long playerId) {
-        Map map = findOne(mapId);
-        return Optional.ofNullable(playerService.findOne(playerId))
-                .map(player -> {
-                    log.debug("Request to add player {} to map {}", mapId, playerId);
-                    map.addPlayer(player);
-                    return mapRepository.save(map);
-                });
     }
 
     /**
@@ -124,6 +89,7 @@ public class MapServiceImpl implements MapService {
      * @return List of maps.
      */
     @Override
+    @Transactional(readOnly = true)
     public List<Map> findAllWhereProjectIsNull() {
         return mapRepository.findByProjectIsNull();
     }
