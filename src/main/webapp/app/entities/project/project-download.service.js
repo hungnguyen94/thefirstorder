@@ -11,16 +11,17 @@
         var services = {
             exportPdf: exportPdf,
             exportXml: exportXml
-        }
+        };
         return services;
 
-        function exportPdf (id) {
+        function exportPdf(id) {
             return $http.get(
                 resourceUrl + id + '/exportpdf',
                 { responseType: 'arraybuffer' }
             );
-        };
-        function exportXml (id) {
+        }
+        
+        function exportXml(id) {
             return $http.get(
                 resourceUrl + id + '/exportxml',
                 { responseType: 'arraybuffer' }

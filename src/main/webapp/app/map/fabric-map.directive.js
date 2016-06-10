@@ -125,7 +125,7 @@
                 drawable.left = position.x;
                 drawable.top = position.y;
 
-                if(scope.vm.editable == false) {
+                if(scope.vm.editable === false) {
                     drawable.lockMovementX = true;
                     drawable.lockMovementY = true;
                     drawable.hasControls = false;

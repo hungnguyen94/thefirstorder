@@ -25,6 +25,12 @@
                     controllerAs: 'vm'
                 }
             },
+            onEnter: function(JhiTrackerService) {
+                JhiTrackerService.subscribe();
+            },
+            onExit: function(JhiTrackerService) {
+                JhiTrackerService.unsubscribe();
+            },
             resolve: {
                 validateScript: ['ProjectManager', 'currentProjectId',
                     function (ProjectManager, currentProjectId) {

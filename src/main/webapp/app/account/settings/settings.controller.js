@@ -6,7 +6,7 @@
         .controller('SettingsController', SettingsController);
 
     SettingsController.$inject = ['Principal', 'Auth'];
-
+    
     function SettingsController (Principal, Auth) {
         var vm = this;
 
@@ -33,6 +33,9 @@
             vm.settingsAccount = copyAccount(account);
         });
 
+        /**
+         * Save the settings to the database.
+         */
         function save () {
             Auth.updateAccount(vm.settingsAccount).then(function() {
                 vm.error = null;

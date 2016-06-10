@@ -61,19 +61,6 @@
         }
 
         /**
-         * Sets the created project as the current project of the active user.
-         * @param projectId should be the id of the project
-         */
-        function loadProject(projectId) {
-            vm.isLoading = true;
-            if (projectId !== null) {
-                ProjectManager.update(projectId).then(onLoadSuccess, onLoadError);
-            } else {
-                vm.clear();
-            }
-        }
-
-        /**
          * Closes the dialog after successfully loading the created project.
          * @param result should be the loaded project.
          */
@@ -89,6 +76,19 @@
         var onLoadError = function () {
             vm.isLoading = false;
         };
+
+        /**
+         * Sets the created project as the current project of the active user.
+         * @param projectId should be the id of the project
+         */
+        function loadProject(projectId) {
+            vm.isLoading = true;
+            if (projectId !== null) {
+                ProjectManager.update(projectId).then(onLoadSuccess, onLoadError);
+            } else {
+                vm.clear();
+            }
+        }
 
         /**
          * Closes the dialog without committing the changes.

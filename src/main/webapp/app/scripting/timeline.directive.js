@@ -28,6 +28,12 @@
         };
         return directive;
 
+        /**
+         * Links the controller to the correct directive.
+         * @param scope the current scope
+         * @param element the element that the directive was called from
+         * @param attrs the attributes of the element
+         */
         function link(scope, element, attrs) {
             scope.timeline = {};
             scope.vm.timelineSelected = {};
@@ -41,10 +47,6 @@
 
             scope.$watch('vm.cues', function (newCues) {
                 createItems(scope.vm.cues);
-            });
-
-            scope.timeline.on('select', function (properties) {
-                console.log('selected timeline items: ', properties);
             });
 
             /**
@@ -110,7 +112,7 @@
              * items first.
              */
             function createItems(cues) {
-                scope.dataset.add(cues.map(transformCueToItem))
+                scope.dataset.add(cues.map(transformCueToItem));
             }
 
             /**
@@ -194,6 +196,7 @@
                         entity: item.cue
                     }
                 }).result.then(function(result) {
+                    var end = result.bar + result.duration;
                     item.content = result.action;
                     item.start = parseIntAsDate(result.bar);
                     item.end = parseIntAsDate(end);

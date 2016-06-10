@@ -28,6 +28,9 @@
             }
         });
 
+        /**
+         * Update cues by querying Cue.
+         */
         function update() {
             ProjectManager.get().then(function (projectId) {
                 Project.get({id: projectId.data}, function (project) {
