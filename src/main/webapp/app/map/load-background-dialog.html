@@ -1,4 +1,4 @@
-<form name="editForm" role="form" novalidate ng-submit="vm.save()">
+<form name="editForm" role="form" novalidate ng-submit="vm.upload()">
 
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
@@ -8,12 +8,9 @@
     <div class="modal-body">
         <div class="row">
             <div class="col-md-12">
-                <input class="ng-hide" type='file' id='getval' file-model="myFile" name="content" on-bg-upload="vm.preview"/>
-                <label for="getval" class="btn btn-raised"><span class="glyphicon glyphicon-folder-open"
+                <input required class="ng-hide" type='file' id='getImage' file-model="image" name="content" on-bg-upload="vm.preview"/>
+                <label for="getImage" class="btn btn-raised"><span class="glyphicon glyphicon-folder-open"
                                                                  aria-hidden="true"></span> Select a background</label>
-                <button ng-click="vm.upload()" class="btn btn-raised"><span class="glyphicon glyphicon-upload"
-                                                                            aria-hidden="true"></span> Upload
-                </button>
             </div>
         </div>
         <div class="row centered">
@@ -26,6 +23,9 @@
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
                 <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+            </button>
+            <button type="submit" ng-disabled="editForm.$invalid || vm.isUploading" class="btn btn-primary">
+                <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Load</span>
             </button>
         </div>
     </div>

@@ -4,26 +4,13 @@
     angular
         .module('thefirstorderApp')
         .directive('onBgUpload', onBgUpload)
-        .directive('fileModel', ['$parse', function ($parse) {
-            return {
-                restrict: 'A',
-                link: function(scope, element, attrs) {
-                    var model = $parse(attrs.fileModel);
-                    var modelSetter = model.assign;
-
-                    element.bind('change', function(){
-                        scope.$apply(function(){
-                            modelSetter(scope, element[0].files[0]);
-                        });
-                    });
-                }
-            };
-        }])
+        .directive('fileModel', fileModel)
         .controller('LoadBackgroundController', LoadBackgroundController);
 
-    LoadBackgroundController.$inject = ['$resource', '$http', '$timeout', '$scope', '$uibModalInstance', 'currentProject', 'Script', 'Project', 'AlertService', 'Upload'];
+    LoadBackgroundController.$inject = ['$http', '$scope', '$uibModalInstance', 'currentProject', 'Script', 'Project'];
+    fileModel.$inject = ['$parse'];
 
-    function LoadBackgroundController($resource, $http, $timeout, $scope, $uibModalInstance, currentProject, Script, Project, AlertService, Upload) {
+    function LoadBackgroundController($http, $scope, $uibModalInstance, currentProject, Script, Project) {
         var vm = this;
         vm.uploadedBackground = null;
         vm.hasPreview = false;
@@ -31,14 +18,17 @@
         vm.preview = preview;
         vm.upload = upload;
 
+        /**
+         * Loads a preview of the selected image into the concertMap element.
+         */
         function preview() {
-            var file = document.getElementById("getval").files[0];
+            var file = document.getElementById("getImage").files[0];
             var reader = new FileReader();
             reader.onloadend = function () {
                 document.getElementById('concertMap').style.backgroundImage = "url(" + reader.result + ")";
                 vm.uploadedBackground = reader.result;
                 vm.hasPreview = true;
-            }
+            };
             if (file) {
                 reader.readAsDataURL(file);
             } else {
@@ -46,26 +36,28 @@
             }
         }
 
+        /**
+         * Uploads the selected image to the server
+         */
         function post() {
             var fd = new FormData();
-            console.log("Posted content: ", $scope.myFile);
-            fd.append('file', $scope.myFile);
-            console.log("Content of formdata: ", fd.get('file'));
+
+            fd.append('file', $scope.image);
 
             $http.post('api/upload', fd, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
-            }).catch(function (err) {
+            }).catch(function (error) {
                 vm.uploadError = true;
-                throw err;
+                throw error;
             });
-        };
+        }
 
+        /**
+         * Uploads the selected image to the server, if not null
+         */
         function upload() {
-            if (vm.uploadedBackground === null) {
-                console.log("No background selected...");
-            } else {
-                console.log("Uploading bg");
+            if (vm.uploadedBackground !== null) {
                 post();
             }
         }
@@ -105,22 +97,6 @@
         function onLoadError() {
             vm.isLoading = false;
         }
-
-        /**
-         * Loads all scripts from the database,
-         *  setting hasScripts to true if there are scripts in the database.
-         */
-        function getScripts() {
-            vm.scripts = Script.query({}, onSuccess, onError);
-
-            function onSuccess(data) {
-                vm.hasScripts = data.length > 0;
-            }
-
-            function onError(error) {
-                AlertService.error(error.data.message);
-            }
-        }
     }
 
     function onBgUpload() {
@@ -129,6 +105,22 @@
             link: function (scope, element, attrs) {
                 var onBgUpload = scope.$eval(attrs.onBgUpload);
                 element.bind('change', onBgUpload);
+            }
+        };
+    }
+
+    function fileModel($parse) {
+        return {
+            restrict: 'A',
+            link: function(scope, element, attrs) {
+                var model = $parse(attrs.fileModel);
+                var modelSetter = model.assign;
+
+                element.bind('change', function(){
+                    scope.$apply(function(){
+                        modelSetter(scope, element[0].files[0]);
+                    });
+                });
             }
         };
     }
