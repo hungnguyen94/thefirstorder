@@ -50,7 +50,24 @@
             });
 
             scope.timeline.on('select', function (properties) {
-                console.log('selected items: ', properties);
+                var selected = properties.items;
+                var selectedItems = scope.dataset.get({
+                    filter: function (item) {
+                        return selected.indexOf(item.id) > -1;
+                    }
+                });
+                console.log('selected items: ', selectedItems);
+            });
+            
+            scope.timeline.on('timechanged', function (event) {
+                var time = event.time;
+                var selectedItems = scope.dataset.get({
+                    filter: function (item) {
+                        console.log('item is: ', item);
+                        return time >= new Date(item.start) && time <= new Date(item.end);
+                    }
+                });
+                console.log('items on bar: ', selectedItems);
             });
 
             /**
