@@ -4,19 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
+import java.util.Objects;
 
 /**
  * A Script.
@@ -35,59 +27,46 @@ public class Script implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @OneToOne(mappedBy = "script")
-    @JsonIgnore
-    private Project project;
+    @Column(name = "score")
+    private String score;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "script")
+    @OneToMany(mappedBy = "script")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Cue> cues = new HashSet<>();
 
-    /**
-     * Get the id of the script.
-     * @return the id
-     */
+    @OneToOne(mappedBy = "script")
+    @JsonIgnore
+    private Project project;
+
     public Long getId() {
         return id;
     }
 
-    /**
-     * Set the id of the script.
-     * @param id the id
-     */
     public void setId(Long id) {
         this.id = id;
     }
 
-    /**
-     * Get the name of the script.
-     * @return the name
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * Set the name of the script.
-     * @param name the name
-     */
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * Get the cues of the script.
-     * @return the cues
-     */
+    public String getScore() {
+        return score;
+    }
+
+    public void setScore(String score) {
+        this.score = score;
+    }
+
     public Set<Cue> getCues() {
         return cues;
     }
 
-    /**
-     * Set the cues of the script.
-     * @param cues the cues
-     */
     public void setCues(Set<Cue> cues) {
         this.cues = cues;
     }
@@ -100,11 +79,6 @@ public class Script implements Serializable {
         this.project = project;
     }
 
-    /**
-     * Checks if two scripts are the same.
-     * @param o the object to compare with
-     * @return the result as a boolean
-     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -114,30 +88,23 @@ public class Script implements Serializable {
             return false;
         }
         Script script = (Script) o;
-        if (script.id == null || id == null) {
+        if(script.id == null || id == null) {
             return false;
         }
         return Objects.equals(id, script.id);
     }
 
-    /**
-     * Generates a hash code.
-     * @return the hash code
-     */
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
     }
 
-    /**
-     * Represents a script as a string.
-     * @return the string
-     */
     @Override
     public String toString() {
-        return "Script{"
-                + "id=" + id
-                + ", name='" + name
-                + "'" + '}';
+        return "Script{" +
+            "id=" + id +
+            ", name='" + name + "'" +
+            ", score='" + score + "'" +
+            '}';
     }
 }

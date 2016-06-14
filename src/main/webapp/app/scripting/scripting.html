@@ -1,9 +1,9 @@
 <div ng-cloak>
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-6">
             <canvas fabric-map map="vm.map" selected="vm.selected" editable="false"></canvas>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
             Player: {{vm.selectedPlayer.name}}
             <br/>
             Camera: {{vm.selectedCamera.name}}
@@ -13,6 +13,9 @@
         <div class="col-md-12">
             <br/>
             <timeline map="vm.map" selected="vm.selected"></timeline>
+        </div>
+        <div class="col-md-12">
+            <canvas fabric-score score="vm.score"></canvas>
         </div>
     </div>
 </div>
