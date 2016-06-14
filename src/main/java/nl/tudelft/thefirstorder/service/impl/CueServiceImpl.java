@@ -57,7 +57,7 @@ class CueServiceImpl implements CueService {
     /**
      * Find cues by their script id.
      * @param scriptId the id of the script
-     * @return a List<Cue> of all the cues
+     * @return a List of all the cues
      */
     @Override
     @Transactional(readOnly = true)

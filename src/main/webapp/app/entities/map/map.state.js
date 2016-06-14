@@ -83,7 +83,7 @@
                         entity: function () {
                             return {
                                 name: null,
-                                background_image: null,
+                                backgroundImage: null,
                                 id: null
                             };
                         }

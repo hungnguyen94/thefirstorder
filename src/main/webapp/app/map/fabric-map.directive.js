@@ -60,7 +60,7 @@
                     if(map == ""){
                         load(default_bg);
                     } else {
-                        load(map.background_image);
+                        load(map.backgroundImage);
                     }
                 }
 

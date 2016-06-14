@@ -34,8 +34,8 @@ public class Map implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "background_image")
-    private String background_image;
+    @Column(name = "backgroundImage")
+    private String backgroundImage;
 
     @OneToOne(mappedBy = "map")
     @JsonIgnore
@@ -74,19 +74,19 @@ public class Map implements Serializable {
     }
 
     /**
-     * Returns the location of the background image in the form of n url.
+     * Returns the location of the background image in the form of an url.
      * @return an url pointing to the location of the background image.
      */
-    public String getBackground_image() {
-        return background_image;
+    public String getBackgroundImage() {
+        return backgroundImage;
     }
 
     /**
      * Sets the location of the background image to the given url.
-     * @param background_image should be a url representing the location of an image
+     * @param backgroundImage should be a url representing the location of an image
      */
-    public void setBackground_image(String background_image) {
-        this.background_image = background_image;
+    public void setBackgroundImage(String backgroundImage) {
+        this.backgroundImage = backgroundImage;
     }
 
     /**
@@ -174,7 +174,7 @@ public class Map implements Serializable {
     public String toString() {
         return "Map{" + "id=" + id
                 + ", name='" + name + "'"
-                + ", background_image='" + background_image + "'"
+                + ", backgroundImage='" + backgroundImage + "'"
                 + '}';
     }
 }

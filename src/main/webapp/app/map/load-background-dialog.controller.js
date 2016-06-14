@@ -60,7 +60,7 @@
             var location = response.data.location;
 
             vm.map = currentProject.map;
-            vm.map.background_image = location;
+            vm.map.backgroundImage = location;
             Map.update(vm.map, onUpdateSuccess, onUpdateError);
         }
 

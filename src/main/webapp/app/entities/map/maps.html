@@ -4,7 +4,8 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-4 no-padding-left">
-                <button class="btn btn-primary" ui-sref="map.new" >
+                <button class="btn btn-primary" ui-sref="map.new"
+                        has-any-authority="ROLE_ADMIN,ROLE_DIRECTOR,ROLE_CAMERA_OPERATOR">
                     <span class="glyphicon glyphicon-plus"></span>
                     <span >
                         Create new Map
@@ -20,7 +21,7 @@
                 <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                     <th jh-sort-by="id"><span>ID</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="name"><span>Name</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="background_image"><span translate="thefirstorderApp.map.background_image">Background Image</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="backgroundImage"><span translate="thefirstorderApp.map.backgroundImage">Background Image</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
                 </tr>
             </thead>
@@ -28,7 +29,7 @@
                 <tr ng-repeat="map in vm.maps track by map.id">
                     <td><a ui-sref="map-detail({id:map.id})">{{map.id}}</a></td>
                     <td>{{map.name}}</td>
-                    <td>{{map.background_image}}</td>
+                    <td>{{map.backgroundImage}}</td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"

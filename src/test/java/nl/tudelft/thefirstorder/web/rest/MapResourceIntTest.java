@@ -85,7 +85,7 @@ public class MapResourceIntTest {
     public void initTest() {
         map = new Map();
         map.setName(DEFAULT_NAME);
-        map.setBackground_image(DEFAULT_BACKGROUND_IMAGE);
+        map.setBackgroundImage(DEFAULT_BACKGROUND_IMAGE);
     }
 
     @Test
@@ -105,7 +105,7 @@ public class MapResourceIntTest {
         assertThat(maps).hasSize(databaseSizeBeforeCreate + 1);
         Map testMap = maps.get(maps.size() - 1);
         assertThat(testMap.getName()).isEqualTo(DEFAULT_NAME);
-        assertThat(testMap.getBackground_image()).isEqualTo(DEFAULT_BACKGROUND_IMAGE);
+        assertThat(testMap.getBackgroundImage()).isEqualTo(DEFAULT_BACKGROUND_IMAGE);
     }
 
     @Test
@@ -164,7 +164,7 @@ public class MapResourceIntTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(map.getId().intValue())))
                 .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-                .andExpect(jsonPath("$.[*].background_image").value(hasItem(DEFAULT_BACKGROUND_IMAGE.toString())));
+                .andExpect(jsonPath("$.[*].backgroundImage").value(hasItem(DEFAULT_BACKGROUND_IMAGE.toString())));
     }
 
     @Test
@@ -179,7 +179,7 @@ public class MapResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.id").value(map.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
-            .andExpect(jsonPath("$.background_image").value(DEFAULT_BACKGROUND_IMAGE.toString()));
+            .andExpect(jsonPath("$.backgroundImage").value(DEFAULT_BACKGROUND_IMAGE.toString()));
     }
 
     @Test
@@ -202,7 +202,7 @@ public class MapResourceIntTest {
         Map updatedMap = new Map();
         updatedMap.setId(map.getId());
         updatedMap.setName(UPDATED_NAME);
-        updatedMap.setBackground_image(UPDATED_BACKGROUND_IMAGE);
+        updatedMap.setBackgroundImage(UPDATED_BACKGROUND_IMAGE);
 
         restMapMockMvc.perform(put("/api/maps")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -214,7 +214,7 @@ public class MapResourceIntTest {
         assertThat(maps).hasSize(databaseSizeBeforeUpdate);
         Map testMap = maps.get(maps.size() - 1);
         assertThat(testMap.getName()).isEqualTo(UPDATED_NAME);
-        assertThat(testMap.getBackground_image()).isEqualTo(UPDATED_BACKGROUND_IMAGE);
+        assertThat(testMap.getBackgroundImage()).isEqualTo(UPDATED_BACKGROUND_IMAGE);
     }
 
     @Test
