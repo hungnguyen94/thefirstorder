@@ -1,3 +1,10 @@
+<button type="button" class="btn btn-raised" ng-click="vm.update()"><span class="glyphicon glyphicon-refresh"
+                                                                          aria-hidden="true"></span> Update
+</button>
+<button type="button" class="btn btn-raised" ui-sref="map.load-background"><span class="glyphicon glyphicon-blackboard"
+                                                                                 aria-hidden="true"></span> Change
+    background
+</button>
 <table class="table table-hover">
     <thead>
     <tr>
@@ -22,7 +29,6 @@
         </td>
     </tr>
     <tr class="info" ng-repeat-end>
-    <!--<tr ng-repeat-end uib-collapse="false">-->
         <td colspan="3" style="padding-top: 0; padding-bottom: 0">
             <div uib-collapse="vm.selected != camera">
                 <p>id: {{camera.id}}</p>
@@ -40,6 +46,7 @@
         <td>Add camera</td>
         <td></td>
     </tr>
+    </tbody>
 </table>
 
 <table class="table table-hover">
@@ -48,6 +55,7 @@
         <th colspan="3"><b>Players</b></th>
     </tr>
     </thead>
+    <tbody>
     <tr ng-repeat-start="player in vm.map.players"
         ng-click="vm.setSelected(player)"
         ng-class="{ 'success': vm.selected == player }">

@@ -5,7 +5,7 @@
         .module('thefirstorderApp')
         .directive('fabricMap', fabricMap);
 
-    fabricMap.$inject = ['$window', 'Player', 'Camera'];
+    fabricMap.$inject = ['$window', 'Player', 'Camera', 'Map'];
 
     /**
      * The controller for the map directive.
@@ -14,7 +14,7 @@
      * @param Camera
      * @returns {{restrict: string, scope: {map: string, selected: string, editable: string}, link: link, controller: string, controllerAs: string, bindToController: boolean}}
      */
-    function fabricMap($window, Player, Camera) {
+    function fabricMap($window, Player, Camera, Map) {
         var directive = {
             restrict: 'EA',
             scope: {
@@ -51,20 +51,40 @@
              * Initializes the map with a canvas and loads the cameras and players.
              */
             function init() {
-                var canvas = new fabric.Canvas(element[0]);
-                canvas.selection = false;
-                fabric.Image.fromURL('content/images/concertzaal.jpg', function(img) {
-                    scope.aspectRatio = img.width / img.height;
-                    img.set({
-                        width: canvas.width,
-                        height: canvas.width / scope.aspectRatio,
-                        originX: 'left',
-                        originY: 'top'
+                Map.get({id: 1}, onLoadSuccess, onLoadError);
+
+                var default_bg = "content/images/concertzaal.jpg";
+                var error_bg = "content/images/error.jpg";
+
+                function onLoadSuccess(map) {
+                    if(map == ""){
+                        load(default_bg);
+                    } else {
+                        load(map.backgroundImage);
+                    }
+                }
+
+                function onLoadError() {
+                    load(error_bg);
+                }
+
+                function load(bg_image) {
+                    console.log('init directive');
+                    var canvas = new fabric.Canvas(element[0]);
+
+                    fabric.Image.fromURL(bg_image, function (img) {
+                        scope.aspectRatio = img.width / img.height;
+                        img.set({
+                            width: canvas.width,
+                            height: canvas.width / scope.aspectRatio,
+                            originX: 'left',
+                            originY: 'top'
+                        });
+                        canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
+                        resize();
                     });
-                    canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
-                    resize();
-                });
-                scope.canvas = canvas;
+                    scope.canvas = canvas;
+                }
             }
 
             /**
@@ -228,7 +248,7 @@
                 if(target) {
                     var entity = target.entity;
                     var position = getRelativePosition(target.left, target.top);
-                    if (!(position.x > 100 || position.x < 0 || 
+                    if (!(position.x > 100 || position.x < 0 ||
                         position.y > 100 || position.y < 0)) {
                         entity.x = position.x;
                         entity.y = position.y;

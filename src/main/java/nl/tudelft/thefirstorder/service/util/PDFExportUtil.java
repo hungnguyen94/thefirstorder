@@ -189,7 +189,7 @@ public class PDFExportUtil {
     }
 
     /**
-     * Add an empty line in the pdf
+     * Add an empty line in the pdf.
      * @param paragraph the paragraph to add a line to
      * @param number the number of lines to add
      */

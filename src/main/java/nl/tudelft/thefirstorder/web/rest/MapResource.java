@@ -36,7 +36,7 @@ import java.util.Optional;
 public class MapResource {
 
     private final Logger log = LoggerFactory.getLogger(MapResource.class);
-        
+
     @Inject
     private MapService mapService;
 
@@ -45,7 +45,7 @@ public class MapResource {
      *
      * @param map the map to create
      * @return the ResponseEntity with status 201 (Created) and with body the new map,
-     *      or with status 400 (Bad Request) if the map has already an ID
+     *     or with status 400 (Bad Request) if the map has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/maps",
@@ -56,7 +56,7 @@ public class MapResource {
         log.debug("REST request to save Map : {}", map);
         if (map.getId() != null) {
             return ResponseEntity.badRequest().headers(
-                    HeaderUtil.createFailureAlert("map", "idexists", "A new map cannot already have an ID")
+                HeaderUtil.createFailureAlert("map", "idexists", "A new map cannot already have an ID")
             ).body(null);
         }
         Map result = mapService.save(map);
@@ -70,8 +70,8 @@ public class MapResource {
      *
      * @param map the map to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated map,
-     *      or with status 400 (Bad Request) if the map is not valid,
-     *      or with status 500 (Internal Server Error) if the map couldnt be updated
+     *     or with status 400 (Bad Request) if the map is not valid,
+     *     or with status 500 (Internal Server Error) if the map couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/maps",
@@ -93,7 +93,7 @@ public class MapResource {
      * GET  /maps : get all the maps.
      *
      * @param pageable the pagination information
-     * @param filter the filter of this request
+     * @param filter   the filter of the request
      * @return the ResponseEntity with status 200 (OK) and the list of maps in body
      * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
@@ -101,16 +101,15 @@ public class MapResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<List<Map>> getAllMaps(Pageable pageable,
-                                                @RequestParam(required = false) String filter)
-            throws URISyntaxException {
+    public ResponseEntity<List<Map>> getAllMaps(Pageable pageable, @RequestParam(required = false) String filter)
+        throws URISyntaxException {
         if ("project-is-null".equals(filter)) {
             log.debug("REST request to get all Maps where project is null");
             return new ResponseEntity<>(mapService.findAllWhereProjectIsNull(),
-                    HttpStatus.OK);
+                HttpStatus.OK);
         }
         log.debug("REST request to get a page of Maps");
-        Page<Map> page = mapService.findAll(pageable); 
+        Page<Map> page = mapService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/maps");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -155,6 +154,7 @@ public class MapResource {
      * Return a data transfer object for the Map,
      * which includes all the cameras and players
      * contained in the map.
+     *
      * @param mapId Id of the Map
      * @return MapDTO
      */
@@ -165,8 +165,7 @@ public class MapResource {
     @Transactional(readOnly = true)
     public ResponseEntity<MapDTO> getMapDTO(@PathVariable Long mapId) {
         return Optional.ofNullable(mapService.findOne(mapId))
-                .map(map -> new ResponseEntity<MapDTO>(new MapDTO(map), HttpStatus.OK))
-                .orElse(new ResponseEntity<MapDTO>(HttpStatus.NOT_FOUND));
+            .map(map -> new ResponseEntity<MapDTO>(new MapDTO(map), HttpStatus.OK))
+            .orElse(new ResponseEntity<MapDTO>(HttpStatus.NOT_FOUND));
     }
-
 }

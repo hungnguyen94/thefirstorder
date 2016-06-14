@@ -2,9 +2,7 @@ package nl.tudelft.thefirstorder.service.impl;
 
 import nl.tudelft.thefirstorder.domain.Map;
 import nl.tudelft.thefirstorder.repository.MapRepository;
-import nl.tudelft.thefirstorder.service.CameraService;
 import nl.tudelft.thefirstorder.service.MapService;
-import nl.tudelft.thefirstorder.service.PlayerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -27,19 +25,12 @@ public class MapServiceImpl implements MapService {
     @Inject
     private MapRepository mapRepository;
 
-    @Inject
-    private CameraService cameraService;
-
-    @Inject
-    private PlayerService playerService;
-
     /**
      * Save a map.
      *
      * @param map the entity to save
      * @return the persisted entity
      */
-    @Transactional
     public Map save(Map map) {
         log.debug("Request to save Map : {}", map);
         Map result = mapRepository.save(map);
@@ -60,22 +51,22 @@ public class MapServiceImpl implements MapService {
     }
 
     /**
-     *  Get one map by id.
+     * Get one map by id.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     @Transactional(readOnly = true)
     public Map findOne(Long id) {
         log.debug("Request to get Map : {}", id);
-        Map result = mapRepository.findOne(id);
-        return result;
+        Map map = mapRepository.findOne(id);
+        return map;
     }
 
     /**
-     *  Delete the  map by id.
-     *  
-     *  @param id the id of the entity
+     * Delete the  map by id.
+     *
+     * @param id the id of the entity
      */
     @Transactional
     public void delete(Long id) {
@@ -93,5 +84,4 @@ public class MapServiceImpl implements MapService {
     public List<Map> findAllWhereProjectIsNull() {
         return mapRepository.findByProjectIsNull();
     }
-
 }
