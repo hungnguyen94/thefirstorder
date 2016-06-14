@@ -4,6 +4,21 @@
     angular
         .module('thefirstorderApp')
         .directive('onBgUpload', onBgUpload)
+        .directive('fileModel', ['$parse', function ($parse) {
+            return {
+                restrict: 'A',
+                link: function(scope, element, attrs) {
+                    var model = $parse(attrs.fileModel);
+                    var modelSetter = model.assign;
+
+                    element.bind('change', function(){
+                        scope.$apply(function(){
+                            modelSetter(scope, element[0].files[0]);
+                        });
+                    });
+                }
+            };
+        }])
         .controller('LoadBackgroundController', LoadBackgroundController);
 
     LoadBackgroundController.$inject = ['$resource', '$http', '$timeout', '$scope', '$uibModalInstance', 'currentProject', 'Script', 'Project', 'AlertService', 'Upload'];
@@ -15,7 +30,6 @@
 
         vm.preview = preview;
         vm.upload = upload;
-        vm.map = "/content/images/no-preview.jpg"
 
         function preview() {
             var file = document.getElementById("getval").files[0];
@@ -34,12 +48,13 @@
 
         function post() {
             var fd = new FormData();
-            console.log(document.getElementById("getval").files[0]);
-            fd.append('file', document.getElementById("getval").files[0]);
-            console.log(fd.get('file'));
+            console.log("Posted content: ", $scope.myFile);
+            fd.append('file', $scope.myFile);
+            console.log("Content of formdata: ", fd.get('file'));
 
-            Upload.create({content: fd}).$promise.then(function (res) {
-                vm.upload = res;
+            $http.post('api/upload', fd, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
             }).catch(function (err) {
                 vm.uploadError = true;
                 throw err;
@@ -47,11 +62,11 @@
         };
 
         function upload() {
-            post();
             if (vm.uploadedBackground === null) {
                 console.log("No background selected...");
             } else {
                 console.log("Uploading bg");
+                post();
             }
         }
 

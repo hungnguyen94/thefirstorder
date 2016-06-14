@@ -16,10 +16,7 @@ OVERRIDE ALL CSS SETTINGS
     width: 100%;
     background-repeat: no-repeat;
     background-size: 100% 100%;
-}
-
-.no-preview {
-    background-image: url("/content/images/no-preview.jpg");
+    height: 600px;
 }
 
 .modal-footer form {

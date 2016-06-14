@@ -8,26 +8,25 @@
     <div class="modal-body">
         <div class="row">
             <div class="col-md-12">
-                <input class="ng-hide" type='file' id='getval' name="background-image" on-bg-upload="vm.preview"/>
+                <input class="ng-hide" type='file' id='getval' file-model="myFile" name="content" on-bg-upload="vm.preview"/>
                 <label for="getval" class="btn btn-raised"><span class="glyphicon glyphicon-folder-open"
                                                                  aria-hidden="true"></span> Select a background</label>
                 <button ng-click="vm.upload()" class="btn btn-raised"><span class="glyphicon glyphicon-upload"
-                                                                            aria-hidden="true"></span> Upload</button>
+                                                                            aria-hidden="true"></span> Upload
+                </button>
             </div>
         </div>
         <div class="row centered">
             <h3>Preview</h3>
-            <div class="col-md-12" ng-switch="vm.hasPreview">
-                <div id="concertMap" class="preview" style="background-color: darkslateblue; height: 600px; width: 100%" ng-switch-when="true">
-                </div>
-                <div class="preview no-preview" style="background-color: darkslateblue; height: 600px; width: 100%" ng-switch-when="false">
+            <div class="col-md-12">
+                <div id="concertMap" class="preview">
                 </div>
             </div>
         </div>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
-            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
-        </button>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+                <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+            </button>
+        </div>
     </div>
 </form>
