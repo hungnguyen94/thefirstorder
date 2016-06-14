@@ -27,8 +27,8 @@ public class UploadResource {
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<String> uploadFile(@RequestBody(required = true) MultipartFile content) throws IOException {
-        String res = writeToFile(content.getInputStream());
+    public ResponseEntity<String> uploadFile(@RequestBody(required = true) MultipartFile file) throws IOException {
+        String res = writeToFile(file.getInputStream());
 
         return ResponseEntity.ok()
             .headers(HeaderUtil.createAlert("Uploaded", "image"))
