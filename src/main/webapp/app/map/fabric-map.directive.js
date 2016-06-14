@@ -21,7 +21,6 @@
                 map: '=map',
                 selected: '=selected',
                 editable: '=editable', 
-                canvas: '=canvas', 
                 highlight: '=highlight'
             },
             link: link,
@@ -56,6 +55,10 @@
             });
             scope.canvas.on('object:selected', onSelect);
             scope.canvas.on('object:modified', updateEntity);
+
+            /**
+             * Sets the label to the current target the mouse is hovering over.
+             */
             scope.canvas.on('mouse:over', function(options) {
                 var target = options.target;
                 scope.vm.hoverTarget = target;
@@ -67,6 +70,10 @@
                 });
                 scope.canvas.renderAll();
             });
+
+            /**
+             * Removes the label if the mouse leaves the target. 
+             */
             scope.canvas.on('mouse:out', function(options) {
                 scope.vm.hoverTarget = null;
                 label.setText('');
