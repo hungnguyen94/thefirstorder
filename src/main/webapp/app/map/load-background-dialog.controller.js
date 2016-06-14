@@ -7,13 +7,14 @@
         .directive('fileModel', fileModel)
         .controller('LoadBackgroundController', LoadBackgroundController);
 
-    LoadBackgroundController.$inject = ['$http', '$scope', '$uibModalInstance', 'currentProject', 'Script', 'Project'];
+    LoadBackgroundController.$inject = ['$http', '$scope', '$uibModalInstance', 'currentProject', 'Script', 'Project', 'ProjectManager', 'Map'];
     fileModel.$inject = ['$parse'];
 
-    function LoadBackgroundController($http, $scope, $uibModalInstance, currentProject, Script, Project) {
+    function LoadBackgroundController($http, $scope, $uibModalInstance, currentProject, Script, Project, ProjectManager, Map) {
         var vm = this;
         vm.uploadedBackground = null;
         vm.hasPreview = false;
+        vm.isUploading = false;
 
         vm.preview = preview;
         vm.upload = upload;
@@ -26,7 +27,6 @@
             var reader = new FileReader();
             reader.onloadend = function () {
                 document.getElementById('concertMap').style.backgroundImage = "url(" + reader.result + ")";
-                vm.uploadedBackground = reader.result;
                 vm.hasPreview = true;
             };
             if (file) {
@@ -47,17 +47,54 @@
             $http.post('api/upload', fd, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
-            }).catch(function (error) {
-                vm.uploadError = true;
-                throw error;
-            });
+            }).then(onPostSuccess, onPostError);
         }
 
         /**
-         * Uploads the selected image to the server, if not null
+         * When posting the image succeeds, update the background image location of the map
+         *  of the current project of the active user.
+         * @param response should be the response message after uploading,
+         *  containing the location of the uploaded image on the server.
+         */
+        function onPostSuccess(response) {
+            var location = response.data.location;
+
+            vm.map = currentProject.map;
+            vm.map.background_image = location;
+            Map.update(vm.map, onUpdateSuccess, onUpdateError);
+        }
+
+        /**
+         * When posting the image fails, set isUploading to false.
+         */
+        function onPostError() {
+            console.log("Error uploading file. Please keep in mind that files should not be larger than 25MB.");
+            vm.isUploading = false;
+        }
+
+        /**
+         * When updating the map succeeds, close the dialog.
+         * @param result should be the updated map.
+         */
+        function onUpdateSuccess(result) {
+            $scope.$emit('thefirstorderApp:scriptLoad', result);
+            $uibModalInstance.close(result);
+            vm.isUploading = false;
+        }
+
+        /**
+         * When updating the map fails, set isUploading to false.
+         */
+        function onUpdateError() {
+            console.log("Error setting image as map background image.");
+            vm.isUploading = false;
+        }
+
+        /**
+         * Uploads the selected image to the server when it exists.
          */
         function upload() {
-            if (vm.uploadedBackground !== null) {
+            if (vm.hasPreview) {
                 post();
             }
         }
@@ -68,35 +105,6 @@
         vm.clear = function () {
             $uibModalInstance.dismiss('cancel');
         };
-
-        /**
-         * Sets the given script as the script of the current project of the active user.
-         * @param scriptId should be the id of the script
-         */
-        vm.load = function (scriptId) {
-            vm.isLoading = true;
-            Script.get({id: scriptId}, onLoadSuccess, onLoadError);
-        };
-
-        /**
-         * Closes the dialog after successfully saving the script.
-         * @param result should be the saved script.
-         */
-        function onLoadSuccess(result) {
-            currentProject.script = result;
-            Project.update(currentProject);
-
-            $scope.$emit('thefirstorderApp:scriptLoad', result);
-            $uibModalInstance.close(result);
-            vm.isLoading = false;
-        }
-
-        /**
-         * Do nothing when saving the script fails.
-         */
-        function onLoadError() {
-            vm.isLoading = false;
-        }
     }
 
     function onBgUpload() {
@@ -112,12 +120,12 @@
     function fileModel($parse) {
         return {
             restrict: 'A',
-            link: function(scope, element, attrs) {
+            link: function (scope, element, attrs) {
                 var model = $parse(attrs.fileModel);
                 var modelSetter = model.assign;
 
-                element.bind('change', function(){
-                    scope.$apply(function(){
+                element.bind('change', function () {
+                    scope.$apply(function () {
                         modelSetter(scope, element[0].files[0]);
                     });
                 });
