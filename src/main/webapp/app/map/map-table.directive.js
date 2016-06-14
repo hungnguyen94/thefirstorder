@@ -128,6 +128,7 @@
                                 x: null,
                                 y: null,
                                 id: null,
+                                angle: 0, 
                                 map: scope.vm.project.map
                             };
                         }
