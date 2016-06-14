@@ -20,7 +20,9 @@
             scope: {
                 map: '=map',
                 selected: '=selected',
-                editable: '=editable'
+                editable: '=editable', 
+                canvas: '=canvas', 
+                highlight: '=highlight'
             },
             link: link,
             controller: 'MapEditorController',
@@ -37,8 +39,16 @@
          */
         function link(scope, element, attrs) {
             scope.canvas = {};
-
+            scope.vm.highlight = highlightEntities;
+            scope.vm.hoverTarget = null;
+            var label = new fabric.Text('', {
+                fill: '#fff',
+                fontSize: 14, 
+                name: 'label'
+            });
+            
             init();
+            scope.vm.canvas = scope.canvas;
 
             angular.element($window).bind('resize', resize);
             scope.$watch('vm.map', function (newMap) {
@@ -46,6 +56,24 @@
             });
             scope.canvas.on('object:selected', onSelect);
             scope.canvas.on('object:modified', updateEntity);
+            scope.canvas.on('mouse:over', function(options) {
+                var target = options.target;
+                scope.vm.hoverTarget = target;
+                label.set({
+                    left: target.left + 20, 
+                    top: target.top + 10, 
+                    text: target.entity.name, 
+                    textBackgroundColor: 'rgba(0,0,0,0.3)'
+                });
+                scope.canvas.renderAll();
+            });
+            scope.canvas.on('mouse:out', function(options) {
+                scope.vm.hoverTarget = null;
+                label.setText('');
+                scope.canvas.renderAll();
+            });
+            
+            /////////////////////////////////////////////////////
 
             /**
              * Initializes the map with a canvas and loads the cameras and players.
@@ -65,6 +93,7 @@
                     resize();
                 });
                 scope.canvas = canvas;
+                scope.canvas.add(label);
             }
 
             /**
@@ -88,6 +117,30 @@
             }
 
             /**
+             * Highlights the selected entities on the map.
+             * @param selected The selected entities on the map
+             */
+            function highlightEntities(selected) {
+                var entities = selected.map(function (entity) {
+                    return entity.name;
+                });
+                scope.canvas.getObjects().forEach(function (item) {
+                    if(!item.hasOwnProperty('entity')) {
+                        return;
+                    }
+                    var opacity = 0.2;
+                    if(entities.indexOf(item.entity.name) > -1) {
+                        opacity = 1.0;
+                    }
+                    item.animate('opacity', opacity, {
+                        onChange: scope.canvas.renderAll.bind(scope.canvas),
+                        duration: 200
+                    });
+                });
+                scope.canvas.renderAll();
+            }
+            
+            /**
              * Prepares the cameras and players for drawing and draws them to the map.
              * @param cameras the cameras to draw
              * @param players the players to draw
@@ -96,6 +149,7 @@
                 var drawableCameras = cameras.map(transformCamera);
                 var drawablePlayers = players.map(transformPlayer);
                 scope.canvas.clear();
+                scope.canvas.add(label);
                 drawEntities(drawableCameras.concat(drawablePlayers));
             }
 
