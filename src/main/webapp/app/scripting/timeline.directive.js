@@ -16,15 +16,8 @@
      */
     function timeline(Cue, Camera, $uibModal) {
         var directive = {
-            scope: {
-                'map': '=',
-                'selected': '='
-            },
             restrict: 'EA',
-            link: link,
-            controller: 'ScriptingController',
-            controllerAs: 'vm',
-            bindToController: true
+            link: link 
         };
         return directive;
 
@@ -36,8 +29,9 @@
          */
         function link(scope, element, attrs) {
             scope.timeline = {};
-            scope.vm.timelineSelected = {};
             scope.dataset = new vis.DataSet();
+            var selected = {};
+            scope.vm.selectedEntities = selected;
 
             init();
 
@@ -56,18 +50,28 @@
                         return selected.indexOf(item.id) > -1;
                     }
                 });
-                console.log('selected items: ', selectedItems);
             });
-            
+
+            /**
+             * Fires when a bar is moved. 
+             */
             scope.timeline.on('timechanged', function (event) {
                 var time = event.time;
                 var selectedItems = scope.dataset.get({
                     filter: function (item) {
-                        console.log('item is: ', item);
                         return time >= new Date(item.start) && time <= new Date(item.end);
                     }
                 });
-                console.log('items on bar: ', selectedItems);
+                var selectedCameras = selectedItems.map(function (item) {
+                    return item.cue.camera;
+                });
+                var selectedPlayers = selectedItems.map(function (item) {
+                    return item.cue.player;
+                });
+                scope.$apply(function () {
+                    selected = selectedCameras.concat(selectedPlayers);
+                    scope.vm.selectedEntities = selected;
+                });
             });
 
             /**

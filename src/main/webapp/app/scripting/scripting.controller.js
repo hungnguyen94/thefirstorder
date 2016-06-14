@@ -17,6 +17,7 @@
         var vm = this;
         vm.selectedCamera = null;
         vm.selectedPlayer = null;
+        console.log('scope is', $scope);
 
         update();
 
@@ -26,6 +27,11 @@
             } else {
                 vm.selectedPlayer = selected;
             }
+        });
+
+        $scope.$watch('vm.selectedEntities', function (selected) {
+            console.log('Highlighted: ', selected);
+            vm.highlight(selected);
         });
 
         /**
