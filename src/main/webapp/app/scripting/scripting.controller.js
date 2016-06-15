@@ -28,6 +28,10 @@
             }
         });
 
+        $scope.$watch('vm.selectedEntities', function (selected) {
+            vm.highlight(selected);
+        });
+
         /**
          * Update cues by querying Cue.
          */

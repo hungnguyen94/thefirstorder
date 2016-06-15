@@ -1,7 +1,11 @@
 <div ng-cloak>
     <div class="row">
         <div class="col-md-8">
-            <canvas fabric-map map="vm.map" selected="vm.selected" editable="false"></canvas>
+            <canvas fabric-map map="vm.map"
+                    selected="vm.selected"
+                    editable="false"
+                    highlight="vm.highlight"
+            ></canvas>
         </div>
         <div class="col-md-4">
             Player: {{vm.selectedPlayer.name}}
