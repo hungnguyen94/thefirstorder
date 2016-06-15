@@ -54,13 +54,11 @@
             showActivity(activity);
 
             if (activity.current == null) {
-                console.log("No current cue is defined.");
                 JhiTrackerService.sendCurrent(0);
                 vm.current = 0;
             } else {
                 if (activity.page === 'next' && vm.authorized.includes(activity.ipAddress)) {
                     if (vm.current == null) {
-                        alert('I just joined');
                         vm.current = parseInt(activity.current);
                         scrollToTimelineElement(true);
                     }
@@ -72,7 +70,6 @@
                 }
                 if (activity.page === 'previous' && vm.authorized.includes(activity.ipAddress)) {
                     if (vm.current == null) {
-                        console.log('I just joined');
                         vm.current = parseInt(activity.current);
                         scrollToTimelineElement(false);
                     }
