@@ -63,6 +63,14 @@ public class AuthorityTest {
     }
 
     @Test
+    public void equalsBranch7() throws Exception {
+        Authority entity2 = new Authority();
+        entity2.setName(DEFAULT_NAME);
+        entity.setName(null);
+        assertThat(entity.equals(entity2)).isFalse();
+    }
+
+    @Test
     public void hashCodeTestBranch1() throws Exception {
         Authority entity2 = new Authority();
         entity.setName(DEFAULT_NAME);

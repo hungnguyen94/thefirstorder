@@ -24,6 +24,10 @@
         {
             "fieldName": "name",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "background_image",
+            "fieldType": "String"
         }
     ],
     "changelogDate": "20160504110010",

@@ -3,7 +3,7 @@ package nl.tudelft.thefirstorder.web.rest.errors;
 import java.io.Serializable;
 
 /**
- * DTO for sending a Field Error message
+ * DTO for sending a Field Error message.
  */
 public class FieldErrorDTO implements Serializable {
 
