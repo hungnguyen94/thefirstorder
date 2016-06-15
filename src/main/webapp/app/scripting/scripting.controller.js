@@ -62,8 +62,6 @@
                         return Project.get({id : vm.project.id});
                     }]
                 }
-            }).result.then(function() {
-            }, function() {
             });
         }
     }
