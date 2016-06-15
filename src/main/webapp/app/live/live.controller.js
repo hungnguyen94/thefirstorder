@@ -5,7 +5,7 @@
         .module('thefirstorderApp')
         .controller('LiveController', LiveController);
 
-    LiveController.$inject = ['Cue', 'JhiTrackerService', 'currentProject'];
+    LiveController.$inject = ['Cue', 'JhiTrackerService', 'currentProject', 'Project', 'ProjectManager', '$q'];
 
     /**
      * The controller for the script view.
@@ -15,7 +15,7 @@
      * @param AlertService the alertservice
      * @constructor
      */
-    function LiveController (Cue, JhiTrackerService, currentProject) {
+    function LiveController (Cue, JhiTrackerService, currentProject, Project, ProjectManager, $q) {
         var vm = this;
 
         // Initialize the current timeline element to the first one
@@ -26,10 +26,14 @@
         vm.next = next;
         vm.authorize = authorize;
 
-        // Query all cues
-        vm.cues = Cue.query({
-            scriptId : currentProject.script.id
+        $q.all([currentProject.$promise]).then(function(data) {
+            return data[0].script.id;
+        }).then(function(scriptId) {
+            vm.cues = Cue.query({
+                scriptId : scriptId
+            });
         });
+
 
         // Initialize the activities to an empty array
         vm.activities = [];

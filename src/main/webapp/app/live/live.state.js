@@ -37,9 +37,11 @@
                         ProjectManager.validateScript(currentProjectId);
                     }
                 ],
-                currentProject: ['ProjectManager',
-                    function (ProjectManager) {
-                        return ProjectManager.getProject();
+                currentProject: ['Project', 'currentProjectId',
+                    function (Project, currentProjectId) {
+                        return Project.get({
+                            id: currentProjectId
+                        });
                     }
                 ]
             }
