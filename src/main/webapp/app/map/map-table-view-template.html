@@ -14,7 +14,7 @@
     <tr ng-repeat-start="camera in vm.map.cameras"
         ng-click="vm.setSelected(camera)"
         ng-class="{ 'success': vm.selected == camera }">
-        <td colspan="2">{{camera.name}}</td>
+        <td colspan="2"><h4 class="text-muted">{{camera.name}}</h4></td>
         <td class="text-right">
             <div class="btn-group flex-btn-group-container">
                 <button type="submit"
@@ -59,7 +59,7 @@
         ng-click="vm.setSelected(player)"
         ng-class="{ 'success': vm.selected == player }">
         <!--<td>{{player.id}}</td>-->
-        <td colspan="2">{{player.name}}</td>
+        <td colspan="2"><h4 class="text-muted">{{player.name}}</h4></td>
         <td class="text-right">
             <div class="btn-group flex-btn-group-container">
                 <button type="submit"
