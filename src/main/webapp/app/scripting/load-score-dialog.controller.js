@@ -25,8 +25,10 @@
             var file = document.getElementById("getImage").files[0];
             var reader = new FileReader();
             reader.onloadend = function () {
-                document.getElementById('scorePreview').style.backgroundImage = "url(" + reader.result + ")";
-                vm.hasPreview = true;
+                $scope.$apply(function () {
+                    vm.hasPreview = true;
+                    vm.previewName = file.name;
+                });
             };
             if (file) {
                 reader.readAsDataURL(file);
