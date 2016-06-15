@@ -4,7 +4,7 @@
     angular
         .module('thefirstorderApp')
         .constant('mapConstants', {
-            'nonhighlightOpacity': 0.2,
+            'nonhighlightOpacity': 0.4,
             'fadeDuration': 200
         });
 })();
