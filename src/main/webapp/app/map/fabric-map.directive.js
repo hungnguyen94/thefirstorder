@@ -73,8 +73,6 @@
                 scope.canvas.renderAll();
             });
 
-            /////////////////////////////////////////////////////
-
             /**
              * Initializes the map with a canvas and loads the cameras and players.
              */
@@ -302,8 +300,7 @@
                 if(target) {
                     var entity = target.entity;
                     var position = getRelativePosition(target.left, target.top);
-                    if (!(position.x > 100 || position.x < 0 || 
-                        position.y > 100 || position.y < 0)) {
+                    if(isInRange(position.x) && isInRange(position.y)) {
                         entity.x = position.x;
                         entity.y = position.y;
                         entity.angle = target.angle;
@@ -350,6 +347,15 @@
                     textBackgroundColor: 'rgba(0,0,0,0.3)'
                 });
                 scope.canvas.renderAll();
+            }
+
+            /**
+             * Checks if a variable is between 0 and 100.
+             * @param variable Variable to be range checked
+             * @returns {boolean} True if it's in range
+             */
+            function isInRange(variable) {
+                return variable >= 0 && variable <= 100;
             }
         }
     }
