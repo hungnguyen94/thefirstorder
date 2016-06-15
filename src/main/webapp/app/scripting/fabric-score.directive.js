@@ -82,11 +82,11 @@
             }
 
             /**
-             * Resize the canvas based on the parent.
+             * Resize the canvas based on the timeline.
              */
             function resize() {
                 var parent = element.parent().parent();
-                var width = parent[0].clientWidth - (parent[0].offsetLeft);
+                var width = parent[0].clientWidth - 30;
 
                 scope.canvas.setWidth(width);
                 scope.canvas.setHeight(width / scope.aspectRatio);

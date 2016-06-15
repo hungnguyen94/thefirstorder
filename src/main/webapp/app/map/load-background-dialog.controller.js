@@ -26,7 +26,7 @@
             var file = document.getElementById("getImage").files[0];
             var reader = new FileReader();
             reader.onloadend = function () {
-                document.getElementById('concertMap').style.backgroundImage = "url(" + reader.result + ")";
+                document.getElementById('backgroundPreview').style.backgroundImage = "url(" + reader.result + ")";
                 vm.hasPreview = true;
             };
             if (file) {

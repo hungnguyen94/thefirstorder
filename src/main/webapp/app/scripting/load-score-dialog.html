@@ -1,0 +1,32 @@
+<form name="editForm" role="form" novalidate ng-submit="vm.upload()">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myMapLabel">Load an image as score</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <input required class="ng-hide" type='file' id='getImage' file-model="image" name="content" on-bg-upload="vm.preview"/>
+                <label for="getImage" class="btn btn-raised"><span class="glyphicon glyphicon-folder-open"
+                                                                   aria-hidden="true"></span> Select a score</label>
+            </div>
+        </div>
+        <div class="row centered">
+            <h3>Preview</h3>
+            <div class="col-md-12">
+                <div id="scorePreview" class="preview">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+                <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+            </button>
+            <button type="submit" ng-disabled="vm.isUploading" class="btn btn-primary">
+                <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Load</span>
+            </button>
+        </div>
+    </div>
+</form>

@@ -4,14 +4,23 @@
             Player: {{vm.selectedPlayer.name}}
             <br/>
             Camera: {{vm.selectedCamera.name}}
+            <br/>
+            <br/>
             <canvas fabric-map map="vm.map" selected="vm.selected" editable="false"></canvas>
         </div>
         <div class="col-md-6">
-            <div class="col-md-12">
-                <timeline map="vm.map" selected="vm.selected"></timeline>
-            </div>
-            <div class="col-md-12">
-                <canvas fabric-score score="vm.score"></canvas>
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="text-right">
+                        <button type="button" class="btn btn-raised" ui-sref="script.load-score"><span
+                            class="glyphicon glyphicon-list"
+                            aria-hidden="true"></span> Change
+                            score
+                        </button>
+                    </div>
+                    <timeline map="vm.map" selected="vm.selected"></timeline>
+                    <canvas fabric-score score="vm.score"></canvas>
+                </div>
             </div>
         </div>
     </div>
