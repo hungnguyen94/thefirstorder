@@ -32,6 +32,7 @@
             sendPrevious: sendPrevious,
             sendNext: sendNext,
             subscribe: subscribe,
+            sendCurrent: sendCurrent,
             unsubscribe: unsubscribe
         };
 
@@ -119,6 +120,15 @@
                     .send('/topic/activity',
                         {},
                         angular.toJson({'page': 'next'}));
+            }
+        }
+
+        function sendCurrent() {
+            if (stompClient !== null && stompClient.connected) {
+                stompClient
+                    .send('/topic/activity',
+                        {},
+                        angular.toJson({'current': 1}));
             }
         }
 

@@ -13,6 +13,16 @@ public class ActivityDTO {
 
     private String page;
 
+    private String current;
+
+    public String getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(String current) {
+        this.current = current;
+    }
+
     private String time;
 
     /**

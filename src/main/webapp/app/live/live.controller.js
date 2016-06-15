@@ -113,6 +113,7 @@
          */
         function previous() {
             JhiTrackerService.sendPrevious();
+            JhiTrackerService.sendCurrent();
         }
 
         /**
@@ -120,6 +121,7 @@
          */
         function next() {
             JhiTrackerService.sendNext();
+            JhiTrackerService.sendCurrent();
         }
     }
 })();
