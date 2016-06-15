@@ -53,17 +53,28 @@
         JhiTrackerService.receive().then(null, null, function(activity) {
             showActivity(activity);
 
-            if (activity.page === 'next' && vm.authorized.includes(activity.ipAddress)) {
-                if (vm.current != vm.cues.length - 1) {
-                    vm.current++;
+            if (activity.current == null) {
+                JhiTrackerService.sendCurrent(0);
+                vm.current = 0;
+            } else {
+                if (activity.page === 'next' && vm.authorized.includes(activity.ipAddress)) {
+                    if (vm.current == null)
+                        vm.current = parseInt(activity.page) + 1;
+                    else {
+                        vm.current++;
+                        JhiTrackerService.sendCurrent(vm.current);
+                        scrollToTimelineElement(true);
+                    }
                 }
-                scrollToTimelineElement(true);
-            }
-            if (activity.page === 'previous' && vm.authorized.includes(activity.ipAddress)) {
-                if (vm.current > 0) {
-                    vm.current--;
+                if (activity.page === 'previous' && vm.authorized.includes(activity.ipAddress)) {
+                    if (vm.current == null)
+                        vm.current = parseInt(activity.page) - 1;
+                    else {
+                        vm.current--;
+                        JhiTrackerService.sendCurrent(vm.current);
+                        scrollToTimelineElement(false);
+                    }
                 }
-                scrollToTimelineElement(false);
             }
         });
 
@@ -112,16 +123,14 @@
          * Sends a previous websocket message.
          */
         function previous() {
-            JhiTrackerService.sendPrevious();
-            JhiTrackerService.sendCurrent();
+            JhiTrackerService.sendPrevious(vm.current + 1);
         }
 
         /**
          * This function sends a next websocket message.
          */
         function next() {
-            JhiTrackerService.sendNext();
-            JhiTrackerService.sendCurrent();
+            JhiTrackerService.sendNext(vm.current + 1);
         }
     }
 })();
