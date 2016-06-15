@@ -43,15 +43,6 @@
                 createItems(scope.vm.cues);
             });
 
-            scope.timeline.on('select', function (properties) {
-                var selected = properties.items;
-                var selectedItems = scope.dataset.get({
-                    filter: function (item) {
-                        return selected.indexOf(item.id) > -1;
-                    }
-                });
-            });
-
             /**
              * Fires when a bar is moved. 
              */
@@ -138,7 +129,6 @@
              */
             function createItems(cues) {
                 var items = cues.map(transformCueToItem);
-                console.log('Cues: ', items);
                 scope.dataset.add(items);
             }
 

@@ -90,7 +90,7 @@
                 var error_bg = "content/images/error.jpg";
 
                 function onLoadSuccess(map) {
-                    if(map == null) {
+                    if(map === null) {
                         load(default_bg);
                     } else {
                         load(map.backgroundImage);
