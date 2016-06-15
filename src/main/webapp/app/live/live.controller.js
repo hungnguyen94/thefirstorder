@@ -5,7 +5,7 @@
         .module('thefirstorderApp')
         .controller('LiveController', LiveController);
 
-    LiveController.$inject = ['Cue', 'JhiTrackerService', 'currentProject', 'Camera', 'Project', 'ProjectManager', '$q'];
+    LiveController.$inject = ['Cue', 'JhiTrackerService', 'currentProject', 'Camera', '$q'];
 
     /**
      * The controller for the script view.
@@ -15,11 +15,11 @@
      * @param AlertService the alertservice
      * @constructor
      */
-    function LiveController (Cue, JhiTrackerService, currentProject, Camera, Project, ProjectManager, $q) {
+    function LiveController (Cue, JhiTrackerService, currentProject, Camera, $q) {
         var vm = this;
 
         // Initialize the current timeline element to the first one
-        vm.current = 0;
+        vm.current = null;
 
         // Initialize the functions
         vm.previous = previous;
