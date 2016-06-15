@@ -53,6 +53,9 @@
             function init() {
                 Map.get({id: 1}, onLoadSuccess, onLoadError);
 
+                var canvas = new fabric.Canvas(element[0]);
+                scope.canvas = canvas;
+
                 var default_bg = "content/images/concertzaal.jpg";
                 var error_bg = "content/images/error.jpg";
 
@@ -70,7 +73,6 @@
 
                 function load(bg_image) {
                     console.log('init directive');
-                    var canvas = new fabric.Canvas(element[0]);
 
                     fabric.Image.fromURL(bg_image, function (img) {
                         scope.aspectRatio = img.width / img.height;
@@ -83,7 +85,6 @@
                         canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
                         resize();
                     });
-                    scope.canvas = canvas;
                 }
             }
 
@@ -163,7 +164,7 @@
                 cam.set({
                     x: camera.x,
                     y: camera.y,
-                    angle: camera.angle, 
+                    angle: camera.angle,
                     scaleX: 0.3,
                     scaleY: 0.3,
                     padding: 10,

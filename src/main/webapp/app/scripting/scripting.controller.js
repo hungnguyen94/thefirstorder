@@ -36,6 +36,9 @@
                 Project.get({id: projectId.data}, function (project) {
                     vm.project = project;
                     vm.script = project.script;
+                    vm.score = vm.script.score;
+
+                    console.log(vm.score);
                     Cue.query({scriptId: project.script.id}, function (result) {
                         vm.cues = result;
                     });
