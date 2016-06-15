@@ -38,12 +38,17 @@
                     vm.script = project.script;
                     vm.score = vm.script.score;
 
-                    console.log(vm.score);
+                    updatePDFViewer(vm.score);
                     Cue.query({scriptId: project.script.id}, function (result) {
                         vm.cues = result;
                     });
                 });
             });
+        }
+
+
+        function updatePDFViewer(url){
+            document.getElementById("pdf-viewer").setAttribute("src", url);
         }
     }
 })();
