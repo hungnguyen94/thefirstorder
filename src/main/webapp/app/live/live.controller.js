@@ -54,12 +54,16 @@
             showActivity(activity);
 
             if (activity.current == null) {
+                console.log("No current cue is defined.");
                 JhiTrackerService.sendCurrent(0);
                 vm.current = 0;
             } else {
                 if (activity.page === 'next' && vm.authorized.includes(activity.ipAddress)) {
-                    if (vm.current == null)
+                    if (vm.current == null) {
+                        console.log('I just joined');
                         vm.current = parseInt(activity.page) + 1;
+                        scrollToTimelineElement(true);
+                    }
                     else {
                         vm.current++;
                         JhiTrackerService.sendCurrent(vm.current);
@@ -67,8 +71,10 @@
                     }
                 }
                 if (activity.page === 'previous' && vm.authorized.includes(activity.ipAddress)) {
-                    if (vm.current == null)
+                    if (vm.current == null) {
+                        console.log('I just joined');
                         vm.current = parseInt(activity.page) - 1;
+                    }
                     else {
                         vm.current--;
                         JhiTrackerService.sendCurrent(vm.current);
