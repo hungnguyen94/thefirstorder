@@ -16,15 +16,8 @@
      */
     function timeline(Cue, Camera, $uibModal) {
         var directive = {
-            scope: {
-                'map': '=',
-                'selected': '='
-            },
             restrict: 'EA',
-            link: link,
-            controller: 'ScriptingController',
-            controllerAs: 'vm',
-            bindToController: true
+            link: link 
         };
         return directive;
 
@@ -36,8 +29,9 @@
          */
         function link(scope, element, attrs) {
             scope.timeline = {};
-            scope.vm.timelineSelected = {};
             scope.dataset = new vis.DataSet();
+            var selected = {};
+            scope.vm.selectedEntities = selected;
 
             init();
 
@@ -47,6 +41,28 @@
 
             scope.$watch('vm.cues', function (newCues) {
                 createItems(scope.vm.cues);
+            });
+
+            /**
+             * Fires when a bar is moved. 
+             */
+            scope.timeline.on('timechanged', function (event) {
+                var time = event.time;
+                var selectedItems = scope.dataset.get({
+                    filter: function (item) {
+                        return time >= new Date(item.start) && time <= new Date(item.end);
+                    }
+                });
+                var selectedCameras = selectedItems.map(function (item) {
+                    return item.cue.camera;
+                });
+                var selectedPlayers = selectedItems.map(function (item) {
+                    return item.cue.player;
+                });
+                scope.$apply(function () {
+                    selected = selectedCameras.concat(selectedPlayers);
+                    scope.vm.selectedEntities = selected;
+                });
             });
 
             /**
@@ -112,7 +128,8 @@
              * items first.
              */
             function createItems(cues) {
-                scope.dataset.add(cues.map(transformCueToItem));
+                var items = cues.map(transformCueToItem);
+                scope.dataset.add(items);
             }
 
             /**
@@ -167,12 +184,7 @@
                             }
                         }
                     }).result.then(function(result) {
-                        var end = result.bar + result.duration;
-
-                        item.content = result.action;
-                        item.start = parseIntAsDate(result.bar);
-                        item.end = parseIntAsDate(end);
-                        item.cue = result;
+                        var item = transformCueToItem(result);
                         callback(item);
                     }, function() {
                         callback(null);

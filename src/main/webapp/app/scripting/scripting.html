@@ -1,12 +1,31 @@
 <div ng-cloak>
     <div class="row">
         <div class="col-md-8">
-            <canvas fabric-map map="vm.map" selected="vm.selected" editable="false"></canvas>
+            <canvas fabric-map map="vm.map"
+                    selected="vm.selected"
+                    editable="false"
+                    highlight="vm.highlight"
+            ></canvas>
         </div>
         <div class="col-md-4">
-            Player: {{vm.selectedPlayer.name}}
-            <br/>
-            Camera: {{vm.selectedCamera.name}}
+            <button ng-click="vm.download()" class="btn btn-primary btn-raised">
+                <span class="glyphicon glyphicon-download"></span>
+                <span class="hidden-xs hidden-sm">export</span>
+            </button>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <td><b>Camera</b></td>
+                        <td><b>Player</b></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{vm.selectedCamera.name}}</td>
+                        <td>{{vm.selectedPlayer.name}}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     <div class="row">
