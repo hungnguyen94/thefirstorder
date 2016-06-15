@@ -43,7 +43,7 @@
 
             fd.append('file', $scope.image);
 
-            $http.post('api/upload', fd, {
+            $http.post('api/upload/pdf', fd, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
             }).then(onPostSuccess, onPostError);

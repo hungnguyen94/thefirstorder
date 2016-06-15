@@ -27,6 +27,8 @@ import java.util.Random;
 @RequestMapping("/api")
 public class UploadResource {
     private final Logger log = LoggerFactory.getLogger(UploadResource.class);
+    private static final String CONTENT_TYPE_PDF = "application/pdf";
+    private static final String CONTENT_TYPE_IMG = "image/jpeg";
     public static final String FILE_ROOT = "src/main/webapp/";
 
     /**
@@ -35,16 +37,46 @@ public class UploadResource {
      * @return the location of the created file with the web application folder as root
      * @throws IOException when the file could not be created or the data could not be written to the file.
      */
-    @RequestMapping(value = "/upload",
+    @RequestMapping(value = "/upload/image",
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<String> uploadFile(@RequestBody(required = true) MultipartFile file) throws IOException {
-        String res = writeToFile(file.getInputStream());
+    public ResponseEntity<String> uploadImage(@RequestBody(required = true) MultipartFile file) throws IOException {
+        String contentType = file.getContentType();
 
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createAlert("Uploaded", "image"))
-            .body("{\"location\" : \"" + res + "\"}");
+        if(contentType.equals(CONTENT_TYPE_IMG)){
+            String location = "content/upload/" + getRandomName() + ".jpg";
+            writeToFile(location, file.getInputStream());
+
+            return ResponseEntity.ok()
+                .headers(HeaderUtil.createAlert("Uploaded", "image"))
+                .body("{\"location\" : \"" + location + "\"}");
+        }
+        return ResponseEntity.badRequest().body("Not an image: " + contentType);
+    }
+
+    /**
+     * Uploads the given multipart file to the server.
+     * @param file should be a multipart file, containing a pdf file
+     * @return the location of the created file with the web application folder as root
+     * @throws IOException when the file could not be created or the data could not be written to the file.
+     */
+    @RequestMapping(value = "/upload/pdf",
+        method = RequestMethod.POST,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<String> uploadPDF(@RequestBody(required = true) MultipartFile file) throws IOException {
+        String contentType = file.getContentType();
+
+        if(contentType.equals(CONTENT_TYPE_PDF)){
+            String location = "content/upload/" + getRandomName() + ".pdf";
+            writeToFile(location, file.getInputStream());
+
+            return ResponseEntity.ok()
+                .headers(HeaderUtil.createAlert("Uploaded", "pdf"))
+                .body("{\"location\" : \"" + location + "\"}");
+        }
+        return ResponseEntity.badRequest().body("Not a pdf file: " + contentType);
     }
 
     private static final int IMAGE_CHARS = 1024;
@@ -54,9 +86,7 @@ public class UploadResource {
      * @param contents should be the input stream written to the file
      * @return the location of the created file with the web application folder as root
      */
-    public String writeToFile(InputStream contents) {
-        String location = "content/upload/" + getRandomName() + ".jpg";
-
+    public void writeToFile(String location, InputStream contents) {
         try {
             int read = 0;
             byte[] bytes = new byte[IMAGE_CHARS];
@@ -70,8 +100,6 @@ public class UploadResource {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return location;
     }
 
     /**
