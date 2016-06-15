@@ -48,8 +48,9 @@ public class UploadResourceIntTest {
     public void writeToFileTest() throws Exception {
         String root = uploadResource.getRoot();
         InputStream stream = new ByteArrayInputStream("foobar".getBytes(StandardCharsets.UTF_8));
+        String location = "foo";
 
-        String location = uploadResource.writeToFile(stream);
+        uploadResource.writeToFile(location, stream);
         File file = new File(root + location);
         Assert.assertTrue(file.exists());
     }
