@@ -5,7 +5,7 @@
         .module('thefirstorderApp')
         .directive('fabricMap', fabricMap);
 
-    fabricMap.$inject = ['$window', 'Player', 'Camera', 'Map'];
+    fabricMap.$inject = ['$window', 'Player', 'Camera', 'Map', 'mapConstants'];
 
     /**
      * The controller for the map directive.
@@ -14,7 +14,7 @@
      * @param Camera
      * @returns {{restrict: string, scope: {map: string, selected: string, editable: string}, link: link, controller: string, controllerAs: string, bindToController: boolean}}
      */
-    function fabricMap($window, Player, Camera, Map) {
+    function fabricMap($window, Player, Camera, Map, mapConstants) {
         var directive = {
             restrict: 'EA',
             scope: {
@@ -146,13 +146,13 @@
                     if(!item.hasOwnProperty('entity')) {
                         return;
                     }
-                    var opacity = 0.4;
+                    var opacity = mapConstants.nonhighlightOpacity;
                     if(entities.indexOf(item.entity.name) > -1) {
                         opacity = 1.0;
                     }
                     item.animate('opacity', opacity, {
                         onChange: scope.canvas.renderAll.bind(scope.canvas),
-                        duration: 200
+                        duration: mapConstants.fadeDuration
                     });
                 });
                 scope.canvas.renderAll();
