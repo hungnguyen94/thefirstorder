@@ -60,12 +60,12 @@
             } else {
                 if (activity.page === 'next' && vm.authorized.includes(activity.ipAddress)) {
                     if (vm.current == null) {
-                        console.log('I just joined');
-                        vm.current = parseInt(activity.page) + 1;
+                        alert('I just joined');
+                        vm.current = parseInt(activity.current);
                         scrollToTimelineElement(true);
                     }
                     else {
-                        vm.current++;
+                        vm.current = parseInt(activity.current);
                         JhiTrackerService.sendCurrent(vm.current);
                         scrollToTimelineElement(true);
                     }
@@ -73,10 +73,11 @@
                 if (activity.page === 'previous' && vm.authorized.includes(activity.ipAddress)) {
                     if (vm.current == null) {
                         console.log('I just joined');
-                        vm.current = parseInt(activity.page) - 1;
+                        vm.current = parseInt(activity.current);
+                        scrollToTimelineElement(false);
                     }
                     else {
-                        vm.current--;
+                        vm.current = parseInt(activity.current);
                         JhiTrackerService.sendCurrent(vm.current);
                         scrollToTimelineElement(false);
                     }
@@ -129,14 +130,16 @@
          * Sends a previous websocket message.
          */
         function previous() {
-            JhiTrackerService.sendPrevious(vm.current + 1);
+            if (vm.current > 0)
+                JhiTrackerService.sendPrevious(vm.current - 1);
         }
 
         /**
          * This function sends a next websocket message.
          */
         function next() {
-            JhiTrackerService.sendNext(vm.current + 1);
+            if (vm.current < vm.cues.length - 1)
+                JhiTrackerService.sendNext(vm.current + 1);
         }
     }
 })();
