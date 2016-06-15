@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -13,15 +13,18 @@
      * @param Cue the cue class
      * @constructor
      */
-    function ScriptingController ($scope, Cue, ProjectManager, Project) {
+    function ScriptingController($scope, Cue, ProjectManager, Project) {
         var vm = this;
         vm.selectedCamera = null;
         vm.selectedPlayer = null;
 
+        vm.hasScore = false;
+        vm.hasMap = false;
+
         update();
 
         $scope.$watch('vm.selected', function (selected) {
-            if(selected.hasOwnProperty('cameraType')) {
+            if (selected.hasOwnProperty('cameraType')) {
                 vm.selectedCamera = selected;
             } else {
                 vm.selectedPlayer = selected;
@@ -35,10 +38,16 @@
             ProjectManager.get().then(function (projectId) {
                 Project.get({id: projectId.data}, function (project) {
                     vm.project = project;
+                    if (vm.project.map) {
+                        vm.hasMap = true;
+                    }
+
                     vm.script = project.script;
                     vm.score = vm.script.score;
-
-                    updatePDFViewer(vm.score);
+                    if (vm.score) {
+                        vm.hasScore = true;
+                        updatePDFViewer(vm.score);
+                    }
                     Cue.query({scriptId: project.script.id}, function (result) {
                         vm.cues = result;
                     });
@@ -47,7 +56,7 @@
         }
 
 
-        function updatePDFViewer(url){
+        function updatePDFViewer(url) {
             document.getElementById("pdf-viewer").setAttribute("src", url);
         }
     }

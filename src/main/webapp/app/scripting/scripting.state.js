@@ -25,6 +25,18 @@
                     controller: 'ScriptingController',
                     controllerAs: 'vm'
                 }
+            },
+            resolve: {
+                validateScript: ['ProjectManager', 'currentProjectId',
+                    function (ProjectManager, currentProjectId) {
+                        ProjectManager.validateScript(currentProjectId);
+                    }
+                ],
+                currentProject: ['ProjectManager',
+                    function (ProjectManager) {
+                        return ProjectManager.getProject();
+                    }
+                ]
             }
         })
         .state('scripting.new', {

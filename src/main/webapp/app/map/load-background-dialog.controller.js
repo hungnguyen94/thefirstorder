@@ -7,10 +7,10 @@
         .directive('fileModel', fileModel)
         .controller('LoadBackgroundController', LoadBackgroundController);
 
-    LoadBackgroundController.$inject = ['$http', '$scope', '$uibModalInstance', 'currentProject', 'Script', 'Project', 'ProjectManager', 'Map'];
+    LoadBackgroundController.$inject = ['$http', '$scope', '$uibModalInstance', 'currentProject', 'Map'];
     fileModel.$inject = ['$parse'];
 
-    function LoadBackgroundController($http, $scope, $uibModalInstance, currentProject, Script, Project, ProjectManager, Map) {
+    function LoadBackgroundController($http, $scope, $uibModalInstance, currentProject, Map) {
         var vm = this;
         vm.uploadedBackground = null;
         vm.hasPreview = false;
@@ -26,8 +26,10 @@
             var file = document.getElementById("getImage").files[0];
             var reader = new FileReader();
             reader.onloadend = function () {
-                document.getElementById('backgroundPreview').style.backgroundImage = "url(" + reader.result + ")";
-                vm.hasPreview = true;
+                $scope.$apply(function () {
+                    vm.hasPreview = true;
+                    document.getElementById('background-preview').style.backgroundImage = "url(" + reader.result + ")";
+                });
             };
             if (file) {
                 reader.readAsDataURL(file);
@@ -61,7 +63,7 @@
 
             vm.map = currentProject.map;
             vm.map.backgroundImage = location;
-            Map.update(vm.map, onUpdateSuccess, onUpdateError);
+            console.log(Map.update(vm.map, onUpdateSuccess, onUpdateError));
         }
 
         /**

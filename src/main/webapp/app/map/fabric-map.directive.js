@@ -51,19 +51,19 @@
              * Initializes the map with a canvas and loads the cameras and players.
              */
             function init() {
-                Map.get({id: 1}, onLoadSuccess, onLoadError);
+                Map.get({id: 35}, onLoadSuccess, onLoadError);
 
                 var canvas = new fabric.Canvas(element[0]);
                 scope.canvas = canvas;
 
-                var default_bg = "content/images/concertzaal.jpg";
+                var default_bg = "content/images/error.jpg";
                 var error_bg = "content/images/error.jpg";
 
                 function onLoadSuccess(map) {
-                    if(map == ""){
-                        load(default_bg);
-                    } else {
+                    if(map.backgroundImage){
                         load(map.backgroundImage);
+                    } else {
+                        load(default_bg);
                     }
                 }
 

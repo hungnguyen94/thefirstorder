@@ -1,6 +1,6 @@
 <div ng-cloak>
-    <div class="row">
-        <div class="col-md-6">
+    <div class="row" ng-switch="vm.hasMap">
+        <div class="col-md-6" ng-switch-when="true">
             Player: {{vm.selectedPlayer.name}}
             <br/>
             Camera: {{vm.selectedCamera.name}}
@@ -8,9 +8,16 @@
             <br/>
             <canvas fabric-map map="vm.map" selected="vm.selected" editable="false"></canvas>
         </div>
+        <div class="col-md-6" ng-switch-when="false">
+            <h3>This project has no map.</h3>
+            <button type="button" class="btn btn-raised" ui-sref="map-setup"><span
+                class="glyphicon glyphicon-globe"
+                aria-hidden="true"></span> Create or select a map
+            </button>
+        </div>
         <div class="col-md-6">
-            <div class="row">
-                <div class="col-md-10">
+            <div class="row" ng-switch="vm.hasScore">
+                <div class="col-md-12" ng-switch-when="true">
                     <div class="text-right">
                         <button type="button" class="btn btn-raised" ui-sref="script.load-score"><span
                             class="glyphicon glyphicon-list"
@@ -19,7 +26,15 @@
                         </button>
                     </div>
                     <timeline map="vm.map" selected="vm.selected"></timeline>
-                    <embed id="pdf-viewer" width="100%" height="900px" alt="pdf" pluginspage="http://www.adobe.com/products/acrobat/readstep2.html">
+                    <embed id="pdf-viewer" width="100%" height="900px" alt="pdf"
+                           pluginspage="http://www.adobe.com/products/acrobat/readstep2.html">
+                </div>
+                <div class="col-md-12" ng-switch-when="false">
+                    <h3>This script has no score.</h3>
+                    <button type="button" class="btn btn-raised" ui-sref="script.load-score"><span
+                        class="glyphicon glyphicon-list"
+                        aria-hidden="true"></span> Select a score
+                    </button>
                 </div>
             </div>
         </div>
