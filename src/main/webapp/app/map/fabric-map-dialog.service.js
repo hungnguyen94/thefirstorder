@@ -55,7 +55,7 @@
         /**
          * Opens the add player dialog and adds a player on submit.
          */
-        function addPlayer(map) {
+        function addPlayer(map, x, y) {
             return $uibModal.open({
                 templateUrl: 'app/map/player-map-dialog.html',
                 controller: 'PlayerDialogController',
@@ -66,8 +66,8 @@
                     entity: function () {
                         return {
                             name: null,
-                            x: null,
-                            y: null,
+                            x: x,
+                            y: y,
                             id: null,
                             map: map
                         };
@@ -79,7 +79,7 @@
         /**
          * Opens the add camera dialog and adds a camera on submit.
          */
-        function addCamera(map) {
+        function addCamera(map, x, y) {
             return $uibModal.open({
                 templateUrl: 'app/map/camera-map-dialog.html',
                 controller: 'CameraDialogController',
@@ -90,8 +90,8 @@
                     entity: function () {
                         return {
                             name: null,
-                            x: null,
-                            y: null,
+                            x: x,
+                            y: y,
                             id: null,
                             angle: 0,
                             map: map

@@ -5,7 +5,7 @@
         .module('thefirstorderApp')
         .directive('fabricMap', fabricMap);
 
-    fabricMap.$inject = ['$window', 'Player', 'Camera', 'Map', 'mapConstants'];
+    fabricMap.$inject = ['$window', 'Player', 'Camera', 'Map', 'mapConstants', 'FabricMapDialog'];
 
     /**
      * The controller for the map directive.
@@ -14,7 +14,7 @@
      * @param Camera
      * @returns {{restrict: string, scope: {map: string, selected: string, editable: string}, link: link, controller: string, controllerAs: string, bindToController: boolean}}
      */
-    function fabricMap($window, Player, Camera, Map, mapConstants) {
+    function fabricMap($window, Player, Camera, Map, mapConstants, FabricMapDialog) {
         var directive = {
             restrict: 'EA',
             scope: {
@@ -55,6 +55,10 @@
             });
             scope.canvas.on('object:selected', onSelect);
             scope.canvas.on('object:modified', updateEntity);
+            scope.canvas.on('mouse:dblclick', function (options) {
+                var position = getRelativePosition(options.e.offsetX, options.e.offsetY);
+                addEntity(position);
+            });
 
             /**
              * Sets the label to the current target the mouse is hovering over.
@@ -77,7 +81,7 @@
              * Initializes the map with a canvas and loads the cameras and players.
              */
             function init() {
-                var canvas = new fabric.Canvas(element[0]);
+                var canvas = new fabric.CanvasEx(element[0]);
                 canvas.selection = false;
                 scope.canvas = canvas;
                 scope.canvas.add(label);
@@ -356,6 +360,12 @@
              */
             function isInRange(variable) {
                 return variable >= 0 && variable <= 100;
+            }
+
+            function addEntity(position) {
+                FabricMapDialog.addPlayer(scope.vm.project.map, position.x, position.y).result.then(function () {
+                    scope.vm.update();
+                });
             }
         }
     }
