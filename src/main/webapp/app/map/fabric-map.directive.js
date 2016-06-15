@@ -42,6 +42,7 @@
             scope.vm.hoverTarget = null;
             var label = new fabric.Text('', {
                 fill: '#fff',
+                fontFamily: 'Helvetica, Arial',
                 fontSize: 14, 
                 name: 'label'
             });
@@ -61,20 +62,13 @@
              */
             scope.canvas.on('mouse:over', function(options) {
                 var target = options.target;
-                scope.vm.hoverTarget = target;
-                label.set({
-                    left: target.left + 20, 
-                    top: target.top + 10, 
-                    text: target.entity.name, 
-                    textBackgroundColor: 'rgba(0,0,0,0.3)'
-                });
-                scope.canvas.renderAll();
+                setLabel(target);
             });
 
             /**
              * Removes the label if the mouse leaves the target. 
              */
-            scope.canvas.on('mouse:out', function(options) {
+            scope.canvas.on('mouse:out', function() {
                 scope.vm.hoverTarget = null;
                 label.setText('');
                 scope.canvas.renderAll();
@@ -135,7 +129,7 @@
                     if(!item.hasOwnProperty('entity')) {
                         return;
                     }
-                    var opacity = 0.2;
+                    var opacity = 0.4;
                     if(entities.indexOf(item.entity.name) > -1) {
                         opacity = 1.0;
                     }
@@ -322,6 +316,21 @@
                 } else if(target.isPlayer) {
                     Player.update(target.entity);
                 }
+            }
+
+            /**
+             * Sets the label on the selected target.
+             * @param target The target, which can be a camera or a player
+             */
+            function setLabel(target) {
+                scope.vm.hoverTarget = target;
+                label.set({
+                    left: target.left + 20,
+                    top: target.top + 10,
+                    text: target.entity.name,
+                    textBackgroundColor: 'rgba(0,0,0,0.3)'
+                });
+                scope.canvas.renderAll();
             }
         }
     }
