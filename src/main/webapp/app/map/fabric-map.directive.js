@@ -5,7 +5,7 @@
         .module('thefirstorderApp')
         .directive('fabricMap', fabricMap);
 
-    fabricMap.$inject = ['$window', 'Player', 'Camera', 'Map'];
+    fabricMap.$inject = ['$window', 'Player', 'Camera', 'ProjectManager', 'Project'];
 
     /**
      * The controller for the map directive.
@@ -14,7 +14,7 @@
      * @param Camera
      * @returns {{restrict: string, scope: {map: string, selected: string, editable: string}, link: link, controller: string, controllerAs: string, bindToController: boolean}}
      */
-    function fabricMap($window, Player, Camera, Map) {
+    function fabricMap($window, Player, Camera, ProjectManager, Project) {
         var directive = {
             restrict: 'EA',
             scope: {
@@ -51,7 +51,11 @@
              * Initializes the map with a canvas and loads the cameras and players.
              */
             function init() {
-                Map.get({id: 35}, onLoadSuccess, onLoadError);
+                ProjectManager.get().then(function (projectId) {
+                    Project.get({id: projectId.data}, function (project) {
+                        onLoadSuccess(project.map);
+                    }, onLoadError);
+                }, onLoadError);
 
                 var canvas = new fabric.Canvas(element[0]);
                 scope.canvas = canvas;
