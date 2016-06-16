@@ -59,7 +59,7 @@
                 var position = getRelativePosition(options.e.offsetX, options.e.offsetY);
                 addEntity(position);
             });
-
+            
             /**
              * Sets the label to the current target the mouse is hovering over.
              */
@@ -92,7 +92,7 @@
                 var error_bg = "content/images/error.jpg";
 
                 function onLoadSuccess(map) {
-                    if(map === '') {
+                    if(map.backgroundImage === null) {
                         load(default_bg);
                     } else {
                         load(map.backgroundImage);
@@ -321,6 +321,7 @@
              */
             function onSelect (options) {
                 var target = options.target;
+                setLabel(target);
                 scope.$apply(function () {
                     scope.vm.selected = target.entity;
                 });
@@ -363,7 +364,7 @@
             }
 
             function addEntity(position) {
-                FabricMapDialog.addPlayer(scope.vm.project.map, position.x, position.y).result.then(function () {
+                FabricMapDialog.chooseEntity(scope.vm.project.map, position.x, position.y).result.then(function () {
                     scope.vm.update();
                 });
             }

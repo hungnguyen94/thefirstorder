@@ -11,7 +11,8 @@
             addPlayer: addPlayer,
             addCamera: addCamera,
             deletePlayer: deletePlayer,
-            deleteCamera: deleteCamera
+            deleteCamera: deleteCamera, 
+            chooseEntity: chooseEntity
         };
         return services;
 
@@ -25,7 +26,7 @@
                 templateUrl: 'app/entities/player/player-delete-dialog.html',
                 controller: 'PlayerDeleteController',
                 controllerAs: 'vm',
-                size: 'md',
+                size: 'xs',
                 resolve: {
                     entity: ['Player', function(Player) {
                         return Player.get({id : playerId});
@@ -43,7 +44,7 @@
                 templateUrl: 'app/entities/camera/camera-delete-dialog.html',
                 controller: 'CameraDeleteController',
                 controllerAs: 'vm',
-                size: 'md',
+                size: 'xs',
                 resolve: {
                     entity: ['Camera', function(Camera) {
                         return Camera.get({id : cameraId});
@@ -83,6 +84,28 @@
             return $uibModal.open({
                 templateUrl: 'app/map/camera-map-dialog.html',
                 controller: 'CameraDialogController',
+                controllerAs: 'vm',
+                backdrop: 'static',
+                size: 'xs',
+                resolve: {
+                    entity: function () {
+                        return {
+                            name: null,
+                            x: x,
+                            y: y,
+                            id: null,
+                            angle: 0,
+                            map: map
+                        };
+                    }
+                }
+            });
+        }
+        
+        function chooseEntity(map, x, y) {
+            return $uibModal.open({
+                templateUrl: 'app/map/choose-entity-map-dialog.html',
+                controller: 'ChooseEntityController',
                 controllerAs: 'vm',
                 backdrop: 'static',
                 size: 'xs',
