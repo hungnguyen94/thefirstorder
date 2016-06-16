@@ -100,7 +100,7 @@ public class UploadResource {
             out.flush();
             out.close();
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
     }
 
