@@ -27,12 +27,13 @@ import java.util.Random;
 @RequestMapping("/api")
 public class UploadResource {
     private final Logger log = LoggerFactory.getLogger(UploadResource.class);
-    private static final String CONTENT_TYPE_PDF = "application/pdf";
-    private static final String CONTENT_TYPE_IMG = "image/jpeg";
+    public static final String CONTENT_TYPE_PDF = "application/pdf";
+    public static final String CONTENT_TYPE_IMG = "image/jpeg";
     public static final String FILE_ROOT = "src/main/webapp/";
 
     /**
      * Uploads the given multipart file to the server.
+     *
      * @param file should be a multipart file, containing an image
      * @return the location of the created file with the web application folder as root
      * @throws IOException when the file could not be created or the data could not be written to the file.
@@ -44,7 +45,7 @@ public class UploadResource {
     public ResponseEntity<String> uploadImage(@RequestBody(required = true) MultipartFile file) throws IOException {
         String contentType = file.getContentType();
 
-        if(contentType.equals(CONTENT_TYPE_IMG)){
+        if (contentType.equals(CONTENT_TYPE_IMG)) {
             String location = "content/upload/" + getRandomName() + ".jpg";
             writeToFile(location, file.getInputStream());
 
@@ -57,6 +58,7 @@ public class UploadResource {
 
     /**
      * Uploads the given multipart file to the server.
+     *
      * @param file should be a multipart file, containing a pdf file
      * @return the location of the created file with the web application folder as root
      * @throws IOException when the file could not be created or the data could not be written to the file.
@@ -68,7 +70,7 @@ public class UploadResource {
     public ResponseEntity<String> uploadPDF(@RequestBody(required = true) MultipartFile file) throws IOException {
         String contentType = file.getContentType();
 
-        if(contentType.equals(CONTENT_TYPE_PDF)){
+        if (contentType.equals(CONTENT_TYPE_PDF)) {
             String location = "content/upload/" + getRandomName() + ".pdf";
             writeToFile(location, file.getInputStream());
 
@@ -83,8 +85,8 @@ public class UploadResource {
 
     /**
      * Writes the given input stream to a file.
+     *
      * @param contents should be the input stream written to the file
-     * @return the location of the created file with the web application folder as root
      */
     public void writeToFile(String location, InputStream contents) {
         try {
@@ -98,12 +100,13 @@ public class UploadResource {
             out.flush();
             out.close();
         } catch (IOException e) {
-            e.printStackTrace();
+
         }
     }
 
     /**
      * Returns the root of the web application, from the root of the project.
+     *
      * @return a String representing the path to the web application
      */
     public String getRoot() {
@@ -115,9 +118,10 @@ public class UploadResource {
 
     /**
      * Returns a random name to be assigned to the uploaded file.
+     *
      * @return a random alphanumeric string
      */
-    public String getRandomName(){
+    public String getRandomName() {
         Random random = new Random();
         return new BigInteger(NUM_BITS, random).toString(CHARS);
     }
