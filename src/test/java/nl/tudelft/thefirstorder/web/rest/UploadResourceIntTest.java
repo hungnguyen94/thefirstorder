@@ -74,7 +74,7 @@ public class UploadResourceIntTest {
     public void writeToFileFailTest() {
         String root = uploadResource.getRoot();
         InputStream stream = new ByteArrayInputStream("foobar".getBytes(StandardCharsets.UTF_8));
-        String location = "****";
+        String location = "\\0 \\ / : * ? \" < > |";
 
         uploadResource.writeToFile(location, stream);
         File file = new File(root + location);
