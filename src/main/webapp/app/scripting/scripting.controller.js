@@ -5,18 +5,22 @@
         .module('thefirstorderApp')
         .controller('ScriptingController', ScriptingController);
 
-    ScriptingController.$inject = ['$scope', 'Cue', 'ProjectManager', 'Project'];
+    ScriptingController.$inject = ['$scope', '$uibModal', 'Cue', 'ProjectManager', 'Project'];
 
     /**
      * The controller for the script view.
-     * @param $scope the scope of the map
-     * @param Cue the cue class
+     * @param $scope
+     * @param $uibModal
+     * @param Cue
+     * @param ProjectManager
+     * @param Project
      * @constructor
      */
-    function ScriptingController($scope, Cue, ProjectManager, Project) {
+    function ScriptingController($scope, $uibModal, Cue, ProjectManager, Project) {
         var vm = this;
         vm.selectedCamera = null;
         vm.selectedPlayer = null;
+        vm.download = download;
 
         vm.hasScore = false;
         vm.hasMap = false;
@@ -29,6 +33,10 @@
             } else {
                 vm.selectedPlayer = selected;
             }
+        });
+
+        $scope.$watch('vm.selectedEntities', function (selected) {
+            vm.highlight(selected);
         });
 
         /**
@@ -55,9 +63,29 @@
             });
         }
 
-
+        /**
+         * Updates the pdf viewer.
+         * @param url should be the url of the PDF the viewer should show.
+         */
         function updatePDFViewer(url) {
             document.getElementById("pdf-viewer").setAttribute("src", url);
+        }
+
+        /**
+         * Opens the download dialog.
+         */
+        function download() {
+            $uibModal.open({
+                templateUrl: 'app/entities/project/project-download-dialog.html',
+                controller: 'ProjectDownloadController',
+                controllerAs: 'vm',
+                size: 'md',
+                resolve: {
+                    entity: ['Project', function (Project) {
+                        return Project.get({id: vm.project.id});
+                    }]
+                }
+            });
         }
     }
 })();

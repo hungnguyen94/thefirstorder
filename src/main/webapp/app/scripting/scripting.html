@@ -1,12 +1,29 @@
 <div ng-cloak>
     <div class="row" ng-switch="vm.hasMap">
         <div class="col-md-6" ng-switch-when="true">
-            Player: {{vm.selectedPlayer.name}}
-            <br/>
-            Camera: {{vm.selectedCamera.name}}
-            <br/>
-            <br/>
-            <canvas fabric-map map="vm.map" selected="vm.selected" editable="false"></canvas>
+            <button ng-click="vm.download()" class="btn btn-primary btn-raised">
+                <span class="glyphicon glyphicon-download"></span>
+                <span class="hidden-xs hidden-sm">export</span>
+            </button>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <td><b>Camera</b></td>
+                    <td><b>Player</b></td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{vm.selectedCamera.name}}</td>
+                    <td>{{vm.selectedPlayer.name}}</td>
+                </tr>
+                </tbody>
+            </table>
+            <canvas fabric-map map="vm.map"
+                    selected="vm.selected"
+                    editable="false"
+                    highlight="vm.highlight"
+            ></canvas>
         </div>
         <div class="col-md-6" ng-switch-when="false">
             <h3>This project has no map.</h3>
@@ -15,6 +32,7 @@
                 aria-hidden="true"></span> Create or select a map
             </button>
         </div>
+
         <div class="col-md-6">
             <div class="row" ng-switch="vm.hasScore">
                 <div class="col-md-12" ng-switch-when="true">
@@ -26,8 +44,6 @@
                         </button>
                     </div>
                     <timeline map="vm.map" selected="vm.selected"></timeline>
-                    <embed id="pdf-viewer" width="100%" height="900px" alt="pdf"
-                           pluginspage="http://www.adobe.com/products/acrobat/readstep2.html">
                 </div>
                 <div class="col-md-12" ng-switch-when="false">
                     <h3>This script has no score.</h3>
@@ -36,7 +52,12 @@
                         aria-hidden="true"></span> Select a score
                     </button>
                 </div>
+                <div class="col-md-12">
+                    <embed id="pdf-viewer" alt="pdf"
+                           pluginspage="http://www.adobe.com/products/acrobat/readstep2.html"></embed>
+                </div>
             </div>
         </div>
     </div>
 </div>
+

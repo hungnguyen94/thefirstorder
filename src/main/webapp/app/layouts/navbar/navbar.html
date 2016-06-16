@@ -10,7 +10,7 @@
             <a class="navbar-brand" href="#/" ng-click="vm.collapseNavbar()">
                 <span><b>The First Order</b></span>
                 <!--<span class="navbar-version">v{{VERSION}}</span>-->
-                <span><small>Project: {{vm.currentProject.name}}</small></span>
+                <span><small>{{vm.currentProject.name}}</small></span>
             </a>
         </div>
         <div class="navbar-collapse" uib-collapse="vm.isNavbarCollapsed" ng-switch="vm.isAuthenticated()">
