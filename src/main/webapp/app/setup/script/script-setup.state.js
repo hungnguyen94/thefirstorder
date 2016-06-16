@@ -71,8 +71,12 @@
                     }
                 }).result.then(function() {
                     $state.go('scripting', null, { reload: true });
-                }, function() {
-                    $state.go('script-setup');
+                }, function(response) {
+                    if (response == "create") {
+                        $state.go('script.create');
+                    } else {
+                        $state.go('script-setup');
+                    }
                 });
             }]
         });
