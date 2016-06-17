@@ -307,7 +307,7 @@ jacocoTestReport {
                     "nl/tudelft/thefirstorder/web/rest/util",
                     "nl/tudelft/thefirstorder/web/websocket",
                     "nl/tudelft/thefirstorder/repository/CustomAuditEventRepository.*",
-                    "nl/tudelft/thefirstorder/*.*"
+                    "nl/tudelft/thefirstorder/ApplicationWebXml.*"
             ])
         })
     }
