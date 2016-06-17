@@ -245,7 +245,8 @@ test {
                     "nl/tudelft/thefirstorder/web/rest/errors",
                     "nl/tudelft/thefirstorder/web/rest/util",
                     "nl/tudelft/thefirstorder/web/websocket",
-                    "nl/tudelft/thefirstorder/repository"]
+                    "nl/tudelft/thefirstorder/repository",
+                    "nl/tudelft/thefirstorder/ApplicationWebXml.*"]
     }
 }
 
@@ -305,7 +306,8 @@ jacocoTestReport {
                     "nl/tudelft/thefirstorder/web/rest/errors",
                     "nl/tudelft/thefirstorder/web/rest/util",
                     "nl/tudelft/thefirstorder/web/websocket",
-                    "nl/tudelft/thefirstorder/repository"
+                    "nl/tudelft/thefirstorder/repository",
+                    "nl/tudelft/thefirstorder/ApplicationWebXml.*"
             ])
         })
     }
