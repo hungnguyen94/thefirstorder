@@ -59,6 +59,9 @@
                 var position = getRelativePosition(options.e.offsetX, options.e.offsetY);
                 addEntity(position);
             });
+            scope.canvas.on('object:moving', function (options) {
+                setLabel(options.target);
+            });
             
             /**
              * Sets the label to the current target the mouse is hovering over.
