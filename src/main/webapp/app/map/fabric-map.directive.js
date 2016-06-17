@@ -75,8 +75,10 @@
              * Add entity on double click on the map at the clicked position.
              */
             scope.canvas.on('mouse:dblclick', function (options) {
-                var position = getRelativePosition(options.e.offsetX, options.e.offsetY);
-                addEntity(position);
+                if (scope.vm.editable === true) {
+                    var position = getRelativePosition(options.e.offsetX, options.e.offsetY);
+                    addEntity(position);
+                }
             });
 
             /**
