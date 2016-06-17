@@ -63,6 +63,8 @@
 
             vm.map = currentProject.map;
             vm.map.backgroundImage = location;
+
+            Map.update(vm.map, onUpdateSuccess, onUpdateError);
         }
 
         /**
