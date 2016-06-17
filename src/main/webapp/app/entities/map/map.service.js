@@ -12,7 +12,7 @@
         return $resource(resourceUrl, {}, {
             'query': {
                 method: 'GET',
-                isArray: true,
+                isArray: true
             },
             'queryNoProject': {
                 method: 'GET',

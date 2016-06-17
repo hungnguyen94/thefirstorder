@@ -2,8 +2,6 @@ package nl.tudelft.thefirstorder.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import nl.tudelft.thefirstorder.web.rest.util.HeaderUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +24,6 @@ import java.util.Random;
 @RestController
 @RequestMapping("/api")
 public class UploadResource {
-    private final Logger log = LoggerFactory.getLogger(UploadResource.class);
     public static final String CONTENT_TYPE_PDF = "application/pdf";
     public static final String CONTENT_TYPE_IMG = "image/jpeg";
     public static final String FILE_ROOT = "src/main/webapp/";
@@ -89,18 +86,26 @@ public class UploadResource {
      * @param contents should be the input stream written to the file
      */
     public void writeToFile(String location, InputStream contents) {
+        OutputStream out = null;
         try {
             int read = 0;
             byte[] bytes = new byte[IMAGE_CHARS];
 
-            OutputStream out = new FileOutputStream(new File(getRoot() + location));
+            out = new FileOutputStream(new File(getRoot() + location));
             while ((read = contents.read(bytes)) != -1) {
                 out.write(bytes, 0, read);
             }
             out.flush();
-            out.close();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if (out != null) {
+                try {
+                    out.close();
+                } catch(IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
