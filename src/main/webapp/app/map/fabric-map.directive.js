@@ -7,6 +7,16 @@
 
     fabricMap.$inject = ['$window', 'Player', 'Camera', 'mapConstants', 'ProjectManager', 'Project'];
 
+    /**
+     * The controller for the map directive.
+     * @param $window
+     * @param Player
+     * @param Camera
+     * @param mapConstants
+     * @param ProjectManager
+     * @param Project
+     * @returns {{restrict: string, scope: {map: string, selected: string, editable: string, highlight: string}, link: link, controller: string, controllerAs: string, bindToController: boolean}}
+     */
     function fabricMap($window, Player, Camera, mapConstants, ProjectManager, Project) {
 
         var directive = {

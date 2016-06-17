@@ -63,14 +63,12 @@
 
             vm.map = currentProject.map;
             vm.map.backgroundImage = location;
-            console.log(Map.update(vm.map, onUpdateSuccess, onUpdateError));
         }
 
         /**
          * When posting the image fails, set isUploading to false.
          */
         function onPostError() {
-            console.log("Error uploading file. Please keep in mind that files should not be larger than 25MB.");
             vm.isUploading = false;
         }
 
@@ -88,7 +86,6 @@
          * When updating the map fails, set isUploading to false.
          */
         function onUpdateError() {
-            console.log("Error setting image as map background image.");
             vm.isUploading = false;
         }
 

@@ -36,7 +36,6 @@
             scope.canvas = {};
 
             init();
-            console.log("Score:", scope.score);
 
             angular.element($window).bind('resize', resize);
 
@@ -65,8 +64,6 @@
                 }
 
                 function load(bg_image) {
-                    console.log('init directive', bg_image);
-
                     fabric.Image.fromURL(bg_image, function (img) {
                         scope.aspectRatio = img.width / img.height;
                         img.set({
@@ -94,7 +91,7 @@
                     width: scope.canvas.width,
                     height: scope.canvas.width / scope.aspectRatio
                 });
-                // scope.canvas.forEachObject(setDrawableProperties);
+                
                 scope.canvas.renderAll();
                 scope.canvas.calcOffset();
             }
