@@ -15,11 +15,11 @@
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css content/css/main.css -->
-    <link rel="stylesheet" href="content/css/main.css">
-    <link rel="stylesheet" href="content/css/custom.css">
-    <link rel="stylesheet" href="content/css/bootstrap-material-design.css" />
-    <link rel="stylesheet" href="content/css/ripples.css" />
-    <link rel="stylesheet" href="content/css/vertical-timeline.css" />
+    <link rel="stylesheet" href="content/css/main.css" />
+    <link rel="stylesheet" href="content/css/custom.css" />
+    <link rel="stylesheet" href="external_components/bootstrap-material-design/bootstrap-material-design.css" />
+    <link rel="stylesheet" href="external_components/bootstrap-material-design/ripples.css" />
+    <link rel="stylesheet" href="external_components/angular-timeline/angular-timeline.css" />
     <!-- endbuild -->
 </head>
 <body ng-app="thefirstorderApp">
@@ -213,6 +213,7 @@
 <script src="app/map/map-editor.controller.js"></script>
 <script src="app/map/load-background-dialog.controller.js"></script>
 <script src="app/map/fabric-map.directive.js"></script>
+<script src="app/map/fabric-map-dialog.service.js"></script>
 <script src="app/live/live.state.js"></script>
 <script src="app/live/live.controller.js"></script>
 <script src="app/home/loadproject-dialog.controller.js"></script>
@@ -226,9 +227,9 @@
 <script src="app/app.constants.js"></script>
 <!-- endinject -->
 <!-- endbuild -->
-<script src="content/js/material.js"></script>
-<script src="content/js/ripples.js"></script>
-<script src="content/js/fabric.canvasex.js"></script>
+<script src="external_components/bootstrap-material-design/material.js"></script>
+<script src="external_components/bootstrap-material-design/ripples.js"></script>
+<script src="external_components/fabric-ext/fabric.canvasex.js"></script>
 <script type="text/javascript">
     $.material.init();
     $.material.ripples();

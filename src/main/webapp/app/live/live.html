@@ -50,12 +50,12 @@
                                 <tr>
                                     <td class="col-md-1"><i class="glyphicon glyphicon-facetime-video text-muted"></i></td>
                                     <td class="col-md-4"> {{cue.camera.name}} </td>
-                                    <td class="col-md-7 text-right"> <small class="text-muted text-right">X: {{cue.camera.x}} Y: {{cue.camera.y}}</small></td>
+                                    <td class="col-md-7 text-right"> <small class="text-muted text-right">X: {{cue.camera.x | number: 2}}, Y: {{cue.camera.y | number: 2}}</small></td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-1"><i class="glyphicon glyphicon-user text-muted"></i></td>
                                     <td class="col-md-4"> {{cue.player.name}} </td>
-                                    <td class="col-md-7 text-right"> <small class="text-muted text-right">X: {{cue.player.x}} Y: {{cue.player.y}}</small></td>
+                                    <td class="col-md-7 text-right"> <small class="text-muted text-right">X: {{cue.player.x | number: 2}}, Y: {{cue.player.y | number: 2}}</small></td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-1"><i class="glyphicon glyphicon-globe text-muted"></i></td>
