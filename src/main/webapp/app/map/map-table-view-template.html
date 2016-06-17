@@ -10,13 +10,19 @@
         <th colspan="3"><h3>Cameras</h3></th>
     </tr>
     </thead>
-    <tbody>
+    <tbody ng-switch="vm.hasCameras">
+    <tr ng-switch-when="false">
+        <td colspan="2"><h4 class="text-muted">Please double click the map to add your first camera.</h4></td>
+    </tr>
     <tr ng-repeat-start="camera in vm.map.cameras"
         ng-click="vm.setSelected(camera)"
         ng-class="{ 'success': vm.selected == camera }">
-        <td colspan="2"><h4 class="text-muted"><i class="glyphicon glyphicon-facetime-video"></i> &nbsp; {{camera.name}}</h4></td>
+        <td colspan="2"><h4 class="text-muted"><i class="glyphicon glyphicon-facetime-video"></i> &nbsp;
+            {{camera.name}}
+        </h4></td>
         <td class="text-right">
             <div class="btn-group flex-btn-group-container">
+                di
                 <button type="submit"
                         ng-click="vm.deleteCamera(camera.id)"
                         has-any-authority="ROLE_ADMIN, ROLE_DIRECTOR"
@@ -34,7 +40,7 @@
                 <p><i class="glyphicon glyphicon-eye-open"></i> &nbsp; Lens: {{camera.lensType}}</p>
             </div>
         </td>
-    </tr
+    </tr>
     </tbody>
 </table>
 
@@ -44,7 +50,10 @@
         <th colspan="3"><h3>Players</h3></th>
     </tr>
     </thead>
-    <tbody>
+    <tbody ng-switch="vm.hasPlayers">
+    <tr ng-switch-when="false">
+        <td colspan="2"><h4 class="text-muted">Please double click the map to add your first player.</h4></td>
+    </tr>
     <tr ng-repeat-start="player in vm.map.players"
         ng-click="vm.setSelected(player)"
         ng-class="{ 'success': vm.selected == player }">
