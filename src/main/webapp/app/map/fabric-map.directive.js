@@ -49,16 +49,36 @@
 
             init();
 
+            /**
+             * Resize the canvas on window resize.
+             */
             angular.element($window).bind('resize', resize);
-            scope.$watch('vm.map', function (newMap) {
+
+            /**
+             * Redraw the entities on update.
+             */
+            scope.$watch('vm.map', function () {
                 draw(scope.vm.map.cameras, scope.vm.map.players);
             });
+
             scope.canvas.on('object:selected', onSelect);
+
+            /**
+             * Update the entity on the backend on object modification.
+             */
             scope.canvas.on('object:modified', updateEntity);
+            
+            /**
+             * Add entity on double click on the map at the clicked position.
+             */
             scope.canvas.on('mouse:dblclick', function (options) {
                 var position = getRelativePosition(options.e.offsetX, options.e.offsetY);
                 addEntity(position);
             });
+
+            /**
+             * Move the label on moving the object.
+             */
             scope.canvas.on('object:moving', function (options) {
                 setLabel(options.target);
             });
@@ -331,7 +351,7 @@
             }
 
             /**
-             * Updates the cameras and players when they are modified in the view.
+             * Updates the cameras and players on the backend when they are modified in the view.
              * @param target the camera or player that is updated
              */
             function onModify(target) {
