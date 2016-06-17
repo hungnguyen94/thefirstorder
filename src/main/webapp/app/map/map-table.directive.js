@@ -9,10 +9,10 @@
 
     /**
      * The controller for the map table view. Shows all cameras and players in a table.
-     * @param $uibModal
-     * @returns {{restrict: string, scope: {map: string, selected: string}, templateUrl: string, link: link, controller: string, controllerAs: string, bindToController: boolean}}
+     * @param $timeout
+     * @returns {{restrict: string, scope: {map: string, selected: string}, link: link, templateUrl: string, controller: string, controllerAs: string, bindToController: boolean}}
      */
-    function mapTableView(FabricMapDialog, $timeout) {
+    function mapTableView($timeout) {
         var directive = {
             restrict: 'EA',
             scope: {
@@ -30,10 +30,8 @@
         /**
          * Links the controller with the directive.
          * @param scope the scope that the directive is called in
-         * @param element the element that the directive is called in
-         * @param attrs the attributes of the element that the directive is called in
          */
-        function link(scope, element, attrs) {
+        function link(scope) {
             scope.vm.hasCameras = true;
             scope.vm.hasPlayers = true;
 

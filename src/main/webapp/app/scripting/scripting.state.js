@@ -100,7 +100,7 @@
             data: {
                 authorities: ['ROLE_USER']
             },
-            onEnter: ['$stateParams', '$state', '$uibModal', 'ProjectManager', function($stateParams, $state, $uibModal, currentProject) {
+            onEnter: ['$stateParams', '$state', '$uibModal', 'ProjectManager', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
                     templateUrl: 'app/scripting/load-score-dialog.html',
                     controller: 'LoadScoreController',
