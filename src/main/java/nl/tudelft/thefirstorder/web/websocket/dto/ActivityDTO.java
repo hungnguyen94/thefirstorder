@@ -13,6 +13,24 @@ public class ActivityDTO {
 
     private String page;
 
+    private String current;
+
+    /**
+     * Get the current cue of the DTO.
+     * @return the current cue
+     */
+    public String getCurrent() {
+        return current;
+    }
+
+    /**
+     * Set the current cue of the DTO.
+     * @param current cue
+     */
+    public void setCurrent(String current) {
+        this.current = current;
+    }
+
     private String time;
 
     /**
