@@ -26,7 +26,6 @@ import java.util.Random;
 @RestController
 @RequestMapping("/api")
 public class UploadResource {
-    private final Logger log = LoggerFactory.getLogger(UploadResource.class);
     public static final String FILE_ROOT = "src/main/webapp/";
 
     /**
