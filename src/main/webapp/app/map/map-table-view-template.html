@@ -54,7 +54,6 @@
     <tr ng-repeat-start="player in vm.map.players"
         ng-click="vm.setSelected(player)"
         ng-class="{ 'success': vm.selected == player }">
-        <!--<td>{{player.id}}</td>-->
         <td colspan="2"><h4 class="text-muted"><i class="glyphicon glyphicon-user"></i> &nbsp; {{player.name}}</h4></td>
         <td class="text-right">
             <div class="btn-group flex-btn-group-container">
