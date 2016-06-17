@@ -123,6 +123,9 @@
             }
         }
 
+	/**
+         * Send the message 'current cue' to the client.
+         */
         function sendCurrent(current) {
             if (stompClient !== null && stompClient.connected) {
                 stompClient
