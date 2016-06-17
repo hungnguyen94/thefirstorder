@@ -174,14 +174,23 @@
                         return;
                     }
                     var opacity = mapConstants.nonhighlightOpacity;
+                    
+                    var fill = item.isPlayer ? mapConstants.defaultPlayerFill : mapConstants.defaultCameraFill;
+                    
                     if(entities.indexOf(item.entity.name) > -1) {
                         opacity = 1.0;
+                        fill = mapConstants.highlightFill;
                     }
+                    
+                    item.setFill(fill);
+                    
                     item.animate('opacity', opacity, {
                         onChange: scope.canvas.renderAll.bind(scope.canvas),
                         duration: mapConstants.fadeDuration
                     });
+                    
                 });
+                
                 scope.canvas.renderAll();
             }
 
@@ -238,7 +247,7 @@
              * @returns {*}
              */
             function transformCamera(camera) {
-                var cam = new fabric.Path('m96.6,26.8h-86.1c-2.2,0-4.1,1.8-4.1,4.1v67.2c0,2.2 1.8,4.1 4.1,4.1h86.1c2.2,0 4.1-1.8 4.1-4.1v-19.4l14.9,14.9c0.8,0.8 1.8,1.2 2.9,1.2 0.5,0 1.1-0.1 1.6-0.3 1.5-0.6 2.5-2.1 2.5-3.8v-52.5c0-1.6-1-3.1-2.5-3.8-1.5-0.6-3.3-0.3-4.4,0.9l-14.9,14.9v-19.3c-0.1-2.3-1.9-4.1-4.2-4.1zm-4.1,33.3v8.8 25.2h-78v-59.2h78v25.2zm21.9-12v32.9l-13.7-13.7v-5.4l13.7-13.8z');
+                var cam = new fabric.Path(mapConstants.cameraSVG);
                 cam.set({
                     x: camera.x,
                     y: camera.y,
@@ -246,7 +255,7 @@
                     scaleX: 0.3,
                     scaleY: 0.3,
                     padding: 10,
-                    fill: 'white',
+                    fill: mapConstants.defaultCameraFill,
                     entity: camera,
                     isCamera: true,
                     hasControls: true
@@ -279,7 +288,7 @@
                     scaleX: 0.8,
                     scaleY: 0.8,
                     padding: 5,
-                    fill: 'rgb(0, 96, 88)',
+                    fill: mapConstants.defaultPlayerFill, 
                     stroke: 'white',
                     entity: player,
                     isPlayer: true,
@@ -374,6 +383,7 @@
                     text: target.entity.name,
                     textBackgroundColor: 'rgba(0,0,0,0.3)'
                 });
+                label.bringToFront();
                 scope.canvas.renderAll();
             }
 
