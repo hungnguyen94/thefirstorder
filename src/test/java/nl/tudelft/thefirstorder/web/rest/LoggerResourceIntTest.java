@@ -13,33 +13,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.util.ReflectionTestUtils;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 /**
@@ -53,11 +33,26 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @IntegrationTest
 public class LoggerResourceIntTest {
 
+    @Mock private LoggerDTO dto;
     private LogsResource logsResource = new LogsResource();
+
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Test
     public void getListTest() {
         logsResource.getList();
+    }
+
+    @Test
+    public void changeLevelTest() {
+        when(dto.getName()).thenReturn("Name");
+        when(dto.getLevel()).thenReturn("Level");
+        logsResource.changeLevel(dto);
+        verify(dto).getName();
+        verify(dto).getLevel();
     }
 
 }

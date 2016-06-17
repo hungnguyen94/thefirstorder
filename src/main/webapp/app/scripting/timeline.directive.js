@@ -168,7 +168,7 @@
                         controller: 'CueDialogController',
                         controllerAs: 'vm',
                         backdrop: 'static',
-                        size: 'lg',
+                        size: 'xs',
                         resolve: {
                             entity: function () {
                                 return {
@@ -203,7 +203,7 @@
                     controller: 'CueDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
-                    size: 'md',
+                    size: 'xs',
                     resolve: {
                         entity: item.cue
                     }
@@ -249,7 +249,7 @@
                     controller: 'CueDeleteController',
                     controllerAs: 'vm',
                     backdrop: 'static',
-                    size: 'md',
+                    size: 'xs',
                     resolve: {
                         entity: item.cue
                     }

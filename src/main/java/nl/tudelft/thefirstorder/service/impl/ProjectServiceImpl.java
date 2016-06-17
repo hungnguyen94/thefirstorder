@@ -25,9 +25,6 @@ class ProjectServiceImpl implements ProjectService {
     @Inject
     private ProjectRepository projectRepository;
 
-    @Inject
-    private UserRepository userRepository;
-
     /**
      * Save a project.
      *
