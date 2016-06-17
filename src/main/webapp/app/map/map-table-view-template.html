@@ -34,13 +34,7 @@
                 <p><i class="glyphicon glyphicon-eye-open"></i> &nbsp; Lens: {{camera.lensType}}</p>
             </div>
         </td>
-    </tr>
-
-    <tr class="btn btn-raised btn-xs" ng-click="vm.addCamera()">
-        <td></td>
-        <td>Add camera</td>
-        <td></td>
-    </tr>
+    </tr
     </tbody>
 </table>
 
@@ -68,17 +62,10 @@
         </td>
     </tr>
     <tr class="info" ng-repeat-end>
-        <!--<tr ng-repeat-end uib-collapse="false">-->
         <td colspan="3" style="padding-top: 0; padding-bottom: 0">
             <div uib-collapse="vm.selected != player">
             </div>
         </td>
-    </tr>
-
-    <tr class="btn btn-raised btn-xs" ng-click="vm.addPlayer()">
-        <td></td>
-        <td>Add player</td>
-        <td></td>
     </tr>
     </tbody>
 </table>
