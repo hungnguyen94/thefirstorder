@@ -66,7 +66,7 @@
          *  setting hasScripts to true if there are scripts in the database.
          */
         function getScripts() {
-            vm.scripts = Script.query({}, onSuccess, onError);
+            vm.scripts = Script.queryNoProject({}, onSuccess, onError);
 
             function onSuccess(data) {
                 vm.hasScripts = data.length > 0;

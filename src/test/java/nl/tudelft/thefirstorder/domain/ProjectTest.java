@@ -3,7 +3,7 @@ package nl.tudelft.thefirstorder.domain;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Objects;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -83,4 +83,13 @@ public class ProjectTest {
         assertThat(Objects.equals(entity.toString(), entity2.toString()));
     }
 
+    @Test
+    public void cueTest() throws Exception {
+        Set<Cue> cues = new HashSet<>();
+
+        cues.add(new Cue());
+        entity.setCues(cues);
+
+        assertThat(Objects.equals(entity.getCues().size(), cues.size()));
+    }
 }

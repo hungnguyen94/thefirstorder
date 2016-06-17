@@ -18,7 +18,6 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 
 import java.io.ByteArrayOutputStream;
-import java.net.URL;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -26,13 +25,6 @@ import java.util.Set;
  * Utility class to export a project to a PDF File.
  */
 public class PDFExportUtil {
-
-    private static Font catFont = new Font(Font.FontFamily.COURIER, 18,
-            Font.BOLD);
-    private static Font redFont = new Font(Font.FontFamily.COURIER, 12,
-            Font.NORMAL, BaseColor.RED);
-    private static Font smallBold = new Font(Font.FontFamily.COURIER, 12,
-            Font.BOLD);
 
     private static final int BORDER_CONSTANT = 0;
     private static final int PADDING_CONSTANT = 15;
@@ -189,7 +181,7 @@ public class PDFExportUtil {
     }
 
     /**
-     * Add an empty line in the pdf
+     * Add an empty line in the pdf.
      * @param paragraph the paragraph to add a line to
      * @param number the number of lines to add
      */

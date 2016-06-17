@@ -17,9 +17,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.matchers.Equals;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.http.HttpStatus;
@@ -29,24 +26,22 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+import java.net.UnknownHostException;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
@@ -81,6 +76,12 @@ public class AccountResourceIntTest {
 
     private AccountResource accountResource;
 
+    @Mock
+    private HttpServletRequest request;
+
+    @Mock
+    private UserDTO dto;
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
@@ -98,6 +99,23 @@ public class AccountResourceIntTest {
 
         this.restMvc = MockMvcBuilders.standaloneSetup(accountResource).build();
         this.restUserMockMvc = MockMvcBuilders.standaloneSetup(accountUserMockResource).build();
+    }
+
+    @Test
+    public void saveAccountNotExisting() {
+        when(dto.getEmail()).thenReturn("test@test.com");
+        assertThat(accountResource.saveAccount(dto)).isEqualTo(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
+
+    }
+
+    @Test
+    public void testMain() throws UnknownHostException {
+        ThefirstorderApp.main(new String[0]);
+    }
+
+    @Test
+    public void requestPasswordResetTest() {
+        assertThat(accountResource.requestPasswordReset("tes@test.com", request)).isEqualTo(new ResponseEntity<>("e-mail address not registered", HttpStatus.BAD_REQUEST));
     }
 
     @Test

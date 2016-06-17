@@ -4,3 +4,4 @@
 
 # ignore bower_components
 src/main/webapp/bower_components
+src/main/webapp/external_components

@@ -12,9 +12,27 @@ OVERRIDE ALL CSS SETTINGS
     }
 }
 
-canvas#concertMap {
+#pdf-viewer {
     width: 100%;
-    background-image: url("/content/images/concertzaal.jpg");
+    height: 900px;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+td.selection-display {
+    width: 50%;
+}
+.preview {
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    height: 600px;
 }
 
 .modal-footer form {

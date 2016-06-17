@@ -1,19 +1,22 @@
 package nl.tudelft.thefirstorder.web.rest;
 
 import nl.tudelft.thefirstorder.ThefirstorderApp;
-import nl.tudelft.thefirstorder.domain.Project;
 import nl.tudelft.thefirstorder.domain.Script;
 import nl.tudelft.thefirstorder.repository.ScriptRepository;
 import nl.tudelft.thefirstorder.service.ScriptService;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import static org.hamcrest.Matchers.hasItem;
+
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -26,7 +29,6 @@ import javax.inject.Inject;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -49,6 +51,8 @@ public class ScriptResourceIntTest {
 
     private static final String DEFAULT_NAME = "AAAAA";
     private static final String UPDATED_NAME = "BBBBB";
+    private static final String DEFAULT_SCORE = "AAAAA";
+    private static final String UPDATED_SCORE = "BBBBB";
 
     @Inject
     private ScriptRepository scriptRepository;
@@ -80,6 +84,7 @@ public class ScriptResourceIntTest {
     public void initTest() {
         script = new Script();
         script.setName(DEFAULT_NAME);
+        script.setScore(DEFAULT_SCORE);
     }
 
     @Test
@@ -90,15 +95,114 @@ public class ScriptResourceIntTest {
         // Create the Script
 
         restScriptMockMvc.perform(post("/api/scripts")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(script)))
-                .andExpect(status().isCreated());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(script)))
+            .andExpect(status().isCreated());
 
         // Validate the Script in the database
         List<Script> scripts = scriptRepository.findAll();
         assertThat(scripts).hasSize(databaseSizeBeforeCreate + 1);
         Script testScript = scripts.get(scripts.size() - 1);
         assertThat(testScript.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testScript.getScore()).isEqualTo(DEFAULT_SCORE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllScripts() throws Exception {
+        // Initialize the database
+        scriptRepository.saveAndFlush(script);
+
+        // Get all the scripts
+        restScriptMockMvc.perform(get("/api/scripts?sort=id,desc"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(script.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].score").value(hasItem(DEFAULT_SCORE)));
+    }
+
+    @Test
+    @Transactional
+    public void getScript() throws Exception {
+        // Initialize the database
+        scriptRepository.saveAndFlush(script);
+
+        // Get the script
+        restScriptMockMvc.perform(get("/api/scripts/{id}", script.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.id").value(script.getId().intValue()))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
+            .andExpect(jsonPath("$.score").value(DEFAULT_SCORE));
+    }
+
+    @Test
+    @Transactional
+    public void getNonExistingScript() throws Exception {
+        // Get the script
+        restScriptMockMvc.perform(get("/api/scripts/{id}", Long.MAX_VALUE))
+            .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @Transactional
+    public void updateScript() throws Exception {
+        // Initialize the database
+        scriptService.save(script);
+
+        int databaseSizeBeforeUpdate = scriptRepository.findAll().size();
+
+        // Update the script
+        Script updatedScript = new Script();
+        updatedScript.setId(script.getId());
+        updatedScript.setName(UPDATED_NAME);
+        updatedScript.setScore(UPDATED_SCORE);
+
+        restScriptMockMvc.perform(put("/api/scripts")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedScript)))
+            .andExpect(status().isOk());
+
+        // Validate the Script in the database
+        List<Script> scripts = scriptRepository.findAll();
+        assertThat(scripts).hasSize(databaseSizeBeforeUpdate);
+        Script testScript = scripts.get(scripts.size() - 1);
+        assertThat(testScript.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testScript.getScore()).isEqualTo(UPDATED_SCORE);
+    }
+
+    @Test
+    @Transactional
+    public void deleteScript() throws Exception {
+        // Initialize the database
+        scriptService.save(script);
+
+        int databaseSizeBeforeDelete = scriptRepository.findAll().size();
+
+        // Get the script
+        restScriptMockMvc.perform(delete("/api/scripts/{id}", script.getId())
+            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .andExpect(status().isOk());
+
+        // Validate the database is empty
+        List<Script> scripts = scriptRepository.findAll();
+        assertThat(scripts).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void getAllScriptsWhereProjectIsNull() throws Exception {
+        script.setProject(null);
+        // Initialize the database
+        scriptRepository.saveAndFlush(script);
+
+        // Get all the scripts
+        restScriptMockMvc.perform(get("/api/scripts?filter=project-is-null"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(script.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)));
     }
 
     @Test
@@ -136,99 +240,5 @@ public class ScriptResourceIntTest {
         // Validate the Script in the database
         List<Script> scripts = scriptRepository.findAll();
         assertThat(scripts).hasSize(databaseSizeBeforeUpdate + 1);
-    }
-
-    @Test
-    @Transactional
-    public void getAllScriptsWhereProjectIsNull() throws Exception {
-        script.setProject(null);
-        // Initialize the database
-        scriptRepository.saveAndFlush(script);
-
-        // Get all the scripts
-        restScriptMockMvc.perform(get("/api/scripts?filter=project-is-null"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(script.getId().intValue())))
-                .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
-    }
-
-    @Test
-    @Transactional
-    public void getAllScripts() throws Exception {
-        // Initialize the database
-        scriptRepository.saveAndFlush(script);
-
-        // Get all the scripts
-        restScriptMockMvc.perform(get("/api/scripts?sort=id,desc"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(script.getId().intValue())))
-                .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
-    }
-
-    @Test
-    @Transactional
-    public void getScript() throws Exception {
-        // Initialize the database
-        scriptRepository.saveAndFlush(script);
-
-        // Get the script
-        restScriptMockMvc.perform(get("/api/scripts/{id}", script.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.id").value(script.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()));
-    }
-
-    @Test
-    @Transactional
-    public void getNonExistingScript() throws Exception {
-        // Get the script
-        restScriptMockMvc.perform(get("/api/scripts/{id}", Long.MAX_VALUE))
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
-    @Transactional
-    public void updateScript() throws Exception {
-        // Initialize the database
-        scriptService.save(script);
-
-        int databaseSizeBeforeUpdate = scriptRepository.findAll().size();
-
-        // Update the script
-        Script updatedScript = new Script();
-        updatedScript.setId(script.getId());
-        updatedScript.setName(UPDATED_NAME);
-
-        restScriptMockMvc.perform(put("/api/scripts")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(updatedScript)))
-                .andExpect(status().isOk());
-
-        // Validate the Script in the database
-        List<Script> scripts = scriptRepository.findAll();
-        assertThat(scripts).hasSize(databaseSizeBeforeUpdate);
-        Script testScript = scripts.get(scripts.size() - 1);
-        assertThat(testScript.getName()).isEqualTo(UPDATED_NAME);
-    }
-
-    @Test
-    @Transactional
-    public void deleteScript() throws Exception {
-        // Initialize the database
-        scriptService.save(script);
-
-        int databaseSizeBeforeDelete = scriptRepository.findAll().size();
-
-        // Get the script
-        restScriptMockMvc.perform(delete("/api/scripts/{id}", script.getId())
-                .accept(TestUtil.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
-
-        // Validate the database is empty
-        List<Script> scripts = scriptRepository.findAll();
-        assertThat(scripts).hasSize(databaseSizeBeforeDelete - 1);
     }
 }

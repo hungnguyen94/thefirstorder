@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
     angular
         .module('thefirstorderApp')
@@ -6,11 +6,19 @@
 
     Map.$inject = ['$resource'];
 
-    function Map ($resource) {
-        var resourceUrl =  'api/maps/:id';
+    function Map($resource) {
+        var resourceUrl = 'api/maps/:id';
 
         return $resource(resourceUrl, {}, {
-            'query': { method: 'GET', isArray: true},
+            'query': {
+                method: 'GET',
+                isArray: true
+            },
+            'queryNoProject': {
+                method: 'GET',
+                isArray: true,
+                url: resourceUrl + '?filter=project-is-null'
+            },
             'get': {
                 method: 'GET',
                 transformResponse: function (data) {
@@ -18,20 +26,20 @@
                     return data;
                 }
             },
-            'update': { method: 'PUT' }, 
+            'update': {method: 'PUT'},
             'getDTO': {
-                method: 'GET', 
-                url: resourceUrl + '/dto', 
+                method: 'GET',
+                url: resourceUrl + '/dto',
                 isArray: false,
                 transformResponse: function (data) {
                     data = angular.fromJson(data);
                     return data;
                 }
-            }, 
+            },
             'addCamera': {
-                method: 'PUT', 
+                method: 'PUT',
                 // url: resourceUrl + '/addCamera',
-                url: resourceUrl + '/addCamera?cameraId=:cameraId', 
+                url: resourceUrl + '/addCamera?cameraId=:cameraId',
                 isArray: false,
                 params: {
                     id: '@id',

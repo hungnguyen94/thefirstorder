@@ -2,7 +2,6 @@ package nl.tudelft.thefirstorder.web.rest;
 
 import nl.tudelft.thefirstorder.ThefirstorderApp;
 import nl.tudelft.thefirstorder.domain.Map;
-import nl.tudelft.thefirstorder.domain.Project;
 import nl.tudelft.thefirstorder.repository.MapRepository;
 import nl.tudelft.thefirstorder.service.MapService;
 import org.junit.Before;
@@ -12,7 +11,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.HttpStatus;
@@ -32,13 +30,8 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 /**
@@ -54,6 +47,8 @@ public class MapResourceIntTest {
 
     private static final String DEFAULT_NAME = "AAAAA";
     private static final String UPDATED_NAME = "BBBBB";
+    private static final String DEFAULT_BACKGROUND_IMAGE = "AAAAA";
+    private static final String UPDATED_BACKGROUND_IMAGE = "BBBBB";
 
     @Inject
     private MapRepository mapRepository;
@@ -90,6 +85,7 @@ public class MapResourceIntTest {
     public void initTest() {
         map = new Map();
         map.setName(DEFAULT_NAME);
+        map.setBackgroundImage(DEFAULT_BACKGROUND_IMAGE);
     }
 
     @Test
@@ -109,6 +105,7 @@ public class MapResourceIntTest {
         assertThat(maps).hasSize(databaseSizeBeforeCreate + 1);
         Map testMap = maps.get(maps.size() - 1);
         assertThat(testMap.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testMap.getBackgroundImage()).isEqualTo(DEFAULT_BACKGROUND_IMAGE);
     }
 
     @Test
@@ -166,7 +163,8 @@ public class MapResourceIntTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(map.getId().intValue())))
-                .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
+                .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+                .andExpect(jsonPath("$.[*].backgroundImage").value(hasItem(DEFAULT_BACKGROUND_IMAGE.toString())));
     }
 
     @Test
@@ -180,7 +178,8 @@ public class MapResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.id").value(map.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()));
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
+            .andExpect(jsonPath("$.backgroundImage").value(DEFAULT_BACKGROUND_IMAGE.toString()));
     }
 
     @Test
@@ -203,6 +202,7 @@ public class MapResourceIntTest {
         Map updatedMap = new Map();
         updatedMap.setId(map.getId());
         updatedMap.setName(UPDATED_NAME);
+        updatedMap.setBackgroundImage(UPDATED_BACKGROUND_IMAGE);
 
         restMapMockMvc.perform(put("/api/maps")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -214,6 +214,7 @@ public class MapResourceIntTest {
         assertThat(maps).hasSize(databaseSizeBeforeUpdate);
         Map testMap = maps.get(maps.size() - 1);
         assertThat(testMap.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testMap.getBackgroundImage()).isEqualTo(UPDATED_BACKGROUND_IMAGE);
     }
 
     @Test

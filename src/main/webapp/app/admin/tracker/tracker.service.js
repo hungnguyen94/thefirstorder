@@ -32,6 +32,7 @@
             sendPrevious: sendPrevious,
             sendNext: sendNext,
             subscribe: subscribe,
+            sendCurrent: sendCurrent,
             unsubscribe: unsubscribe
         };
 
@@ -101,24 +102,36 @@
         /**
          * Send the message 'previous cue' to the client.
          */
-        function sendPrevious() {
+        function sendPrevious(current) {
             if (stompClient !== null && stompClient.connected) {
                 stompClient
                     .send('/topic/activity',
                         {},
-                        angular.toJson({'page': 'previous'}));
+                        angular.toJson({'page': 'previous', 'current': current}));
             }
         }
 
         /**
          * Send the message 'next cue' to the client.
          */
-        function sendNext() {
+        function sendNext(current) {
             if (stompClient !== null && stompClient.connected) {
                 stompClient
                     .send('/topic/activity',
                         {},
-                        angular.toJson({'page': 'next'}));
+                        angular.toJson({'page': 'next', 'current': current}));
+            }
+        }
+
+	/**
+         * Send the message 'current cue' to the client.
+         */
+        function sendCurrent(current) {
+            if (stompClient !== null && stompClient.connected) {
+                stompClient
+                    .send('/topic/activity',
+                        {},
+                        angular.toJson({'page': 'none', 'current': current}));
             }
         }
 

@@ -108,4 +108,13 @@ public class MapTest {
         assertThat(Objects.equals(entity.toString(), entity2.toString()));
     }
 
+    @Test
+    public void projectTest() throws Exception {
+        Project project = new Project();
+        project.setId(DEFAULT_ID);
+
+        entity.setProject(project);
+        assertThat(Objects.equals(entity.getProject().getId(), DEFAULT_ID));
+    }
+
 }
