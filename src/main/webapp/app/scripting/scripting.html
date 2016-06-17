@@ -43,16 +43,17 @@
             <div class="row" ng-switch="vm.hasScore">
                 <div class="col-md-12" ng-switch-when="true">
                     <div>
-                        <div class="text-right" ng-switch="vm.hasCue">
+                        <div class="text-right">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <button type="button" class="btn btn-raised right" ui-sref="script.load-score"><span
-                                        class="glyphicon glyphicon-list"
-                                        aria-hidden="true"></span> Change
-                                        score
+                                    <button type="button"
+                                            class="btn btn-raised right"
+                                            ui-sref="script.load-score">
+                                        <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+                                        Change score
                                     </button>
                                     <br/><br/>
-                                    <span class="text-muted left" ng-switch-when="false">
+                                    <span class="text-muted left">
                                         Double click the timeline to add a cue.
                                     </span>
                                 </div>

@@ -27,7 +27,6 @@
 
         vm.hasScore = false;
         vm.hasMap = false;
-        vm.hasCue = false;
 
         update();
 
