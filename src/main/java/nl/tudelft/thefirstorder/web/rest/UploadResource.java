@@ -86,18 +86,26 @@ public class UploadResource {
      * @param contents should be the input stream written to the file
      */
     public void writeToFile(String location, InputStream contents) {
+        OutputStream out = null;
         try {
             int read = 0;
             byte[] bytes = new byte[IMAGE_CHARS];
 
-            OutputStream out = new FileOutputStream(new File(getRoot() + location));
+            out = new FileOutputStream(new File(getRoot() + location));
             while ((read = contents.read(bytes)) != -1) {
                 out.write(bytes, 0, read);
             }
             out.flush();
-            out.close();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if (out != null) {
+                try {
+                    out.close();
+                } catch(IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
