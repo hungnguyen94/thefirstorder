@@ -9,6 +9,15 @@
 
     LoadScoreController.$inject = ['$http', '$scope', '$uibModalInstance', 'currentProject', 'Script'];
 
+    /**
+     *
+     * @param $http
+     * @param $scope
+     * @param $uibModalInstance
+     * @param currentProject
+     * @param Script
+     * @constructor
+     */
     function LoadScoreController($http, $scope, $uibModalInstance, currentProject, Script) {
         var vm = this;
         vm.uploadedScore = null;
@@ -32,7 +41,7 @@
             };
             if (file) {
                 reader.readAsDataURL(file);
-            } 
+            }
         }
 
         /**
@@ -104,6 +113,10 @@
         };
     }
 
+    /**
+     * Executes the on-bg-upload attribute on the change event of the element.
+     * @returns {{restrict: string, link: link}}
+     */
     function onBgUpload() {
         return {
             restrict: 'A',
@@ -114,6 +127,11 @@
         };
     }
 
+    /**
+     * Sets the file model directive, necessary to get the image from the input in the correct FormData format.
+     * @param $parse
+     * @returns {{restrict: string, link: link}}
+     */
     function fileModel($parse) {
         return {
             restrict: 'A',

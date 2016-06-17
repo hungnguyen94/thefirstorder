@@ -9,10 +9,11 @@
 
     /**
      * The controller for the map table view. Shows all cameras and players in a table.
+     * @param FabricMapDialog
      * @param $timeout
      * @returns {{restrict: string, scope: {map: string, selected: string}, link: link, templateUrl: string, controller: string, controllerAs: string, bindToController: boolean}}
      */
-    function mapTableView($timeout) {
+    function mapTableView(FabricMapDialog, $timeout) {
         var directive = {
             restrict: 'EA',
             scope: {
@@ -21,7 +22,6 @@
             },
             link: link,
             templateUrl: 'app/map/map-table-view-template.html',
-            link: link,
             controller: 'MapEditorController',
             controllerAs: 'vm',
             bindToController: true
