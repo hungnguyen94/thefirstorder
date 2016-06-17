@@ -38,13 +38,7 @@
                 <p>lens: {{camera.lensType}}</p>
             </div>
         </td>
-    </tr>
-
-    <tr class="btn btn-raised btn-xs" ng-click="vm.addCamera(vm.project.map)">
-        <td></td>
-        <td>Add camera</td>
-        <td></td>
-    </tr>
+    </tr
     </tbody>
 </table>
 
@@ -58,7 +52,6 @@
     <tr ng-repeat-start="player in vm.map.players"
         ng-click="vm.setSelected(player)"
         ng-class="{ 'success': vm.selected == player }">
-        <!--<td>{{player.id}}</td>-->
         <td colspan="2">{{player.name}}</td>
         <td class="text-right">
             <div class="btn-group flex-btn-group-container">
@@ -73,7 +66,6 @@
         </td>
     </tr>
     <tr class="info" ng-repeat-end>
-        <!--<tr ng-repeat-end uib-collapse="false">-->
         <td colspan="3" style="padding-top: 0; padding-bottom: 0">
             <div uib-collapse="vm.selected != player">
                 <p>id: {{player.id}}</p>
@@ -81,12 +73,6 @@
                 <p>y: {{player.y | number: 2}}</p>
             </div>
         </td>
-    </tr>
-
-    <tr class="btn btn-raised btn-xs" ng-click="vm.addPlayer(vm.project.map)">
-        <td></td>
-        <td>Add player</td>
-        <td></td>
     </tr>
     </tbody>
 </table>
