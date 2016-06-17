@@ -33,8 +33,6 @@
             };
             if (file) {
                 reader.readAsDataURL(file);
-            } else {
-
             }
         }
 

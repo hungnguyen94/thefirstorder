@@ -123,7 +123,6 @@
 
                 function onLoadSuccess(map) {
                     if (map.backgroundImage) {
-                        console.log(map.backgroundImage);
                         load(map.backgroundImage);
                     } else {
                         load(default_bg);
