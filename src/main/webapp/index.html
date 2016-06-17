@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="content/css/custom.css">
     <link rel="stylesheet" href="content/css/bootstrap-material-design.css" />
     <link rel="stylesheet" href="content/css/ripples.css" />
+    <link rel="stylesheet" href="content/css/vertical-timeline.css" />
     <!-- endbuild -->
 </head>
 <body ng-app="thefirstorderApp">
@@ -34,16 +35,6 @@
             <p class="text-center">&copy; 2016 - The First Order</p>
         </div>
     </div>
-
-    <!-- Google Analytics: uncomment and change UA-XXXXX-X to be your site's ID.
-    <script>
-        (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-        function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-        e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-        e.src='//www.google-analytics.com/analytics.js';
-        r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-        ga('create','UA-XXXXX-X');ga('send','pageview');
-    </script>-->
 
     <!-- build:js app/vendor.js -->
     <!-- bower:js -->
@@ -71,16 +62,27 @@
     <script src="bower_components/file-saver.js/FileSaver.js"></script>
     <script src="bower_components/angular-file-saver/dist/angular-file-saver.bundle.js"></script>
     <script src="bower_components/vis/dist/vis.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
     <!-- build:js app/app.js  -->
     <!-- inject:js -->
     <script src="app/app.module.js"></script>
-    <script src="app/account/reset/request/reset.request.state.js"></script>
-    <script src="app/account/reset/request/reset.request.controller.js"></script>
     <script src="app/account/reset/finish/reset.finish.state.js"></script>
     <script src="app/account/reset/finish/reset.finish.controller.js"></script>
+    <script src="app/account/reset/request/reset.request.state.js"></script>
+    <script src="app/account/reset/request/reset.request.controller.js"></script>
+    <script src="app/setup/script/script-setup.state.js"></script>
+    <script src="app/setup/script/script-setup.controller.js"></script>
+    <script src="app/setup/script/loadscript-dialog.controller.js"></script>
+    <script src="app/setup/script/createscript-dialog.controller.js"></script>
+    <script src="app/setup/project/noproject.state.js"></script>
+    <script src="app/setup/project/noproject.controller.js"></script>
+    <script src="app/setup/map/map-setup.state.js"></script>
+    <script src="app/setup/map/map-setup.controller.js"></script>
+    <script src="app/setup/map/loadmap-dialog.controller.js"></script>
+    <script src="app/setup/map/createmap-dialog.controller.js"></script>
     <script src="app/services/auth/register.service.js"></script>
     <script src="app/services/auth/principal.service.js"></script>
     <script src="app/services/auth/password.service.js"></script>
@@ -97,12 +99,6 @@
     <script src="app/layouts/navbar/navbar.controller.js"></script>
     <script src="app/layouts/navbar/active-link.directive.js"></script>
     <script src="app/layouts/error/error.state.js"></script>
-    <script src="app/entities/time-point/time-point.state.js"></script>
-    <script src="app/entities/time-point/time-point.service.js"></script>
-    <script src="app/entities/time-point/time-point.controller.js"></script>
-    <script src="app/entities/time-point/time-point-dialog.controller.js"></script>
-    <script src="app/entities/time-point/time-point-detail.controller.js"></script>
-    <script src="app/entities/time-point/time-point-delete-dialog.controller.js"></script>
     <script src="app/entities/script/script.state.js"></script>
     <script src="app/entities/script/script.service.js"></script>
     <script src="app/entities/script/script.controller.js"></script>
@@ -135,12 +131,6 @@
     <script src="app/entities/cue/cue-dialog.controller.js"></script>
     <script src="app/entities/cue/cue-detail.controller.js"></script>
     <script src="app/entities/cue/cue-delete-dialog.controller.js"></script>
-    <script src="app/entities/camera-action/camera-action.state.js"></script>
-    <script src="app/entities/camera-action/camera-action.service.js"></script>
-    <script src="app/entities/camera-action/camera-action.controller.js"></script>
-    <script src="app/entities/camera-action/camera-action-dialog.controller.js"></script>
-    <script src="app/entities/camera-action/camera-action-detail.controller.js"></script>
-    <script src="app/entities/camera-action/camera-action-delete-dialog.controller.js"></script>
     <script src="app/entities/camera/camera.state.js"></script>
     <script src="app/entities/camera/camera.service.js"></script>
     <script src="app/entities/camera/camera.controller.js"></script>
@@ -178,25 +168,25 @@
     <script src="app/blocks/config/http.config.js"></script>
     <script src="app/blocks/config/compile.config.js"></script>
     <script src="app/blocks/config/alert.config.js"></script>
+    <script src="app/admin/tracker/tracker.state.js"></script>
+    <script src="app/admin/tracker/tracker.service.js"></script>
+    <script src="app/admin/tracker/tracker.controller.js"></script>
     <script src="app/admin/user-management/user-management.state.js"></script>
     <script src="app/admin/user-management/user-management.controller.js"></script>
     <script src="app/admin/user-management/user-management-dialog.controller.js"></script>
     <script src="app/admin/user-management/user-management-detail.controller.js"></script>
     <script src="app/admin/user-management/user-management-delete-dialog.controller.js"></script>
-    <script src="app/admin/tracker/tracker.state.js"></script>
-    <script src="app/admin/tracker/tracker.service.js"></script>
-    <script src="app/admin/tracker/tracker.controller.js"></script>
     <script src="app/admin/metrics/metrics.state.js"></script>
     <script src="app/admin/metrics/metrics.service.js"></script>
     <script src="app/admin/metrics/metrics.modal.controller.js"></script>
     <script src="app/admin/metrics/metrics.controller.js"></script>
-    <script src="app/admin/logs/logs.state.js"></script>
-    <script src="app/admin/logs/logs.service.js"></script>
-    <script src="app/admin/logs/logs.controller.js"></script>
     <script src="app/admin/health/health.state.js"></script>
     <script src="app/admin/health/health.service.js"></script>
     <script src="app/admin/health/health.modal.controller.js"></script>
     <script src="app/admin/health/health.controller.js"></script>
+    <script src="app/admin/logs/logs.state.js"></script>
+    <script src="app/admin/logs/logs.service.js"></script>
+    <script src="app/admin/logs/logs.controller.js"></script>
     <script src="app/admin/docs/docs.state.js"></script>
     <script src="app/admin/configuration/configuration.state.js"></script>
     <script src="app/admin/configuration/configuration.service.js"></script>
@@ -213,10 +203,18 @@
     <script src="app/account/password/password-strength-bar.directive.js"></script>
     <script src="app/account/activate/activate.state.js"></script>
     <script src="app/account/activate/activate.controller.js"></script>
-    <script src="app/timeline/timeline.state.js"></script>
-    <script src="app/timeline/timeline.controller.js"></script>
-    <script src="app/map/mapview.state.js"></script>
-    <script src="app/map/mapview.controller.js"></script>
+    <script src="app/scripting/timeline.directive.js"></script>
+    <script src="app/scripting/scripting.state.js"></script>
+    <script src="app/scripting/scripting.controller.js"></script>
+    <script src="app/scripting/load-score-dialog.controller.js"></script>
+    <script src="app/map/map.constants.js"></script>
+    <script src="app/map/map-table.directive.js"></script>
+    <script src="app/map/map-editor.state.js"></script>
+    <script src="app/map/map-editor.controller.js"></script>
+    <script src="app/map/load-background-dialog.controller.js"></script>
+    <script src="app/map/fabric-map.directive.js"></script>
+    <script src="app/live/live.state.js"></script>
+    <script src="app/live/live.controller.js"></script>
     <script src="app/home/loadproject-dialog.controller.js"></script>
     <script src="app/home/home.state.js"></script>
     <script src="app/home/home.controller.js"></script>
