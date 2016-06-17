@@ -46,7 +46,7 @@
                         }
                     }
                 }).result.then(function () {
-                    $state.go('scriptingview', null, {reload: true});
+                    $state.go('scripting', null, {reload: true});
                 }, function () {
                     $state.go('script-setup');
                 });
@@ -70,9 +70,13 @@
                         }
                     }
                 }).result.then(function() {
-                    $state.go('scriptingview', null, { reload: true });
-                }, function() {
-                    $state.go('script-setup');
+                    $state.go('scripting', null, { reload: true });
+                }, function(response) {
+                    if (response == "create") {
+                        $state.go('script.create');
+                    } else {
+                        $state.go('script-setup');
+                    }
                 });
             }]
         });

@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
     angular
         .module('thefirstorderApp')
@@ -6,11 +6,16 @@
 
     Script.$inject = ['$resource'];
 
-    function Script ($resource) {
-        var resourceUrl =  'api/scripts/:id';
+    function Script($resource) {
+        var resourceUrl = 'api/scripts/:id';
 
         return $resource(resourceUrl, {}, {
-            'query': { method: 'GET', isArray: true},
+            'query': {method: 'GET', isArray: true},
+            'queryNoProject': {
+                method: 'GET',
+                isArray: true,
+                url: resourceUrl + '?filter=project-is-null'
+            },
             'get': {
                 method: 'GET',
                 transformResponse: function (data) {
@@ -18,7 +23,7 @@
                     return data;
                 }
             },
-            'update': { method:'PUT' }
+            'update': {method: 'PUT'}
         });
     }
 })();

@@ -35,6 +35,9 @@ public class Script implements Serializable {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "score")
+    private String score;
+
     @OneToOne(mappedBy = "script")
     @JsonIgnore
     private Project project;
@@ -92,12 +95,36 @@ public class Script implements Serializable {
         this.cues = cues;
     }
 
+    /**
+     * Get the project which contains this script.
+     * @return the project which contains this script
+     */
     public Project getProject() {
         return project;
     }
 
+    /**
+     * Set the project to contain this script.
+     * @param project should be the new project to contain this script
+     */
     public void setProject(Project project) {
         this.project = project;
+    }
+
+    /**
+     * Get the score of this script.
+     * @return the score of this script
+     */
+    public String getScore() {
+        return score;
+    }
+
+    /**
+     * Set the score of this script.
+     * @param score the new score of this script
+     */
+    public void setScore(String score) {
+        this.score = score;
     }
 
     /**
@@ -136,8 +163,8 @@ public class Script implements Serializable {
     @Override
     public String toString() {
         return "Script{"
-                + "id=" + id
-                + ", name='" + name
-                + "'" + '}';
+            + "id=" + id
+            + ", name='" + name
+            + "'" + '}';
     }
 }

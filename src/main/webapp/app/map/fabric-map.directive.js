@@ -5,16 +5,19 @@
         .module('thefirstorderApp')
         .directive('fabricMap', fabricMap);
 
-    fabricMap.$inject = ['$window', 'Player', 'Camera', 'Map', 'mapConstants', 'FabricMapDialog'];
+    fabricMap.$inject = ['$window', 'Player', 'Camera', 'mapConstants', 'ProjectManager', 'Project', 'FabricMapDialog'];
 
     /**
      * The controller for the map directive.
      * @param $window
      * @param Player
      * @param Camera
-     * @returns {{restrict: string, scope: {map: string, selected: string, editable: string}, link: link, controller: string, controllerAs: string, bindToController: boolean}}
+     * @param mapConstants
+     * @param ProjectManager
+     * @param Project
+     * @returns {{restrict: string, scope: {map: string, selected: string, editable: string, highlight: string}, link: link, controller: string, controllerAs: string, bindToController: boolean}}
      */
-    function fabricMap($window, Player, Camera, Map, mapConstants, FabricMapDialog) {
+    function fabricMap($window, Player, Camera, mapConstants, ProjectManager, Project, FabricMapDialog) {
         var directive = {
             restrict: 'EA',
             scope: {
@@ -86,7 +89,7 @@
             /**
              * Sets the label to the current target the mouse is hovering over.
              */
-            scope.canvas.on('mouse:over', function(options) {
+            scope.canvas.on('mouse:over', function (options) {
                 var target = options.target;
                 setLabel(target);
             });
@@ -94,7 +97,7 @@
             /**
              * Removes the label if the mouse leaves the target.
              */
-            scope.canvas.on('mouse:out', function() {
+            scope.canvas.on('mouse:out', function () {
                 scope.vm.hoverTarget = null;
                 label.setText('');
                 scope.canvas.renderAll();
@@ -104,21 +107,26 @@
              * Initializes the map with a canvas and loads the cameras and players.
              */
             function init() {
+                ProjectManager.get().then(function (projectId) {
+                    Project.get({id: projectId.data}, function (project) {
+                        onLoadSuccess(project.map);
+                    }, onLoadError);
+                }, onLoadError);
+
                 var canvas = new fabric.CanvasEx(element[0]);
                 canvas.selection = false;
                 scope.canvas = canvas;
                 scope.canvas.add(label);
 
-                Map.get({id: 1}, onLoadSuccess, onLoadError);
-
-                var default_bg = "content/images/concertzaal.jpg";
+                var default_bg = "content/images/error.jpg";
                 var error_bg = "content/images/error.jpg";
 
                 function onLoadSuccess(map) {
-                    if(map.backgroundImage === null) {
-                        load(default_bg);
-                    } else {
+                    if (map.backgroundImage) {
+                        console.log(map.backgroundImage);
                         load(map.backgroundImage);
+                    } else {
+                        load(default_bg);
                     }
                 }
 
@@ -170,27 +178,23 @@
                     return entity.name;
                 });
                 scope.canvas.getObjects().forEach(function (item) {
-                    if(!item.hasOwnProperty('entity')) {
+                    if (!item.hasOwnProperty('entity')) {
                         return;
                     }
                     var opacity = mapConstants.nonhighlightOpacity;
                     
                     var fill = item.isPlayer ? mapConstants.defaultPlayerFill : mapConstants.defaultCameraFill;
                     
-                    if(entities.indexOf(item.entity.name) > -1) {
+                    if (entities.indexOf(item.entity.name) > -1) {
                         opacity = 1.0;
                         fill = mapConstants.highlightFill;
                     }
-                    
                     item.setFill(fill);
-                    
                     item.animate('opacity', opacity, {
                         onChange: scope.canvas.renderAll.bind(scope.canvas),
                         duration: mapConstants.fadeDuration
                     });
-                    
                 });
-                
                 scope.canvas.renderAll();
             }
 
@@ -233,7 +237,7 @@
                 drawable.left = position.x;
                 drawable.top = position.y;
 
-                if(scope.vm.editable === false) {
+                if (scope.vm.editable === false) {
                     drawable.lockMovementX = true;
                     drawable.lockMovementY = true;
                     drawable.hasControls = false;
@@ -251,7 +255,7 @@
                 cam.set({
                     x: camera.x,
                     y: camera.y,
-                    angle: camera.angle, 
+                    angle: camera.angle,
                     scaleX: 0.3,
                     scaleY: 0.3,
                     padding: 10,
@@ -333,10 +337,10 @@
              */
             function updateEntity(options) {
                 var target = options.target;
-                if(target) {
+                if (target) {
                     var entity = target.entity;
                     var position = getRelativePosition(target.left, target.top);
-                    if(isInRange(position.x) && isInRange(position.y)) {
+                    if (isInRange(position.x) && isInRange(position.y)) {
                         entity.x = position.x;
                         entity.y = position.y;
                         entity.angle = target.angle;
@@ -351,7 +355,7 @@
              * Displays the information of an object when it is selected.
              * @param options
              */
-            function onSelect (options) {
+            function onSelect(options) {
                 var target = options.target;
                 setLabel(target);
                 scope.$apply(function () {
@@ -364,9 +368,9 @@
              * @param target the camera or player that is updated
              */
             function onModify(target) {
-                if(target.isCamera) {
+                if (target.isCamera) {
                     Camera.update(target.entity);
-                } else if(target.isPlayer) {
+                } else if (target.isPlayer) {
                     Player.update(target.entity);
                 }
             }
