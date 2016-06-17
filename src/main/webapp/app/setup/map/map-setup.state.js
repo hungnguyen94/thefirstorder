@@ -41,7 +41,7 @@
                                 id: null
                             };
                         },
-                        currentProject: function(ProjectManager){
+                        currentProject: function (ProjectManager) {
                             return ProjectManager.getProject();
                         }
                     }
@@ -57,7 +57,7 @@
             data: {
                 authorities: ['ROLE_USER']
             },
-            onEnter: ['$stateParams', '$state', '$uibModal', 'ProjectManager', function($stateParams, $state, $uibModal, currentProject) {
+            onEnter: ['$stateParams', '$state', '$uibModal', 'ProjectManager', function ($stateParams, $state, $uibModal, currentProject) {
                 $uibModal.open({
                     templateUrl: 'app/setup/map/loadmap-dialog.html',
                     controller: 'LoadMapController',
@@ -65,14 +65,18 @@
                     backdrop: 'static',
                     size: 'lg',
                     resolve: {
-                        currentProject: function(ProjectManager){
+                        currentProject: function (ProjectManager) {
                             return ProjectManager.getProject();
                         }
                     }
-                }).result.then(function() {
-                    $state.go('map-editor', null, { reload: true });
-                }, function() {
-                    $state.go('map-setup');
+                }).result.then(function (response) {
+                    $state.go('map-editor', null, {reload: true});
+                }, function (response) {
+                    if (response == "create") {
+                        $state.go('map.create');
+                    } else {
+                        $state.go('map-setup');
+                    }
                 });
             }]
         });

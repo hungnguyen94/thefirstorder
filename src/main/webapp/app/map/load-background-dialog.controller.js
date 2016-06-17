@@ -7,10 +7,10 @@
         .directive('fileModel', fileModel)
         .controller('LoadBackgroundController', LoadBackgroundController);
 
-    LoadBackgroundController.$inject = ['$http', '$scope', '$uibModalInstance', 'currentProject', 'Script', 'Project', 'ProjectManager', 'Map'];
+    LoadBackgroundController.$inject = ['$http', '$scope', '$uibModalInstance', 'currentProject', 'Map'];
     fileModel.$inject = ['$parse'];
 
-    function LoadBackgroundController($http, $scope, $uibModalInstance, currentProject, Script, Project, ProjectManager, Map) {
+    function LoadBackgroundController($http, $scope, $uibModalInstance, currentProject, Map) {
         var vm = this;
         vm.uploadedBackground = null;
         vm.hasPreview = false;
@@ -26,8 +26,10 @@
             var file = document.getElementById("getImage").files[0];
             var reader = new FileReader();
             reader.onloadend = function () {
-                document.getElementById('concertMap').style.backgroundImage = "url(" + reader.result + ")";
-                vm.hasPreview = true;
+                $scope.$apply(function () {
+                    vm.hasPreview = true;
+                    document.getElementById('background-preview').style.backgroundImage = "url(" + reader.result + ")";
+                });
             };
             if (file) {
                 reader.readAsDataURL(file);
@@ -44,7 +46,7 @@
 
             fd.append('file', $scope.image);
 
-            $http.post('api/upload', fd, {
+            $http.post('api/upload/image', fd, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
             }).then(onPostSuccess, onPostError);
@@ -61,14 +63,12 @@
 
             vm.map = currentProject.map;
             vm.map.backgroundImage = location;
-            Map.update(vm.map, onUpdateSuccess, onUpdateError);
         }
 
         /**
          * When posting the image fails, set isUploading to false.
          */
         function onPostError() {
-            console.log("Error uploading file. Please keep in mind that files should not be larger than 25MB.");
             vm.isUploading = false;
         }
 
@@ -86,7 +86,6 @@
          * When updating the map fails, set isUploading to false.
          */
         function onUpdateError() {
-            console.log("Error setting image as map background image.");
             vm.isUploading = false;
         }
 

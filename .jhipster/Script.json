@@ -18,6 +18,10 @@
         {
             "fieldName": "name",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "score",
+            "fieldType": "String"
         }
     ],
     "changelogDate": "20160504105939",

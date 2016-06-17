@@ -70,10 +70,12 @@ module.exports = function (config) {
         reporters: ['dots', 'jenkins', 'coverage', 'progress'],
 
         jenkinsReporter: {
+            
             outputFile: 'build/test-results/karma/TESTS-results.xml'
         },
 
         coverageReporter: {
+            
             dir: 'build/test-results/coverage',
             reporters: [
                 {type: 'lcov', subdir: 'report-lcov'}

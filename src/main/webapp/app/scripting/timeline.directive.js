@@ -95,7 +95,7 @@
                     onMove: onMove,
                     onRemove: onRemove
                 };
-
+                
                 // Create a Timeline
                 var timeline = new vis.Timeline(element[0]);
                 timeline.setOptions(options);
