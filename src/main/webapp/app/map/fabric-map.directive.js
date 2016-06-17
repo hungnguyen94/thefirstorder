@@ -1,26 +1,31 @@
-(function() {
+(function () {
     'use strict';
 
     angular
         .module('thefirstorderApp')
         .directive('fabricMap', fabricMap);
 
-    fabricMap.$inject = ['$window', 'Player', 'Camera', 'Map'];
+    fabricMap.$inject = ['$window', 'Player', 'Camera', 'mapConstants', 'ProjectManager', 'Project'];
 
     /**
      * The controller for the map directive.
      * @param $window
      * @param Player
      * @param Camera
-     * @returns {{restrict: string, scope: {map: string, selected: string, editable: string}, link: link, controller: string, controllerAs: string, bindToController: boolean}}
+     * @param mapConstants
+     * @param ProjectManager
+     * @param Project
+     * @returns {{restrict: string, scope: {map: string, selected: string, editable: string, highlight: string}, link: link, controller: string, controllerAs: string, bindToController: boolean}}
      */
-    function fabricMap($window, Player, Camera, Map) {
+    function fabricMap($window, Player, Camera, mapConstants, ProjectManager, Project) {
+
         var directive = {
             restrict: 'EA',
             scope: {
                 map: '=map',
                 selected: '=selected',
-                editable: '=editable'
+                editable: '=editable',
+                highlight: '=highlight'
             },
             link: link,
             controller: 'MapEditorController',
@@ -37,6 +42,14 @@
          */
         function link(scope, element, attrs) {
             scope.canvas = {};
+            scope.vm.highlight = highlightEntities;
+            scope.vm.hoverTarget = null;
+            var label = new fabric.Text('', {
+                fill: '#fff',
+                fontFamily: 'Helvetica, Arial',
+                fontSize: 14,
+                name: 'label'
+            });
 
             init();
 
@@ -48,19 +61,46 @@
             scope.canvas.on('object:modified', updateEntity);
 
             /**
+             * Sets the label to the current target the mouse is hovering over.
+             */
+            scope.canvas.on('mouse:over', function (options) {
+                var target = options.target;
+                setLabel(target);
+            });
+
+            /**
+             * Removes the label if the mouse leaves the target.
+             */
+            scope.canvas.on('mouse:out', function () {
+                scope.vm.hoverTarget = null;
+                label.setText('');
+                scope.canvas.renderAll();
+            });
+
+            /**
              * Initializes the map with a canvas and loads the cameras and players.
              */
             function init() {
-                Map.get({id: 1}, onLoadSuccess, onLoadError);
+                ProjectManager.get().then(function (projectId) {
+                    Project.get({id: projectId.data}, function (project) {
+                        onLoadSuccess(project.map);
+                    }, onLoadError);
+                }, onLoadError);
 
-                var default_bg = "content/images/concertzaal.jpg";
+                var canvas = new fabric.Canvas(element[0]);
+                canvas.selection = false;
+                scope.canvas = canvas;
+                scope.canvas.add(label);
+
+                var default_bg = "content/images/error.jpg";
                 var error_bg = "content/images/error.jpg";
 
                 function onLoadSuccess(map) {
-                    if(map == ""){
-                        load(default_bg);
-                    } else {
+                    if (map.backgroundImage) {
+                        console.log(map.backgroundImage);
                         load(map.backgroundImage);
+                    } else {
+                        load(default_bg);
                     }
                 }
 
@@ -69,9 +109,6 @@
                 }
 
                 function load(bg_image) {
-                    console.log('init directive');
-                    var canvas = new fabric.Canvas(element[0]);
-
                     fabric.Image.fromURL(bg_image, function (img) {
                         scope.aspectRatio = img.width / img.height;
                         img.set({
@@ -83,7 +120,6 @@
                         canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
                         resize();
                     });
-                    scope.canvas = canvas;
                 }
             }
 
@@ -108,6 +144,30 @@
             }
 
             /**
+             * Highlights the selected entities on the map.
+             * @param selected The selected entities on the map
+             */
+            function highlightEntities(selected) {
+                var entities = selected.map(function (entity) {
+                    return entity.name;
+                });
+                scope.canvas.getObjects().forEach(function (item) {
+                    if (!item.hasOwnProperty('entity')) {
+                        return;
+                    }
+                    var opacity = mapConstants.nonhighlightOpacity;
+                    if (entities.indexOf(item.entity.name) > -1) {
+                        opacity = 1.0;
+                    }
+                    item.animate('opacity', opacity, {
+                        onChange: scope.canvas.renderAll.bind(scope.canvas),
+                        duration: mapConstants.fadeDuration
+                    });
+                });
+                scope.canvas.renderAll();
+            }
+
+            /**
              * Prepares the cameras and players for drawing and draws them to the map.
              * @param cameras the cameras to draw
              * @param players the players to draw
@@ -116,6 +176,7 @@
                 var drawableCameras = cameras.map(transformCamera);
                 var drawablePlayers = players.map(transformPlayer);
                 scope.canvas.clear();
+                scope.canvas.add(label);
                 drawEntities(drawableCameras.concat(drawablePlayers));
             }
 
@@ -145,7 +206,7 @@
                 drawable.left = position.x;
                 drawable.top = position.y;
 
-                if(scope.vm.editable === false) {
+                if (scope.vm.editable === false) {
                     drawable.lockMovementX = true;
                     drawable.lockMovementY = true;
                     drawable.hasControls = false;
@@ -163,7 +224,7 @@
                 cam.set({
                     x: camera.x,
                     y: camera.y,
-                    angle: camera.angle, 
+                    angle: camera.angle,
                     scaleX: 0.3,
                     scaleY: 0.3,
                     padding: 10,
@@ -245,11 +306,10 @@
              */
             function updateEntity(options) {
                 var target = options.target;
-                if(target) {
+                if (target) {
                     var entity = target.entity;
                     var position = getRelativePosition(target.left, target.top);
-                    if (!(position.x > 100 || position.x < 0 ||
-                        position.y > 100 || position.y < 0)) {
+                    if (isInRange(position.x) && isInRange(position.y)) {
                         entity.x = position.x;
                         entity.y = position.y;
                         entity.angle = target.angle;
@@ -264,7 +324,7 @@
              * Displays the information of an object when it is selected.
              * @param options
              */
-            function onSelect (options) {
+            function onSelect(options) {
                 var target = options.target;
                 scope.$apply(function () {
                     scope.vm.selected = target.entity;
@@ -276,11 +336,35 @@
              * @param target the camera or player that is updated
              */
             function onModify(target) {
-                if(target.isCamera) {
+                if (target.isCamera) {
                     Camera.update(target.entity);
-                } else if(target.isPlayer) {
+                } else if (target.isPlayer) {
                     Player.update(target.entity);
                 }
+            }
+
+            /**
+             * Sets the label on the selected target.
+             * @param target The target, which can be a camera or a player
+             */
+            function setLabel(target) {
+                scope.vm.hoverTarget = target;
+                label.set({
+                    left: target.left + 20,
+                    top: target.top + 10,
+                    text: target.entity.name,
+                    textBackgroundColor: 'rgba(0,0,0,0.3)'
+                });
+                scope.canvas.renderAll();
+            }
+
+            /**
+             * Checks if a variable is between 0 and 100.
+             * @param variable Variable to be range checked
+             * @returns {boolean} True if it's in range
+             */
+            function isInRange(variable) {
+                return variable >= 0 && variable <= 100;
             }
         }
     }

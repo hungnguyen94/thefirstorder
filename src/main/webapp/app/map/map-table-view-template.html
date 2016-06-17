@@ -1,21 +1,20 @@
-<button type="button" class="btn btn-raised" ng-click="vm.update()"><span class="glyphicon glyphicon-refresh"
-                                                                          aria-hidden="true"></span> Update
-</button>
-<button type="button" class="btn btn-raised" ui-sref="map.load-background"><span class="glyphicon glyphicon-blackboard"
-                                                                                 aria-hidden="true"></span> Change
-    background
+<button type="button"
+        class="btn btn-raised"
+        ui-sref="map.load-background">
+    <span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span>
+    Change background
 </button>
 <table class="table table-hover">
     <thead>
     <tr>
-        <th colspan="3"><b>Cameras</b></th>
+        <th colspan="3"><h3>Cameras</h3></th>
     </tr>
     </thead>
     <tbody>
     <tr ng-repeat-start="camera in vm.map.cameras"
         ng-click="vm.setSelected(camera)"
         ng-class="{ 'success': vm.selected == camera }">
-        <td colspan="2">{{camera.name}}</td>
+        <td colspan="2"><h4 class="text-muted"><i class="glyphicon glyphicon-facetime-video"></i> &nbsp; {{camera.name}}</h4></td>
         <td class="text-right">
             <div class="btn-group flex-btn-group-container">
                 <button type="submit"
@@ -31,12 +30,8 @@
     <tr class="info" ng-repeat-end>
         <td colspan="3" style="padding-top: 0; padding-bottom: 0">
             <div uib-collapse="vm.selected != camera">
-                <p>id: {{camera.id}}</p>
-                <p>x: {{camera.x | number: 2}}</p>
-                <p>y: {{camera.y | number: 2}}</p>
-                <p>angle: {{camera.angle | number: 2}}</p>
-                <p>type: {{camera.cameraType}}</p>
-                <p>lens: {{camera.lensType}}</p>
+                <p><i class="glyphicon glyphicon-camera"></i> &nbsp; Type: {{camera.cameraType}}</p>
+                <p><i class="glyphicon glyphicon-eye-open"></i> &nbsp; Lens: {{camera.lensType}}</p>
             </div>
         </td>
     </tr>
@@ -52,15 +47,14 @@
 <table class="table table-hover">
     <thead>
     <tr>
-        <th colspan="3"><b>Players</b></th>
+        <th colspan="3"><h3>Players</h3></th>
     </tr>
     </thead>
     <tbody>
     <tr ng-repeat-start="player in vm.map.players"
         ng-click="vm.setSelected(player)"
         ng-class="{ 'success': vm.selected == player }">
-        <!--<td>{{player.id}}</td>-->
-        <td colspan="2">{{player.name}}</td>
+        <td colspan="2"><h4 class="text-muted"><i class="glyphicon glyphicon-user"></i> &nbsp; {{player.name}}</h4></td>
         <td class="text-right">
             <div class="btn-group flex-btn-group-container">
                 <button type="submit"
@@ -77,9 +71,6 @@
         <!--<tr ng-repeat-end uib-collapse="false">-->
         <td colspan="3" style="padding-top: 0; padding-bottom: 0">
             <div uib-collapse="vm.selected != player">
-                <p>id: {{player.id}}</p>
-                <p>x: {{player.x | number: 2}}</p>
-                <p>y: {{player.y | number: 2}}</p>
             </div>
         </td>
     </tr>

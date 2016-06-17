@@ -25,6 +25,18 @@
                     controller: 'ScriptingController',
                     controllerAs: 'vm'
                 }
+            },
+            resolve: {
+                validateScript: ['ProjectManager', 'currentProjectId',
+                    function (ProjectManager, currentProjectId) {
+                        ProjectManager.validateScript(currentProjectId);
+                    }
+                ],
+                currentProject: ['ProjectManager',
+                    function (ProjectManager) {
+                        return ProjectManager.getProject();
+                    }
+                ]
             }
         })
         .state('scripting.new', {
@@ -74,6 +86,30 @@
                                 name: null,
                                 id: null
                             };
+                        }
+                    }
+                }).result.then(function() {
+                    $state.go('scripting', null, { reload: true });
+                }, function() {
+                    $state.go('scripting');
+                });
+            }]
+        }).state('script.load-score', {
+            parent: 'scripting',
+            url: '/scripting/load-score',
+            data: {
+                authorities: ['ROLE_USER']
+            },
+            onEnter: ['$stateParams', '$state', '$uibModal', 'ProjectManager', function($stateParams, $state, $uibModal, currentProject) {
+                $uibModal.open({
+                    templateUrl: 'app/scripting/load-score-dialog.html',
+                    controller: 'LoadScoreController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    size: 'lg',
+                    resolve: {
+                        currentProject: function(ProjectManager){
+                            return ProjectManager.getProject();
                         }
                     }
                 }).result.then(function() {

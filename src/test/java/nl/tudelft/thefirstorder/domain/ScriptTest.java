@@ -78,6 +78,15 @@ public class ScriptTest {
     }
 
     @Test
+    public void getProjectTest() throws Exception {
+        Project project = new Project();
+        project.setId(DEFAULT_ID);
+
+        entity.setProject(project);
+        assertThat(entity.getProject().getId() == DEFAULT_ID);
+    }
+
+    @Test
     public void toStringTest() throws Exception {
         Script entity2 = new Script();
         assertThat(Objects.equals(entity.toString(), entity2.toString()));

@@ -83,6 +83,7 @@
                         entity: function () {
                             return {
                                 name: null,
+                                score: null,
                                 id: null
                             };
                         }
