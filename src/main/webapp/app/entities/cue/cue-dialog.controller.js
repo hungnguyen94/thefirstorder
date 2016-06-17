@@ -16,7 +16,7 @@
         vm.projects = Project.query();
 
         $timeout(function (){
-            angular.element('.form-group:eq(1)>input').focus();
+            angular.element('.form-group:eq(2)>input').focus();
         });
 
         var onSaveSuccess = function (result) {

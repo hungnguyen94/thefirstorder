@@ -32,9 +32,7 @@
             };
             if (file) {
                 reader.readAsDataURL(file);
-            } else {
-
-            }
+            } 
         }
 
         /**
@@ -69,7 +67,6 @@
          * When posting the image fails, set isUploading to false.
          */
         function onPostError() {
-            console.log("Error uploading file. Please keep in mind that files should not be larger than 25MB.");
             vm.isUploading = false;
         }
 
@@ -87,7 +84,6 @@
          * When updating the script fails, set isUploading to false.
          */
         function onUpdateError() {
-            console.log("Error setting image as score.");
             vm.isUploading = false;
         }
 
