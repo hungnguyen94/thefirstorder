@@ -89,7 +89,7 @@ public class UploadResource {
      * Returns a random name to be assigned to the uploaded file.
      * @return a random alphanumeric string
      */
-    public String getRandomName(){
+    public String getRandomName() {
         Random random = new Random();
         return new BigInteger(NUM_BITS, random).toString(CHARS);
     }
