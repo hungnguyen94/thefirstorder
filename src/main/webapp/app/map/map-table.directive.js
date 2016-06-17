@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -39,17 +39,8 @@
 
             scope.$watch('vm.map', function (map) {
                 $timeout(function () {
-                    if(map.cameras.length > 0){
-                        scope.vm.hasCameras = true;
-                    } else {
-                        scope.vm.hasCameras = false;
-                    }
-
-                    if(map.players.length > 0){
-                        scope.vm.hasPlayers = true;
-                    } else {
-                        scope.vm.hasPlayers = false;
-                    }
+                    scope.vm.hasCameras = map.cameras.length > 0;
+                    scope.vm.hasPlayers = map.players.length > 0;
                 });
             });
         }

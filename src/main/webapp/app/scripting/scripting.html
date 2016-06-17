@@ -14,8 +14,14 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td>{{vm.selectedCamera.name}}</td>
-                    <td>{{vm.selectedPlayer.name}}</td>
+                    <td ng-switch="vm.hasCamera" class="selection-display">
+                        <span ng-switch-when="false" class="text-muted">Select a camera</span>
+                        <span ng-switch-when="true">{{vm.selectedCamera.name}}</span>
+                    </td>
+                    <td ng-switch="vm.hasPlayer" class="selection-display">
+                        <span ng-switch-when="false" class="text-muted">Select a player as subject</span>
+                        <span ng-switch-when="true">{{vm.selectedPlayer.name}}</span>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -45,10 +51,10 @@
                                         aria-hidden="true"></span> Change
                                         score
                                     </button>
-                                    <br/>
-                                    <h4 class="text-muted left" ng-switch-when="false">
-                                        Please double click the timeline to add your first cue.
-                                    </h4>
+                                    <br/><br/>
+                                    <span class="text-muted left" ng-switch-when="false">
+                                        Double click the timeline to add a cue.
+                                    </span>
                                 </div>
                             </div>
                         </div>

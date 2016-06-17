@@ -22,6 +22,9 @@
         vm.selectedPlayer = null;
         vm.download = download;
 
+        vm.hasCamera = false;
+        vm.hasPlayer = false;
+
         vm.hasScore = false;
         vm.hasMap = false;
         vm.hasCue = false;
@@ -31,8 +34,10 @@
         $scope.$watch('vm.selected', function (selected) {
             if (selected.hasOwnProperty('cameraType')) {
                 vm.selectedCamera = selected;
+                vm.hasCamera = true;
             } else {
                 vm.selectedPlayer = selected;
+                vm.hasPlayer = true;
             }
         });
 
@@ -89,4 +94,5 @@
             });
         }
     }
-})();
+})
+();

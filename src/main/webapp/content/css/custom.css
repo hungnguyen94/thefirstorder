@@ -25,6 +25,9 @@ OVERRIDE ALL CSS SETTINGS
     float: right;
 }
 
+td.selection-display {
+    width: 50%;
+}
 .preview {
     width: 100%;
     background-repeat: no-repeat;
