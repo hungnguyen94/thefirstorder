@@ -2,8 +2,6 @@ package nl.tudelft.thefirstorder.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import nl.tudelft.thefirstorder.web.rest.util.HeaderUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +24,6 @@ import java.util.Random;
 @RestController
 @RequestMapping("/api")
 public class UploadResource {
-    private final Logger log = LoggerFactory.getLogger(UploadResource.class);
     public static final String CONTENT_TYPE_PDF = "application/pdf";
     public static final String CONTENT_TYPE_IMG = "image/jpeg";
     public static final String FILE_ROOT = "src/main/webapp/";

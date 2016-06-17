@@ -5,7 +5,6 @@ import nl.tudelft.thefirstorder.domain.User;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.ZonedDateTime;
-import java.util.Set;
 
 /**
  * A DTO extending the UserDTO, which is meant to be used in the user management UI.
@@ -44,41 +43,6 @@ public class ManagedUserDTO extends UserDTO {
         this.lastModifiedBy = user.getLastModifiedBy();
         this.lastModifiedDate = user.getLastModifiedDate();
         this.password = null;
-    }
-
-    /**
-     * Constructor for ManagedUserDTO.
-     * @param id Id
-     * @param login Login
-     * @param password Password
-     * @param firstName Firstname
-     * @param lastName Lastname
-     * @param email Email
-     * @param activated Is the account activated?
-     * @param langKey Language key
-     * @param authorities Authorities
-     * @param createdDate Created date
-     * @param lastModifiedBy Last modified by
-     * @param lastModifiedDate Last modified date
-     */
-    public ManagedUserDTO(Long id,
-                          String login,
-                          String password,
-                          String firstName,
-                          String lastName,
-                          String email,
-                          boolean activated,
-                          String langKey,
-                          Set<String> authorities,
-                          ZonedDateTime createdDate,
-                          String lastModifiedBy,
-                          ZonedDateTime lastModifiedDate ) {
-        super(login, firstName, lastName, email, activated, langKey, authorities, null);
-        this.id = id;
-        this.createdDate = createdDate;
-        this.lastModifiedBy = lastModifiedBy;
-        this.lastModifiedDate = lastModifiedDate;
-        this.password = password;
     }
 
     /**
