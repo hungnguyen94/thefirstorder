@@ -19,7 +19,7 @@
 
         vm.setSelected = setSelected;
         vm.update = getMapEntities;
-        
+
         getMapEntities();
 
         /**
@@ -35,7 +35,7 @@
                 });
             });
         }
-        
+
         /**
          * Sets the selected entity to a given value.
          * @param entity the entity that is selected

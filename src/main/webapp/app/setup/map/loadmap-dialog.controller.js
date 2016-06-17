@@ -66,7 +66,7 @@
          *  setting hasMaps to true if there are maps in the database.
          */
         function getMaps() {
-            vm.maps = Map.query({}, onSuccess, onError);
+            vm.maps = Map.queryNoProject({}, onSuccess, onError);
 
             function onSuccess(data) {
                 vm.hasMaps = data.length > 0;
