@@ -4,9 +4,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-4 no-padding-left">
-                <button class="btn btn-primary"
-                        has-any-authority="ROLE_ADMIN,ROLE_DIRECTOR"
-                        ui-sref="script.new" >
+                <button class="btn btn-primary" has-any-authority="ROLE_ADMIN,ROLE_DIRECTOR" ui-sref="script.new" >
                     <span class="glyphicon glyphicon-plus"></span>
                     <span >
                         Create new Script
@@ -22,6 +20,7 @@
                 <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                     <th jh-sort-by="id"><span>ID</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="name"><span>Name</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="score"><span>Score</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
                 </tr>
             </thead>
@@ -29,6 +28,7 @@
                 <tr ng-repeat="script in vm.scripts track by script.id">
                     <td><a ui-sref="script-detail({id:script.id})">{{script.id}}</a></td>
                     <td>{{script.name}}</td>
+                    <td>{{script.score}}</td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
@@ -37,15 +37,13 @@
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 <span class="hidden-xs hidden-sm"></span>
                             </button>
-                            <button type="submit"
-                                    has-any-authority="ROLE_ADMIN.ROLE_DIRECTOR"
+                            <button type="submit" has-any-authority="ROLE_ADMIN,ROLE_DIRECTOR"
                                     ui-sref="script.edit({id:script.id})"
                                     class="btn btn-primary btn-sm">
                                 <span class="glyphicon glyphicon-pencil"></span>
                                 <span class="hidden-xs hidden-sm"></span>
                             </button>
-                            <button type="submit"
-                                    has-any-authority="ROLE_ADMIN,ROLE_DIRECTOR"
+                            <button type="submit" has-any-authority="ROLE_ADMIN,ROLE_DIRECTOR"
                                     ui-sref="script.delete({id:script.id})"
                                     class="btn btn-danger btn-sm">
                                 <span class="glyphicon glyphicon-remove-circle"></span>
